@@ -76,6 +76,20 @@
   background-color: var(--cyan)!important;
   color: var(--white);
 }
+.text-blue{
+  color: var(--blue)!important;
+}
+.bg-blue{
+  background-color: var(--blue)!important;
+  color: var(--white);
+}
+.text-primary-900{
+  color: var(--primary-900)!important;
+}
+.bg-primary-900{
+  background-color: var(--primary-900)!important;
+  color: var(--white);
+}
 
 .text-000{
   color: #000;
@@ -110,8 +124,12 @@
   }
 }
 .sc-table{
-  .tool .el-input__inner{
-    min-width: 240px;
+  .tool .el-input__inner:not(.el-range-editor){
+    min-width: 220px;
+    max-width: 240px;
+  }
+  .tool .el-range-input{
+    min-width: 120px;
   }
   .pagination-bar{
     margin-top:1.25rem;
@@ -181,6 +199,13 @@ html,body,#app,.page-container{
 }
 .page{
   background-color:#F0F2F5;
+}
+.dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color:#000;
+  display:inline-block;
 }
 /*Login.vue*/
 .login-container{
@@ -369,4 +394,53 @@ html,body,#app,.page-container{
   .el-progress-bar__outer{
     background: var(--grey-300);
   }
+}
+
+/*project*/
+.page_detail{
+  
+}
+.my_upload{
+  line-height: 0;
+  width: 100%;
+  .el-upload{
+    width: 100%;
+  }
+  .el-upload-dragger{
+    -webkit-appearance: none;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+    outline: none;
+    padding: 0 15px;
+    -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+  }
+  .el-upload-dragger .el-icon-upload{
+    font-size: 16px;
+    color: #C0C4CC;
+    margin: 0;
+    line-height: 1;
+    margin-right: 8px;
+  }
+}
+
+.project_search_div .el-date-editor.el-input{
+  width:100%!important;
+}
+
+.upload_content,.upload_content li{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*knowledge*/
+.detail_content{
+  border-bottom:1px solid #ddd;
+  border-top:1px solid #ddd;
 }

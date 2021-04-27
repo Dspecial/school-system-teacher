@@ -31,6 +31,28 @@ export default new Router({
 				  },
 				  children: null
 				},
+				/*
+				**项目管理
+				 */
+				// 项目列表
+				{
+				  path: '/project/project',
+				  component: resolve => require(['@/views/project/Project'], resolve),
+				  name: 'projectList',
+				  meta: {
+				    title: '项目列表'
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/project/edit',
+				  component: resolve => require(['@/views/project/ProjectEdit'], resolve),
+				  name: 'ProjectEdit',
+				  meta: {
+				    title: '项目编辑'
+				  },
+				  children: null
+				},
 				{
 				  path: '/project/application',
 				  component: resolve => require(['@/views/project/Application'], resolve),
@@ -58,6 +80,7 @@ export default new Router({
 				  },
 				  children: null
 				},
+				// 资源列表
 				{
 				  path: '/project/resource',
 				  component: resolve => require(['@/views/project/Resource'], resolve),
@@ -67,21 +90,60 @@ export default new Router({
 				  },
 				  children: null
 				},
+
+				/*
+				**消息管理
+				 */
 				{
-				  path: '/message',
-				  component: resolve => require(['@/views/message/Message'], resolve),
-				  name: 'Message',
+				  path: '/notices/notices',
+				  component: resolve => require(['@/views/notices/Notices'], resolve),
+				  name: 'NoticesList',
 				  meta: {
-				    title: '信息管理'
+				    title: '消息列表'
+				  },
+				  children: null
+				},
+
+				/*
+				**知识库
+				 */
+				{
+				  path: '/knowledge/knowledge',
+				  component: resolve => require(['@/views/knowledge/Knowledge'], resolve),
+				  name: 'KnowledgeList',
+				  meta: {
+				    title: '知识库列表'
 				  },
 				  children: null
 				},
 				{
-				  path: '/document',
-				  component: resolve => require(['@/views/document/Document'], resolve),
-				  name: 'Document',
+				  path: '/knowledge/knowledge/detail',
+				  component: resolve => require(['@/views/knowledge/KnowledgeDetail'], resolve),
+				  name: 'KnowledgeDetail',
 				  meta: {
-				    title: '文档资源管理'
+				    title: '知识库详情'
+				  },
+				  children: null
+				},
+
+				/*
+				**事务管理
+				 */
+				{
+				  path: '/works/routine',
+				  component: resolve => require(['@/views/works/Routine'], resolve),
+				  name: 'RoutineList',
+				  meta: {
+				    title: '事务列表'
+				  },
+				  children: null
+				},
+				{
+				  path: '/works/routine/edit',
+				  component: resolve => require(['@/views/works/RoutineEdit'], resolve),
+				  name: 'RoutineEdit',
+				  meta: {
+				    title: '编辑事务'
 				  },
 				  children: null
 				},

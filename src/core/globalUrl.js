@@ -6,10 +6,8 @@
 * @Last Modified time: 2020-12-24 17:31:11
 */
 
-const baseURL = 'http://139.217.224.141:7049/api'
-const wsURL = "ws://139.217.224.141:7049/ws"
+const baseURL = 'http://pj.apidata.top'
 
 export default {
   baseURL,
-  wsURL,
 }

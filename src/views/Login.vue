@@ -5,22 +5,22 @@
 				<el-image :src="loginBg" fit="fill" class="h-100"></el-image>
 			</div>
 			<div class="login-right">
-				<el-form ref="loginForm" :model="form" label-width="0" class="login-box" size="large">
+				<el-form ref="loginForm" :model="loginForm" label-width="0" class="login-box" size="large"  @submit.native.prevent>
 	        <div class="login-header mb-5">
-	          <p class="fs_28 text-000 text-center">账号登录</p>
+	          <p class="fs_28 text-000 text-center">教师登录</p>
 	        </div>
 	        <el-form-item prop="username">
-	          <el-input placeholder="账号" prefix-icon="el-icon-user-solid" v-model="form.username" autocomplete="off">
+	          <el-input placeholder="账号" prefix-icon="el-icon-user-solid" v-model="loginForm.username" autocomplete="off">
 	          </el-input>
 	        </el-form-item>
 	        <el-form-item prop="password">
-	          <el-input :type="pwdType" placeholder="密码" prefix-icon="el-icon-lock" v-model="form.password" autocomplete="off">
+	          <el-input :type="pwdType" placeholder="密码" prefix-icon="el-icon-lock" v-model="loginForm.password" autocomplete="off">
 	            <i slot="suffix" :class="['el-input__icon icon cursor-pointer',suffixIcon]" @click="showPwd"></i>
 	          </el-input>
 	        </el-form-item>
 	        <el-checkbox v-model="rememberPwd">记住密码</el-checkbox>
 	        <el-form-item>
-	          <el-button type="primary" class="w-100 fs_16 mt-5" v-on:click="onSubmit()">登录</el-button>
+	          <el-button type="primary" class="w-100 fs_16 mt-5" native-type="submit" @click="onSubmit()">登录</el-button>
 	        </el-form-item>
 	      </el-form>
 			</div>
@@ -35,7 +35,7 @@
 		data () {
 			return {
 				loginBg:require('@/assets/images/login_bg.png'),
-				form: {
+				loginForm: {
           username: '',
           password: ''
         },
@@ -46,43 +46,53 @@
 		},
 		created() {
       let that = this;
-      document.onkeydown = function(e) {
-        var key = window.event.keyCode;
-        if (key == 13) {
-          that.onSubmit();
-        }
+    },
+    mounted(){
+      if(this.rememberPwd){
+        this.loginForm.username = this.$cookies.get('job_number');
       }
     },
     methods:{
     	showPwd(){
-    		console.log(this.pwdType,'this.pwdType');
         this.pwdType === 'password' ? this.pwdType = '' : this.pwdType = 'password';
         this.pwdType == '' ? this.suffixIcon = 'icon-eye-blocked2' : this.suffixIcon = 'icon-eye2';
-
-        console.log(this.pwdType,'this.pwdType');
       },
-      onSubmit: function() {
+      onSubmit(){
         var that  = this;
-        that.$router.push("/home");
-        // this.MyAxios.post(this.GLOBAL.baseURL + "/user/login", {
-        //   username: this.form.username,
-        //   password: this.form.password,
-        // }).then(data=>{
-        //   if (data.result.code == 0) {
-        //     that.$cookie.set('token', data.result.token);
-        //     that.$router.push("/home");
-        //     that.$notify.closeAll();
-        //   } else {
-        //     const h = that.$createElement;
-        //     that.$notify({
-        //       title: "登录失败",
-        //       message: h('i', {
-        //         style: 'color: teal'
-        //       }, data.result.msg),
-        //       type: 'warning'
-        //     });
-        //   }
-        // })
+        this.$api.login({
+          name:this.loginForm.username,
+          password:this.loginForm.password,
+        }).then( data =>{
+          if(data.code == 0){
+            // 存值给cookies
+            this.$cookies.set('token', data.data.token);
+            this.$cookies.set('userId', data.data.id);
+            this.$cookies.set('userName', data.data.name);
+            this.$cookies.set('job_number', data.data.job_number);
+            
+            console.log(data.data);
+            // dxx：判断，如果初次进入，直接跳转home页面；如果在别的页面停留过久，token失效，则登录以后直接跳转到当前页面
+            var redirect = this.$route.query.redirect;
+            if(redirect){
+              this.$router.push(redirect);
+            }else{
+              this.$router.push("/home");
+            }
+            
+          }else{
+            const h = this.$createElement;
+            this.$notify({
+              title: "登录失败",
+              message: h('i', {
+                style: 'color: teal'
+              }, data.msg),
+              type: 'warning',
+              duration: 3000,
+            });
+          }
+
+        });
+
       },
     },
 	}

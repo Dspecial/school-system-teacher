@@ -7,10 +7,10 @@
           <i class="el-icon-bell fs_16"></i>
         </el-badge>
         <el-dropdown-menu slot="dropdown" :hidden="totalNews.length == 0">
-          <template v-for="(news,index) in totalNews">
+          <div v-for="(news,index) in totalNews" :key="index">
             <el-dropdown-item v-if="news.status == 0"><i :class="'el-icon-tickets mr-2 text-warning fs_16'"></i>{{news.content}}</el-dropdown-item>
             <el-dropdown-item v-else><i :class="'el-icon-warning mr-2 text-danger fs_16'"></i>{{news.content}}</el-dropdown-item>
-          </template>
+          </div>
         </el-dropdown-menu>
       </el-dropdown>
       <div class="d-flex align-items-center ml-4">

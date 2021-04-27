@@ -1,0 +1,21 @@
+/*
+* @Author: dxx
+* @Email: dxxtalking@163.com
+* @Date:   2020-12-25 10:19:51
+* @Last Modified by:   dxx
+* @Last Modified time: 2020-12-29 13:13:44
+*/
+@charset "UTF-8";
+
+/* 改变主题色变量 */
+$--color-primary: #005DDA;
+$--color-danger: #EA5455;
+$--color-success: #52C41B;
+$--color-warning: #F98D15;
+$--color-info: #969191;
+$--color-white:#fff;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";

@@ -440,6 +440,22 @@ html,body,#app,.page-container{
 }
 
 /*knowledge*/
+.second-container{
+  height: calc(100% - 4rem);
+}
+.second-aside{
+  background-color: #fff;
+  box-shadow: none;
+  .el-tree-node__content{
+    height: 36px;
+  }
+  .el-tree-node__content:hover{
+    background-color: #EDF5FF;
+  }
+  .el-tree-node.is-current .el-tree-node__content{
+    background-color: #EDF5FF;
+  }
+}
 .detail_content{
   border-bottom:1px solid #ddd;
   border-top:1px solid #ddd;

@@ -7,10 +7,13 @@ Vue.use(Router)
 const router = new Router({
   routes: [
 		{
-      path:'/',
-      name:'默认页',
-      redirect:'/login'
-    },
+  		path: '/',
+		  component: resolve => require(['@/views/Login'], resolve),
+		  name: '首次进入',
+		  meta: {
+		    title: '登录'
+		  },
+  	},
   	{
   		path: '/login',
 		  component: resolve => require(['@/views/Login'], resolve),
@@ -26,7 +29,6 @@ const router = new Router({
 		  redirect: '/index',
 		  meta: {
 		    title: '主页',
-				requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 		  },
 		  children: [
 		  	{
@@ -35,7 +37,6 @@ const router = new Router({
 				  name: 'Index',
 				  meta: {
 				    title: '工作台',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -49,7 +50,6 @@ const router = new Router({
 				  name: 'projectList',
 				  meta: {
 				    title: '项目列表',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -59,7 +59,6 @@ const router = new Router({
 				  name: 'ProjectEdit',
 				  meta: {
 				    title: '项目编辑',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -69,7 +68,6 @@ const router = new Router({
 				  name: 'Application',
 				  meta: {
 				    title: '项目申请',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -79,7 +77,6 @@ const router = new Router({
 				  name: 'ApplicationDetail',
 				  meta: {
 				    title: '项目详情',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -89,7 +86,6 @@ const router = new Router({
 				  name: 'Progress',
 				  meta: {
 				    title: '项目进程',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -100,7 +96,6 @@ const router = new Router({
 				  name: 'Resource',
 				  meta: {
 				    title: '资源管理',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -114,7 +109,6 @@ const router = new Router({
 				  name: 'NoticesList',
 				  meta: {
 				    title: '消息列表',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -128,7 +122,6 @@ const router = new Router({
 				  name: 'KnowledgeList',
 				  meta: {
 				    title: '知识库列表',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -138,7 +131,6 @@ const router = new Router({
 				  name: 'KnowledgeDetail',
 				  meta: {
 				    title: '知识库详情',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -152,7 +144,6 @@ const router = new Router({
 				  name: 'RoutineList',
 				  meta: {
 				    title: '事务列表',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -162,7 +153,6 @@ const router = new Router({
 				  name: 'RoutineEdit',
 				  meta: {
 				    title: '编辑事务',
-						requireAuth: true,// 添加该字段，表示进入这个路由是需要登录的
 				  },
 				  children: null
 				},
@@ -171,22 +161,22 @@ const router = new Router({
   ]
 })
 
-// 路由守卫
+// 导航守卫
+// 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
 router.beforeEach((to, from, next) => {
-  if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-    if (VueCookies.get("token")) {  // 通过localStorage获取当前的token是否存在
+  if (to.path === '/' || to.path === '/login') {
+    next();
+  } else {
+    let token = VueCookies.get('token');
+    if (token === null || token === '') {
+      next({
+      	path:'/login',
+      	query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      });
+    } else {
       next();
     }
-    else {
-      next({
-        path: '/login',
-        query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-      })
-    }
   }
-  else {
-    next();
-  }
-})
+});
 
 export default router;

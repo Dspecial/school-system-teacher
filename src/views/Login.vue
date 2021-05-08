@@ -69,8 +69,7 @@
             this.$cookies.set('userId', data.data.id);
             this.$cookies.set('userName', data.data.name);
             this.$cookies.set('job_number', data.data.job_number);
-            
-            console.log(data.data);
+
             // dxx：判断，如果初次进入，直接跳转home页面；如果在别的页面停留过久，token失效，则登录以后直接跳转到当前页面
             var redirect = this.$route.query.redirect;
             if(redirect != ''&& redirect != undefined){

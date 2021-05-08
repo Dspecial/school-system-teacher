@@ -38,15 +38,6 @@ axios.interceptors.request.use(
     if(VueCookies.get("token")){
       token = VueCookies.get("token");// 从VueCookies中拿到token
     };
-    // config.headers.post['Resquest-Token'] = token;
-    // config.headers['Authorization'] = 'Bearer ' + token
-
-    // if (config.url.indexOf("?") == -1) {
-    //   config.url = config.url + "?_=" + new Date().getTime();
-    // } else {
-    //   config.url = config.url + "&_=" + new Date().getTime();
-    // }
-
     return config;
   },
   error => {

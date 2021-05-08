@@ -20,13 +20,13 @@
 					<p class="text-indent line-2">{{ desc }}</p>
 
 					<!-- 图片 -->
-					<ul class="upload_content mt-5" v-if="type == 3">
+					<ul class="upload_content mt-5 m-auto" v-if="type == 3">
 						<li v-for="(item,index) in content" :key="index" class="text-center">
 							<img :src="$globalUrl.baseURL + item.path" alt="" class="img-fluid">
 						</li>
 					</ul>
 					<!-- 多媒体 -->
-					<ul class="upload_content w-50 mt-5" v-else-if="type == 4">
+					<ul class="upload_content w-50 mt-5 m-auto" v-else-if="type == 4">
 						<li v-for="(item,index) in content" :key="index" class="text-center">
 							<video :src="$globalUrl.baseURL + item.path" controls="controls" width="500px">
 								your browser does not support the video tag
@@ -36,10 +36,10 @@
 					<!-- 文档、文章 -->
 					<ul class="upload_content w-50 mt-5" v-else>
 						<li v-for="(item,index) in content" :key="index" class="d-flex justify-content-between cursor-pointer">
-							<span><i class="el-icon-folder mr-1"></i> {{item.name}}</span>
+							<span class="cursor-pointer preview_span" title="预览" @click="preview(item.path)"><i class="el-icon-folder mr-1"></i> {{item.name}}</span>
 							<p>
 								<span class="mr-3">大小：{{item.size}} kb</span>
-								<span><i class="el-icon-download mr-1"></i>下载</span>
+								<span class="cursor-pointer preview_span" title="下载" @click="downloadview(item.path)"><i class="el-icon-download mr-1"></i>下载</span>
 							</p>
 						</li>
 					</ul>
@@ -100,6 +100,39 @@
 						this.desc = data.data.desc;
 						this.content = data.data.content;
 						this.parent_str = data.data.parent_str;
+					}
+				})
+			},
+			// 预览文件
+			preview(path){
+				this.$api.knowledgePreview({
+					id:this.knowledgeId,
+					path:path,
+				}).then(data=>{
+					if(data.code == 0){
+						let a = document.createElement('a');
+						a.style = 'display: none'; // 创建一个隐藏的a标签
+						a.target = "_blank";
+						a.href = data.data;
+						document.body.appendChild(a);
+						a.click();
+					}
+				})
+			},
+			// 下载文件
+			downloadview(path){
+				this.$api.knowledgeDownloadview({
+					id:this.knowledgeId,
+					path:path,
+				}).then(data=>{
+					if(data.code == 0){
+						let a = document.createElement('a'); 
+						a.style = 'display: none'; // 创建一个隐藏的a标签
+						a.download = "filename";
+						a.href = data.data;
+						document.body.appendChild(a);
+						a.click(); // 触发a标签的click事件
+						document.body.removeChild(a);
 					}
 				})
 			},

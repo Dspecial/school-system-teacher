@@ -8,8 +8,14 @@
 import {post,postJson,postUpload} from '@/core/axios.js';
 
 export default {
+	/*
+		***登录
+	 */
 	// 登录
 	login: p => post('/api/user.login/login', p),
+	// 获取登录申请着的身份
+	loginConfig: p => post('/api/ajax/get_sys_config', p),
+
 
 	// 菜单管理
 	menu: p => post('/api/menu/index', p),
@@ -39,10 +45,10 @@ export default {
 	/*
 		***消息管理
 	 */
-	// 消息列表(无数据，没测试)
-	messageList: p => post('/api/notices.message/index', p),
+	// 消息列表
+	noticeList: p => post('/api/notices.message/index', p),
 	// 消息已读
-	messageIsread: p => post('/api/notices.message/is_read', p),
+	noticeIsread: p => post('/api/notices.message/is_read', p),
 
 	/*
 		***知识库管理
@@ -53,6 +59,10 @@ export default {
 	knowledgeCate: p => post('/api/ajax/knowledge_cate', p),
 	// 知识库详情
 	knowledgeDetail: p => post('/api/knowledge.knowledge/details', p),
+	// 知识库详情里文件预览
+	knowledgePreview: p => post('/api/knowledge.knowledge/preview', p),
+	// 知识库详情里文件下载
+	knowledgeDownloadview: p => post('/api/knowledge.knowledge/downloadview', p),
 
 	/*
 		***事务管理

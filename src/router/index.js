@@ -101,6 +101,30 @@ const router = new Router({
 				},
 
 				/*
+				**信息管理
+				 */
+				// 个人信息
+				{
+				  path: '/message/personal',
+				  component: resolve => require(['@/views/message/PersonalMessage'], resolve),
+				  name: 'PersonalMessage',
+				  meta: {
+				    title: '个人信息',
+				  },
+				  children: null
+				},
+				// 账户信息
+				{
+				  path: '/message/account',
+				  component: resolve => require(['@/views/message/AccountMessage'], resolve),
+				  name: 'AccountMessage',
+				  meta: {
+				    title: '账户信息',
+				  },
+				  children: null
+				},
+
+				/*
 				**消息管理
 				 */
 				{
@@ -167,7 +191,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/' || to.path === '/login') {
     next();
   } else {
-    let token = VueCookies.get('token');
+    let token = VueCookies.get('application_token');
     if (token === null || token === '') {
       next({
       	path:'/login',

@@ -1,12 +1,12 @@
 <template>
 	<div>
-		我是信息管理
+		我是个人信息管理
 	</div>
 </template>
 
 <script>
 	export default {
-		name: 'Message',
+		name: 'PersonalMessage',
 		data () {
 			return {}
 		},

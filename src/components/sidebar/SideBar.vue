@@ -3,7 +3,7 @@
     <!-- logo -->
     <div class="logo d-flex align-items-center justify-content-center">
     	<i class="icon-cube3 fs_24"></i>
-    	<span class="fs_20 ml-2" v-if="!isCollapse">教师管理系统</span>
+    	<span class="fs_20 ml-2" v-if="!isCollapse">{{systemName}}</span>
     </div>
     <!-- 为了做递归，所以把Menu抽出来做成一个组件 -->
     <Menu :menuDatas="menuDatas"></Menu>
@@ -25,6 +25,7 @@
     name:"SideBar",
 		data () {
 			return {
+        systemName:'教师管理系统',
         currentMenu: 'index', // SideBar里面当前高亮菜单的默认值
 				menuDatas: sideBarData.menu,
         isCollapse:false,
@@ -53,6 +54,7 @@
 	    },
 	  },
     mounted(){
+      this.loginConfig();
       this.loadMenu();
 
       window.onresize = () => {
@@ -64,6 +66,25 @@
     },
 
 	  methods:{
+      // 获取系统名称
+      loginConfig(){
+        this.$api.loginConfig({
+        }).then(data=>{
+          if(data.code == 0){
+            this.systemName = data.data.system_name;
+          }else{
+            const h = this.$createElement;
+            this.$notify({
+              title: "获取失败",
+              message: h('i', {
+                style: 'color: teal'
+              }, data.msg),
+              type: 'warning',
+              duration: 3000,
+            });
+          }
+        })
+      },
       // 加载菜单
       loadMenu(){
         this.$api.menu({

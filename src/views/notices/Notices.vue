@@ -8,6 +8,10 @@
 			:pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps" ref="multipleTable" @selection-change="handleSelectionChange">
         <div class="mb-3" slot="tool">
           <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">消息列表</h4>
+          <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+            <el-tab-pane label="未读" name="1"></el-tab-pane>
+            <el-tab-pane label="已读" name="2"></el-tab-pane>
+          </el-tabs>
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
           		<el-input
@@ -16,12 +20,8 @@
     				    v-model="filters[0].value"
                 class="mr-3">
     				  </el-input>
-							<el-select v-model="filters[1].value" placeholder="请选择是否已读" class="mr-3">
-								<el-option label="否" value="1"></el-option>
-								<el-option label="是" value="2"></el-option>
-							</el-select>
               <el-date-picker
-                v-model="filters[2].value"
+                v-model="filters[1].value"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="发送时间"
@@ -32,7 +32,7 @@
           	</div>
           </div>
         </div>
-				<el-table-column type="selection" width="55"></el-table-column>
+				<el-table-column type="selection" width="55" v-if="activeName == 1"></el-table-column>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="title" label="消息标题" width="300"></el-table-column>
         <el-table-column label="内容">
@@ -63,8 +63,13 @@
           </template>
 				</el-table-column>
 				<el-table-column prop="createtime" label="发送时间" width="200"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="150" align="center">
+          <template slot-scope="scope">
+            <span class="text-primary cursor-pointer" @click="goAction(scope.$index,scope.row)">跳转</span>
+          </template>
+        </el-table-column>
       </data-tables-server>
-			<el-button type="info" @click="batchRead()" plain class="mt-3"><i class="el-icon-reading el-icon--left"></i>标记为已读</el-button>
+			<el-button v-if="activeName == 1" type="primary" @click="batchRead()" plain class="mt-3"><i class="el-icon-reading el-icon--left"></i>标记为已读</el-button>
     </el-card>
   </div>
 </template>
@@ -77,13 +82,9 @@
     components: {
       GlobalTips,
     },
-    provide() {
-      return {
-        loadData: this.loadData
-      }
-    },
     data() {
       return {
+        activeName:'1', // 默认未读
         tableProps: {
           'max-height': 670,
         },
@@ -92,10 +93,6 @@
 	        {
 	          value: '',
 	          prop: 'keywords'
-	        },
-          {
-	          value: '',
-	          prop: 'is_read'
 	        },
           {
 	          value: '',
@@ -114,27 +111,31 @@
       
     },
     methods:{
+      handleClick(tab, event) {
+        console.log(this.activeName);
+        this.loadData();
+      },
 			// 自增序列
       indexMethod(index) { 
         return ++index;
       },
       // 加载数据
-      loadData(queryInfo) { 
+      loadData(queryInfo) {
         let _this = this;
         if (queryInfo != null) {
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
         }
-        this.$api.messageList({
+        this.$api.noticeList({
           page:this.currentPage,
           limit:this.pageSize,
+          is_read:this.activeName,
           keywords:this.filters[0].value,
-					is_read:this.filters[1].value,
-          createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
+          createtime:this.filters[1].value?this.filters[1].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
             this.total = data.data.total;
-            // this.tableData = data.data.data;
+            this.tableData = data.data.data;
           }else{
             this.$message.error(data.msg);
           }
@@ -158,13 +159,10 @@
         } else {
           this.multipleSelection.forEach(item => arr.push(item.id))
         }
-
-				console.log(arr,'arr');
-
         this.$confirm('此操作将选中消息标记为已读, 是否继续?',"提示", {
           type: 'warning'
         }).then(() => {
-          this.$api.messageIsread({
+          this.$api.noticeIsread({
             id: arr.join(","),
           }).then(data => {
             if (data.code === '0') {
@@ -174,12 +172,16 @@
               });
               this.loadData();
             } else {
-              this.$message.error(_this.$t("message.person.deleteError"));
+              this.$message.error(data.msg);
             }
           })
         }).catch(() => {
         });
 			},
+      // 跳转到详细的操作页面
+      goAction(index,row){
+
+      }
 		},
   }
 </script>

@@ -4,8 +4,8 @@
 		<div class="w-100">
 			<h4 class="fs_16 font-weight-semibold m-0 mb-3 text-000">资源概况</h4>
 			<el-row :gutter="20">
-				<template v-for="item in resources">
-					<el-col :span="6">
+				<template v-for="(item,index) in resources">
+					<el-col :span="6" :key="index">
 						<el-card>
 							<div class="d-flex align-items-center justify-content-center p-2">
 								<img :src="item.src" alt="" width="80" height="80">
@@ -24,8 +24,8 @@
 		<el-card class="mt-3">
 			<h4 class="fs_16 font-weight-semibold m-0 mb-3 text-000">状态统计</h4>
 			<el-row :gutter="20" type="flex">
-				<template v-for="status in statusList">
-					<el-col class="text-center status-item">
+				<template v-for="(status,index) in statusList">
+					<el-col class="text-center status-item" :key="index">
 						<span class="mb-2 d-inline-block opacity-60">{{status.title}}</span>
 						<p class="m-0 fs_24">{{status.num}}/{{status.total}}</p>
 					</el-col>
@@ -41,14 +41,14 @@
 						<h4 class="fs_16 font-weight-semibold m-0 text-000">信息处理</h4>
 						<div class="tab_nav">
 							<template v-for="(nav,index) in handleNav">
-								<span :class="['cursor-pointer ml-3',handleNavIndex == nav.id?'active':'']" @click="handleTab(nav.id)">{{nav.title}}</span>
+								<span :key="index" :class="['cursor-pointer ml-3',handleNavIndex == nav.id?'active':'']" @click="handleTab(nav.id)">{{nav.title}}</span>
 							</template> 
 						</div>
 					</div>
 					<div class="tab_content">
 						<el-row class="isCell handleType">
 							<template v-for="(type,index) in handleType">
-								<el-col :span="8" class="text-center">
+								<el-col :span="8" class="text-center" :key="index">
 									<p class="m-0 fs_30 mb-3">{{type.num}}/{{type.total}}</p>
 									<span>{{type.typeName}}</span>
 								</el-col>
@@ -82,7 +82,7 @@
 						<h4 class="fs_16 font-weight-semibold m-0 text-000">信息处理</h4>
 						<div class="tab_nav">
 							<template v-for="(year,index) in handleYear">
-								<span :class="['cursor-pointer ml-3',handleYearIndex == year.id?'active':'']" @click="handleTab(year.id)">{{year.title}}</span>
+								<span :key="index" :class="['cursor-pointer ml-3',handleYearIndex == year.id?'active':'']" @click="handleTab(year.id)">{{year.title}}</span>
 							</template> 
 						</div>
 					</div>

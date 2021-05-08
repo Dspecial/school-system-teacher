@@ -35,8 +35,8 @@ axios.interceptors.request.use(
     // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断 
     var token = '';
-    if(VueCookies.get("token")){
-      token = VueCookies.get("token");// 从VueCookies中拿到token
+    if(VueCookies.get("application_token")){
+      token = VueCookies.get("application_token");// 从VueCookies中拿到token
     };
     return config;
   },
@@ -62,7 +62,7 @@ axios.interceptors.response.use(
           type: 'warning',
         });
         // 清除token
-        VueCookies.delete("token");
+        VueCookies.delete("application_token");
         // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面 
         setTimeout(() => {
           router.replace({
@@ -116,7 +116,7 @@ axios.interceptors.response.use(
               type: 'warning',
             });
             // 清除token
-            VueCookies.delete("token");
+            VueCookies.delete("application_token");
             loadingInstance.close();
             // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面 
             setTimeout(() => {
@@ -142,7 +142,7 @@ axios.interceptors.response.use(
             });
 
             // 清除token
-            VueCookies.delete("token");
+            VueCookies.delete("application_token");
             loadingInstance.close();
             // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面 
             setTimeout(() => {
@@ -191,7 +191,7 @@ const setParams = (url, params) => {
 export function post (url, params) {  // eslint-disable-line no-unused-vars
   let opt = setParams(url, params);
   // 设置公共的user_token
-  opt.params.user_token = VueCookies.get("token");
+  opt.params.user_token = VueCookies.get("application_token");
   return new Promise((resolve, reject) => {
     axios.post(opt.url, qs.stringify(opt.params))
     .then(res => { 
@@ -208,7 +208,7 @@ export function post (url, params) {  // eslint-disable-line no-unused-vars
 export function postJson (url, params) { 
   let opt = setParams(url, params);
   // 设置公共的user_token
-  opt.params.user_token = VueCookies.get("token");
+  opt.params.user_token = VueCookies.get("application_token");
   return new Promise((resolve, reject) => {
     axios.post(opt.url, opt.params, { 
       headers: { 'Content-Type': 'application/json;charset=UTF-8' } 
@@ -226,7 +226,7 @@ export function postJson (url, params) {
 export function get(url, params) {   
   let opt = setParams(url, params);
   // 设置公共的user_token
-  opt.params.user_token = VueCookies.get("token");
+  opt.params.user_token = VueCookies.get("application_token");
   return new Promise((resolve, reject) => {
     axios.get(opt.url, { params: opt.params })
     .then(res => { 

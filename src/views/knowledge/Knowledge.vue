@@ -5,7 +5,7 @@
     <el-container class="second-container">
       <el-aside width="200px" class="second-aside mr-3">
         <div class="pt-3 pb-3">
-          <el-tree :data="cateTree" :props="defaultProps" @node-click="handleNodeClick" :default-expand-all="true"></el-tree>
+          <el-tree :data="cateTree" :props="defaultProps" @node-click="handleNodeClick" :default-expand-all="true" :expand-on-click-node="false"></el-tree>
         </div>
       </el-aside>
       <el-main class="p-0">

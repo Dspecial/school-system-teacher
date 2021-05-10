@@ -9,7 +9,7 @@
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="事务编号" prop="work_num">
-							<el-input v-model="routineForm.work_num" placeholder="请输入事务编号"></el-input>
+							<el-input v-model="routineForm.work_num" placeholder="请输入事务编号" readonly></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
@@ -207,6 +207,9 @@
 			// dialog初始化
 			openEdit(){
 				this.projectId = this.$route.query.id;
+				var nowTime = this.$moment(new Date()).format('YYYYMMDDHHmm');
+				this.routineForm.work_num = "W"+ nowTime; // 事务编号
+
 				if(this.projectId){
 					this.title = "编辑事务"
 				}else{

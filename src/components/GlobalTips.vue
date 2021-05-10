@@ -8,7 +8,6 @@
 </template>
 
 <script>
-	import dayjs from 'dayjs'
 	export default {
 		name: 'GlobalTips',
 		data () {
@@ -47,7 +46,7 @@
         })
       },
 			getDayjsTime () {
-	      let dayjsTime = dayjs(`${new Date()}`).format('YYYY-MM-DD HH:mm:ss')
+	      let dayjsTime = this.$moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
 	      return dayjsTime
 	    }
 		},

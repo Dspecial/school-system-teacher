@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "dayjs": "^1.10.4",
     "e-icon-picker": "^1.0.18",
     "echarts": "^4.9.0",
     "element-ui": "^2.15.1",

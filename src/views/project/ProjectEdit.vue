@@ -239,7 +239,6 @@
 								company_id:this.projectForm.company_id,
 							}).then(data =>{
 								if(data.code == 0){
-									console.log(data,'5555');
 									// 回调成功的方法
 									_this.handleClose();
 									_this.resetForm(formName);

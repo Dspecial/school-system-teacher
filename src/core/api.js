@@ -43,6 +43,15 @@ export default {
 	resourceList: p => post('/api/project.project/index', p),
 
 	/*
+		***信息管理
+	 */
+	// 个人信息
+	personalInfo: p => post('/api/user.info/edit', p),
+	// 账户信息
+	accountInfo: p => post('/api/user.info/account', p),
+
+
+	/*
 		***消息管理
 	 */
 	// 消息列表

@@ -78,14 +78,22 @@ export default {
 	 */
 	// 事务列表（返回数据没有分页）
 	routineList: p => post('/api/works.routine/index', p),
-	// 发起事务（搞不明白，具体哪些字段）
+	// 发起事务
 	routineAdd: p => post('/api/works.routine/add', p),
-	// 编辑事务(没好)
+	// 编辑事务
 	routineEdit: p => post('/api/works.routine/edit', p),
+	// 删除事务
+	routineDel: p => post('/api/works.routine/del', p),
 	// 获取优先级
 	routineLevel: p => post('/api/ajax/get_work_level', p),
-	// 获取处理用户列表（不知道用在哪里，报错）
+	// 获取项目列表
+	routineProject: p => post('/api/ajax/get_work_detail_info', p),
+	// 获取处理用户列表
 	routineUser: p => post('/api/ajax/get_works_user', p),
-	// 事务上传文件(跨域)
-	routineUpload: p => post('/api/upload/upload_works_attach', p),
+	// 事务上传文件
+	routineUpload: p => postUpload('/api/upload/upload_works_attach', p),
+	// 事务删除上传文件
+	routineUploadDel: p => post('/api/upload/del_upload', p),
+	// 提交事务
+	routineSubmit: p => post('/api/works.routine/submit', p),
 }

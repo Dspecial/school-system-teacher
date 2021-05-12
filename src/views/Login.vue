@@ -50,10 +50,6 @@
     },
     mounted(){
       this.loginConfig();
-
-      if(this.rememberPwd){
-        this.loginForm.username = this.$cookies.get('application_job_number');
-      }
     },
     methods:{
       // 获取身份

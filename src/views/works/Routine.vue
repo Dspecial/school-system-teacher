@@ -8,22 +8,22 @@
 			:pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
         <div class="mb-3" slot="tool">
           <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">事务列表</h4>
+          <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+            <el-tab-pane label="待提交" name="1"></el-tab-pane>
+            <el-tab-pane label="待办" name="2"></el-tab-pane>
+            <el-tab-pane label="在办" name="3"></el-tab-pane>
+            <el-tab-pane label="办结" name="4"></el-tab-pane>
+          </el-tabs>
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
           		<el-input
-    				    placeholder="请输入事务名称、内容、备注"
+    				    placeholder="请输入事务标题、内容、备注"
     				    prefix-icon="el-icon-search"
     				    v-model="filters[0].value"
                 class="mr-3">
     				  </el-input>
-							<el-select v-model="filters[1].value" placeholder="请选择状态" class="mr-3">
-								<el-option label="待提交" value="1"></el-option>
-								<el-option label="待办" value="2"></el-option>
-                <el-option label="在办" value="3"></el-option>
-                <el-option label="办结" value="4"></el-option>
-							</el-select>
               <el-date-picker
-                v-model="filters[2].value"
+                v-model="filters[1].value"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="创建时间"
@@ -69,11 +69,11 @@
         <el-table-column prop="get_work_level" label="级别"></el-table-column>
 				<el-table-column prop="createtime" label="创建时间"></el-table-column>
         <el-table-column prop="endtime" label="预计完成时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="200" align="center">
+        <el-table-column fixed="right" label="操作" width="200" align="left">
           <template slot-scope="scope">
-            <span class="text-primary cursor-pointer" @click="routineDetail(scope.$index,scope.row)">查看</span>
-            <span class="text-primary cursor-pointer ml-3" @click="editRoutine(scope.$index,scope.row)">编辑</span>
-            <span class="text-primary cursor-pointer ml-3" @click="handleDel(scope.$index,scope.row)">删除</span>
+            <span class="text-primary cursor-pointer mr-3" @click="routineSubmit(scope.$index,scope.row)" v-if="scope.row.status == 1">提交</span>
+            <span class="text-primary cursor-pointer mr-3" @click="editRoutine(scope.$index,scope.row)" v-if="scope.row.status == 1">编辑</span>
+            <span class="text-primary cursor-pointer" @click="handleDel(scope.$index,scope.row)" v-if="scope.row.status == 1">删除</span>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -100,14 +100,11 @@
           'max-height': 670,
         },
         tableData: [],
+        activeName:'1',
         filters: [
 	        {
 	          value: '',
 	          prop: 'keywords'
-	        },
-          {
-	          value: '',
-	          prop: 'is_read'
 	        },
           {
 	          value: '',
@@ -125,6 +122,10 @@
       
     },
     methods:{
+      handleClick(tab, event) {
+        console.log(this.activeName);
+        this.loadData();
+      },
 			// 自增序列
       indexMethod(index) { 
         return ++index;
@@ -140,8 +141,8 @@
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
-					status:this.filters[1].value,
-          createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
+					status:this.activeName,
+          createtime:this.filters[1].value?this.filters[1].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
             this.total = data.data.total;
@@ -151,15 +152,33 @@
           }
         });
       },
+      // 提交事务
+      routineSubmit(index,row){
+        this.$confirm("此操作将提交该事务, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.routineSubmit({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
       // 发起事务
       handleAdd(){
         this.$router.push({
           path:"/works/routine/edit",
         })
-      },
-      // 查看详细
-      routineDetail(index,row){
-
       },
       // 编辑
       editRoutine(index,row){
@@ -172,7 +191,25 @@
       },
       // 删除
       handleDel(index,row){
+        this.$confirm("此操作将永久删除该事务, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.routineDel({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
 
+        });
       },
 		},
   }

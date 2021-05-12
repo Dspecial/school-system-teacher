@@ -21,7 +21,6 @@ Vue.use(echarts);
 Vue.prototype.$echarts = echarts
 Vue.prototype.commonJs = commonJs; // 挂载原型链
 Vue.prototype.$api = api;
-Vue.prototype.VueCookies = VueCookies; // 挂载原型链
 Vue.prototype.$globalUrl = globalUrl;
 Vue.prototype.$moment = moment;
 

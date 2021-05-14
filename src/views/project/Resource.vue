@@ -1,17 +1,320 @@
 <template>
-	<div>
-我是资源管理页面
-	</div>
+  <div>
+    <!-- 登录信息 -->
+    <global-tips></global-tips>
+    <!-- 列表 -->
+    <el-card>
+      <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage":page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
+        <div class="mb-3" slot="tool">
+          <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目列表</h4>
+          <div class="d-flex align-items-center project_search_div">
+          	<div class="d-flex align-items-center">
+              <el-input
+    				    placeholder="请输入项目名称/资源名称/备注"
+    				    prefix-icon="el-icon-search"
+    				    v-model="filters[0].value"
+                class="mr-3">
+    				  </el-input>
+          	</div>
+            <div class="ml-auto">
+              <el-button type="primary" @click="handleAdd()"><i class="el-icon-plus el-icon--left"></i>新增项目</el-button>
+            </div>
+          </div>
+        </div>
+        <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
+        <el-table-column prop="name" label="资源名称"></el-table-column>
+        <el-table-column prop="p_name" label="项目名称"></el-table-column>
+        <el-table-column label="简介">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              title="简介"
+              width="200"
+              trigger="hover"
+              :content="scope.row.p_biref">
+              <span class="text-truncate" slot="reference">{{scope.row.p_biref}}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column prop="projecttime" label="年份" width="80"></el-table-column>
+        <el-table-column prop="apply_user_depart" label="所属部门"></el-table-column>
+        <el-table-column prop="is_commit" label="是否提交" width="120">
+          <template slot-scope="scope">
+            <span v-if="scope.row.is_commit == 1"><i class="dot bg-warning mr-1"></i>初审待提交</span>
+            <span v-else-if="scope.row.is_commit == 2"><i class="dot bg-primary-900 mr-1"></i>初审已提交</span>
+            <span v-else-if="scope.row.is_commit == 3"><i class="dot bg-blue mr-1"></i>复审待提交</span>
+            <span v-else-if="scope.row.is_commit == 4"><i class="dot bg-primary mr-1"></i>复审已提交</span>
+            <span v-else-if="scope.row.is_commit == 5"><i class="dot bg-danger mr-1"></i>实施待提交</span>
+            <span v-else-if="scope.row.is_commit == 6"><i class="dot bg-grey-300 mr-1"></i>实施已提交</span>
+            <span v-else-if="scope.row.is_commit == 7"><i class="dot bg-cyan mr-1"></i>验收待提交</span>
+            <span v-else-if="scope.row.is_commit == 8"><i class="dot bg-success mr-1"></i>验收已提交</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="createtime" label="创建时间"></el-table-column>
+        <el-table-column prop="job_number" label="公司名称"></el-table-column>
+        <!-- <el-table-column label="审核状态" align="center" >
+          <template slot-scope="scope">
+            <span class="text-primary cursor-pointer" @click="approvalDetail(scope.$index,scope.row)">详情</span>
+          </template>
+        </el-table-column> -->
+        <el-table-column fixed="right" label="操作" width="120" align="center">
+          <template slot-scope="scope">
+            <el-dropdown trigger="click">
+                <span class="el-dropdown-link text-primary cursor-pointer">
+                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <template v-for="(act,index) in actions">
+                    <div :key="index" @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>编辑</el-dropdown-item></div>
+                  </template>
+                  <template v-if="scope.row.is_commit == 1">
+                    <div @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>编辑</el-dropdown-item></div>
+                    <div @click="handleDel(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>删除</el-dropdown-item></div>
+                    <div @click="handleCommit(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>提交</el-dropdown-item></div>
+                  </template>
+                  <template v-else-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
+                    <div @click="handleRecheck(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>提交复审</el-dropdown-item></div>
+                  </template>
+                  <template v-else-if="scope.row.is_commit == 4 || scope.row.is_commit == 5">
+                    <div @click="handleRunning(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>进入实施流程</el-dropdown-item></div>
+                  </template>
+                  <template v-else-if="scope.row.is_commit == 6 || scope.row.is_commit == 7">
+                    <div @click="handleAccept(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>进入验收流程</el-dropdown-item></div>
+                  </template>
+                  <template v-else-if="scope.row.is_commit == 8">
+                    <div @click="applicationDetail(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>查看</el-dropdown-item></div>
+                  </template>
+                  
+                </el-dropdown-menu>
+              </el-dropdown>
+          </template>
+        </el-table-column>
+      </data-tables-server>
+      <application-approval :applicationApproval="applicationApproval"></application-approval>
+    </el-card>
+  </div>
 </template>
 
 <script>
+  import GlobalTips from "@/components/GlobalTips";
+  import ApplicationApproval from "./ApplicationApproval"
+
 	export default {
-		name: 'Resource',
-		data () {
-			return {}
+    name: 'Resource',
+    components: {
+      GlobalTips,
+      ApplicationApproval
+    },
+    provide() {
+      return {
+        loadData: this.loadData
+      }
+    },
+    data() {
+      return {
+        tableProps: {
+          'max-height': 670,
+        },
+        tableData: [],
+        filters: [
+	        {
+	          value: '',
+	          prop: 'keywords'
+	        },
+        ],
+        total: 0, //总条数
+        currentPage: 1, //当前页
+        pageSize: 15, //每页显示条数
+        // 审批状态
+        applicationApproval: {
+          dialog:false,
+          title:"",
+          id:","
+        },
+        actions:[
+
+        ],
+      }
+    },
+    computed: {
+    },
+    mounted(){
+      
+    },
+    methods:{
+			// 自增序列
+      indexMethod(index) { 
+        return ++index;
+      },
+      // 加载数据
+      loadData(queryInfo) { 
+        let _this = this;
+        if (queryInfo != null) {
+          this.currentPage = queryInfo.page;
+          this.pageSize = queryInfo.pageSize;
+        }
+        this.$api.resourceList({
+          page:this.currentPage,
+          limit:this.pageSize,
+          keywords:this.filters[1].value,
+        }).then(data=>{
+          if(data.code == 0){
+            this.total = data.data.total;
+            this.tableData = data.data.data;
+            // var add = this.$store.getters.getaddAction;
+            // var more = this.$store.getters.getmoreAction;
+            // console.log(add,'add');
+            // console.log(more,'more');
+          }else{
+            this.$message.error(data.msg);
+          }
+        });
+      },
+
+      // 新增项目类别
+      handleAdd(){
+        this.$router.push({
+          path:"/project/project/edit",
+        })
+      },
+
+      // 编辑项目
+      editProject(index,row){
+        this.$router.push({
+          path:"/project/project/edit",
+          query: {
+            id: row.id,
+          }
+        })
+      },
+      
+      // 删除
+      handleDel(index,row){
+        this.$confirm("此操作将永久删除该项目, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectDel({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
+      // 提交项目
+      handleCommit(index,row){
+        this.$confirm("此操作将提交该项目, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectCommit({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
+      // 提交复审
+      handleRecheck(index,row){
+        this.$confirm("此操作将提交该项目, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectRecheck({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
+      // 进入实施流程
+      handleRunning(index,row){
+        this.$confirm("此操作将进入实施流程, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectRunning({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
+      // 进入验收流程
+      handleRunning(index,row){
+        this.$confirm("此操作将进入验收流程, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectRunning({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
+      // 审批详情
+      approvalDetail(index,row){
+        this.applicationApproval.dialog = true;
+        this.applicationApproval.title = "审批状态";
+        this.applicationApproval.id = "";
+      },
+      // 项目详情
+      applicationDetail(index,row){
+        this.$router.push({
+          path:"/project/application/detail",
+          query: {
+            id: row.id,
+          }
+        })
+      },
 		},
-		components: {}
-	}
+  }
 </script>
 
 <style>

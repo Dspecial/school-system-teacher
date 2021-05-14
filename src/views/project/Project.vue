@@ -44,7 +44,7 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="apply_number" label="项目编号"></el-table-column>
+        <el-table-column prop="apply_number" width="250" label="项目编号"></el-table-column>
         <el-table-column prop="p_name" label="项目名称"></el-table-column>
         <el-table-column label="简介">
           <template slot-scope="scope">
@@ -79,11 +79,36 @@
             <span class="text-primary cursor-pointer" @click="approvalDetail(scope.$index,scope.row)">详情</span>
           </template>
         </el-table-column> -->
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column fixed="right" label="操作" width="120" align="center">
           <template slot-scope="scope">
-            <span class="text-primary cursor-pointer" @click="applicationDetail(scope.$index,scope.row)">查看</span>
-            <span class="text-primary cursor-pointer ml-3" @click="editProject(scope.$index,scope.row)">编辑</span>
-            <span class="text-primary cursor-pointer ml-3" @click="handleDel(scope.$index,scope.row)">删除</span>
+            <el-dropdown trigger="click">
+                <span class="el-dropdown-link text-primary cursor-pointer">
+                  更多<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <template v-for="(act,index) in actions">
+                    <div :key="index" @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>编辑</el-dropdown-item></div>
+                  </template>
+                  <template v-if="scope.row.is_commit == 1">
+                    <div @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>编辑</el-dropdown-item></div>
+                    <div @click="handleDel(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>删除</el-dropdown-item></div>
+                    <div @click="handleCommit(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>提交</el-dropdown-item></div>
+                  </template>
+                  <template v-else-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
+                    <div @click="handleRecheck(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>提交复审</el-dropdown-item></div>
+                  </template>
+                  <template v-else-if="scope.row.is_commit == 4 || scope.row.is_commit == 5">
+                    <div @click="handleRunning(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>进入实施流程</el-dropdown-item></div>
+                  </template>
+                  <template v-else-if="scope.row.is_commit == 6 || scope.row.is_commit == 7">
+                    <div @click="handleAccept(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>进入验收流程</el-dropdown-item></div>
+                  </template>
+                  <template v-else-if="scope.row.is_commit == 8">
+                    <div @click="applicationDetail(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>查看</el-dropdown-item></div>
+                  </template>
+                  
+                </el-dropdown-menu>
+              </el-dropdown>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -140,6 +165,9 @@
           title:"",
           id:","
         },
+        actions:[
+
+        ],
       }
     },
     computed: {
@@ -170,6 +198,10 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
+            // var add = this.$store.getters.getaddAction;
+            // var more = this.$store.getters.getmoreAction;
+            // console.log(add,'add');
+            // console.log(more,'more');
           }else{
             this.$message.error(data.msg);
           }
@@ -195,7 +227,7 @@
       
       // 删除
       handleDel(index,row){
-        this.$confirm("此操作将永久删除该项目类别, 是否继续?", "提示", {
+        this.$confirm("此操作将永久删除该项目, 是否继续?", "提示", {
           type: 'warning'
         }).then(() => {
           this.$api.projectDel({
@@ -203,7 +235,7 @@
           }).then(data=>{ 
              if(data.code == 0){
                 this.$message({
-                  message: "删除项目成功!",
+                  message: data.msg,
                   type: 'success'
                 });
                 this.loadData();
@@ -215,7 +247,94 @@
 
         });
       },
-      
+      // 提交项目
+      handleCommit(index,row){
+        this.$confirm("此操作将提交该项目, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectCommit({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
+      // 提交复审
+      handleRecheck(index,row){
+        this.$confirm("此操作将提交该项目, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectRecheck({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
+      // 进入实施流程
+      handleRunning(index,row){
+        this.$confirm("此操作将进入实施流程, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectRunning({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
+      // 进入验收流程
+      handleRunning(index,row){
+        this.$confirm("此操作将进入验收流程, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectRunning({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
       // 审批详情
       approvalDetail(index,row){
         this.applicationApproval.dialog = true;

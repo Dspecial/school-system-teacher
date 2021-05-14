@@ -11,19 +11,26 @@ import Vuex from 'vuex'; // 对vue应用中多个组件的共享状态进行集�
 Vue.use(Vuex);
 
 const state = { // 要设置的全局访问的state对象
-	
+	addAction:{},
+	moreAction:[],
 };
 
 const mutations = {
-
+	SET_ACTION: (state, command) => {
+		state.addAction = command.addAction;
+		state.moreAction = command.moreAction;
+	}
 };
 
 const actions = {
-
+	setAction({ commit }, command) {
+		commit("SET_ACTION", command);
+	}
 };
 
 const getters = {   //实时监听state值的变化(最新状态)
-	
+	getaddAction: state => state.addAction,
+	getmoreAction: state => state.moreAction,
 };
 
 // 向外暴露Vuex.store （写法，结构固定）

@@ -67,9 +67,13 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12" v-if="routineForm.type == 2">
-						<el-form-item label="流程参数" prop="send_json" >
+						<el-form-item label="" prop="send_json" class="payment_item">
+							<div slot="label" class="d-flex justify-content-between">
+								<span>流程参数</span>
+								<span class="text-primary cursor-pointer" @click="addPro(progressArray)"><i class="el-icon-plus mr-1"></i>审核流程</span>
+							</div>
 							<template v-for="(cell,INDEX) in progressArray">
-								<el-row type="flex" align="middle" :gutter="10" class="mb-3" :key="INDEX">
+								<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
 									<el-col :span="24">
 										<el-select v-model="cell.check_ids" multiple placeholder="请选择人员" class="w-100" @change="changeCheck" @remove-tag="removeCheck">
 											<el-option
@@ -81,9 +85,8 @@
 											</el-option>
 										</el-select>
 									</el-col>
-									<el-col :span="5" class="">
-										<span class="text-primary cursor-pointer" @click="addPro(progressArray)" v-if="INDEX == progressArray.length-1"><i class="el-icon-plus"></i>审核流程</span>
-										<span class="text-danger cursor-pointer ml-2" @click="delField(progressArray,INDEX)">删除</span>
+									<el-col :span="2" class="text-right">
+										<span class="text-danger cursor-pointer" @click="delField(progressArray,INDEX)">删除</span>
 									</el-col>
 								</el-row>
 							</template>
@@ -95,12 +98,12 @@
 				<el-row :gutter="20">
 					<el-col :span="12">
 						<el-form-item label="预计完成时间">
-							<el-date-picker type="datetime" placeholder="选择完成时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.endtime" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="datetime" placeholder="选择完成时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.endtime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="提醒时间">
-							<el-date-picker type="datetime" placeholder="选择提醒时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.remain_time" format="yyyy-MM-dd HH:mm" value-format="yyyy-MM-dd HH:mm" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="datetime" placeholder="选择提醒时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.remain_time" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -147,7 +150,7 @@
 				</el-row>
 				<div class="d-flex justify-content-end">
 					<el-button type="primary" @click="submitForm('routineForm')">确 定</el-button>
-					<el-button @click="closedEdit('routineForm')">取 消</el-button>
+					<el-button @click="closedEdit">取 消</el-button>
 				</div>
 			</el-form>
 		</el-card>
@@ -349,7 +352,7 @@
 				this.initLevel();
 			},
 			// 关闭编辑
-			closedEdit(formName){
+			closedEdit(){
 				this.$router.go(-1);//返回上一层
 			},
 
@@ -388,7 +391,7 @@
 										message: "修改事务成功",
 										type: 'success'
 									});
-									this.closedEdit(formName);
+									this.closedEdit();
 								}else{
 									this.$message.error(data.msg);
 								}
@@ -415,7 +418,7 @@
 										message: data.msg,
 										type: 'success'
 									});
-									this.closedEdit(formName);
+									this.closedEdit();
 								}else{
 									this.$message.error(data.msg);
 								}

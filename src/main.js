@@ -43,6 +43,7 @@ import './assets/css/main.scss'; // 页面样式表
 new Vue({
   el: '#app',
   router,
+  store,  //store:store 和router一样，将我们创建的Vuex实例挂载到这个vue实例中
   components: { App },
   template: '<App/>'
 })

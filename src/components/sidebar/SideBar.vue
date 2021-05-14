@@ -122,7 +122,8 @@
       handleClose(key, keyPath) {
         // console.log(key, keyPath);
       },
-      handleselect(){
+      handleselect(key, keyPath){
+        // console.log(key, keyPath);
         this.reload();  // 点击侧边栏重新载入页面
       },
       toggleCollapse(){

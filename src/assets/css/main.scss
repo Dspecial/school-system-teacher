@@ -397,8 +397,23 @@ html,body,#app,.page-container{
 }
 
 /*project*/
-.page_detail{
-  
+.pro_vEditor .ql-snow.ql-container{
+  height: 100px;
+}
+.cell_row:last-child{
+  margin-bottom:0!important;
+}
+.payment_item{
+  .el-form-item__label{
+    width: 100%;
+    display: flex;
+    .d-flex{
+      flex: 0 1 100%;
+    }
+  }
+  .el-form-item{
+    margin-bottom:0
+  }
 }
 .my_upload{
   line-height: 0;

@@ -123,7 +123,6 @@
     },
     methods:{
       handleClick(tab, event) {
-        console.log(this.activeName);
         this.loadData();
       },
 			// 自增序列

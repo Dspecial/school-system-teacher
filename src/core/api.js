@@ -45,12 +45,20 @@ export default {
 	uploadDel: p => post('/api/upload/del_upload', p),
 	// 提交项目
 	projectCommit: p => post('/api/project.project/commit', p),
-	// 提交审核（没通）
-	projectRecheck: p => post(' /api/project.project/commit_recheck', p),
+	// 提交复审
+	projectRecheck: p => post('/api/project.project/commit_recheck', p),
+	// 获取专家列表(记录一个bug,已选人员不能再选，事务管理里面也有同一个问题)
+	projectExpert: p => post('/api/ajax/get_expert_list', p),
+	// 复审列表
+	projectRecheck_list: p => post('/api/project.project/recheck_list', p),
+	// 查看复审详情
+	projectRecheck_detail: p => post('/api/project.project/recheck_detail', p),
 	// 进入实施流程（没通）
 	projectRunning: p => post('/api/project.project/to_running', p),
 	// 进入验收流程（没通）
 	projectAccept: p => post('/api/project.project/to_accept', p),
+
+
 
 	// 资源列表（没通，不知道是哪个）
 	resourceList: p => post('/api/companyresource.companyresource/index', p),
@@ -109,4 +117,21 @@ export default {
 	routineUploadDel: p => post('/api/upload/del_upload', p),
 	// 提交事务
 	routineSubmit: p => post('/api/works.routine/submit', p),
+
+
+	/*
+	***事务管理
+	*/
+	// 我的项目列表
+	my_projectList: p => post('/api/company.project/index', p),
+	// 上传进度
+	my_project_process: p => post('/api/company.project/send_process', p),
+	// 进度上传文件
+	my_project_processUpload: p => postUpload('/api/upload/upload_process_attach', p),
+	// 删除进度上传文件
+	processUploadDel: p => post('/api/upload/del_upload', p),
+	// 上传验收
+	my_project_accept: p => post('/api/company.project/send_accept', p),
+	// 验收上传文件
+	my_project_acceptUpload: p => postUpload('/api/upload/upload_accept_attach', p),
 }

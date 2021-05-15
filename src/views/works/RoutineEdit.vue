@@ -75,7 +75,7 @@
 							<template v-for="(cell,INDEX) in progressArray">
 								<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
 									<el-col :span="24">
-										<el-select v-model="cell.check_ids" multiple placeholder="请选择人员" class="w-100" @change="changeCheck" @remove-tag="removeCheck">
+										<el-select v-model="cell.check_ids" multiple clearable placeholder="请选择人员" class="w-100" @change="changeCheck" @remove-tag="removeCheck">
 											<el-option
 												v-for="user in userOptions"
 												:key="user.id"

@@ -138,6 +138,9 @@
     }
   }
 }
+.el-table__row .cell span.cursor-pointer:last-child{
+  margin-right:0!important;
+}
 /*el-dialog*/
 .el-dialog{
   border-radius: 4px;

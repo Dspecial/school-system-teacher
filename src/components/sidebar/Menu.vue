@@ -49,9 +49,17 @@
         }).then(data=>{
           if(data.code == 0){
             // console.log(data.data,'mmmm');
-            data.data.map(item=>{
-              this.menuAuth(item)
+            if(this.commonJs.isEmpty(data.data.current_menu[0])) return;
+            data.data.current_menu.map(item=>{
+              var isAdd = item.name.split("/").indexOf("add");
+              if(isAdd !=-1){ // 是添加按钮
+                this.allAction.addAction = item;
+              }else{
+                this.allAction.moreAction.push(item);
+              }
             })
+
+            console.log(this.allAction,'this.allAction');
             this.$store.commit("SET_ACTION",this.allAction);
             localStorage.setItem("allAction",JSON.stringify(this.allAction));
           }
@@ -64,12 +72,7 @@
         }).then(data=>{
           if(data.code == 0){
             if(data.data){
-              var isAdd = action.name.split("/").indexOf("add");
-              if(isAdd !=-1){ // 是添加按钮
-                this.allAction.addAction = action;
-              }else{
-                this.allAction.moreAction.push(action);
-              }
+              
             }
           }
         })

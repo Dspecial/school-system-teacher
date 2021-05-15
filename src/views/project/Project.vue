@@ -76,40 +76,62 @@
         <el-table-column prop="job_number" label="公司名称"></el-table-column>
         <!-- <el-table-column label="审核状态" align="center" >
           <template slot-scope="scope">
-            <span class="text-primary cursor-pointer" @click="approvalDetail(scope.$index,scope.row)">详情</span>
+            <span class="text-primary cursor-pointer mr-3" @click="approvalDetail(scope.$index,scope.row)">详情</span>
           </template>
         </el-table-column> -->
-        <el-table-column fixed="right" label="操作" width="120" align="center">
+        <el-table-column fixed="right" label="操作" width="200" align="center">
           <template slot-scope="scope">
+            <template v-if="scope.row.is_commit == 1">
+              <span @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">编辑</span>
+              <span @click="handleDel(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">删除</span>
+              <span @click="handleCommit(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">提交</span>
+            </template>
+            <template v-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
+              <span @click="handleRecheck(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">提交复审</span>
+            </template>
+            <template v-if="scope.row.is_commit == 3 || scope.row.is_commit == 4">
+              <span @click="recheckList(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">复审记录</span>
+            </template>
+            <template v-if="scope.row.is_commit == 4 || scope.row.is_commit == 5">
+              <span @click="handleRunning(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">进入实施流程</span>
+            </template>
+            <template v-if="scope.row.is_commit == 6 || scope.row.is_commit == 7">
+              <span @click="handleAccept(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">进入验收流程</span>
+            </template>
+            <template v-if="scope.row.is_commit == 8">
+              <span @click="applicationDetail(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">查看</span>
+            </template>
+          </template>
+          <!-- <template slot-scope="scope">
             <el-dropdown trigger="click">
-                <span class="el-dropdown-link text-primary cursor-pointer">
+                <span class="el-dropdown-link text-primary cursor-pointer mr-3">
                   更多<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <template v-for="(act,index) in actions">
-                    <div :key="index" @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>编辑</el-dropdown-item></div>
-                  </template>
                   <template v-if="scope.row.is_commit == 1">
-                    <div @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>编辑</el-dropdown-item></div>
-                    <div @click="handleDel(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>删除</el-dropdown-item></div>
-                    <div @click="handleCommit(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>提交</el-dropdown-item></div>
+                    <div @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">编辑</div>
+                    <div @click="handleDel(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">删除</div>
+                    <div @click="handleCommit(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">提交</div>
                   </template>
-                  <template v-else-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
-                    <div @click="handleRecheck(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>提交复审</el-dropdown-item></div>
+                  <template v-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
+                    <div @click="handleRecheck(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">提交复审</div>
                   </template>
-                  <template v-else-if="scope.row.is_commit == 4 || scope.row.is_commit == 5">
-                    <div @click="handleRunning(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>进入实施流程</el-dropdown-item></div>
+                  <template v-if="scope.row.is_commit == 3 || scope.row.is_commit == 4">
+                    <div @click="recheckList(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">复审记录</div>
                   </template>
-                  <template v-else-if="scope.row.is_commit == 6 || scope.row.is_commit == 7">
-                    <div @click="handleAccept(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>进入验收流程</el-dropdown-item></div>
+                  <template v-if="scope.row.is_commit == 4 || scope.row.is_commit == 5">
+                    <div @click="handleRunning(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">进入实施流程</div>
                   </template>
-                  <template v-else-if="scope.row.is_commit == 8">
-                    <div @click="applicationDetail(scope.$index,scope.row)" class="text-primary cursor-pointer"><el-dropdown-item>查看</el-dropdown-item></div>
+                  <template v-if="scope.row.is_commit == 6 || scope.row.is_commit == 7">
+                    <div @click="handleAccept(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">进入验收流程</div>
+                  </template>
+                  <template v-if="scope.row.is_commit == 8">
+                    <div @click="applicationDetail(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">查看</div>
                   </template>
                   
                 </el-dropdown-menu>
               </el-dropdown>
-          </template>
+          </template> -->
         </el-table-column>
       </data-tables-server>
       <application-approval :applicationApproval="applicationApproval"></application-approval>
@@ -271,25 +293,21 @@
       },
       // 提交复审
       handleRecheck(index,row){
-        this.$confirm("此操作将提交该项目, 是否继续?", "提示", {
-          type: 'warning'
-        }).then(() => {
-          this.$api.projectRecheck({
-            id:row.id
-          }).then(data=>{ 
-             if(data.code == 0){
-                this.$message({
-                  message: data.msg,
-                  type: 'success'
-                });
-                this.loadData();
-             }else{
-               this.$message.error(data.msg);
-             }
-          })
-        }).catch(() => {
-
-        });
+        this.$router.push({
+          path:"/project/project/recheck",
+          query: {
+            id: row.id,
+          }
+        })
+      },
+      // 复审记录
+      recheckList(index,row){
+        this.$router.push({
+          path:"/project/project/recheckList",
+          query: {
+            id: row.id,
+          }
+        })
       },
       // 进入实施流程
       handleRunning(index,row){
@@ -313,12 +331,13 @@
 
         });
       },
+
       // 进入验收流程
-      handleRunning(index,row){
+      handleAccept(index,row){
         this.$confirm("此操作将进入验收流程, 是否继续?", "提示", {
           type: 'warning'
         }).then(() => {
-          this.$api.projectRunning({
+          this.$api.projectAccept({
             id:row.id
           }).then(data=>{ 
              if(data.code == 0){

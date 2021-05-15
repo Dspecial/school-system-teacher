@@ -63,6 +63,24 @@ const router = new Router({
 				  children: null
 				},
 				{
+				  path: '/project/project/recheck',
+				  component: resolve => require(['@/views/project/ProjectRecheck'], resolve),
+				  name: 'ProjectRecheck',
+				  meta: {
+				    title: '项目提交复审',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/project/recheckList',
+				  component: resolve => require(['@/views/project/ProjectRecheckList'], resolve),
+				  name: 'ProjectRecheckList',
+				  meta: {
+				    title: '项目复审列表',
+				  },
+				  children: null
+				},
+				{
 				  path: '/project/application',
 				  component: resolve => require(['@/views/project/Application'], resolve),
 				  name: 'Application',
@@ -177,6 +195,37 @@ const router = new Router({
 				  name: 'RoutineEdit',
 				  meta: {
 				    title: '编辑事务',
+				  },
+				  children: null
+				},
+
+				/*
+				**我的项目
+				 */
+				{
+				  path: '/company/myProject',
+				  component: resolve => require(['@/views/myProject/MyProject'], resolve),
+				  name: 'MyProject',
+				  meta: {
+				    title: '我的项目',
+				  },
+				  children: null
+				},
+				{
+				  path: '/company/myProject/process',
+				  component: resolve => require(['@/views/myProject/MyprojectProcess'], resolve),
+				  name: 'MyprojectProcess',
+				  meta: {
+				    title: '上传进度',
+				  },
+				  children: null
+				},
+				{
+				  path: '/company/myProject/accept',
+				  component: resolve => require(['@/views/myProject/MyprojectAccept'], resolve),
+				  name: 'MyprojectAccept',
+				  meta: {
+				    title: '上传验收',
 				  },
 				  children: null
 				},

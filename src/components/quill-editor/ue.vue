@@ -69,7 +69,7 @@
         // 编辑器配置选项
         editorOption: {
         	theme: 'snow',  // Specify theme in configuration
-        	placeholder: "请输入内容",
+        	placeholder: "请输入...",
           modules: {
             toolbar: {
               container: [
@@ -168,7 +168,11 @@
       'value'(newVal, oldVal) {
         if (this.editor) {
           if (newVal !== this.content) {
-            this.content = newVal
+            this.content = newVal;
+            this.$refs.myTextEditor.quill.enable(false)
+            setTimeout(()=>{
+              this.$refs.myTextEditor.quill.enable(true)
+            },100)
           }
         }
       }

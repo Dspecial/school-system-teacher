@@ -60,7 +60,7 @@
         <el-table-column prop="job_number" label="教师名称"></el-table-column>
         <el-table-column prop="createtime" label="创建时间"></el-table-column>
         <el-table-column prop="checkedtime" label="验收时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="200" align="left">
+        <el-table-column fixed="right" label="操作" width="200" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.is_commit == 3">
               <span class="text-primary cursor-pointer mr-3" @click="viewDetail(scope.$index,scope.row)">查看详情</span>

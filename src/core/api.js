@@ -59,9 +59,28 @@ export default {
 	projectAccept: p => post('/api/project.project/to_accept', p),
 
 
-
 	// 资源列表（没通，不知道是哪个）
 	resourceList: p => post('/api/companyresource.companyresource/index', p),
+
+	/*
+		***审核管理
+	 */
+	// 初审列表
+	firstCheckList: p => post('/api/checks.firstproject/index', p),
+	// 编辑初审列表
+	firstCheckList_edit: p => post('/api/checks.firstproject/edit', p),
+	// 审核初审
+	firstCheckList_check: p => post('/api/checks.firstproject/check_first_triall', p),
+	// 审核初审文件预览
+	file_preview: p => post('/api/ajax/preview', p),
+	// 复审列表
+	recheckList: p => post('/api/checks.recheckproject/index', p),
+	// 复审
+	recheckList_check: p => post('/api/checks.recheckproject/check_recheck', p),
+	// 进度提交列表
+	processList: p => post('/api/checks.processproject/index', p),
+	// 进度审核
+	processList_check: p => post('/api/checks.processproject/check_process', p),
 
 	/*
 		***信息管理

@@ -1,6 +1,6 @@
 <template>
 	<div class="fs_16 cursor-pointer" @click="goBack()">
-		<i class="el-icon-back text-000"></i><span class="ml-2">返回上级</span>
+		<i class="el-icon-back text-000"></i><span class="ml-2">返回</span>
 	</div>
 </template>
 

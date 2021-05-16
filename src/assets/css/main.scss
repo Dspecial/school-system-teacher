@@ -125,8 +125,8 @@
 }
 .sc-table{
   .tool .el-input__inner:not(.el-range-editor){
-    min-width: 220px;
-    max-width: 240px;
+    // min-width: 220px;
+    // max-width: 240px;
   }
   .tool .el-range-input{
     min-width: 120px;
@@ -481,4 +481,8 @@ html,body,#app,.page-container{
 .detail_content{
   border-bottom:1px solid #ddd;
   border-top:1px solid #ddd;
+}
+
+.view:hover{
+  color: #005DDA;
 }

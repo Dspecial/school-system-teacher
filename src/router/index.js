@@ -119,6 +119,87 @@ const router = new Router({
 				},
 
 				/*
+				**审核管理
+				 */
+				// 初审列表
+				{
+				  path: '/check/first',
+				  component: resolve => require(['@/views/check/FirstCheck'], resolve),
+				  name: 'FirstCheck',
+				  meta: {
+				    title: '初审列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/first/edit',
+				  component: resolve => require(['@/views/check/FirstcheckEdit'], resolve),
+				  name: 'FirstcheckEdit',
+				  meta: {
+				    title: '编辑初审',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/first/check',
+				  component: resolve => require(['@/views/check/FirstcheckCheck'], resolve),
+				  name: 'FirstcheckCheck',
+				  meta: {
+				    title: '审核初审',
+				  },
+				  children: null
+				},
+				// 资源审核列表
+				{
+				  path: '/check/resourceCheck',
+				  component: resolve => require(['@/views/check/ResourceCheck'], resolve),
+				  name: 'ResourceCheck',
+				  meta: {
+				    title: '资源审核列表',
+				  },
+				  children: null
+				},
+				// 复审列表
+				{
+				  path: '/check/recheck',
+				  component: resolve => require(['@/views/check/Recheck'], resolve),
+				  name: 'Recheck',
+				  meta: {
+				    title: '复审列表',
+				  },
+				  children: null
+				},
+				// 复审
+				{
+				  path: '/check/recheck/check',
+				  component: resolve => require(['@/views/check/RecheckCheck'], resolve),
+				  name: 'RecheckCheck',
+				  meta: {
+				    title: '复审',
+				  },
+				  children: null
+				},
+				// 进度提交列表
+				{
+				  path: '/check/process',
+				  component: resolve => require(['@/views/check/Process'], resolve),
+				  name: 'checkProcess',
+				  meta: {
+				    title: '进度提交列表',
+				  },
+				  children: null
+				},
+				// 进度审核
+				{
+				  path: '/check/process/check',
+				  component: resolve => require(['@/views/check/ProcessCheck'], resolve),
+				  name: 'ProcessCheck',
+				  meta: {
+				    title: '进度审核',
+				  },
+				  children: null
+				},
+				/*
 				**信息管理
 				 */
 				// 个人信息

@@ -96,7 +96,6 @@
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
-						console.log(data.data.project_accept_info,'data');
 						this.acceptForm.project_name = data.data.project_name;
 						this.acceptForm.accept_info = data.data.accept_info;
 						this.acceptForm.accept_number = number + randnum;

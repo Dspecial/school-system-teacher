@@ -339,10 +339,12 @@
 						this.fileList = arrList;
 
 						var newProgress = new Array;
-						data.data.send_json.map((item,index)=>{
-							newProgress.push({check_ids:item.split(",").map(Number)});
-						});
-						this.progressArray = newProgress;
+						if(data.data.type == 2){ // 他办
+							data.data.send_json.map((item,index)=>{
+								newProgress.push({check_ids:item.split(",").map(Number)});
+							});
+							this.progressArray = newProgress;
+						}
 					})
 				}else{
 					this.title = "发起事务";

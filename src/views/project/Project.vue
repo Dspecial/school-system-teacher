@@ -32,8 +32,8 @@
                 v-model="filters[3].value"
                 type="daterange"
                 range-separator="至"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
+                start-placeholder="创建时间"
+                end-placeholder="创建时间"
                 align="right"
                 value-format="yyyy-MM-dd">
               </el-date-picker>

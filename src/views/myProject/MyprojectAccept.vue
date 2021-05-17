@@ -5,13 +5,34 @@
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
 			<h6 class="fs_20 font-weight-normal mb-3">上传验收</h6>
-			<el-form ref="acceptForm" :model="acceptForm" label-width="110px" label-position="top" class="pl-3 pr-3" :rules="rules">
-				<el-form-item label="项目名称" prop="project_name">
-					<el-input v-model="acceptForm.project_name" placeholder="请输入项目名称" readonly></el-input>
-				</el-form-item>
+			<el-form ref="acceptForm" :model="acceptForm" label-width="110px" label-position="left" class="pl-3 pr-3" :rules="rules">
+				<el-row>
+					<el-col :span="8" :gutter="20">
+						<el-form-item label="项目名称">
+							{{acceptForm.project_name}}
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row v-if="!commonJs.isEmpty(acceptForm.project_accept_info)" :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="审核状态">
+							{{acceptForm.project_accept_info.status == 1?'待审核':acceptForm.project_accept_info.status == 2?'审核成功':'审核失败'}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核备注">
+							{{acceptForm.project_accept_info.remark?acceptForm.project_accept_info.remark:'暂无'}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核时间">
+							{{acceptForm.project_accept_info.checktime?acceptForm.project_accept_info.checktime:'暂无'}}
+						</el-form-item>
+					</el-col>
+				</el-row>
 				<el-form-item label="验收列表">
 					<div v-for="(item,index) in acceptForm.accept_info" :key="index" class="mb-3">
-						<p class="m-0 mb-3">{{item.title}}</p>
+						<p class="m-0 mb-3">{{index+1}}. {{item.title}}</p>
 						<el-upload
 							class="my_upload"
 							drag
@@ -27,23 +48,6 @@
 						</el-upload>
 					</div>
 				</el-form-item>
-				<el-row v-if="!commonJs.isEmpty(acceptForm.project_accept_info)" :gutter="20">
-					<el-col :span="8">
-						<el-form-item label="审核状态" label-position="left">
-							<el-input v-model="acceptForm.project_accept_info.status == 1?'待审核':acceptForm.project_accept_info.status == 2?'审核成功':'审核失败'" placeholder="" readonly></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="审核备注" label-position="left">
-							<el-input v-model="acceptForm.project_accept_info.remark" placeholder="" readonly></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="审核时间" label-position="left">
-							<el-input v-model="acceptForm.project_accept_info.checktime" placeholder="" readonly></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
 				<div class="d-flex justify-content-end">
 					<el-button type="primary" @click="submitForm('acceptForm')">确 定</el-button>
 					<el-button @click="closedEdit">取 消</el-button>

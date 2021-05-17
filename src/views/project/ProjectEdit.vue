@@ -4,7 +4,7 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
-			<h6 class="fs_20 font-weight-normal mb-3">{{titile}}</h6>
+			<h6 class="fs_20 font-weight-normal mb-3">{{title}}</h6>
 			<el-form :model="projectForm" :rules="rules" ref="projectForm" label-width="110px" label-position="top" class="pl-3 pr-3">
 				<el-row :gutter="20">
 					<el-col :span="12" v-if="!this.projectId">
@@ -149,7 +149,7 @@
 		data () {
 			return {
 				projectId:'',
-				titile:"新增项目",
+				title:"新增项目",
 				accept: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
 				fileList:[],
 				cateOptions:[],
@@ -282,6 +282,7 @@
 				this.initCate();
 				this.initCompany();
 				if(this.projectId){
+					this.title = "编辑项目";
 					this.$api.projectEdit({
 						id:this.projectId,
 						function_type:2,
@@ -305,6 +306,7 @@
 						}
 					});
 				}else{
+					this.title = "新增项目";
 					this.projectForm.apply_number = this.$cookies.get('application_job_number') + '_' +  number + '_' + randnum;
 				}
 			},

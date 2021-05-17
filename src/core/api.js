@@ -53,14 +53,25 @@ export default {
 	projectRecheck_list: p => post('/api/project.project/recheck_list', p),
 	// 查看复审详情
 	projectRecheck_detail: p => post('/api/project.project/recheck_detail', p),
-	// 进入实施流程（没通）
+	// 进入实施流程
 	projectRunning: p => post('/api/project.project/to_running', p),
-	// 进入验收流程（没通）
+	// 进入验收流程
 	projectAccept: p => post('/api/project.project/to_accept', p),
 
-
-	// 资源列表（没通，不知道是哪个）
-	resourceList: p => post('/api/companyresource.companyresource/index', p),
+	// 资源列表
+	resourceList: p => post('/api/resource.resource/index', p),
+	// 申请资源
+	resourceAdd: p => post('/api/resource.resource/apply_resource', p),
+	// 获取项目
+	getPro: p => post('/api/ajax/get_my_project', p),
+	// 获取资源分类
+	getResource_cate: p => post('/api/ajax/get_resource_cate', p),
+	// 获取资源列表
+	getResource_list: p => post('/api/ajax/get_resource_list', p),
+	// 获取资源详情
+	getResource_info: p => post('/api/ajax/get_resource_info', p),
+	// 资源详情
+	resourceDetail: p => post('/api/resource.resource/details', p),
 
 	/*
 		***审核管理

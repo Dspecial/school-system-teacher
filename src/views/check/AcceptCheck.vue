@@ -8,17 +8,17 @@
 			<el-form :model="accept_info" ref="accept_info" label-width="110px" label-position="left" class="pl-3 pr-3">
 				<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
 				<el-row :gutter="20">
-					<el-col :span="12">
+					<el-col :span="8">
 						<el-form-item label="验收编号">
 							{{accept_info.accept_number}}
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="8">
 						<el-form-item label="创建时间">
 							{{accept_info.createtime}}
 						</el-form-item>
 					</el-col>
-					<el-col :span="24">
+					<el-col :span="8">
 						<el-form-item label="创建人">
 							{{accept_info.job_number}}
 						</el-form-item>

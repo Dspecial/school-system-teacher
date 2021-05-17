@@ -483,9 +483,25 @@ html,body,#app,.page-container{
   border-top:1px solid #ddd;
 }
 
+/*check*/
 .view:hover{
   color: #005DDA;
 }
 .accept_info_detial:last-child{
   margin-bottom:0!important;
+}
+
+/*resource*/
+.re_detail_json{
+  border-top:1px solid #ddd;
+  border-left:1px solid #ddd;
+  border-radius: 4px;
+  margin: 0!important;
+  >div.el-col{
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+  >div.el-col:nth-of-type(4n){
+    border-radius: 4px;
+  }
 }

@@ -8,22 +8,22 @@
 			<el-form :model="processInfo" ref="processInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
 				<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
 				<el-row :gutter="20">
-					<el-col :span="12">
+					<el-col :span="8">
 						<el-form-item label="上传编号">
 							{{processInfo.process_number}}
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="8">
 						<el-form-item label="标题">
 							{{processInfo.title}}
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="8">
 						<el-form-item label="创建人">
 							{{processInfo.company_name}}
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="8">
 						<el-form-item label="创建时间">
 							{{processInfo.createtime}}
 						</el-form-item>

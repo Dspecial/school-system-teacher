@@ -113,7 +113,27 @@ const router = new Router({
 				  component: resolve => require(['@/views/project/Resource'], resolve),
 				  name: 'Resource',
 				  meta: {
-				    title: '资源管理',
+				    title: '资源列表',
+				  },
+				  children: null
+				},
+				// 编辑资源
+				{
+				  path: '/project/resource/edit',
+				  component: resolve => require(['@/views/project/ResourceEdit'], resolve),
+				  name: 'ResourceEdit',
+				  meta: {
+				    title: '编辑资源',
+				  },
+				  children: null
+				},
+				// 资源详情
+				{
+				  path: '/project/resource/detail',
+				  component: resolve => require(['@/views/project/ResourceDetail'], resolve),
+				  name: 'ResourceDetail',
+				  meta: {
+				    title: '资源详情',
 				  },
 				  children: null
 				},

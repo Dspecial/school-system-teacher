@@ -8,12 +8,12 @@
 			<el-form :model="recheckInfo" ref="recheckInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
 				<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
 				<el-row :gutter="20">
-					<el-col :span="12">
+					<el-col :span="8">
 						<el-form-item label="创建人">
 							{{recheckInfo.name}}
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="8">
 						<el-form-item label="创建时间">
 							{{recheckInfo.createtime}}
 						</el-form-item>
@@ -52,7 +52,7 @@
 					</el-col>
 				</el-row>
 			</el-form>
-
+			
 			<!-- 复核表单 -->
 			<el-form ref="checkform" :model="checkform"  class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules" v-if="check_info == 1">
 				<h6 class="fs_20 font-weight-normal mb-3">复核项目</h6>

@@ -2,12 +2,12 @@
   <div class="page-container">
     <!-- 登录信息 -->
     <global-tips></global-tips>
-    <!-- 列表 -->
+    <!-- 进度列表 -->
     <el-card>
       <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage" :page-size="pageSize" 
       :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
         <div class="mb-3" slot="tool">
-          <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">初审列表</h4>
+          <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">进度列表</h4>
           <div class="d-flex align-items-center project_search_div">
             <div class="d-flex align-items-center">
               <el-input
@@ -61,7 +61,7 @@
         <el-table-column fixed="right" label="操作" width="180" align="center">
           <template slot-scope="scope">
             <span class="text-primary cursor-pointer mr-3" v-if="scope.row.node_check_relation_list.can_check == 1" @click="progressCheck(scope.$index,scope.row)">审核</span>
-            <span class="text-primary cursor-pointer" @click="knowledgeDetail(scope.$index,scope.row)">详情</span>
+            <span class="text-primary cursor-pointer">详情</span>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -73,7 +73,7 @@
   import GlobalTips from "@/components/GlobalTips";
 
 	export default {
-    name: 'FirstCheck',
+    name: 'Process',
     components: {
       GlobalTips,
     },

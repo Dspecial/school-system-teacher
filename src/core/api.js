@@ -81,6 +81,10 @@ export default {
 	processList: p => post('/api/checks.processproject/index', p),
 	// 进度审核
 	processList_check: p => post('/api/checks.processproject/check_process', p),
+	// 验收审核列表
+	acceptList: p => post('/api/checks.acceptproject/index', p),
+	// 验收审核
+	acceptList_check: p => post('/api/checks.acceptproject/check_accept', p),
 
 	/*
 		***信息管理

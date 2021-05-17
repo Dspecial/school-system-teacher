@@ -129,10 +129,12 @@
 			submitForm(formName) {
 				var submit_able = true;
 				var pro_acc_info = this.acceptForm.project_accept_info;
-				if(pro_acc_info.status == 2 || pro_acc_info.status == 3){
-					submit_able = false;
-				}else{
-					submit_able = true;
+				if(pro_acc_info&&pro_acc_info!=null&&pro_acc_info != undefined){
+					if(pro_acc_info.status == 2 || pro_acc_info.status == 3){
+						submit_able = false;
+					}else{
+						submit_able = true;
+					}
 				}
 				var _this = this;
 				var sendjson = this.acceptForm.accept_info.map((item)=>{

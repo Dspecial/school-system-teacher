@@ -199,6 +199,27 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				// 验收审核列表
+				{
+				  path: '/check/accept',
+				  component: resolve => require(['@/views/check/Accept'], resolve),
+				  name: 'Accept',
+				  meta: {
+				    title: '验收审核列表',
+				  },
+				  children: null
+				},
+				// 验收审核
+				{
+				  path: '/check/accept/check',
+				  component: resolve => require(['@/views/check/AcceptCheck'], resolve),
+				  name: 'AcceptCheck',
+				  meta: {
+				    title: '验收审核',
+				  },
+				  children: null
+				},
+
 				/*
 				**信息管理
 				 */

@@ -61,14 +61,12 @@
 	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
 	export default {
-		props:['editData'],
 		name: 'RecheckCheck',
 		data () {
 			return {
 				id:'', // 复核id
 				projectId:'',
 				check_info:"",
-				titile:"编辑初审项目",
 				processInfo: {},
 				detailInfo:[],
 				checkform:{

@@ -5,51 +5,41 @@
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
 			<!-- 项目信息 -->
-			<el-form :model="recheckInfo" ref="recheckInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
+			<el-form :model="accept_info" ref="accept_info" label-width="110px" label-position="left" class="pl-3 pr-3">
 				<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
 				<el-row :gutter="20">
 					<el-col :span="12">
-						<el-form-item label="创建人">
-							{{recheckInfo.name}}
+						<el-form-item label="验收编号">
+							{{accept_info.accept_number}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="创建时间">
-							{{recheckInfo.createtime}}
+						<el-form-item label="企业名称">
+							{{accept_info.job_number}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
-						<el-form-item label="创建内容">
-							{{recheckInfo.content}}
+						<el-form-item label="验收备注">
+							{{accept_info.remark}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="24">
+						<el-form-item label="验收列表">
+							<div class="accept_info_detial mb-3" v-for="(info,i) in accept_info_detial" :key="i">
+								<p>{{info.title}}</p>
+								<div class="d-flex align-items-center justify-content-between" v-for="(file,index) in info.files" :key="index">
+									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+									</div>
+									<div>
+										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)">  在线预览</i>
+										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)">  下载</i>
+									</div>
+								</div>
+							</div>
 						</el-form-item>
 					</el-col>
 
-					<el-col :span="24">
-						<el-form-item label="复核信息">
-							<template>
-								<el-table
-									:data="detailInfo"
-									style="width: 100%">
-									<el-table-column
-										prop="e_name"
-										label="复核人">
-									</el-table-column>
-									<el-table-column
-										prop="content"
-										label="复核内容">
-									</el-table-column>
-									<el-table-column
-										prop="is_pass"
-										label="是否通过">
-										<template slot-scope="scope">
-											<span v-if="scope.row.is_pass == 1"><i class="dot bg-success mr-1"></i>通过</span>
-											<span v-else><i class="dot bg-danger mr-1"></i>不通过</span>
-										</template>
-									</el-table-column>
-								</el-table>
-							</template>
-						</el-form-item>
-					</el-col>
 				</el-row>
 			</el-form>
 
@@ -79,14 +69,14 @@
 	import Breadcrumb from "@/components/Breadcrumb";
 	export default {
 		props:['editData'],
-		name: 'RecheckCheck',
+		name: 'AcceptCheck',
 		data () {
 			return {
 				id:'', // 复核id
 				projectId:'',
 				check_info:"",
-				recheckInfo: {},
-				detailInfo:[],
+				accept_info: {},
+				accept_info_detial:[],
 				checkform:{
 					check_state:"",
 					remark:"",
@@ -110,15 +100,15 @@
 			openEdit(){
 				this.projectId = this.$route.query.project_id;
 				this.id = this.$route.query.id;
-				this.$api.recheckList_check({
+				this.$api.acceptList_check({
 					id:this.id,
 					project_id:this.projectId,
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
 						this.check_info = data.data.check_info;
-						this.recheckInfo = data.data.project_recheck_info;
-						this.detailInfo = data.data.project_recheck_detail_info;
+						this.accept_info = data.data.accept_info;
+						this.accept_info_detial = data.data.accept_info_detial;
 					}else{
 						this.$message.error(data.msg);
 					}
@@ -132,7 +122,7 @@
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
           if (valid) {
-						this.$api.recheckList_check({
+						this.$api.acceptList_check({
 							id:this.id,
 							project_id:this.projectId,
 							function_type:2,

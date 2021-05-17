@@ -111,8 +111,7 @@
 	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
 	export default {
-		props:['editData'],
-		name: 'FirstcheckEdit',
+		name: 'FirstcheckCheck',
 		data () {
 			return {
 				projectId:'',

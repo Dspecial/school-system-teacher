@@ -4,7 +4,7 @@
     <global-tips></global-tips>
     <!-- 列表 -->
     <el-card>
-      <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage":page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
+      <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage" :page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
         <div class="mb-3" slot="tool">
           <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目列表</h4>
           <div class="d-flex align-items-center project_search_div">
@@ -102,36 +102,6 @@
               <span @click="applicationDetail(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">查看</span>
             </template>
           </template>
-          <!-- <template slot-scope="scope">
-            <el-dropdown trigger="click">
-                <span class="el-dropdown-link text-primary cursor-pointer mr-3">
-                  更多<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <template v-if="scope.row.is_commit == 1">
-                    <div @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">编辑</div>
-                    <div @click="handleDel(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">删除</div>
-                    <div @click="handleCommit(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">提交</div>
-                  </template>
-                  <template v-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
-                    <div @click="handleRecheck(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">提交复审</div>
-                  </template>
-                  <template v-if="scope.row.is_commit == 3 || scope.row.is_commit == 4">
-                    <div @click="recheckList(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">复审记录</div>
-                  </template>
-                  <template v-if="scope.row.is_commit == 4 || scope.row.is_commit == 5">
-                    <div @click="handleRunning(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">进入实施流程</div>
-                  </template>
-                  <template v-if="scope.row.is_commit == 6 || scope.row.is_commit == 7">
-                    <div @click="handleAccept(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">进入验收流程</div>
-                  </template>
-                  <template v-if="scope.row.is_commit == 8">
-                    <div @click="applicationDetail(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">查看</div>
-                  </template>
-                  
-                </el-dropdown-menu>
-              </el-dropdown>
-          </template> -->
         </el-table-column>
       </data-tables-server>
       <application-approval :applicationApproval="applicationApproval"></application-approval>

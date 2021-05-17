@@ -179,6 +179,8 @@
 						a.href = data.data;
 						document.body.appendChild(a);
 						a.click();
+					}else{
+						this.$message.error(data.msg)
 					}
 				})
 			},

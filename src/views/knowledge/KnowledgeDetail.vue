@@ -116,6 +116,8 @@
 						a.href = data.data;
 						document.body.appendChild(a);
 						a.click();
+					}else{
+						this.$message.error(data.msg)
 					}
 				})
 			},
@@ -133,6 +135,8 @@
 						document.body.appendChild(a);
 						a.click(); // 触发a标签的click事件
 						document.body.removeChild(a);
+					}else{
+						this.$message.error(data.msg)
 					}
 				})
 			},

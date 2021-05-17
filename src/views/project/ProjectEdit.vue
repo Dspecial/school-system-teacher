@@ -168,6 +168,7 @@
 					}
 				},
 				projectForm: {
+					apply_number:"",
 					p_cate_id:"",
           p_name: "",
 					company_id: "",
@@ -276,6 +277,8 @@
 			// dialog初始化
 			openEdit(){
 				this.projectId = this.$route.query.id;
+				var randnum = Math.floor(Math.random()*(9999-1000))+1000; // 四位随机数
+				var number = this.$moment(new Date()).format('YYYYMMDDHHss');
 				this.initCate();
 				this.initCompany();
 				if(this.projectId){
@@ -301,6 +304,8 @@
 							this.$message.error(data.msg);
 						}
 					});
+				}else{
+					this.projectForm.apply_number = this.$cookies.get('application_job_number') + '_' +  number + '_' + randnum;
 				}
 			},
 			// 关闭编辑
@@ -310,7 +315,6 @@
       // form提交
 			submitForm(formName) {
 				var _this = this;
-				var randnum = Math.floor(Math.random()*(9999-1000))+1000; // 四位随机数
 				var payArr = new Array;
 				var isArr = this.commonJs.isEmpty(this.projectForm.agree_payinfo[0]);
 				if(!isArr){
@@ -348,7 +352,7 @@
 							});
 						}else{ // 新增
 							this.$api.projectAdd({
-								apply_number:this.$cookies.get('application_job_number') + '_' +  new Date().getTime() + '_' + randnum,
+								apply_number:this.projectForm.apply_number,
 								p_cate_id:this.projectForm.p_cate_id,
 								p_name:this.projectForm.p_name,
 								budget_amount:this.projectForm.budget_amount,

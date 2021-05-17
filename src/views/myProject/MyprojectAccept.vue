@@ -88,6 +88,7 @@
 		methods:{
 			// dialog初始化
 			openEdit(){
+				var _this = this;
 				this.projectId = this.$route.query.id;
 				var randnum = Math.floor(Math.random()*(9999-1000))+1000; // 四位随机数
 				var number = this.$moment(new Date()).format('YYYYMMDDHHss');
@@ -98,9 +99,12 @@
 					if(data.code == 0){
 						this.acceptForm.project_name = data.data.project_name;
 						this.acceptForm.accept_info = data.data.accept_info;
-						this.acceptForm.accept_number = number + randnum;
 						this.acceptForm.project_accept_info = data.data.project_accept_info;
-
+						if(this.commonJs.isEmpty(data.data.project_accept_info)){
+							this.acceptForm.accept_number = number + randnum;
+						}else{
+							this.acceptForm.accept_number = data.data.project_accept_info.accept_number;
+						}
 						data.data.accept_info.map((info,j)=>{
 							let arrList = [];
 							for (let i in info.files) {
@@ -112,8 +116,8 @@
 								obj.path = info.files[i];
 								obj.isExist = true;
 								arrList.push(obj);
-								this.fileList.push(arrList)
 							}
+							this.fileList.push(arrList)
 						});
 
 					}else{

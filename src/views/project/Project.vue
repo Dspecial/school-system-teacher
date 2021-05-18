@@ -39,7 +39,7 @@
               </el-date-picker>
           	</div>
             <div class="ml-auto">
-              <el-button type="primary" @click="handleAdd()"><i class="el-icon-plus el-icon--left"></i>新增项目</el-button>
+              <el-button type="primary" @click="handleAdd()" v-if="$store.getters.getaddAction.title"><i class="el-icon-plus el-icon--left"></i>{{$store.getters.getaddAction.title}}</el-button>
             </div>
           </div>
         </div>
@@ -82,24 +82,22 @@
         <el-table-column fixed="right" label="操作" width="200" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.is_commit == 1">
-              <span @click="editProject(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">编辑</span>
-              <span @click="handleDel(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">删除</span>
-              <span @click="handleCommit(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">提交</span>
+              <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
-              <span @click="handleRecheck(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">提交复审</span>
+              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 3 || scope.row.is_commit == 4">
-              <span @click="recheckList(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">复审记录</span>
+              <span v-for="(action,index) in actions5" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 4 || scope.row.is_commit == 5">
-              <span @click="handleRunning(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">进入实施流程</span>
+              <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 6 || scope.row.is_commit == 7">
-              <span @click="handleAccept(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">进入验收流程</span>
+              <span v-for="(action,index) in actions4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 8">
-              <span @click="applicationDetail(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">查看</span>
+              <span v-for="(action,index) in actions6" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -157,9 +155,12 @@
           title:"",
           id:","
         },
-        actions:[
-
-        ],
+        actions1:[],
+        actions2:[],
+        actions3:[],
+        actions4:[],
+        actions5:[],
+        actions6:[],
       }
     },
     computed: {
@@ -190,10 +191,22 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
-            // var add = this.$store.getters.getaddAction;
-            // var more = this.$store.getters.getmoreAction;
-            // console.log(add,'add');
-            // console.log(more,'more');
+            
+            this.$store.getters.getmoreAction.map((item,index)=>{
+              if(item.sign == 2 || item.sign == 3 || item.sign == 5.1 ){
+                this.actions1.push(item);
+              }else if (item.sign == 5.2){
+                this.actions2.push(item);
+              }else if (item.sign == 5.3){
+                this.actions3.push(item);
+              }else if (item.sign == 5.4){
+                this.actions4.push(item);
+              }else if (item.sign == 5.5){
+                this.actions5.push(item);
+              }else if (item.sign == 4){
+                this.actions6.push(item);
+              }
+            })
           }else{
             this.$message.error(data.msg);
           }
@@ -205,6 +218,27 @@
         this.$router.push({
           path:"/project/project/edit",
         })
+      },
+
+      // 操作们
+      fun(index,row,sign){
+        if(sign == 2){ // 编辑
+          this.editProject(index,row);
+        }else if(sign == 3){ // 删除
+          this.handleDel(index,row);
+        }else if(sign == 4){ // 详情
+          this.applicationDetail(index,row);
+        }else if(sign == 5.1){ // 提交审核
+          this.handleCommit(index,row);
+        }else if(sign == 5.2){ // 提交复审
+          this.handleRecheck(index,row);
+        }else if(sign == 5.3){ // 进入实施流程
+          this.handleRunning(index,row);
+        }else if(sign == 5.4){ // 进入验收流程
+          this.handleAccept(index,row);
+        }else if(sign == 5.5){ // 复审记录
+          this.recheckList(index,row);
+        }
       },
 
       // 编辑项目

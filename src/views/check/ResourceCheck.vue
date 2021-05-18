@@ -105,8 +105,12 @@
         <el-table-column prop="checktime" label="审核时间"></el-table-column>
         <el-table-column fixed="right" label="操作" width="120" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 1" @click="resourceCheck(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">审核</span>
-            <span v-else @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer">详情</span>
+            <template v-if="scope.row.status == 1">
+              <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            </template>
+            <template v-else>
+              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            </template>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -154,6 +158,8 @@
         total: 0, //总条数
         currentPage: 1, //当前页
         pageSize: 15, //每页显示条数
+        actions1:[],
+        actions2:[],
       }
     },
     computed: {
@@ -184,11 +190,34 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
+
+            var action_1 = new Array;
+            var action_2 = new Array;
+            this.$store.getters.getmoreAction.map((item,index)=>{
+              if(item.sign == 6){ // 审核
+                action_1.push(item);
+              }else if(item.sign == 4){ // 详情
+                action_2.push(item);
+              }
+              
+              this.actions1 = [...action_1,...action_2];
+              this.actions2 = [...action_2];
+            });
           }else{
             this.$message.error(data.msg);
           }
         });
       },
+
+      // 操作们
+      fun(index,row,sign){
+        if(sign == 6){ // 审核
+          this.acceptCheck(index,row);
+        }else if(sign == 4){ // 详情
+          this.goDetail(index,row);
+        }
+      },
+
       // 审核
       resourceCheck(index,row){
         this.$router.push({
@@ -199,7 +228,7 @@
         })
       },
       // 详情
-      detailResource(index,row){
+      goDetail(index,row){
         this.$router.push({
           path:"/check/resource/detail",
           query: {

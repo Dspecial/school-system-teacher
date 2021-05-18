@@ -63,9 +63,18 @@
         <el-table-column prop="committime" label="提交时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="180" align="center">
           <template slot-scope="scope">
-            <span class="text-primary cursor-pointer mr-3" v-if="scope.row.node_check_relation_list.can_edit == 1" @click="checkEdit(scope.$index,scope.row)">编辑</span>
-            <span class="text-primary cursor-pointer mr-3" v-if="scope.row.node_check_relation_list.can_check == 1" @click="checkCheck(scope.$index,scope.row)">审核</span>
-            <span class="text-primary cursor-pointer">详情</span>
+            <template v-if="scope.row.node_check_relation_list.can_edit == 1 && scope.row.node_check_relation_list.can_check == 0">
+              <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            </template>
+            <template v-if="scope.row.node_check_relation_list.can_edit == 0 && scope.row.node_check_relation_list.can_check == 1">
+              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            </template>
+            <template v-if="scope.row.node_check_relation_list.can_edit == 1 && scope.row.node_check_relation_list.can_check == 1">
+              <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            </template>
+            <template v-else>
+              <span v-for="(action,index) in actions4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            </template>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -109,6 +118,10 @@
         total: 0, //总条数
         currentPage: 1, //当前页
         pageSize: 15, //每页显示条数
+        actions1:[],
+        actions2:[],
+        actions3:[],
+        actions4:[],
       }
     },
     computed: {
@@ -138,10 +151,37 @@
           if(data.code == 0){
             this.total = data.count;
             this.tableData = data.data;
+            var action_1 = new Array;
+            var action_2 = new Array;
+            var action_3 = new Array;
+            this.$store.getters.getmoreAction.map((item,index)=>{
+              if(item.sign == 2 ){ // 编辑
+                action_1.push(item);
+              }else if(item.sign == 6){ // 审核
+                action_2.push(item);
+              }else if(item.sign == 4){ // 详情
+                action_3.push(item);
+              }
+            });
+            this.actions1 = [...action_1,...action_3];
+            this.actions2 = [...action_2,...action_3];
+            this.actions3 = [...action_1,...action_2,...action_3];
+            this.actions4 = [...action_3];
           }else{
             this.$message.error(data.msg);
           }
         });
+      },
+      
+      // 操作们
+      fun(index,row,sign){
+        if(sign == 2){ // 编辑
+          this.checkEdit(index,row);
+        }else if(sign == 6){ // 审核
+          this.checkCheck(index,row);
+        }else if(sign == 4){ // 详情
+          this.goDetail(index,row);
+        }
       },
 
       // 编辑
@@ -162,6 +202,11 @@
             id: row.id,
           }
         })
+      },
+
+      // 详情
+      goDetail(index,row){
+
       },
 		},
   }

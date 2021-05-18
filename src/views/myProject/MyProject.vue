@@ -63,13 +63,13 @@
         <el-table-column fixed="right" label="操作" width="200" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.is_commit == 3">
-              <span class="text-primary cursor-pointer mr-3" @click="viewDetail(scope.$index,scope.row)">查看详情</span>
+              <span v-for="(action,index) in actions1" :key="index" @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 5 || scope.row.is_commit == 6">
-              <span class="text-primary cursor-pointer mr-3" @click="handleProcess(scope.$index,scope.row)">上传进度</span>
+              <span v-for="(action,index) in actions2" :key="index" @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 7 || scope.row.is_commit == 8">
-              <span class="text-primary cursor-pointer mr-3" @click="handleAccept(scope.$index,scope.row)">上传验收</span>
+              <span v-for="(action,index) in actions3" :key="index" @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -118,6 +118,9 @@
         total: 0, //总条数
         currentPage: 1, //当前页
         pageSize: 15, //每页显示条数
+        actions1:[],
+        actions2:[],
+        actions3:[],
       }
     },
     computed: {
@@ -148,10 +151,31 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
+
+            this.$store.getters.getmoreAction.map((item,index)=>{
+              if(item.sign == 4){
+                this.actions1.push(item);
+              }else if (item.sign == 9.1){
+                this.actions2.push(item);
+              }else if (item.sign == 9.3){
+                this.actions3.push(item);
+              }
+            })
           }else{
             this.$message.error(data.msg);
           }
         });
+      },
+
+      // 操作们
+      fun(index,row,sign){
+        if(sign == 4){ // 详情
+          this.viewDetail(index,row);
+        }else if(sign == 9.1){ // 上传进度
+          this.handleAccept(index,row);
+        }else if(sign == 9.3){ // 上传验收
+          this.handleRecheck(index,row);
+        }
       },
       // 上传进度
       handleProcess(index,row){

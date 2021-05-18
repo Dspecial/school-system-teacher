@@ -71,9 +71,10 @@
         <el-table-column prop="endtime" label="预计完成时间"></el-table-column>
         <el-table-column fixed="right" label="操作" width="200" align="left">
           <template slot-scope="scope">
-            <span class="text-primary cursor-pointer mr-3" @click="routineSubmit(scope.$index,scope.row)" v-if="scope.row.status == 1">提交</span>
-            <span class="text-primary cursor-pointer mr-3" @click="editRoutine(scope.$index,scope.row)" v-if="scope.row.status == 1">编辑</span>
-            <span class="text-primary cursor-pointer" @click="handleDel(scope.$index,scope.row)" v-if="scope.row.status == 1">删除</span>
+            <template v-if="scope.row.status == 1">
+              <span class="text-primary cursor-pointer mr-3" @click="routineSubmit(scope.$index,scope.row)">提交</span>
+              <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            </template>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -151,6 +152,16 @@
           }
         });
       },
+      // 操作们
+      fun(index,row,sign){
+        if(sign == 2){ // 编辑
+          this.editRoutine(index,row);
+        }else if(sign == 3){ // 删除
+          this.handleDel(index,row);
+        }else if(sign == 4){ // 详情
+          this.goDetail(index,row);
+        }
+      },
       // 提交事务
       routineSubmit(index,row){
         this.$confirm("此操作将提交该事务, 是否继续?", "提示", {
@@ -209,6 +220,10 @@
         }).catch(() => {
 
         });
+      },
+      // 详情
+      goDetail(index,row){
+
       },
 		},
   }

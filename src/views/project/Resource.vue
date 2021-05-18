@@ -43,7 +43,7 @@
               </el-date-picker>
           	</div>
             <div class="ml-auto">
-              <el-button type="primary" @click="handleAdd()"><i class="el-icon-plus el-icon--left"></i>申请资源</el-button>
+              <el-button type="primary" @click="handleAdd()" v-if="$store.getters.getaddAction.title"><i class="el-icon-plus el-icon--left"></i>{{$store.getters.getaddAction.title}}</el-button>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
         <el-table-column prop="checktime" label="审核时间"></el-table-column>
         <el-table-column fixed="right" label="操作" width="120" align="center">
           <template slot-scope="scope">
-            <span @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">详情</span>
+            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
           </template>
         </el-table-column>
       </data-tables-server>

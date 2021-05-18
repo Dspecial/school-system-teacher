@@ -20,14 +20,14 @@
 			</el-row>	
 		</div>
 
-		<!-- 状态统计 -->
+		<!-- 我的项目--状态统计 -->
 		<el-card class="mt-3">
-			<h4 class="fs_16 font-weight-semibold m-0 mb-3 text-000">状态统计</h4>
+			<h4 class="fs_16 font-weight-semibold m-0 mb-3 text-000">我的项目</h4>
 			<el-row :gutter="20" type="flex">
 				<template v-for="(status,index) in statusList">
 					<el-col class="text-center status-item" :key="index">
 						<span class="mb-2 d-inline-block opacity-60">{{status.title}}</span>
-						<p class="m-0 fs_24">{{status.num}}/{{status.total}}</p>
+						<p class="m-0 fs_24">{{status.num}}/{{statusTotal}}</p>
 					</el-col>
 				</template>
 			</el-row>
@@ -131,42 +131,32 @@
 						total:"100"
 					},
 				],
+				statusTotal:"16",
 				// 状态统计
 				statusList:[
 					{
-						title:"项目申请",
+						title:"所有项目",
 						num:"8",
-						total:"16"
 					},
 					{
-						title:"项目审核",
+						title:"项目初审",
 						num:"8",
-						total:"16"
+					},
+					{
+						title:"项目复审",
+						num:"8",
 					},
 					{
 						title:"项目实施",
 						num:"8",
-						total:"16"
 					},
 					{
-						title:"试运行状态",
+						title:"项目验收",
 						num:"8",
-						total:"16"
 					},
 					{
-						title:"项目验收状态",
+						title:"项目维保",
 						num:"8",
-						total:"16"
-					},
-					{
-						title:"归档",
-						num:"8",
-						total:"16"
-					},
-					{
-						title:"维保执行中",
-						num:"8",
-						total:"16"
 					},
 				],
 				// 信息处理Tab
@@ -334,6 +324,9 @@
 				},
 			}
 		},
+		mounted(){
+			this.initState();
+		},
 		methods:{
 			handleTab(id){
 				this.handleNavIndex = id; 
@@ -341,6 +334,21 @@
 			indexMethod(index) { //自增序列
         return ++index;
       },
+			// 获取状态统计
+			initState(){
+				this.$api.dashboard_state({
+				}).then(data=>{
+					if(data.code == 0){
+						this.statusTotal = data.data.all_count;
+						this.statusList[0].num = data.data.all_count; // 所有
+						this.statusList[1].num = data.data.first_count; // 初审
+						this.statusList[2].num = data.data.recheck_count; // 复审
+						this.statusList[3].num = data.data.process_count; // 实施
+						this.statusList[4].num = data.data.accept_count; // 验收
+						this.statusList[5].num = data.data.extend_count; // 维保
+					}
+				})
+			},
 		},
 	}
 </script>

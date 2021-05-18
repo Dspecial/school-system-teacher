@@ -169,16 +169,6 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				// 资源审核列表
-				{
-				  path: '/check/resourceCheck',
-				  component: resolve => require(['@/views/check/ResourceCheck'], resolve),
-				  name: 'ResourceCheck',
-				  meta: {
-				    title: '资源审核列表',
-				  },
-				  children: null
-				},
 				// 复审列表
 				{
 				  path: '/check/recheck',
@@ -239,7 +229,36 @@ const router = new Router({
 				  },
 				  children: null
 				},
-
+				// 资源审核列表
+				{
+				  path: '/check/resource',
+				  component: resolve => require(['@/views/check/ResourceCheck'], resolve),
+				  name: 'ResourceCheck',
+				  meta: {
+				    title: '资源审核列表',
+				  },
+				  children: null
+				},
+				// 资源审核
+				{
+				  path: '/check/resource/check',
+				  component: resolve => require(['@/views/check/ResourcecheckCheck'], resolve),
+				  name: 'ResourcecheckCheck',
+				  meta: {
+				    title: '资源审核',
+				  },
+				  children: null
+				},
+				// 资源审核
+				{
+				  path: '/check/resource/detail',
+				  component: resolve => require(['@/views/check/ResourcecheckDetail'], resolve),
+				  name: 'ResourcecheckDetail',
+				  meta: {
+				    title: '资源审核详情',
+				  },
+				  children: null
+				},
 				/*
 				**信息管理
 				 */
@@ -348,6 +367,49 @@ const router = new Router({
 				  name: 'MyprojectAccept',
 				  meta: {
 				    title: '上传验收',
+				  },
+				  children: null
+				},
+
+				/*
+				**我的资源
+				 */
+				// 我的资源列表
+				{
+				  path: '/company/myResource',
+				  component: resolve => require(['@/views/myResource/myResource'], resolve),
+				  name: 'myResource',
+				  meta: {
+				    title: '我的资源列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/company/myResource/record',
+				  component: resolve => require(['@/views/myResource/myResourceRecord'], resolve),
+				  name: 'myResourceRecord',
+				  meta: {
+				    title: '添加记录',
+				  },
+				  children: null
+				},
+				// 记录列表
+				{
+				  path: '/company/myRecord',
+				  component: resolve => require(['@/views/myResource/myRecord'], resolve),
+				  name: 'myRecord',
+				  meta: {
+				    title: '记录列表',
+				  },
+				  children: null
+				},
+				// 记录详情
+				{
+				  path: '/company/myRecord/detail',
+				  component: resolve => require(['@/views/myResource/myRecordDetail'], resolve),
+				  name: 'myRecordDetail',
+				  meta: {
+				    title: '记录详情',
 				  },
 				  children: null
 				},

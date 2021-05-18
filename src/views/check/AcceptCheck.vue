@@ -31,7 +31,7 @@
 									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
 										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 									</div>
-									<div>
+									<div class="opacity-80">
 										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)">  在线预览</i>
 										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)">  下载</i>
 									</div>

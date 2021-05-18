@@ -16,13 +16,18 @@ export default {
 	// 获取登录申请着的身份
 	loginConfig: p => post('/api/ajax/get_sys_config', p),
 
-
 	// 菜单管理
 	menu: p => post('/api/menu/index', p),
 	// 获取所有的操作按钮
 	menuButton: p => post('/api/menu/get_menu_buttom', p),
 	// 操作权限
 	menuState: p => post('/api/menu/check_menu_state', p),
+
+	/*
+		***首页
+	 */
+	// 获取项目状态数
+	dashboard_state: p => post('/api/dashboard/get_my_project_state', p),
 
 	/*
 		***项目管理
@@ -96,6 +101,12 @@ export default {
 	acceptList: p => post('/api/checks.acceptproject/index', p),
 	// 验收审核
 	acceptList_check: p => post('/api/checks.acceptproject/check_accept', p),
+	// 资源审核列表
+	resourceListCheck: p => post('/api/resource.resourcecheck/index', p),
+	// 资源审核
+	resourceListCheck_check: p => post('/api/resource.resourcecheck/resourcecheck', p),	
+	// 资源审核详情
+	resourceListCheck_detail: p => post('/api/resource.resourcecheck/details', p),	
 
 	/*
 		***信息管理
@@ -104,7 +115,6 @@ export default {
 	personalInfo: p => post('/api/user.info/edit', p),
 	// 账户信息
 	accountInfo: p => post('/api/user.info/account', p),
-
 
 	/*
 		***消息管理
@@ -152,9 +162,8 @@ export default {
 	// 提交事务
 	routineSubmit: p => post('/api/works.routine/submit', p),
 
-
 	/*
-	***事务管理
+		***我的项目
 	*/
 	// 我的项目列表
 	my_projectList: p => post('/api/company.project/index', p),
@@ -168,4 +177,21 @@ export default {
 	my_project_accept: p => post('/api/company.project/send_accept', p),
 	// 验收上传文件
 	my_project_acceptUpload: p => postUpload('/api/upload/upload_accept_attach', p),
+
+	/*
+		***我的资源
+	*/
+	// 我的资源列表
+	my_resourceList: p => post('/api/companyresource.companyresource/index', p),
+	// 添加记录
+	my_push_record: p => post('/api/companyresource.companyresource/push_record', p),
+	// 上传记录文件
+	my_project_recordUpload: p => postUpload('/api/upload/upload_record_attach', p),
+	// 删除记录文件
+	recordUploadDel: p => post('/api/upload/del_upload', p),
+
+	// 维护记录列表
+	my_recordList: p => post('/api/companyresource.companyresource/record_index', p),
+	// 记录详情
+	my_recordDetail: p => post('/api/companyresource.companyresource/detail', p),
 }

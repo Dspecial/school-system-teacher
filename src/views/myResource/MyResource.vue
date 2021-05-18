@@ -15,46 +15,17 @@
     				    v-model="filters[0].value"
                 class="mr-3">
     				  </el-input>
-              <el-select v-model="filters[1].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>
-                <el-option label="待审核" value="1"></el-option>
-                <el-option label="审核成功" value="2"></el-option>
-                <el-option label="审核失败" value="3"></el-option>
-              </el-select>
-              <el-date-picker
-                v-model="filters[2].value"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="申请时间"
-                end-placeholder="申请时间"
-                align="right"
-                value-format="yyyy-MM-dd"
-                clearable
-                class="mr-3">
-              </el-date-picker>
-              <el-date-picker
-                v-model="filters[3].value"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="审核时间"
-                end-placeholder="审核时间"
-                align="right"
-                value-format="yyyy-MM-dd"
-                clearable>
-              </el-date-picker>
           	</div>
-            <div class="ml-auto">
-              <el-button type="primary" @click="handleAdd()"><i class="el-icon-plus el-icon--left"></i>申请资源</el-button>
-            </div>
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称"></el-table-column>
         <el-table-column prop="name" label="资源名称"></el-table-column>
-        <el-table-column label="申请备注">
+        <el-table-column prop="cate_name" label="分类"></el-table-column>
+        <el-table-column label="备注">
           <template slot-scope="scope">
             <el-popover
               placement="top-start"
-              title="简介"
+              title="备注"
               width="200"
               trigger="hover"
               :content="scope.row.remark">
@@ -62,18 +33,12 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="审核状态">
+        <el-table-column prop="createtime" label="创建时间"></el-table-column>
+        <el-table-column prop="updatetime" label="更新时间"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="200" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
-            <span v-else-if="scope.row.status == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
-            <span v-else-if="scope.row.status == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="applytime" label="申请时间"></el-table-column>
-        <el-table-column prop="checktime" label="审核时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="120" align="center">
-          <template slot-scope="scope">
-            <span @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">详情</span>
+            <span @click="pushRecord(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">添加记录</span>
+            <span @click="goRecord(scope.$index,scope.row)" class="text-primary cursor-pointer">维护记录列表</span>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -85,7 +50,7 @@
   import GlobalTips from "@/components/GlobalTips";
 
 	export default {
-    name: 'Resource',
+    name: 'MyResource',
     components: {
       GlobalTips,
     },
@@ -104,18 +69,6 @@
 	        {
 	          value: '',
 	          prop: 'keywords'
-	        },
-          {
-	          value: '',
-	          prop: 'status'
-	        },
-          {
-	          value: '',
-	          prop: 'applytime'
-	        },
-          {
-	          value: '',
-	          prop: 'checktime'
 	        },
         ],
         total: 0, //总条数
@@ -149,13 +102,10 @@
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
         }
-        this.$api.resourceList({
+        this.$api.my_resourceList({
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
-          status:this.filters[1].value,
-          applytime:this.filters[2].value?this.filters[2].value.join(" - "):'',
-          checktime:this.filters[3].value?this.filters[3].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
             this.total = data.data.total;
@@ -165,18 +115,21 @@
           }
         });
       },
-
-      // 申请资源
-      handleAdd(){
+      
+      // 添加记录
+      pushRecord(index,row){
         this.$router.push({
-          path:"/project/resource/edit",
+          path:"/company/myResource/record",
+          query: {
+            id: row.id,
+          }
         })
       },
 
-      // 资源详情
-      detailResource(index,row){
+      // 跳转维护记录列表
+      goRecord(index,row){
         this.$router.push({
-          path:"/project/resource/detail",
+          path:"/company/myRecord",
           query: {
             id: row.id,
           }

@@ -348,7 +348,7 @@
 					})
 				}else{
 					this.title = "发起事务";
-					var nowTime = this.$moment(new Date()).format('YYYYMMDDHHmm');
+					var nowTime = this.$moment(new Date()).format('YYYYMMDDHHmmss');
 					this.routineForm.work_num = "W"+ nowTime; // 事务编号
 				}
 				this.initLevel();

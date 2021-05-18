@@ -53,7 +53,7 @@
 
 					<el-col :span="24">
 						<el-form-item label="资源详细参数">
-              <el-row :gutter="20" class="re_detail_json" v-if="details.lengths>0">
+              <el-row :gutter="20" class="re_detail_json" v-if="details.length>0">
 								<el-col :span="6" v-for="(item,index) in details" :key="index" class="pl-3 pr-3 pt-2 pb-2">
 									<p class="mb-2 text-primary">{{item.title}}</p>
 									<p class="m-0">{{item.val}}</p>
@@ -101,7 +101,7 @@
 			// dialog初始化
 			openEdit(){
 				this.id = this.$route.query.id;
-				this.$api.resourceDetail({
+				this.$api.resourceListCheck_detail({
 					id:this.id,
 				}).then(data =>{
 					if(data.code == 0){

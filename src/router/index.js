@@ -80,33 +80,24 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				{
-				  path: '/project/application',
-				  component: resolve => require(['@/views/project/Application'], resolve),
-				  name: 'Application',
-				  meta: {
-				    title: '项目申请',
-				  },
-				  children: null
-				},
-				{
-				  path: '/project/application/detail',
-				  component: resolve => require(['@/views/project/ApplicationDetail'], resolve),
-				  name: 'ApplicationDetail',
-				  meta: {
-				    title: '项目详情',
-				  },
-				  children: null
-				},
-				{
-				  path: '/project/progress',
-				  component: resolve => require(['@/views/project/Progress'], resolve),
-				  name: 'Progress',
-				  meta: {
-				    title: '项目进程',
-				  },
-				  children: null
-				},
+				// {
+				//   path: '/project/application',
+				//   component: resolve => require(['@/views/project/Application'], resolve),
+				//   name: 'Application',
+				//   meta: {
+				//     title: '项目申请',
+				//   },
+				//   children: null
+				// },
+				// {
+				//   path: '/project/application/detail',
+				//   component: resolve => require(['@/views/project/ApplicationDetail'], resolve),
+				//   name: 'ApplicationDetail',
+				//   meta: {
+				//     title: '项目详情',
+				//   },
+				//   children: null
+				// },
 				// 资源列表
 				{
 				  path: '/project/resource',

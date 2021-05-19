@@ -98,6 +98,15 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				{
+				  path: '/project/project/processDetail',
+				  component: resolve => require(['@/views/project/ProjectProcessDetail'], resolve),
+				  name: 'ProjectProcessDetail',
+				  meta: {
+				    title: '项目进度详情',
+				  },
+				  children: null
+				},
 				// 资源列表
 				{
 				  path: '/project/resource',
@@ -362,6 +371,15 @@ const router = new Router({
 				  children: null
 				},
 				{
+				  path: '/company/myProject/detail',
+				  component: resolve => require(['@/views/myProject/MyprojectDetail'], resolve),
+				  name: 'MyprojectDetail',
+				  meta: {
+				    title: '我的项目详情',
+				  },
+				  children: null
+				},
+				{
 				  path: '/company/myProject/process',
 				  component: resolve => require(['@/views/myProject/MyprojectProcess'], resolve),
 				  name: 'MyprojectProcess',
@@ -376,6 +394,24 @@ const router = new Router({
 				  name: 'MyprojectAccept',
 				  meta: {
 				    title: '上传验收',
+				  },
+				  children: null
+				},
+				{
+				  path: '/company/myProject/processList',
+				  component: resolve => require(['@/views/myProject/MyprojectProcessList'], resolve),
+				  name: 'MyprojectProcessList',
+				  meta: {
+				    title: '进度记录',
+				  },
+				  children: null
+				},
+				{
+				  path: '/company/myProject/processDetail',
+				  component: resolve => require(['@/views/myProject/MyprojectProcessDetail'], resolve),
+				  name: 'MyprojectProcessDetail',
+				  meta: {
+				    title: '进度记录详情',
 				  },
 				  children: null
 				},

@@ -97,7 +97,7 @@
 	import Breadcrumb from "@/components/Breadcrumb";
 	import BaseEcharts from "@/components/echarts/BaseEcharts"
 	export default {
-		name: 'ProjectDetail',
+		name: 'MyprojectDetail',
 		components: {
 			Breadcrumb,
 			"my-echart":BaseEcharts,

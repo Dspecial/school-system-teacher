@@ -75,14 +75,14 @@
 					</div>
 				</el-card>
 			</el-col>
-			<!-- 信息处理 -->
+			<!-- 付款信息 -->
 			<el-col :span="12">
 				<el-card :body-style="{ padding: '0px' }">
 					<div class="d-flex justify-content-between align-items-center isCell">
-						<h4 class="fs_16 font-weight-semibold m-0 text-000">信息处理</h4>
+						<h4 class="fs_16 font-weight-semibold m-0 text-000">付款信息</h4>
 						<div class="tab_nav">
 							<template v-for="(year,index) in handleYear">
-								<span :key="index" :class="['cursor-pointer ml-3',handleYearIndex == year.id?'active':'']" @click="handleTab(year.id)">{{year.title}}</span>
+								<span :key="index" :class="['cursor-pointer ml-3',handleYearIndex == year.id?'active':'']" @click="handleYearTab(year.id)">{{year.title}}</span>
 							</template> 
 						</div>
 					</div>
@@ -242,23 +242,24 @@
 	      // 信息处理Tab
 				handleYear:[
 					{
-						id:0,
+						id:"",
 						title:"总计",
 					},
 					{
-						id:1,
-						title:"2020年",
+						id:new Date().getFullYear(),
+						title:new Date().getFullYear() + '年',
 					},
 					{
-						id:2,
-						title:"2019年",
-					},{
-						id:3,
-						title:"2018年",
+						id:new Date().getFullYear()-1,
+						title:new Date().getFullYear()-1 + '年',
+					},
+					{
+						id:new Date().getFullYear()-2,
+						title:new Date().getFullYear()-2 + '年',
 					},
 				],
-				// 默认选中的tab
-				handleYearIndex:"0",
+				// 默认选中的年份tab
+				handleYearIndex:"2021",
 				// 图
 				option:{
 					title: {
@@ -306,7 +307,7 @@
                     borderRadius: 4,
                   }
                 }
-            },
+            	},
 	            data: [
                 {value: 7000, name: '未付款'},
                 {value: 3000, name: '已付款'},
@@ -326,10 +327,15 @@
 		},
 		mounted(){
 			this.initState();
+			this.initPay();
 		},
 		methods:{
 			handleTab(id){
 				this.handleNavIndex = id; 
+			},
+			handleYearTab(year){
+				this.handleYearIndex = year; 
+				this.initPay(year);
 			},
 			indexMethod(index) { //自增序列
         return ++index;
@@ -346,6 +352,23 @@
 						this.statusList[3].num = data.data.process_count; // 实施
 						this.statusList[4].num = data.data.accept_count; // 验收
 						this.statusList[5].num = data.data.extend_count; // 维保
+					}
+				})
+			},
+			// 获取首页获取付款信息
+			initPay(year){
+				this.$api.dashboard_pay({
+					year:year
+				}).then(data=>{
+					if(data.code == 0){
+						this.option = {
+							title:{
+								subtext:'\n' + data.data.all_money + '元'
+							},
+							series:[{
+								data:data.data.name_value
+							}],
+						};
 					}
 				})
 			},

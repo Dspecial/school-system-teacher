@@ -161,7 +161,7 @@
               }
             });
             // is_commit
-            // 为5、6 就上传进度、上传记录、详情  
+            // 为5、6 就上传进度、进度记录、详情  
             // 为7、8就上传验收、详情
             this.actions1 = [...actions_2,...actions_3,...actions_1];
             this.actions2 = [...actions_4,...actions_1];
@@ -194,8 +194,13 @@
         })
       },
       // 进度记录
-      ProcessList(index,row){ // 没有接口
-        
+      ProcessList(index,row){
+        this.$router.push({
+          path:"/company/myProject/processList",
+          query: {
+            id: row.id,
+          }
+        })
       },
       // 上传验收
       handleAccept(index,row){
@@ -208,7 +213,12 @@
       },
       // 查看详情
       goDetail(index,row){
-
+        this.$router.push({
+          path:"/company/myProject/detail",
+          query: {
+            id: row.id,
+          }
+        })
       },
 		},
   }

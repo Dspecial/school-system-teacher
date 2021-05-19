@@ -31,7 +31,7 @@
         this.$api.loginConfig({
         }).then(data=>{
           if(data.code == 0){
-            this.systemName = data.data.system_name;
+            this.systemName = data.data.application_name;
           }else{
             const h = this.$createElement;
             this.$notify({

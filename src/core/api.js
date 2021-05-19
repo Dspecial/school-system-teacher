@@ -28,7 +28,8 @@ export default {
 	 */
 	// 获取项目状态数
 	dashboard_state: p => post('/api/dashboard/get_my_project_state', p),
-
+	// 获取首页获取付款信息
+	dashboard_pay: p => post('/api/dashboard/project_pay_state', p),
 	/*
 		***项目管理
 	 */
@@ -56,10 +57,12 @@ export default {
 	projectExpert: p => post('/api/ajax/get_expert_list', p),
 	// 复审列表
 	projectRecheck_list: p => post('/api/project.project/recheck_list', p),
-	// 查看复审详情
+	// 复审列表-详情
 	projectRecheck_detail: p => post('/api/project.project/recheck_detail', p),
 	// 项目进度记录 列表
 	projectProcess_list: p => post('/api/project.project/process_list', p),
+	// 进度记录-详情
+	projectProcess_detail: p => post('/api/project.project/process_detail', p),
 
 	// 进入实施流程
 	projectRunning: p => post('/api/project.project/to_running', p),
@@ -186,7 +189,10 @@ export default {
 	my_project_accept: p => post('/api/company.project/send_accept', p),
 	// 验收上传文件
 	my_project_acceptUpload: p => postUpload('/api/upload/upload_accept_attach', p),
-
+	// 进度记录 列表
+	my_project_process_list: p => post('/api/company.project/process_list', p),
+	// 进度记录-详情
+	my_project_process_detail: p => post('/api/company.project/process_detail', p),
 	/*
 		***我的资源
 	*/

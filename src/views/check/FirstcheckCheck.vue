@@ -73,11 +73,11 @@
 									</el-table-column>
 									<el-table-column
 										prop="money"
-										label="付款节点">
+										label="金额">
 									</el-table-column>
 									<el-table-column
 										prop="paytime"
-										label="录入时间">
+										label="付款节点">
 									</el-table-column>
 								</el-table>
 							</template>

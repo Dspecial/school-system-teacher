@@ -63,18 +63,18 @@
         <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column prop="job_number" label="公司名称" width="200"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="200" align="center">
+        <el-table-column fixed="right" label="操作" width="250" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.is_commit == 1">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.is_commit == 2 || scope.row.is_commit == 3 || scope.row.is_commit == 4">
+            <template v-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
               <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 4">
               <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.is_commit == 5 || scope.row.is_commit == 6">
+            <template v-if="scope.row.is_commit == 5">
               <span v-for="(action,index) in actions4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 6">
@@ -198,16 +198,16 @@
             })
             // is_commit
             // 为1 就是 提交审核、编辑、删除、详情
-            // 为2、3、4 提交复审、复审列表、详情
-            // 为4还有个进入实施、详情  
-            // 为5、6 就进度列表、详情  
-            // 为6还有个进入验收、详情  
+            // 为2、3 提交复审、复审记录、详情
+            // 为4 提交复审、复审记录、进入实施、详情  
+            // 为5 进度记录、详情  
+            // 为6 进度记录、进入验收、详情  
             // 为7、8、9就进入维保、详情
-            this.actions1 = [...actions_4,...actions_1,...actions_2,...actions_3];
+            this.actions1 = [...actions_1,...actions_2,...actions_4,...actions_3];
             this.actions2 = [...actions_5,...actions_8,...actions_3];
             this.actions3 = [...actions_5,...actions_8,...actions_6,...actions_3];
             this.actions4 = [...actions_9,...actions_3];
-            this.actions5 = [...actions_7,...actions_3];
+            this.actions5 = [...actions_9,...actions_7,...actions_3];
             this.actions6 = [...actions_3];
 
           }else{

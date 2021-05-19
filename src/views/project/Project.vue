@@ -59,63 +59,43 @@
           </template>
         </el-table-column>
         <el-table-column prop="projecttime" label="年份" width="80"></el-table-column>
-        <el-table-column prop="apply_user_depart" label="所属部门"></el-table-column>
-        <el-table-column prop="is_commit" label="是否提交" width="120">
-          <template slot-scope="scope">
-            <span v-if="scope.row.is_commit == 1"><i class="dot bg-warning mr-1"></i>初审待提交</span>
-            <span v-else-if="scope.row.is_commit == 2"><i class="dot bg-primary-900 mr-1"></i>初审已提交</span>
-            <span v-else-if="scope.row.is_commit == 3"><i class="dot bg-blue mr-1"></i>复审待提交</span>
-            <span v-else-if="scope.row.is_commit == 4"><i class="dot bg-primary mr-1"></i>复审已提交</span>
-            <span v-else-if="scope.row.is_commit == 5"><i class="dot bg-danger mr-1"></i>实施待提交</span>
-            <span v-else-if="scope.row.is_commit == 6"><i class="dot bg-grey-300 mr-1"></i>实施已提交</span>
-            <span v-else-if="scope.row.is_commit == 7"><i class="dot bg-cyan mr-1"></i>验收待提交</span>
-            <span v-else-if="scope.row.is_commit == 8"><i class="dot bg-success mr-1"></i>验收已提交</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="createtime" label="创建时间"></el-table-column>
-        <el-table-column prop="job_number" label="公司名称"></el-table-column>
-        <!-- <el-table-column label="审核状态" align="center" >
-          <template slot-scope="scope">
-            <span class="text-primary cursor-pointer mr-3" @click="approvalDetail(scope.$index,scope.row)">详情</span>
-          </template>
-        </el-table-column> -->
+        <el-table-column prop="apply_user_depart" label="所属部门" width="180"></el-table-column>
+        <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
+        <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
+        <el-table-column prop="job_number" label="公司名称" width="200"></el-table-column>
         <el-table-column fixed="right" label="操作" width="200" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.is_commit == 1">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
+            <template v-if="scope.row.is_commit == 2 || scope.row.is_commit == 3 || scope.row.is_commit == 4">
               <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.is_commit == 3 || scope.row.is_commit == 4">
-              <span v-for="(action,index) in actions5" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-            </template>
-            <template v-if="scope.row.is_commit == 4 || scope.row.is_commit == 5">
+            <template v-if="scope.row.is_commit == 4">
               <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.is_commit == 6 || scope.row.is_commit == 7">
+            <template v-if="scope.row.is_commit == 5 || scope.row.is_commit == 6">
               <span v-for="(action,index) in actions4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.is_commit == 8">
+            <template v-if="scope.row.is_commit == 6">
+              <span v-for="(action,index) in actions5" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            </template>
+            <template v-if="scope.row.is_commit == 7 || scope.row.is_commit == 8 || scope.row.is_commit == 9">
               <span v-for="(action,index) in actions6" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
       </data-tables-server>
-      <application-approval :applicationApproval="applicationApproval"></application-approval>
     </el-card>
   </div>
 </template>
 
 <script>
   import GlobalTips from "@/components/GlobalTips";
-  import ApplicationApproval from "./ApplicationApproval"
-
 	export default {
-    name: 'Application',
+    name: 'Project',
     components: {
       GlobalTips,
-      ApplicationApproval
     },
     provide() {
       return {
@@ -191,22 +171,45 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
-            
+            var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array,actions_4 = new Array;
+            var actions_5 = new Array,actions_6 = new Array,actions_7 = new Array,actions_8 = new Array;
+            var actions_9 = new Array
+
             this.$store.getters.getmoreAction.map((item,index)=>{
-              if(item.sign == 2 || item.sign == 3 || item.sign == 5.1 ){
-                this.actions1.push(item);
-              }else if (item.sign == 5.2){
-                this.actions2.push(item);
-              }else if (item.sign == 5.3){
-                this.actions3.push(item);
-              }else if (item.sign == 5.4){
-                this.actions4.push(item);
-              }else if (item.sign == 5.5){
-                this.actions5.push(item);
-              }else if (item.sign == 4){
-                this.actions6.push(item);
+              if(item.sign == 2){ // 编辑
+                actions_1.push(item);
+              }else if (item.sign == 3){ // 删除
+                actions_2.push(item);
+              }else if (item.sign == 4){ // 详情
+                actions_3.push(item);
+              }else if (item.sign == 5.1){ // 提交审核
+                actions_4.push(item);
+              }else if (item.sign == 5.2){ // 提交复审
+                actions_5.push(item);
+              }else if (item.sign == 5.3){ // 进入实施流程
+                actions_6.push(item);
+              }else if (item.sign == 5.4){ // 进入验收流程
+                actions_7.push(item);
+              }else if (item.sign == 5.5){ // 复审记录
+                actions_8.push(item);
+              }else if (item.sign == 9.2){ // 进度记录
+                actions_9.push(item);
               }
             })
+            // is_commit
+            // 为1 就是 提交审核、编辑、删除、详情
+            // 为2、3、4 提交复审、复审列表、详情
+            // 为4还有个进入实施、详情  
+            // 为5、6 就进度列表、详情  
+            // 为6还有个进入验收、详情  
+            // 为7、8、9就进入维保、详情
+            this.actions1 = [...actions_4,...actions_1,...actions_2,...actions_3];
+            this.actions2 = [...actions_5,...actions_8,...actions_3];
+            this.actions3 = [...actions_5,...actions_8,...actions_6,...actions_3];
+            this.actions4 = [...actions_9,...actions_3];
+            this.actions5 = [...actions_7,...actions_3];
+            this.actions6 = [...actions_3];
+
           }else{
             this.$message.error(data.msg);
           }
@@ -227,7 +230,7 @@
         }else if(sign == 3){ // 删除
           this.handleDel(index,row);
         }else if(sign == 4){ // 详情
-          this.applicationDetail(index,row);
+          this.goDetail(index,row);
         }else if(sign == 5.1){ // 提交审核
           this.handleCommit(index,row);
         }else if(sign == 5.2){ // 提交复审
@@ -238,6 +241,8 @@
           this.handleAccept(index,row);
         }else if(sign == 5.5){ // 复审记录
           this.recheckList(index,row);
+        }else if(sign == 9.2){ // 进度记录
+          this.processList(index,row);
         }
       },
 
@@ -313,6 +318,15 @@
           }
         })
       },
+      // 进度记录
+      processList(index,row){
+        this.$router.push({
+          path:"/project/project/processList",
+          query: {
+            id: row.id,
+          }
+        })
+      },
       // 进入实施流程
       handleRunning(index,row){
         this.$confirm("此操作将进入实施流程, 是否继续?", "提示", {
@@ -358,16 +372,10 @@
 
         });
       },
-      // 审批详情
-      approvalDetail(index,row){
-        this.applicationApproval.dialog = true;
-        this.applicationApproval.title = "审批状态";
-        this.applicationApproval.id = "";
-      },
       // 项目详情
-      applicationDetail(index,row){
+      goDetail(index,row){
         this.$router.push({
-          path:"/project/application/detail",
+          path:"/project/project/detail",
           query: {
             id: row.id,
           }

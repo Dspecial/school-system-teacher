@@ -63,6 +63,15 @@ const router = new Router({
 				  children: null
 				},
 				{
+				  path: '/project/project/detail',
+				  component: resolve => require(['@/views/project/ProjectDetail'], resolve),
+				  name: 'ProjectDetail',
+				  meta: {
+				    title: '项目详情',
+				  },
+				  children: null
+				},
+				{
 				  path: '/project/project/recheck',
 				  component: resolve => require(['@/views/project/ProjectRecheck'], resolve),
 				  name: 'ProjectRecheck',
@@ -80,24 +89,15 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				// {
-				//   path: '/project/application',
-				//   component: resolve => require(['@/views/project/Application'], resolve),
-				//   name: 'Application',
-				//   meta: {
-				//     title: '项目申请',
-				//   },
-				//   children: null
-				// },
-				// {
-				//   path: '/project/application/detail',
-				//   component: resolve => require(['@/views/project/ApplicationDetail'], resolve),
-				//   name: 'ApplicationDetail',
-				//   meta: {
-				//     title: '项目详情',
-				//   },
-				//   children: null
-				// },
+				{
+				  path: '/project/project/processList',
+				  component: resolve => require(['@/views/project/ProjectProcessList'], resolve),
+				  name: 'ProjectProcessList',
+				  meta: {
+				    title: '项目进度列表',
+				  },
+				  children: null
+				},
 				// 资源列表
 				{
 				  path: '/project/resource',
@@ -160,6 +160,15 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				{
+				  path: '/check/first/detail',
+				  component: resolve => require(['@/views/check/FirstcheckDetail'], resolve),
+				  name: 'FirstcheckDetail',
+				  meta: {
+				    title: '审核初审详情',
+				  },
+				  children: null
+				},
 				// 复审列表
 				{
 				  path: '/check/recheck',
@@ -177,6 +186,15 @@ const router = new Router({
 				  name: 'RecheckCheck',
 				  meta: {
 				    title: '复审',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/recheck/detail',
+				  component: resolve => require(['@/views/check/RecheckCheckDetail'], resolve),
+				  name: 'RecheckCheckDetail',
+				  meta: {
+				    title: '复审详情',
 				  },
 				  children: null
 				},

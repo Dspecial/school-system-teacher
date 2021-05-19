@@ -206,7 +206,12 @@
 
       // 详情
       goDetail(index,row){
-
+        this.$router.push({
+          path:"/check/first/detail",
+          query: {
+            id: row.id,
+          }
+        })
       },
 		},
   }

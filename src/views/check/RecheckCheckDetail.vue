@@ -5,17 +5,17 @@
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
 			<!-- 项目信息 -->
-			<el-form :model="projectInfo" ref="projectInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
-				<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
+			<el-form :model="recheckInfo" ref="recheckInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
+				<h6 class="fs_20 font-weight-normal mb-3">项目复审信息</h6>
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="项目名称">
-							{{projectInfo.p_name}}
+							{{recheckInfo.p_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="项目编号">
-							{{projectInfo.apply_number}}
+						<el-form-item label="评审编号">
+							{{recheckInfo.recheck_number}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
@@ -95,17 +95,8 @@
 				id:'', // 评审id
 				projectId:'',
 				check_info:"",
-				projectInfo: {},
+				recheckInfo: {},
 				detailInfo:[],
-				checkform:{
-					check_state:"",
-					remark:"",
-				},
-				rules:{
-					check_state:[
-						{ required: true, message: '请选择审核状态', trigger: 'change' }
-					],
-				},
 			}
 		},
 		components: {
@@ -120,14 +111,13 @@
 			openEdit(){
 				this.projectId = this.$route.query.project_id;
 				this.id = this.$route.query.id;
-				this.$api.recheckList_check({
+				this.$api.recheck_detail({
 					id:this.id,
 					project_id:this.projectId,
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
 						this.check_info = data.data.check_info;
-						this.projectInfo = data.data.project_info;
 						this.recheckInfo = data.data.project_recheck_info;
 						this.detailInfo = data.data.project_recheck_detail_info;
 					}else{
@@ -135,37 +125,6 @@
 					}
 				});
 			},
-			// 关闭编辑
-			closedEdit(){
-				this.$router.go(-1);//返回上一层
-			},
-      // form提交
-			submitForm(formName) {
-				this.$refs[formName].validate((valid) => {
-          if (valid) {
-						this.$api.recheckList_check({
-							id:this.id,
-							project_id:this.projectId,
-							function_type:2,
-							check_state:this.checkform.check_state,
-							remark:this.checkform.remark,
-						}).then(data =>{
-							if(data.code == 0){
-								this.$message({
-									message: data.msg,
-									type: 'success'
-								});
-								this.closedEdit();
-							}else{
-								this.$message.error(data.msg);
-							}
-						});
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
 		}
 	}
 </script>

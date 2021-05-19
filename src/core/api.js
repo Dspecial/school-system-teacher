@@ -58,6 +58,9 @@ export default {
 	projectRecheck_list: p => post('/api/project.project/recheck_list', p),
 	// 查看复审详情
 	projectRecheck_detail: p => post('/api/project.project/recheck_detail', p),
+	// 项目进度记录 列表
+	projectProcess_list: p => post('/api/project.project/process_list', p),
+
 	// 进入实施流程
 	projectRunning: p => post('/api/project.project/to_running', p),
 	// 进入验收流程
@@ -89,10 +92,16 @@ export default {
 	firstCheckList_check: p => post('/api/checks.firstproject/check_first_triall', p),
 	// 审核初审文件预览
 	file_preview: p => post('/api/ajax/preview', p),
+	// 项目初审详情
+	firstCheck_detail: p => post('/api/checks.firstproject/details', p),
+
 	// 复审列表
 	recheckList: p => post('/api/checks.recheckproject/index', p),
 	// 复审
 	recheckList_check: p => post('/api/checks.recheckproject/check_recheck', p),
+	// 项目复审详情
+	recheck_detail: p => post('/api/checks.recheckproject/details', p),
+		
 	// 进度提交列表
 	processList: p => post('/api/checks.processproject/index', p),
 	// 进度审核

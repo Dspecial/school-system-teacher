@@ -1,7 +1,6 @@
 <template>
 	<div class="page-header h-100 d-flex align-items-center">
 		<div class="ml-auto d-flex align-items-center">
-			<i class="el-icon-search fs_16 mr-4"></i>
       <el-dropdown trigger="click">
         <el-badge :value="totalNews.length" :max="99" class="item">
           <i class="el-icon-bell fs_16"></i>

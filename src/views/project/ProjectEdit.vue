@@ -100,7 +100,7 @@
 										<el-input v-model.number="cell.money" placeholder="请输入合同金额，必须为数值"></el-input>
 									</el-col>
 									<el-col :span="24">
-										<el-date-picker type="date" placeholder="选择录入时间，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
+										<el-date-picker type="date" placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 									</el-col>
 									<el-col :span="2" class="text-right">
 										<span class="text-danger cursor-pointer" @click="delField(projectForm.agree_payinfo,INDEX)">删除</span>

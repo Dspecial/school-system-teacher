@@ -166,7 +166,12 @@
       },
       // 详情
       goDetail(index,row){
-
+        this.$router.push({
+          path:"/check/recheck/detail",
+          query: {
+            id: row.id,
+          }
+        })
       },
 		},
   }

@@ -62,14 +62,11 @@
         <el-table-column prop="checkedtime" label="验收时间"></el-table-column>
         <el-table-column fixed="right" label="操作" width="200" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.is_commit == 3">
-              <span v-for="(action,index) in actions1" :key="index" @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-            </template>
             <template v-if="scope.row.is_commit == 5 || scope.row.is_commit == 6">
-              <span v-for="(action,index) in actions2" :key="index" @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 7 || scope.row.is_commit == 8">
-              <span v-for="(action,index) in actions3" :key="index" @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -151,16 +148,24 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
-
+            var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array,actions_4 = new Array;
             this.$store.getters.getmoreAction.map((item,index)=>{
-              if(item.sign == 4){
-                this.actions1.push(item);
-              }else if (item.sign == 9.1){
-                this.actions2.push(item);
-              }else if (item.sign == 9.3){
-                this.actions3.push(item);
+              if(item.sign == 4){ // 详情
+                actions_1.push(item);
+              }else if (item.sign == 9.1){ // 上传进度
+                actions_2.push(item);
+              }else if (item.sign == 9.2){ // 进度记录
+                actions_3.push(item);
+              }else if (item.sign == 9.3){ // 上传验收
+                actions_4.push(item);
               }
-            })
+            });
+            // is_commit
+            // 为5、6 就上传进度、上传记录、详情  
+            // 为7、8就上传验收、详情
+            this.actions1 = [...actions_2,...actions_3,...actions_1];
+            this.actions2 = [...actions_4,...actions_1];
+            
           }else{
             this.$message.error(data.msg);
           }
@@ -170,11 +175,13 @@
       // 操作们
       fun(index,row,sign){
         if(sign == 4){ // 详情
-          this.viewDetail(index,row);
+          this.goDetail(index,row);
         }else if(sign == 9.1){ // 上传进度
-          this.handleAccept(index,row);
+          this.handleProcess(index,row);
+        }else if(sign == 9.2){ // 进度记录
+          this.ProcessList(index,row);
         }else if(sign == 9.3){ // 上传验收
-          this.handleRecheck(index,row);
+          this.handleAccept(index,row);
         }
       },
       // 上传进度
@@ -186,6 +193,10 @@
           }
         })
       },
+      // 进度记录
+      ProcessList(index,row){ // 没有接口
+        
+      },
       // 上传验收
       handleAccept(index,row){
         this.$router.push({
@@ -196,7 +207,7 @@
         })
       },
       // 查看详情
-      viewDetail(index,row){
+      goDetail(index,row){
 
       },
 		},

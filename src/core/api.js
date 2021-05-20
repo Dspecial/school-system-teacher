@@ -16,6 +16,9 @@ export default {
 	// 获取登录申请着的身份
 	loginConfig: p => post('/api/ajax/get_sys_config', p),
 
+	/*
+		***菜单
+	 */
 	// 菜单管理
 	menu: p => post('/api/menu/index', p),
 	// 获取所有的操作按钮

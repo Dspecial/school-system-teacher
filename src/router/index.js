@@ -7,6 +7,16 @@ Vue.use(Router)
 const router = new Router({
   routes: [
 		{
+      path: '*',
+      hidden: true,
+      component: ()=>import('@/views/404'),
+      name: 'notFound',
+      hidden: true,
+		  meta: {
+		    title: '404'
+		  },
+    },
+		{
   		path: '/',
 		  component: resolve => require(['@/views/Login'], resolve),
 		  name: '首次进入',

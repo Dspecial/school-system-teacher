@@ -259,7 +259,7 @@
 					},
 				],
 				// 默认选中的年份tab
-				handleYearIndex:"2021",
+				handleYearIndex:new Date().getFullYear(),
 				// 图
 				option:{
 					title: {

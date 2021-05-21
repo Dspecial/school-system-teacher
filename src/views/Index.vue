@@ -352,6 +352,8 @@
 						this.statusList[3].num = data.data.process_count; // 实施
 						this.statusList[4].num = data.data.accept_count; // 验收
 						this.statusList[5].num = data.data.extend_count; // 维保
+					}else{
+						this.$message.error(data.msg);
 					}
 				})
 			},
@@ -369,6 +371,8 @@
 								data:data.data.name_value
 							}],
 						};
+					}else{
+						this.$message.error(data.msg);
 					}
 				})
 			},

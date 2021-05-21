@@ -58,9 +58,14 @@
 		components: {},
     methods:{
       logOut(){
-        this.$router.push("/login");
+        this.$router.replace({
+          path: '/login',
+          query: {
+            redirect: this.$router.currentRoute.fullPath
+          }
+        });
         this.$cookies.remove("application_token");
-      }
+      },
     },
 
 	}

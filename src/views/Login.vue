@@ -59,15 +59,7 @@
           if(data.code == 0){
             this.configName = data.data.application_name;
           }else{
-            const h = this.$createElement;
-            this.$notify({
-              title: "获取失败",
-              message: h('i', {
-                style: 'color: teal'
-              }, data.msg),
-              type: 'warning',
-              duration: 3000,
-            });
+            this.$message.error(data.msg);
           }
         })
       },
@@ -76,7 +68,6 @@
         this.pwdType == '' ? this.suffixIcon = 'icon-eye-blocked2' : this.suffixIcon = 'icon-eye2';
       },
       onSubmit(){
-        var that  = this;
         this.$api.login({
           name:this.loginForm.username,
           password:this.loginForm.password,

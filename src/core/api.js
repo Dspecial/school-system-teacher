@@ -15,6 +15,8 @@ export default {
 	login: p => post('/api/user.login/login', p),
 	// 获取登录申请着的身份
 	loginConfig: p => post('/api/ajax/get_sys_config', p),
+	// 获取状态，判断是否单点登录
+	isLogin_state: p => post('/api/ajax/get_type_no_state', p),
 
 	/*
 		***菜单

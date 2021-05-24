@@ -57,7 +57,23 @@
 		},
 		components: {},
     methods:{
+      // 点击退出登录
       logOut(){
+        var type = this.$cookies.get('application_type');
+        var isTpye = this.commonJs.isEmpty(this.$cookies.get('application_type')); // 是否有type，true 失效，没有；false 有
+        if(!isTpye){
+          if(type == 1){
+            window.location.href = this.$globalUrl.baseURL + "/index/index?login=logout";
+            this.$cookies.remove("application_token");
+          }else{
+            this.replaceUrl();
+          }
+        }else{
+          this.replaceUrl();
+        }
+      },
+      // 退出当前地址到login页面
+      replaceUrl(){
         this.$router.replace({
           path: '/login',
           query: {

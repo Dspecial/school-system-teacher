@@ -43,15 +43,49 @@
         pwdType:"password",
         suffixIcon:'icon-eye2',
         rememberPwd:true,
+        currentHref:"",
 			}
 		},
 		created() {
-      let that = this;
     },
     mounted(){
       this.loginConfig();
+      this.currentHref = window.location.href;
+      var isToken = this.commonJs.isEmpty(this.$cookies.get('application_token')); // 是否登录，true 未登录；false 登录
+      var isTpye = this.commonJs.isEmpty(this.$cookies.get('application_type')); // 是否有type，true 失效，没有；false 有
+      var typeType = this.$cookies.get('application_type');
+
+      if(!isToken){ // 登录了，直接进系统端
+        // dxx：判断，如果初次进入，直接跳转home页面；如果在别的页面停留过久，token失效，则登录以后直接跳转到当前页面
+        var redirect = this.$route.query.redirect;
+        if(redirect != ''&& redirect != undefined){
+          this.$router.push(redirect);
+        }else{
+          this.$router.push("/home");
+        }
+      }else{ // 如果token失效了，就判断type值
+        if(!isTpye){ // type未失效，调接口
+          // 如果type为1就走单点登陆 如果为2走登陆页面
+          if(typeType == 1){
+            this.loginState(typeType);
+          }
+        }
+      }
     },
     methods:{
+      // 获取参数判断登录状态
+      loginState(type){
+        this.$api.isLogin_state({
+          type:type,
+        }).then(data=>{
+          if(data.code == 0){
+            window.location.href = data.data + "&url="+ this.currentHref;
+            // console.log(data.data + "&url="+ this.currentHref);
+          }else{
+            this.$message.error(data.msg);
+          }
+        })
+      },
       // 获取身份
       loginConfig(){
         this.$api.loginConfig({
@@ -74,11 +108,11 @@
         }).then( data =>{
           if(data.code == 0){
             // 存值给cookies
-            this.$cookies.set('application_token', data.data.token);
-            this.$cookies.set('application_userId', data.data.id);
-            this.$cookies.set('application_userName', data.data.name);
-            this.$cookies.set('application_job_number', data.data.job_number);
-            this.$cookies.set('application_type', data.data.type);
+            this.$cookies.set('application_token', data.data.token,{expires:7});
+            this.$cookies.set('application_userId', data.data.id,{expires:7});
+            this.$cookies.set('application_userName', data.data.name,{expires:7});
+            this.$cookies.set('application_job_number', data.data.job_number,{expires:7});
+            this.$cookies.set('application_type', data.data.type,{expires:30});
 
             // dxx：判断，如果初次进入，直接跳转home页面；如果在别的页面停留过久，token失效，则登录以后直接跳转到当前页面
             var redirect = this.$route.query.redirect;

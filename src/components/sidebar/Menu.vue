@@ -52,16 +52,19 @@
           menu_id:id
         }).then(data=>{
           if(data.code == 0){
-            if(this.commonJs.isEmpty(data.data.current_menu[0])) return;
-            data.data.current_menu.map(item=>{
-              if(item.sign == 1){ // 是添加按钮
-                this.allAction.addAction = item;
-              }else{
-                this.allAction.moreAction.push(item);
-              }
-            })
-            console.log(this.allAction,'this.allAction');
-            this.$store.commit("SET_ACTION",this.allAction);
+            if(this.commonJs.isEmpty(data.data.current_menu[0])){
+              this.$store.commit("SET_ACTION",this.allAction);
+            }else{
+              data.data.current_menu.map(item=>{
+                if(item.sign == 1){ // 是添加按钮
+                  this.allAction.addAction = item;
+                }else{
+                  this.allAction.moreAction.push(item);
+                }
+              })
+              this.$store.commit("SET_ACTION",this.allAction);
+            }
+            // console.log(this.allAction,'this.allAction');
           }
         })
       },

@@ -46,18 +46,6 @@
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="apply_number" width="250" label="项目编号"></el-table-column>
         <el-table-column prop="p_name" label="项目名称"></el-table-column>
-        <el-table-column label="简介">
-          <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="简介"
-              width="200"
-              trigger="hover"
-              :content="scope.row.p_biref">
-              <span class="text-truncate" slot="reference">{{scope.row.p_biref}}</span>
-            </el-popover>
-          </template>
-        </el-table-column>
         <el-table-column prop="projecttime" label="年份" width="80"></el-table-column>
         <el-table-column prop="apply_user_depart" label="所属部门" width="180"></el-table-column>
         <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>

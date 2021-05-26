@@ -50,6 +50,8 @@ export default {
 	getProjectCate: p => post('/api/ajax/get_project_cate_list', p),
 	// 获取企业列表
 	getCompany: p => post('/api/ajax/get_company_list', p),
+	// 获取表单
+	getProjectForms: p => post('/api/ajax/get_project_forms', p),
 	// 上传合同
 	uploadAgree: p => postUpload('/api/upload/upload_agree', p),
 	// 移除合同

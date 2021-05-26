@@ -7,9 +7,9 @@
 			<h6 class="fs_20 font-weight-normal mb-3">{{title}}</h6>
 			<el-form :model="projectForm" :rules="rules" ref="projectForm" label-width="110px" label-position="top" class="pl-3 pr-3">
 				<el-row :gutter="20">
-					<el-col :span="12" v-if="!this.projectId">
+					<el-col :span="12">
 						<el-form-item label="项目类别" prop="p_cate_id">
-							<el-select v-model="projectForm.p_cate_id" placeholder="请选择项目类别" class="w-100">
+							<el-select v-model="projectForm.p_cate_id" placeholder="请选择项目类别" class="w-100" @change="cateChange">
 								<el-option
 									v-for="item in cateOptions"
 									:key="item.id"
@@ -36,99 +36,204 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="录入时间" prop="recordtime">
-							<el-date-picker type="date" placeholder="选择录入时间，必须大于当前日期" v-model="projectForm.recordtime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12">
-						<el-form-item label="项目启动时间" prop="starttime">
-							<el-date-picker type="date" placeholder="选择项目启动时间，必须大于当前日期" v-model="projectForm.starttime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12">
-						<el-form-item label="项目完成时间" prop="successtime">
-							<el-date-picker type="date" placeholder="选择项目完成时间，必须大于项目启动时间" v-model="projectForm.successtime" value-format="yyyy-MM-dd" :picker-options="successOption" style="width: 100%;"></el-date-picker>
-						</el-form-item>
-					</el-col>
-				</el-row>
-
-				<el-row :gutter="20">
-					<el-col :span="12">
-						<el-form-item label="合同金额" prop="budget_amount">
-							<el-input v-model.number="projectForm.budget_amount" placeholder="请输入合同金额，必须为数值">
-								<span slot="suffix" class="el-input__icon mr-2">元</span>
-							</el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12">
-						<el-form-item label="合同编号" prop="agree_number">
-							<el-input v-model="projectForm.agree_number" placeholder="请输入合同编号"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="合同文件" prop="agreefile">
-							<div class="d-flex align-items-start justify-content-between">
+					<template v-for="(formItem,j) in projectForm.secondFrom">
+						<!-- 字段类型:1=文本框,2=数字框,3=下拉单选,4=日期选择,5=文件上传(单选),6=文本域,7=富文本,
+						8=时间选择,9=下拉多选,10=复选,11=单选,12=数组,13=图片上传(单选),14=图片上传(多选),15=文件上传(多选) -->
+						<!-- 1=文本框 -->
+						<el-col :span="12" :key="j" v-if="formItem.name_type == 1">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<el-input v-model="formItem.value" :placeholder="formItem.placeholder"></el-input>
+							</el-form-item>
+						</el-col>
+						<!-- 2=数字框 -->
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 2">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false" 
+							:rules="[{ type: 'number', message: formItem.title +'必须为数字值'}]">
+								<el-input v-model.number="formItem.value" :placeholder="formItem.placeholder">
+									<span slot="suffix" class="el-input__icon mr-2">元</span>
+								</el-input>
+							</el-form-item>
+						</el-col>
+						<!-- 3=下拉单选 -->
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 3">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<el-select v-model="formItem.value" :placeholder="formItem.placeholder" class="w-100">
+									<el-option
+										v-for="item in formItem.extra_val"
+										:key="item"
+										:label="item"
+										:value="item">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<!-- 4=日期选择 -->
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 4">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<el-date-picker 
+								type="date" 
+								:placeholder="formItem.placeholder"
+								v-model="formItem.value" 
+								value-format="yyyy-MM-dd"
+								style="width: 100%;"></el-date-picker>
+							</el-form-item>
+						</el-col>
+						<!-- 5=文件上传(单选) -->
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 5">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<div class="d-flex align-items-start justify-content-between">
+									<el-upload
+										class="my_upload"
+										drag
+										:limit="1"
+										action="void"
+										:accept="accept_file"
+										:auto-upload="true"
+										:http-request="myUpload"
+										:file-list="formItem.value"
+										:on-success="(res, file, fileList)=>handleSuccess(res, file, fileList,formItem)"
+										:on-remove="(file, fileList)=>handleRemove(file, fileList,formItem)"
+										:before-upload="(file)=>beforeUpload(file,formItem)"
+										:on-exceed="onExceed">
+										<div class="el-upload__text"><i class="el-icon-upload"></i>将文档拖到此处，或<em>点击选择文档</em></div>
+									</el-upload>
+								</div>
+							</el-form-item>
+						</el-col>
+						<!-- 6=文本域 -->
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 6">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<el-input type="textarea" v-model="formItem.value" :placeholder="formItem.placeholder"  :rows="3"></el-input>
+							</el-form-item>
+						</el-col>
+						<!-- 7=富文本 -->
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 7">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<vEditor v-model="formItem.value" class="pro_vEditor"></vEditor>
+							</el-form-item>
+						</el-col>
+						<!-- 8=时间选择 -->
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 8">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<el-date-picker 
+								type="datetime" 
+								:placeholder="formItem.placeholder"
+								v-model="formItem.value" 
+								value-format="yyyy-MM-dd HH:mm:ss"
+								style="width: 100%;"></el-date-picker>
+							</el-form-item>
+						</el-col>
+						<!-- 9=下拉多选 -->
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 9">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<el-select v-model="formItem.value" multiple collapse-tags :placeholder="formItem.placeholder" class="w-100">
+									<el-option
+										v-for="item in formItem.extra_val"
+										:key="item"
+										:label="item"
+										:value="item">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<!-- 10=复选 -->
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 10">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<el-checkbox-group v-model="formItem.value">
+									<template v-for="(checkbox,z) in formItem.extra_val">
+										<el-checkbox :label="checkbox" :name="formItem.name" :key="z"></el-checkbox>
+									</template>
+								</el-checkbox-group>
+							</el-form-item>
+						</el-col>
+						<!-- 11=单选 -->
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 11">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<el-radio-group v-model="formItem.value">
+									<template v-for="(radio,z) in formItem.extra_val">
+										<el-radio :label="radio" :key="z"></el-radio>
+									</template>
+								</el-radio-group>
+							</el-form-item>
+						</el-col>
+						<!-- 12=数组 -->
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false" class="payment_item">
+								<div slot="label" class="d-flex justify-content-between">
+									<span>{{formItem.title}}</span>
+									<span class="text-primary cursor-pointer" @click="addPro(formItem.value)"><i class="el-icon-plus mr-1"></i>添加</span>
+								</div>
+								<template v-for="(cell,INDEX) in formItem.value">
+									<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
+										<el-col :span="24" :key="x" v-for="(formCol,x) in formItem.extra_val">
+											<el-input v-model="cell[x]" :placeholder="'请输入'+ formCol.title"></el-input>
+										</el-col>
+										<el-col :span="3" class="text-right">
+											<span class="text-danger cursor-pointer" @click="delField(formItem.value,INDEX)">删除</span>
+										</el-col>
+									</el-row>
+								</template>
+							</el-form-item>
+						</el-col>
+						<!-- 13=图片上传(单选) -->
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 13">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<el-upload
-									class="my_upload"
-									drag
 									action="void"
-									:accept="accept"
+									:accept="accept_img"
+									:limit="1"
+									list-type="picture-card"
 									:auto-upload="true"
 									:http-request="myUpload"
-									:file-list="fileList"
-									:on-success="handleSuccess"
-									:on-remove="handleRemove"
-									:before-upload="beforeUpload">
-									<div class="el-upload__text"><i class="el-icon-upload"></i>将文档拖到此处，或<em>点击选择文档</em></div>
+									:file-list="formItem.value"
+									:on-success="(res, file, fileList)=>handleSuccess(res, file, fileList,formItem)"
+									:on-remove="(file, fileList)=>handleRemove(file, fileList,formItem)"
+									:before-upload="(file)=>beforeUpload(file,formItem)"
+									:on-exceed="onExceed">
+									<i class="el-icon-plus"></i>
 								</el-upload>
-							</div>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="项目付款信息" class="payment_item" required>
-							<div slot="label" class="d-flex justify-content-between">
-								<span>项目付款信息</span>
-								<span class="text-primary cursor-pointer" @click="addPro(projectForm.agree_payinfo)"><i class="el-icon-plus mr-1"></i>付款信息</span>
-							</div>
-							<template v-for="(cell,INDEX) in projectForm.agree_payinfo">
-								<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
-									<el-col :span="24">
-										<el-input v-model="cell.title" placeholder="请输入标题"></el-input>
-									</el-col>
-									<el-col :span="24">
-										<el-input v-model.number="cell.money" placeholder="请输入合同金额，必须为数值"></el-input>
-									</el-col>
-									<el-col :span="24">
-										<el-date-picker type="date" placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
-									</el-col>
-									<el-col :span="2" class="text-right">
-										<span class="text-danger cursor-pointer" @click="delField(projectForm.agree_payinfo,INDEX)">删除</span>
-									</el-col>
-								</el-row>
-							</template>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="项目介绍">
-							<el-input type="textarea" v-model="projectForm.p_biref" placeholder="请输入项目介绍" :rows="3"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="建设背景与目标" prop="construction_b_o">
-							<vEditor v-model="projectForm.construction_b_o" class="pro_vEditor"></vEditor>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="主要内容">
-							<vEditor v-model="projectForm.content" class="pro_vEditor"></vEditor>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="调研情况">
-							<vEditor v-model="projectForm.research_situation" class="pro_vEditor"></vEditor>
-						</el-form-item>
-					</el-col>
+							</el-form-item>
+						</el-col>
+						<!-- 14=图片上传(多选) -->
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 14">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<el-upload
+									action="void"
+									:accept="accept_img"
+									list-type="picture-card"
+									:auto-upload="true"
+									:http-request="myUpload"
+									:file-list="formItem.value"
+									:on-success="(res, file, fileList)=>handleSuccess(res, file, fileList,formItem)"
+									:on-remove="(file, fileList)=>handleRemove(file, fileList,formItem)"
+									:before-upload="(file)=>beforeUpload(file,formItem)">
+									<i class="el-icon-plus"></i>
+								</el-upload>
+							</el-form-item>
+						</el-col>
+						<!-- 15=文件上传(多选) -->
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 15">
+							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<div class="d-flex align-items-start justify-content-between">
+									<el-upload
+										class="my_upload"
+										drag
+										action="void"
+										:accept="accept_file"
+										:auto-upload="true"
+										:http-request="myUpload"
+										:file-list="formItem.value"
+										:on-success="(res, file, fileList)=>handleSuccess(res, file, fileList,formItem)"
+										:on-remove="(file, fileList)=>handleRemove(file, fileList,formItem)"
+										:before-upload="(file)=>beforeUpload(file,formItem)">
+										<div class="el-upload__text"><i class="el-icon-upload"></i>将文档拖到此处，或<em>点击选择文档</em></div>
+									</el-upload>
+								</div>
+							</el-form-item>
+						</el-col>
+
+					</template>
+
 				</el-row>
 				<div class="d-flex justify-content-end">
 					<el-button type="primary" @click="submitForm('projectForm')">确 定</el-button>
@@ -150,40 +255,19 @@
 			return {
 				projectId:'',
 				title:"新增项目",
-				accept: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
-				fileList:[],
+				accept_file: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
+				accept_img:".jpg,.png,.JPEG",
 				cateOptions:[],
 				companyOptions:[],
-				startOption:{
-					disabledDate: time =>{
-						return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
-					}
-				},
-				successOption: {
-					disabledDate: time =>{
-						let start = this.projectForm.starttime;
-            if(start){
-              return time.getTime() < new Date(start).getTime();
-            }
-					}
-				},
 				projectForm: {
 					apply_number:"",
 					p_cate_id:"",
           p_name: "",
 					company_id: "",
-          budget_amount:"",
-					agree_number: "",
-          p_biref:"",
-          construction_b_o:"",
-          content:"",
-          research_situation:"",
-					agreefile: [],
-          recordtime:"",
-          starttime:"",
-					successtime:"",
-					agree_payinfo:[{}],
+					secondFrom:{
+					},
         },
+				removeFilesArr:[],
         rules: {
 					p_cate_id: [
             { required: true, message: '请选择项目类别', trigger: 'change' }
@@ -193,38 +277,6 @@
           ],
 					company_id: [
             { required: true, message: '请选择合作企业', trigger: 'change' }
-          ],
-					agree_number: [
-            { required: true, message: '请输入合同编号', trigger: 'blur' }
-          ],
-					budget_amount: [
-          	{ required: true, message: '请输入合同金额', trigger: 'blur' },
-          	{ validator:(rule, value, callback) => {
-								if (!Number(value)) {
-									callback(new Error('合同金额必须是数值'));
-								}else{
-									callback();
-								}
-            	},trigger: 'blur'
-          	},
-          ],
-					construction_b_o: [
-            { required: true, message: '请输入建设背景与目标', trigger: 'blur' }
-          ],
-					recordtime: [
-            { required: true, message: '请选择录入时间', trigger: 'change' }
-          ],
-					starttime: [
-            { required: true, message: '请输入项目启动时间', trigger: 'change' }
-          ],
-					successtime: [
-            { required: true, message: '请输入项目完成时间', trigger: 'change' }
-          ],
-					agreefile: [
-            { required: true, message: '请上传合同文件', trigger: 'change' }
-          ],
-					agree_payinfo:[
-            { required: true, message: '请填写项目付款信息', trigger: 'blur' }
           ],
         }
 			}
@@ -262,6 +314,23 @@
 					}
 				});
 			},
+			// 获取表单
+			initProjectForms(id){
+				this.$api.getProjectForms({
+					p_cate_id:id,
+				}).then(data =>{
+					if(data.code == 0){
+						// 回调成功的方法
+						this.projectForm.secondFrom = data.data.forms_list;
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
+			},
+			// 项目分类change
+			cateChange(value){
+				this.initProjectForms(value);
+			},
 			// 添加审核流程
 			addPro(item){
 				item.push({});
@@ -288,19 +357,21 @@
 						function_type:2,
 					}).then(data =>{
 						if(data.code == 0){
-							this.projectForm = data.data;
-							let arrList = [];
-							for (let i in data.data.agreefile) {
-								var obj = {};
-								var a = data.data.agreefile[i].split("/");
-								var b = a[a.length -1];
-								obj.name = b;
-								obj.url = this.$globalUrl.baseURL + data.data.agreefile[i];
-								obj.path = data.data.agreefile[i];
-								obj.isExist = true;
-								arrList.push(obj);
-							}
-							this.fileList = arrList;
+							this.projectForm.apply_number = data.data.apply_number;
+							this.projectForm.p_cate_id = data.data.p_cate_id;
+							this.projectForm.p_name = data.data.p_name;
+							this.projectForm.company_id = data.data.company_id;
+
+							var datajson = data.data.datajson;
+							datajson.map((item)=>{
+								if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){
+									item.value = [];
+									if(!this.commonJs.isEmpty(item.file_arr)){
+										item.value = item.file_arr
+									}
+								}
+							});
+							this.projectForm.secondFrom = datajson;
 						}else{
 							this.$message.error(data.msg);
 						}
@@ -313,36 +384,52 @@
 			// 关闭编辑
 			closedEdit(){
 				this.$router.go(-1);//返回上一层
+				this.fileList = [];
+				this.removeFilesArr = [];
 			},
       // form提交
 			submitForm(formName) {
 				var _this = this;
-				var payArr = new Array;
-				var isArr = this.commonJs.isEmpty(this.projectForm.agree_payinfo[0]);
+				var senddata = new Array;
+				var isArr = this.commonJs.isEmpty(this.projectForm.secondFrom);
 				if(!isArr){
-					payArr = this.projectForm.agree_payinfo
-				}
+					senddata = this.projectForm.secondFrom.map((item)=>{
+						if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){
+							var nameArray = item.value.map((file)=>{
+								if(this.commonJs.isEmpty(file.response)){
+									return file.path;
+								}else{
+									return file.response.data.path;
+								}
+							});
+							return {
+								"name":item.name,
+								"value":nameArray.join(","),
+							}
+						}else{
+							return {
+								"name":item.name,
+								"value":item.value,
+							}
+						}
+					});
+				};
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						if(this.projectId){ // 编辑
 							this.$api.projectEdit({
 								id:this.projectId,
 								function_type:1,
+								apply_number:this.projectForm.apply_number,
+								p_cate_id:this.projectForm.p_cate_id,
 								p_name:this.projectForm.p_name,
-								budget_amount:this.projectForm.budget_amount,
-								p_biref:this.projectForm.p_biref,
-								construction_b_o:this.projectForm.construction_b_o,
-								content:this.projectForm.content,
-								research_situation:this.projectForm.research_situation,
-								agree_number:this.projectForm.agree_number,
-								agreefile:this.projectForm.agreefile.join(","),
-								recordtime:this.projectForm.recordtime,
-								starttime:this.projectForm.starttime,
-								successtime:this.projectForm.successtime,
 								company_id:this.projectForm.company_id,
-								agree_payinfo:JSON.stringify( payArr ),
+								senddata:JSON.stringify(senddata),
 							}).then(data =>{
 								if(data.code == 0){
+									this.removeFilesArr.map((path)=>{
+										_this.removeFile(path);
+									})
 									this.$message({
 										message: data.msg,
 										type: 'success'
@@ -357,20 +444,13 @@
 								apply_number:this.projectForm.apply_number,
 								p_cate_id:this.projectForm.p_cate_id,
 								p_name:this.projectForm.p_name,
-								budget_amount:this.projectForm.budget_amount,
-								p_biref:this.projectForm.p_biref,
-								construction_b_o:this.projectForm.construction_b_o,
-								content:this.projectForm.content,
-								research_situation:this.projectForm.research_situation,
-								agree_number:this.projectForm.agree_number,
-								agreefile:this.projectForm.agreefile.join(","),
-								recordtime:this.projectForm.recordtime,
-								starttime:this.projectForm.starttime,
-								successtime:this.projectForm.successtime,
 								company_id:this.projectForm.company_id,
-								agree_payinfo:JSON.stringify( payArr ),
+								senddata:JSON.stringify(senddata),
 							}).then(data =>{
 								if(data.code == 0){
+									this.removeFilesArr.map((path)=>{
+										_this.removeFile(path);
+									})
 									this.$message({
 										message: data.msg,
 										type: 'success'
@@ -389,7 +469,7 @@
       },
 
 			/****  上传  ****/
-			myUpload(params){
+			myUpload(params,formItem){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
 	      formData.append("apply_number", this.projectForm.apply_number);
@@ -401,47 +481,65 @@
 						// 回调成功的方法
 						params.onSuccess(data);
 						this.$message.success(data.msg);
-						this.projectForm.agreefile.push(data.data.path);
 					}else{
 						this.$message.error(data.msg);
 					}
 				});
 			},
       // 上传成功
-			handleSuccess(res, file, fileList) {
-				this.fileList = fileList;
+			handleSuccess(res, file, fileList, formItem) {
+				formItem.value = fileList;
       },
       // 移除上传文件
-      handleRemove(file,fileList) {
+      handleRemove(file,fileList,formItem) {
       	var path;
       	if(file.isExist){ // 原先上传已存在的
       		path = file.path;
       	}else{ // 刚刚上传的
-      		path = file.response.data.path;
+					if(file.status == 'success'){
+						path = file.response.data.path;
+					}else{
+						return false
+					}
       	}
-      	this.$api.uploadDel({
+				formItem.value = fileList;
+				this.$message({message: '成功移除' + file.name, type: 'success'});
+
+				if(this.removeFilesArr.indexOf(path) == -1){
+					this.removeFilesArr.push(path);
+				}
+      },
+
+			// 删除调接口
+			removeFile(path){
+				this.$api.uploadDel({
       		path:path,
       	}).then(data =>{
 					if(data.code == 0){
-						this.fileList = fileList;
-						this.projectForm.agreefile.some((item, i)=>{
-							if(item = path){
-								this.projectForm.agreefile.splice(i, 1);
-								//在数组的some方法中，如果return true，就会立即终止这个数组的后续循环
-								return true
-							}
-						});
-						this.$message({message: '成功移除' + file.name, type: 'success'});
+						// this.$message.success("文件更新成功");
 					}else{
 						this.$message.error(data.msg);
 					}
 				});
-      },
+			},
 
       // 上传前验证
-      beforeUpload(file) {
+      beforeUpload(file,formItem) {
+				var isUpload = true;
       	// 验证大小等
+				formItem.value.map((fff)=>{
+					if(fff.name == file.name){
+						this.$message.warning("请不要重复上传相同文件！");
+						isUpload = false;
+						return;
+					}
+				})
+				return isUpload;
       },
+			// 文件超出限制
+			onExceed(file,fileList){
+				this.$message.error("只能上传一个文件哦，可以先删除再重新上传！");
+			},
 		}
 	}
 </script>

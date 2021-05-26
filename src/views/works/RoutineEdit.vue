@@ -7,17 +7,17 @@
 			<h6 class="fs_20 font-weight-normal mb-3">{{title}}</h6>
 			<el-form :model="routineForm" :rules="rules" ref="routineForm" label-width="110px" label-position="top" class="pl-3 pr-3">
 				<el-row :gutter="20">
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="事务编号" prop="work_num">
 							<el-input v-model="routineForm.work_num" placeholder="请输入事务编号" readonly></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="事务标题" prop="title">
 							<el-input v-model="routineForm.title" placeholder="请输入事务标题"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="12">
 						<el-form-item label="优先级" prop="level">
 							<el-select v-model="routineForm.level" placeholder="请选择优先级" class="w-100">
 								<el-option

@@ -486,6 +486,7 @@
 					}
 				});
 			},
+			
       // 上传成功
 			handleSuccess(res, file, fileList, formItem) {
 				formItem.value = fileList;

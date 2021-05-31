@@ -508,3 +508,31 @@ html,body,#app,.page-container{
     border-radius: 4px;
   }
 }
+
+/*peoject_detail*/
+.form_json{
+  .el-form-item--small .el-form-item__label{
+    line-height: inherit;
+    opacity: 0.6;
+    filter: Alpha(opacity=60);
+    padding: 0 0.625rem 0 0;
+  }
+  .el-form-item--small .el-form-item__content{
+    line-height: inherit;
+  }
+  .el-form-item{
+    margin-bottom: 0.625rem;
+  }
+  .el-form-item.file-form-item{
+    display: flex;
+  }
+  .el-form-item.json-form-item{
+    .el-form-item__content >div{
+      border-bottom: 1px solid #F0F2F5;
+    }
+    .el-form-item__content >div:first-child{
+      background-color: #EBEEF5;
+      padding: 10px 0!important;
+    }
+  }
+}

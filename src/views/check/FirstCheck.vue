@@ -11,13 +11,18 @@
           <div class="d-flex align-items-center project_search_div">
             <div class="d-flex align-items-center">
               <el-input
-                placeholder="请输入项目名称/申请编号/项目简介/申请部门名称/申请人"
+                placeholder="请输入项目名称/申请编号/申请部门名称/申请人"
                 prefix-icon="el-icon-search"
                 v-model="filters[0].value"
                 class="mr-3">
               </el-input>
+              <el-select v-model="filters[1].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>
+                <el-option label="待审核" value="1"></el-option>
+                <el-option label="审核通过" value="2"></el-option>
+                <el-option label="审核失败" value="3"></el-option>
+              </el-select>
               <el-date-picker
-                v-model="filters[1].value"
+                v-model="filters[2].value"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="创建时间"
@@ -27,7 +32,7 @@
                 class="mr-3">
               </el-date-picker>
               <el-date-picker
-                v-model="filters[2].value"
+                v-model="filters[3].value"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="提交时间"
@@ -39,41 +44,28 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="apply_number" label="项目编号" width="230"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称" width="150"></el-table-column>
-        <el-table-column prop="budget_amount" label="项目金额"></el-table-column>
-        <el-table-column label="简介">
+        <el-table-column prop="apply_number" width="220" label="项目编号"></el-table-column>
+        <el-table-column prop="p_name" label="项目名称" width="220"></el-table-column>
+        <el-table-column prop="cname" label="申请类别" width="200"></el-table-column>
+        <el-table-column prop="projecttime" label="年份"></el-table-column>
+        <el-table-column prop="check_state" label="审核状态" width="120">
           <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="简介"
-              width="200"
-              trigger="hover"
-              :content="scope.row.p_biref">
-              <span class="text-truncate" slot="reference">{{scope.row.p_biref}}</span>
-            </el-popover>
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核通过</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
           </template>
         </el-table-column>
-        <el-table-column prop="projecttime" label="年份" width="80"></el-table-column>
-        <el-table-column prop="agree_number" label="合同编号" width="120"></el-table-column>
-        <el-table-column prop="job_number" label="企业名称" width="200"></el-table-column>
         <el-table-column prop="name" label="申请人姓名" width="100"></el-table-column>
-        <el-table-column prop="depart_name" label="申请人所在部门" width="160"></el-table-column>
+        <el-table-column prop="depart_name" label="申请人所在部门" width="120"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column prop="committime" label="提交时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="180" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.node_check_relation_list.can_edit == 1 && scope.row.node_check_relation_list.can_check == 0">
+            <template v-if="scope.row.check_state == 2 || scope.row.check_state == 3">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.node_check_relation_list.can_edit == 0 && scope.row.node_check_relation_list.can_check == 1">
-              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-            </template>
-            <template v-if="scope.row.node_check_relation_list.can_edit == 1 && scope.row.node_check_relation_list.can_check == 1">
-              <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-            </template>
             <template v-else>
-              <span v-for="(action,index) in actions4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -105,6 +97,10 @@
 	        {
 	          value: '',
 	          prop: 'keywords'
+	        },
+          {
+	          value: '',
+	          prop: 'check_state'
 	        },
           {
 	          value: '',
@@ -145,8 +141,9 @@
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
-          createtime:this.filters[1].value?this.filters[1].value.join(" - "):'',
-          committime:this.filters[2].value?this.filters[2].value.join(" - "):'',
+          check_state:this.filters[1].value,
+          createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
+          committime:this.filters[3].value?this.filters[3].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
             this.total = data.count;
@@ -163,10 +160,10 @@
                 action_3.push(item);
               }
             });
-            this.actions1 = [...action_1,...action_3];
-            this.actions2 = [...action_2,...action_3];
-            this.actions3 = [...action_1,...action_2,...action_3];
-            this.actions4 = [...action_3];
+
+            // 编辑审核  只要不是check_state为2 3  都需要保留
+            this.actions1 = [...action_3];
+            this.actions2 = [...action_1,...action_2,...action_3];
           }else{
             this.$message.error(data.msg);
           }

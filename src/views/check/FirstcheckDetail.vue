@@ -1,83 +1,93 @@
 <template>
 	<div class="application_detail">
-		<!-- 登录信息 -->
-		<global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-row class="mt-3" :gutter="20" type="flex">
-			<el-col :span="6">
+			<el-col :span="24">
 				<el-card class="h-100">
 					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目基本信息</h4>
 					<div class="d-flex align-items-center flex-wrap">
-						<p class="w-100"><span class="opacity-60 mr-2">项目编号:</span>{{basic.apply_number}}</p>
-						<p class="w-50"><span class="opacity-60 mr-2">项目名称:</span>{{basic.p_name}}</p>
-						<p class="w-50"><span class="opacity-60 mr-2">项目类型:</span>{{basic.category_name}}</p>
-						<p class="w-50"><span class="opacity-60 mr-2">项目年份:</span>{{basic.projecttime}}</p>
-						<p class="w-50"><span class="opacity-60 mr-2">项目状态: </span>{{basic.current_node_text}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">申请人所在部门:</span>{{basic.apply_user_depart}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">合同编号:</span>{{basic.agree_number}}</p>
-						<p class="w-50 m-0"><span class="opacity-60 mr-2">合同金额: </span>{{basic.budget_amount}}元</p>
-					</div>
-					<div class="mt-3 progress-demo">
-						<div class="d-flex justify-content-between mb-2">
-							<span class="paid">{{basic.paidPercentage}}%</span>
-							<span class="unPaid">{{100 - basic.paidPercentage}}%</span>
-						</div>
-						<el-progress :percentage="basic.paidPercentage" :show-text="false" :stroke-width="10" status="success"></el-progress>
-						<div class="d-flex justify-content-center mt-2">
-							<span class="mr-2"><i class="icon-primitive-dot text-success"></i>已付款</span>
-							<span class="ml-2"><i class="icon-primitive-dot text-grey-300"></i>未付款</span>
-						</div>
+						<p class="w-100"><span class="opacity-60 mr-2">项目编号：</span>{{basic.apply_number}}</p>
+						<p class="w-100"><span class="opacity-60 mr-2">项目名称：</span>{{basic.p_name}}</p>
+						<p class="w-100"><span class="opacity-60 mr-2">项目类型：</span>{{basic.category_name}}</p>
+						<p class="w-100"><span class="opacity-60 mr-2">项目年份：</span>{{basic.projecttime}}</p>
+						<p class="w-100 mb-0"><span class="opacity-60 mr-2">申请人所在部门：</span>{{basic.apply_user_depart}}</p>
 					</div>
 				</el-card>
 			</el-col>
 
-			<el-col :span="6">
-				<el-card class="h-100 manufacturer">
+			<el-col :span="24" v-if="!commonJs.isEmpty(company_info)">
+				<el-card class="h-100 company_info">
 					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">厂商详情</h4>
 					<div class="d-flex align-items-center flex-wrap">
-						<p class="w-100"><span class="opacity-60 mr-2">公司名称:</span>{{company_info.job_number}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">公司电话:</span>{{company_info.phone}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">联系地址:</span>{{company_info.address}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">公司开户行:</span>{{company_info.bank_info}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">公司账户:</span>{{company_info.account}}</p>
-						<p class="w-100 m-0"><span class="opacity-60 mr-2">项目负责人:</span>{{company_info.name}}</p>
+						<p class="w-100"><span class="opacity-60 mr-2">公司名称：</span>{{company_info.job_number}}</p>
+						<p class="w-100"><span class="opacity-60 mr-2">公司电话：</span>{{company_info.phone}}</p>
+						<p class="w-100"><span class="opacity-60 mr-2">联系地址：</span>{{company_info.address}}</p>
+						<p class="w-100"><span class="opacity-60 mr-2">公司开户行：</span>{{company_info.bank_info}}</p>
+						<p class="w-100"><span class="opacity-60 mr-2">公司账户：</span>{{company_info.account}}</p>
+						<p class="w-100 m-0"><span class="opacity-60 mr-2">项目负责人：</span>{{company_info.name}}</p>
 					</div>
 				</el-card>
 			</el-col>
 
-			<el-col :span="8">
+			<el-col :span="24" v-if="!commonJs.isEmpty(money_data)">
 				<el-card class="h-100">
 					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">当前节点应付款</h4>
 					<my-echart :id="'echarts'" :data="option" height="230px"></my-echart>
 				</el-card>
 			</el-col>
-
-			<el-col :span="6">
-				<el-card class="h-100">
-					<div class="d-flex align-items-center justify-content-between">
-						<h4 class="fs_16 font-weight-semibold m-0 text-000">合同附件</h4>
-					</div>
-					<template v-for="(file,index) in agreefiles">
-						<div class="detail_files  mt-3 d-flex align-items-center justify-content-between" :key="index">
-							<div class="d-flex align-items-center">
-								<img src="@/assets/images/csv.png" alt="" width="16" class="mr-2"/>
-								<span>{{file.name}}</span>
-							</div>
-							<div class="opacity-80 cursor-pointer">
-								<span @click="preview(file.path)"><i class="el-icon-view mr-1"></i></span>
-								<span @click="downloadview(file)"><i class="el-icon-download mr-1"></i></span>
-							</div>
-						</div>
-					</template>
-				</el-card>
-			</el-col>
 		</el-row>
+
+		<!-- 表单值 -->
+		<el-card class="mt-3">
+			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">表单值</h4>
+			<el-form class="form_json" label-position="left">
+				<el-row :gutter="20">
+					<template v-for="(formItem,j) in dataJson">
+						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
+							<el-form-item :label="formItem.title+'：'" class="file-form-item">
+								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
+									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+									</div>
+									<div class="opacity-80 ml-5 pl-5">
+										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+									</div>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
+							<el-form-item :label="formItem.title+'：'" label-width="80px"  class="json-form-item">
+								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
+									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
+							<el-form-item :label="formItem.title+'：'">
+								{{formItem.value.join(",")}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 7">
+							<el-form-item :label="formItem.title+'：'">
+								<span v-html="formItem.value"></span>
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :key="j" v-else>
+							<el-form-item :label="formItem.title+'：'">
+								{{formItem.value}}
+							</el-form-item>
+						</el-col>
+					</template>
+				</el-row>
+			</el-form>
+		</el-card>
 
 		<!-- 项目状态 -->
 		<el-card class="mt-3">
 			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目状态</h4>
 			<el-steps :active="statusActive" finish-status="success" align-center>
-				<el-step :title="status.name" v-for="(status,index) in statusSteps" :key="index"></el-step>
+				<el-step :title="status" v-for="(status,index) in statusSteps" :key="index"></el-step>
 			</el-steps>
 		</el-card>
 
@@ -96,11 +106,14 @@
 </template>
 
 <script>
-	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
 	import BaseEcharts from "@/components/echarts/BaseEcharts"
 	export default {
 		name: 'firstCheckDetail',
+		components: {
+			Breadcrumb,
+			"my-echart":BaseEcharts,
+		},
 		data () {
 			return {
 				// 项目基本信息
@@ -116,19 +129,20 @@
 			    legend: {
 		        orient: 'horizontal',
 		        x: 'center',
-		        bottom: '-5',
+		        bottom: '0',
 		        icon: 'circle',
 		        itemWidth: 10,
+		        data: ['未付款', '应付款']
 			    },
 			    series: [
 		        {
-	            name: '应付款',
+	            name: '资金',
 	            type: 'pie',
 	            radius: ['50%', '70%'],
-	            center: ['50%', '45%'],
+	            center: ['50%', '48%'],
 	            label: {
                 fontSize: 14,
-            	},
+            },
 	            data: [
                 {value: 7000, name: '未付款'},
                 {value: 3000, name: '应付款'},
@@ -144,10 +158,15 @@
 		        }
 			    ]
 				},
+				money_data:[],
 				// 合同附件
 				agreefiles:[],
+				// 当前节点电子文档下拉选项
+				edValue:"0",
+				// 表单值
+				dataJson:[],
 				//项目状态
-				statusActive:0,
+				statusActive:7,
 				statusSteps:[],
 				// 任务信息
 				tableProps: {
@@ -159,54 +178,51 @@
         pageSize: 15, //每页显示条数
 			}
 		},
-		components: {
-			GlobalTips,
-			Breadcrumb,
-			"my-echart":BaseEcharts,
-		},
 		mounted(){
 			this.initData();
-		},
+    },
 		methods:{
-			// 自增序列
-      indexMethod(index) { 
-        return ++index;
-      },
-			// 初始化
+			// 获取数据
 			initData(){
-				this.projectId = this.$route.query.id;
 				this.$api.firstCheck_detail({
-					id:this.projectId,
-				}).then(data =>{
+					id:this.$route.query.id
+				}).then(data => {
 					if(data.code == 0){
-						// 项目信息
 						this.basic = data.data.info;
-						this.basic.paidPercentage = (data.data.info.has_pay_money/(data.data.info.has_pay_money + data.data.info.no_pay_money)).toFixed(2)*100
-						data.data.project_node.map((item,index)=>{
-							if(item.id == data.data.info.current_node_id){
-								this.basic.current_node_text = item.name;
-							}
-						});
 						// 厂商信息
 						this.company_info = data.data.company_info;
 						// 当前付款节点--图
+						this.money_data = data.data.money_data;
 						this.option = {
 							series:[{
 								data:data.data.money_data	
 							}]
 						};
-						// 文件
-						this.agreefiles = data.data.info.agreefile;
+						// 表单值
+						this.dataJson = data.data.info.datajson;
+
 						// 项目状态
 						this.statusActive = data.data.info.current_node_id - 1;
 						this.statusSteps = data.data.project_node;
+
 						// 合同付款节点
 						this.tableData = data.data.pay_info;
-					}else{
-						this.$message.error(data.msg);
 					}
-				});
+				})
 			},
+			// 自增序列
+      indexMethod(index) { 
+        return ++index;
+      },
+      // 加载数据
+      loadData(queryInfo) { 
+        let _this = this;
+        if (queryInfo != null) {
+          this.currentPage = queryInfo.page;
+          this.pageSize = queryInfo.pageSize;
+        }
+      },
+
 			// 预览文件
 			preview(path){
 				this.$api.file_preview({
@@ -234,7 +250,7 @@
 				a.click(); // 触发a标签的click事件
 				document.body.removeChild(a);
 			},
-		}
+		},
 	}
 </script>
 

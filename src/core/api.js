@@ -56,6 +56,9 @@ export default {
 	uploadAgree: p => postUpload('/api/upload/upload_agree', p),
 	// 移除合同
 	uploadDel: p => post('/api/upload/del_upload', p),
+	// 项目详情
+	projectDetail: p => post('/api/project.project/details', p),
+
 	// 提交项目
 	projectCommit: p => post('/api/project.project/commit', p),
 	// 提交复审

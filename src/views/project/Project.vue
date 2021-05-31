@@ -16,7 +16,7 @@
                 class="mr-3">
     				  </el-input>
               <el-input
-    				    placeholder="请输入项目名称/项目简介/公司名称"
+    				    placeholder="请输入项目名称/公司名称"
     				    prefix-icon="el-icon-search"
     				    v-model="filters[1].value"
                 class="mr-3">
@@ -44,13 +44,13 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="apply_number" width="250" label="项目编号"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称"></el-table-column>
-        <el-table-column prop="projecttime" label="年份" width="80"></el-table-column>
+        <el-table-column prop="apply_number" width="220" label="项目编号"></el-table-column>
+        <el-table-column prop="p_name" label="项目名称" width="220"></el-table-column>
+        <el-table-column prop="cname" label="类别名称" width="200"></el-table-column>
+        <el-table-column prop="projecttime" label="年份"></el-table-column>
         <el-table-column prop="apply_user_depart" label="所属部门" width="180"></el-table-column>
         <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column prop="job_number" label="公司名称" width="200"></el-table-column>
         <el-table-column fixed="right" label="操作" width="250" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.is_commit == 1">

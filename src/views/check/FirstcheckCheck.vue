@@ -5,7 +5,7 @@
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
 			<!-- 项目明细 -->
-			<el-form :model="projectForm" ref="projectForm" label-width="110px" label-position="left" class="pl-3 pr-3">
+			<el-form label-width="130px" label-position="left" class="pl-3 pr-3">
 				<h6 class="fs_20 font-weight-normal mb-3">项目明细</h6>
 				<el-row :gutter="20">
 					<el-col :span="8">
@@ -14,80 +14,57 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="所属公司">
-							{{projectForm.company_name}}
+						<el-form-item label="申请类别">
+							{{projectForm.category_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="申请人">
-							{{projectForm.apply_name}}
+						<el-form-item label="公司名称">
+							{{projectForm.job_number}}
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
-						<el-form-item label="录入时间" prop="recordtime">
-							{{projectForm.recordtime}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="项目启动时间" prop="recordtime">
-							{{projectForm.starttime}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="项目完成时间" prop="recordtime">
-							{{projectForm.successtime}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="合同金额" prop="budget_amount">
-							{{projectForm.budget_amount}} 元
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="合同编号" prop="budget_amount">
-							{{projectForm.agree_number}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="合同文件" prop="agreefile">
-							<div class="d-flex align-items-center justify-content-between" v-for="(file,index) in fileList" :key="index">
-								<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
-									<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+					<template v-for="(formItem,j) in projectForm.dataJson">
+						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
+							<el-form-item :label="formItem.title">
+								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
+									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+									</div>
+									<div class="opacity-80 ml-5 pl-5">
+										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+									</div>
 								</div>
-								<div class="opacity-80">
-									<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)">  在线预览</i>
-									<i class="el-icon-download cursor-pointer view" @click="downloadview(file)">  下载</i>
+							</el-form-item>
+						</el-col>
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
+							<el-form-item :label="formItem.title">
+								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
+									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
 								</div>
-							</div>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="项目付款信息" class="payment_item">
-							<template>
-								<el-table
-									:data="projectForm.agree_payinfo"
-									style="width: 100%">
-									<el-table-column
-										prop="title"
-										label="标题">
-									</el-table-column>
-									<el-table-column
-										prop="money"
-										label="金额">
-									</el-table-column>
-									<el-table-column
-										prop="paytime"
-										label="付款节点">
-									</el-table-column>
-								</el-table>
-							</template>
-						</el-form-item>
-					</el-col>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
+							<el-form-item :label="formItem.title">
+								{{formItem.value.join(",")}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 7">
+							<el-form-item :label="formItem.title">
+								<span v-html="formItem.value"></span>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else>
+							<el-form-item :label="formItem.title">
+								{{formItem.value}}
+							</el-form-item>
+						</el-col>
+					</template>
 				</el-row>
 			</el-form>
 
 			<!-- 审核表单 -->
-			<el-form ref="checkform" :model="checkform" class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules" v-if="check_info == 1">
+			<el-form ref="checkform" :model="checkform" class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules">
 				<h6 class="fs_20 font-weight-normal mb-3">审核项目</h6>
 				<el-form-item label="审核状态" prop="check_state">
 					<el-radio-group v-model="checkform.check_state">
@@ -115,11 +92,11 @@
 		data () {
 			return {
 				projectId:'',
-				check_info:"",
 				titile:"编辑初审项目",
-				fileList:[],
-				projectForm: {
-        },
+				check_info:"",
+				projectForm: {},
+				dataJson:{},
+				agree_payinfo:[],
 				checkform:{
 					check_state:"",
 					remark:"",
@@ -147,21 +124,9 @@
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
-						this.check_info = data.data.check_info;
-
 						this.projectForm = data.data.info;
-						let arrList = [];
-						for (let i in data.data.info.agreefile) {
-							var obj = {};
-							var a = data.data.info.agreefile[i].path.split("/");
-							var b = a[a.length -1];
-							obj.name = b;
-							obj.url = this.$globalUrl.baseURL + data.data.info.agreefile[i].path;
-							obj.path = data.data.info.agreefile[i].path;
-							obj.isExist = true;
-							arrList.push(obj);
-						}
-						this.fileList = arrList;
+						this.projectForm.job_number = data.data.company_info.job_number;
+						this.projectForm.dataJson = data.data.info.datajson;
 					}else{
 						this.$message.error(data.msg);
 					}

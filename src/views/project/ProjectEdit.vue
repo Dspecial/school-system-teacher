@@ -161,7 +161,7 @@
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false" class="payment_item">
 								<div slot="label" class="d-flex justify-content-between">
 									<span>{{formItem.title}}</span>
-									<span class="text-primary cursor-pointer" @click="addPro(formItem.value)"><i class="el-icon-plus mr-1"></i>添加</span>
+									<span class="text-primary cursor-pointer" @click="addPro(formItem.value,formItem.extra_val)"><i class="el-icon-plus mr-1"></i>添加</span>
 								</div>
 								<template v-for="(cell,INDEX) in formItem.value">
 									<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
@@ -332,8 +332,12 @@
 				this.initProjectForms(value);
 			},
 			// 添加审核流程
-			addPro(item){
-				item.push({});
+			addPro(item,length){
+				var array = new Array();
+				for(var i=0;i<length.length;i++){
+					array.push('')
+				};
+				item.push(array);
 			},
 			// 删除字段
 			delField(item,index){

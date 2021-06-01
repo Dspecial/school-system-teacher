@@ -526,13 +526,13 @@ html,body,#app,.page-container{
   .el-form-item.file-form-item{
     display: flex;
   }
-  .el-form-item.json-form-item{
-    .el-form-item__content >div{
-      border-bottom: 1px solid #F0F2F5;
-    }
-    .el-form-item__content >div:first-child{
-      background-color: #EBEEF5;
-      padding: 10px 0!important;
-    }
+}
+.el-form-item.json-form-item{
+  .el-form-item__content >div{
+    border-bottom: 1px solid #F0F2F5;
+  }
+  .el-form-item__content >div:first-child{
+    background-color: #EBEEF5;
+    padding: 6px 0!important;
   }
 }

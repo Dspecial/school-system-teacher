@@ -57,7 +57,7 @@
 							</el-form-item>
 						</el-col>
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
-							<el-form-item :label="formItem.title+'：'" label-width="80px"  class="json-form-item">
+							<el-form-item :label="formItem.title+'：'" label-width="80px" class="json-form-item">
 								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
 									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
 								</div>

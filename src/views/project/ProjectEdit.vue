@@ -20,12 +20,25 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
+						<el-form-item label="申请年份" prop="projecttime">
+							<el-date-picker
+                placeholder="请选择申请年份"
+                v-model="projectForm.projecttime"
+                type="year"
+                class="w-100"
+                value-format="yyyy"
+								format="yyyy"
+								@change="yearChange">
+              </el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
 						<el-form-item label="项目名称" prop="p_name">
 							<el-input v-model="projectForm.p_name" placeholder="请输入项目名称"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="所属公司" prop="company_id">
+					<el-col :span="12" v-if="is_need_company == 2">
+						<el-form-item label="所属公司">
 							<el-select v-model="projectForm.company_id" placeholder="请选择所属公司" class="w-100">
 								<el-option
 									v-for="item in companyOptions"
@@ -34,6 +47,21 @@
 									:value="item.id">
 								</el-option>
 							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12" v-if="is_open_money == 2">
+						<el-form-item prop="budget_amount">
+							<template slot="label">
+								<span v-if="can_used_funds == 0">
+									预算金额 <span class="text-danger">(本年度可用预算金额不足，请联系管理员)</span>
+								</span>
+								<span v-else>
+									预算金额 <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span>
+								</span>
+							</template>
+							<el-input v-model.number="projectForm.budget_amount" placeholder="请输入预算金额">
+								<span slot="suffix" class="el-input__icon mr-2">元</span>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<template v-for="(formItem,j) in projectForm.secondFrom">
@@ -263,10 +291,15 @@
 					apply_number:"",
 					p_cate_id:"",
           p_name: "",
+					projecttime:this.$moment(new Date()).format('YYYY'),
 					company_id: "",
+					budget_amount:"",
 					secondFrom:{
 					},
         },
+				is_need_company:"1", // 是否开启企业选择
+				is_open_money:"1", // 是否开启金额申请
+				can_used_funds:'',
 				removeFilesArr:[],
         rules: {
 					p_cate_id: [
@@ -275,8 +308,22 @@
 					p_name: [
             { required: true, message: '请输入项目名称', trigger: 'blur' }
           ],
+					projecttime: [
+            { required: true, message: '请选择申请年份', trigger: 'change' }
+          ],
 					company_id: [
             { required: true, message: '请选择合作企业', trigger: 'change' }
+          ],
+					budget_amount: [
+          	{ required: true, message: '请输入预算金额', trigger: 'blur' },
+          	{ validator:(rule, value, callback) => {
+								if (!Number(value)) {
+									callback(new Error('预算金额必须是数值'));
+								}else{
+									callback();
+								}
+            	},trigger: 'blur'
+          	},
           ],
         }
 			}
@@ -315,13 +362,17 @@
 				});
 			},
 			// 获取表单
-			initProjectForms(id){
+			initProjectForms(id,year){
 				this.$api.getProjectForms({
 					p_cate_id:id,
+					years:year,
 				}).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						this.projectForm.secondFrom = data.data.forms_list;
+						this.is_need_company = data.data.is_need_company;
+						this.is_open_money = data.data.is_open_money;
+						this.can_used_funds = data.data.can_used_funds;
 					}else{
 						this.$message.error(data.msg);
 					}
@@ -329,7 +380,11 @@
 			},
 			// 项目分类change
 			cateChange(value){
-				this.initProjectForms(value);
+				this.initProjectForms(value,this.projectForm.projecttime);
+			},
+			// 年份change
+			yearChange(value){
+				this.initProjectForms(this.projectForm.p_cate_id,value);
 			},
 			// 添加审核流程
 			addPro(item,length){
@@ -364,6 +419,7 @@
 							this.projectForm.apply_number = data.data.apply_number;
 							this.projectForm.p_cate_id = data.data.p_cate_id;
 							this.projectForm.p_name = data.data.p_name;
+							this.projectForm.projecttime = data.data.projecttime;
 							this.projectForm.company_id = data.data.company_id;
 
 							var datajson = data.data.datajson;
@@ -427,7 +483,9 @@
 								apply_number:this.projectForm.apply_number,
 								p_cate_id:this.projectForm.p_cate_id,
 								p_name:this.projectForm.p_name,
+								projecttime:this.projectForm.projecttime,
 								company_id:this.projectForm.company_id,
+								budget_amount:this.projectForm.budget_amount,
 								senddata:JSON.stringify(senddata),
 							}).then(data =>{
 								if(data.code == 0){
@@ -448,7 +506,9 @@
 								apply_number:this.projectForm.apply_number,
 								p_cate_id:this.projectForm.p_cate_id,
 								p_name:this.projectForm.p_name,
+								projecttime:this.projectForm.projecttime,
 								company_id:this.projectForm.company_id,
+								budget_amount:this.projectForm.budget_amount,
 								senddata:JSON.stringify(senddata),
 							}).then(data =>{
 								if(data.code == 0){

@@ -61,10 +61,29 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+
+				<!-- 已审核信息 -->
+				<el-row :gutter="20" v-if="check_info.check_state != 1">
+					<el-col :span="8">
+						<el-form-item label="审核人">
+							{{check_info.checkname}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核时间">
+							{{check_info.checktime}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核部门">
+							{{check_info.checkgroup}}
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 			
 			<!-- 评审表单 -->
-			<el-form ref="checkform" :model="checkform"  class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules" v-if="check_info == 1">
+			<el-form ref="checkform" :model="checkform"  class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules" v-if="check_info.check_state == 1">
 				<h6 class="fs_20 font-weight-normal mb-3">评审项目</h6>
 				<el-form-item label="审核状态" prop="check_state">
 					<el-radio-group v-model="checkform.check_state">
@@ -94,9 +113,11 @@
 			return {
 				id:'', // 评审id
 				projectId:'',
-				check_info:"",
+				check_info:{},
 				projectInfo: {},
+				recheckInfo:{},
 				detailInfo:[],
+
 				checkform:{
 					check_state:"",
 					remark:"",

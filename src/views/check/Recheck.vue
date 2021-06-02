@@ -30,34 +30,41 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="apply_number" label="项目编号" width="230"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称" width="150"></el-table-column>
-        <el-table-column prop="budget_amount" label="项目金额"></el-table-column>
-        <el-table-column label="简介">
+        <el-table-column prop="apply_number" width="200" label="项目编号"></el-table-column>
+        <el-table-column prop="p_name" label="项目名称" width="210"></el-table-column>
+        <el-table-column prop="cname" label="申请类别" width="180"></el-table-column>
+        <el-table-column prop="projecttime" label="年份"></el-table-column>
+        <el-table-column prop="check_state" label="审核状态" width="120">
+          <template slot-scope="scope">
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核驳回</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="recheck_number" label="复审编号" width="180"></el-table-column>
+        <el-table-column label="复审内容" width="120">
           <template slot-scope="scope">
             <el-popover
               placement="top-start"
-              title="简介"
+              title="复审内容"
               width="200"
               trigger="hover"
-              :content="scope.row.p_biref">
-              <span class="text-truncate" slot="reference">{{scope.row.p_biref}}</span>
+              :content="scope.row.content">
+              <span class="text-truncate" slot="reference">{{scope.row.content}}</span>
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column prop="projecttime" label="年份" width="80"></el-table-column>
-        <el-table-column prop="agree_number" label="合同编号" width="120"></el-table-column>
-        <el-table-column prop="expert_name" label="评审专家"></el-table-column>
         <el-table-column prop="name" label="申请人姓名" width="100"></el-table-column>
-        <el-table-column prop="depart_name" label="申请人所在部门" width="160"></el-table-column>
+        <el-table-column prop="depart_name" label="申请人所在部门" width="120"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
+        <el-table-column prop="committime" label="提交时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="180" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.node_check_relation_list.can_check == 1">
-              <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            <template v-if="scope.row.check_state == 1">
+              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-else>
-              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -136,9 +143,10 @@
               }else if(item.sign == 4){ // 详情
                 action_2.push(item);
               }
-              
-              this.actions1 = [...action_1,...action_2];
-              this.actions2 = [...action_2];
+
+              // check_state不为1的话 就不显示审核按钮
+              this.actions1 = [...action_2];
+              this.actions2 = [...action_1,...action_2];
             });
           }else{
             this.$message.error(data.msg);

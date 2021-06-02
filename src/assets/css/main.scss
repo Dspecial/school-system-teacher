@@ -536,3 +536,9 @@ html,body,#app,.page-container{
     padding: 6px 0!important;
   }
 }
+
+.text-danger-input{
+  .el-input__inner{
+    color: var(--danger)!important;
+  }
+}

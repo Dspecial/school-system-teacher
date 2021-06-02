@@ -18,7 +18,7 @@
               </el-input>
               <el-select v-model="filters[1].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>
                 <el-option label="待审核" value="1"></el-option>
-                <el-option label="审核通过" value="2"></el-option>
+                <el-option label="审核成功" value="2"></el-option>
                 <el-option label="审核失败" value="3"></el-option>
               </el-select>
               <el-date-picker
@@ -44,14 +44,14 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="apply_number" width="220" label="项目编号"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称" width="220"></el-table-column>
-        <el-table-column prop="cname" label="申请类别" width="200"></el-table-column>
+        <el-table-column prop="apply_number" width="200" label="项目编号"></el-table-column>
+        <el-table-column prop="p_name" label="项目名称" width="210"></el-table-column>
+        <el-table-column prop="cname" label="申请类别" width="180"></el-table-column>
         <el-table-column prop="projecttime" label="年份"></el-table-column>
         <el-table-column prop="check_state" label="审核状态" width="120">
           <template slot-scope="scope">
             <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
-            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核通过</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
             <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
           </template>
         </el-table-column>

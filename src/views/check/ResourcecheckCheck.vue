@@ -92,7 +92,7 @@
 	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
 	export default {
-		name: 'ResourceCheck',
+		name: 'ResourcecheckCheck',
 		data () {
 			return {
 				id:'', // 复核id

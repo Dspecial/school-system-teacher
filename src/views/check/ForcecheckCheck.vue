@@ -5,17 +5,17 @@
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
 			<!-- 项目信息 -->
-			<el-form :model="recheckInfo" ref="recheckInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
-				<h6 class="fs_20 font-weight-normal mb-3">项目复审信息</h6>
+			<el-form :model="projectInfo" ref="projectInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
+				<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="项目名称">
-							{{recheckInfo.p_name}}
+							{{projectInfo.p_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="评审编号">
-							{{recheckInfo.recheck_number}}
+						<el-form-item label="项目编号">
+							{{projectInfo.apply_number}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
@@ -80,7 +80,24 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-
+			</el-form>
+			
+			<!-- 评审表单 -->
+			<el-form ref="checkform" :model="checkform"  class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules" v-if="check_info.check_state == 1">
+				<h6 class="fs_20 font-weight-normal mb-3">评审项目</h6>
+				<el-form-item label="审核状态" prop="check_state">
+					<el-radio-group v-model="checkform.check_state">
+						<el-radio :label="2">通过</el-radio>
+						<el-radio :label="3">驳回</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="审核备注">
+					<el-input type="textarea" v-model="checkform.remark" placeholder="请输入审核备注" :rows="3"></el-input>
+				</el-form-item>
+				<div class="d-flex justify-content-end">
+					<el-button type="primary" @click="submitForm('checkform')">确 定</el-button>
+					<el-button @click="closedEdit">取 消</el-button>
+				</div>
 			</el-form>
 		</el-card>
 	</div>
@@ -90,7 +107,7 @@
 	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
 	export default {
-		name: 'RecheckCheckDeatil',
+		name: 'ForcecheckCheck',
 		data () {
 			return {
 				id:'', // 评审id
@@ -99,6 +116,16 @@
 				projectInfo: {},
 				recheckInfo:{},
 				detailInfo:[],
+
+				checkform:{
+					check_state:"",
+					remark:"",
+				},
+				rules:{
+					check_state:[
+						{ required: true, message: '请选择审核状态', trigger: 'change' }
+					],
+				},
 			}
 		},
 		components: {
@@ -113,7 +140,7 @@
 			openEdit(){
 				this.projectId = this.$route.query.project_id;
 				this.id = this.$route.query.id;
-				this.$api.recheck_detail({
+				this.$api.recheckList_check({
 					id:this.id,
 					project_id:this.projectId,
 					function_type:1,
@@ -128,6 +155,37 @@
 					}
 				});
 			},
+			// 关闭编辑
+			closedEdit(){
+				this.$router.go(-1);//返回上一层
+			},
+      // form提交
+			submitForm(formName) {
+				this.$refs[formName].validate((valid) => {
+          if (valid) {
+						this.$api.recheckList_check({
+							id:this.id,
+							project_id:this.projectId,
+							function_type:2,
+							check_state:this.checkform.check_state,
+							remark:this.checkform.remark,
+						}).then(data =>{
+							if(data.code == 0){
+								this.$message({
+									message: data.msg,
+									type: 'success'
+								});
+								this.closedEdit();
+							}else{
+								this.$message.error(data.msg);
+							}
+						});
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
 		}
 	}
 </script>

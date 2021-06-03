@@ -117,7 +117,14 @@ export default {
 	recheckList_check: p => post('/api/checks.recheckproject/check_recheck', p),
 	// 项目复审详情
 	recheck_detail: p => post('/api/checks.recheckproject/details', p),
-		
+
+	// 实施列表
+	recheckList: p => post('/api/checks.recheckproject/index', p),
+	// 实施审核
+	recheckList_check: p => post('/api/checks.recheckproject/check_recheck', p),
+	// 实施详情
+	recheck_detail: p => post('/api/checks.recheckproject/details', p),
+
 	// 进度提交列表
 	processList: p => post('/api/checks.processproject/index', p),
 	// 进度审核

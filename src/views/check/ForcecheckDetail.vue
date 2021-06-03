@@ -90,7 +90,7 @@
 	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
 	export default {
-		name: 'RecheckCheckDeatil',
+		name: 'ForcecheckDetail',
 		data () {
 			return {
 				id:'', // 评审id

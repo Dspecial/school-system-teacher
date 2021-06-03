@@ -198,7 +198,6 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				// 复审
 				{
 				  path: '/check/recheck/check',
 				  component: resolve => require(['@/views/check/RecheckCheck'], resolve),
@@ -217,6 +216,36 @@ const router = new Router({
 				  },
 				  children: null
 				},
+
+				// 实施列表
+				{
+				  path: '/check/force',
+				  component: resolve => require(['@/views/check/Force'], resolve),
+				  name: 'Force',
+				  meta: {
+				    title: '实施列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/force/check',
+				  component: resolve => require(['@/views/check/ForcecheckCheck'], resolve),
+				  name: 'ForceCheck',
+				  meta: {
+				    title: '实施审核',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/force/detail',
+				  component: resolve => require(['@/views/check/ForcecheckDetail'], resolve),
+				  name: 'ForceDetail',
+				  meta: {
+				    title: '实施详情',
+				  },
+				  children: null
+				},
+
 				// 进度提交列表
 				{
 				  path: '/check/process',
@@ -227,7 +256,6 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				// 进度审核
 				{
 				  path: '/check/process/check',
 				  component: resolve => require(['@/views/check/ProcessCheck'], resolve),
@@ -247,7 +275,6 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				// 验收审核
 				{
 				  path: '/check/accept/check',
 				  component: resolve => require(['@/views/check/AcceptCheck'], resolve),
@@ -267,7 +294,6 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				// 资源审核
 				{
 				  path: '/check/resource/check',
 				  component: resolve => require(['@/views/check/ResourcecheckCheck'], resolve),
@@ -277,7 +303,6 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				// 资源审核
 				{
 				  path: '/check/resource/detail',
 				  component: resolve => require(['@/views/check/ResourcecheckDetail'], resolve),

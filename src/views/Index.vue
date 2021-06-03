@@ -43,34 +43,38 @@
 							<template v-for="(nav,index) in handleNav">
 								<span :key="index" :class="['cursor-pointer ml-3',handleNavIndex == nav.id?'active':'']" @click="handleTab(nav.id)">{{nav.title}}</span>
 							</template> 
+							<span class="ml-3 cursor-pointer" @click="moreRoutine">更多</span>
 						</div>
 					</div>
 					<div class="tab_content">
 						<el-row class="isCell handleType">
 							<template v-for="(type,index) in handleType">
 								<el-col :span="8" class="text-center" :key="index">
-									<p class="m-0 fs_30 mb-3">{{type.num}}/{{type.total}}</p>
+									<p class="m-0 fs_30 mb-3">{{type.num}}/{{handleTotal}}</p>
 									<span>{{type.typeName}}</span>
 								</el-col>
 							</template>
 						</el-row>
-						<el-table :data="handleData" class="mt-3">
-				      <el-table-column type="index" :index="indexMethod" label="编号"></el-table-column>
-				      <el-table-column prop="date" label="日期" width="90"></el-table-column>
-				      <el-table-column prop="type" label="类别"></el-table-column>
-				      <el-table-column prop="title" label="标题" width="140"></el-table-column>
-				      <el-table-column prop="dept" label="发出部门"></el-table-column>
-				      <el-table-column prop="sender" label="发出人"></el-table-column>
-				      <el-table-column prop="status" label="状态"></el-table-column>
-				      <el-table-column fixed="right" label="操作" width="100">
-					      <template slot-scope="scope">
+						<el-table :data="handleData" class="mt-3" height="240">
+							<el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
+							<!-- <el-table-column prop="work_num" label="编号"></el-table-column> -->
+							<el-table-column prop="title" label="标题"></el-table-column>
+							<el-table-column prop="status" label="状态" width="150">
+								<template slot-scope="scope">
+									<span v-if="scope.row.state == 1"><i class="dot bg-primary mr-1"></i>流转中</span>
+									<span v-else-if="scope.row.state == 2"><i class="dot bg-success mr-1"></i>已通过</span>
+									<span v-else-if="scope.row.state == 3"><i class="dot bg-danger mr-1"></i>已驳回</span>
+								</template>
+							</el-table-column>
+							<!-- <el-table-column prop="createtime" label="创建时间" width="180"></el-table-column>
+							<el-table-column prop="updatetime" label="更新时间" width="180"></el-table-column> -->
+							<el-table-column fixed="right" label="操作" width="100" align="center">
+								<template slot-scope="scope">
 					      	<div class="text-success cursor-pointer">
-						        <i class="el-icon-view"></i>
-						        <i class="el-icon-circle-check ml-2"></i>
-						        <i class="el-icon-notebook-2 ml-2"></i>
+						        <i class="el-icon-view" @click="viewDetail(scope.$index,scope.row)"></i>
 					        </div>
 					      </template>
-					    </el-table-column>
+							</el-table-column>
 				    </el-table>
 					</div>
 				</el-card>
@@ -162,84 +166,38 @@
 				// 信息处理Tab
 				handleNav:[
 					{
-						id:0,
+						id:'',
 						title:"全部",
 					},
 					{
 						id:1,
-						title:"警报",
+						title:"待办",
 					},
 					{
 						id:2,
-						title:"审批",
-					},{
-						id:3,
-						title:"信息",
-					},
+						title:"已办",
+					}
 				],
 				// 默认选中的tab
-				handleNavIndex:"1",
+				handleNavIndex:"",
 				handleType:[
 					{
 						typeName:"待处理",
 						num:"8",
-						total:"100",
 					},
 					{
-						typeName:"处理中",
+						typeName:"已通过",
 						num:"10",
-						total:"22",
 					},
 					{
-						typeName:"已完结",
+						typeName:"已驳回",
 						num:"20",
-						total:"20",
 					},
 				],
-				handleData: [
-					{
-	          date: "2020.12.20",
-	          type: "审批",
-	          title: "xx项目申请服务器",
-	          dept:"学工处",
-	          sender: '王小虎',
-	          status: "未处理",
-	        }, 
-	        {
-	          date: "2020.12.20",
-	          type: "审批",
-	          title: "xx项目申请服务器",
-	          dept:"学工处",
-	          sender: '王小虎',
-	          status: "未处理",
-	        },
-	        {
-	          date: "2020.12.20",
-	          type: "审批",
-	          title: "xx项目申请服务器",
-	          dept:"学工处",
-	          sender: '王小虎',
-	          status: "未处理",
-	        },
-	        {
-	          date: "2020.12.20",
-	          type: "审批",
-	          title: "xx项目申请服务器",
-	          dept:"学工处",
-	          sender: '王小虎',
-	          status: "未处理",
-	        },
-	        {
-	          date: "2020.12.20",
-	          type: "审批",
-	          title: "xx项目申请服务器",
-	          dept:"学工处",
-	          sender: '王小虎',
-	          status: "未处理",
-	        }
-	      ],
+				handleTotal:20,
+				handleData: [],
 
-	      // 信息处理Tab
+	      // 付款信息Tab
 				handleYear:[
 					{
 						id:"",
@@ -326,20 +284,12 @@
 			}
 		},
 		mounted(){
+			this.initRoutine();
+
 			this.initState();
 			this.initPay();
 		},
 		methods:{
-			handleTab(id){
-				this.handleNavIndex = id; 
-			},
-			handleYearTab(year){
-				this.handleYearIndex = year; 
-				this.initPay(year);
-			},
-			indexMethod(index) { //自增序列
-        return ++index;
-      },
 			// 获取状态统计
 			initState(){
 				this.$api.dashboard_state({
@@ -356,6 +306,61 @@
 						this.$message.error(data.msg);
 					}
 				})
+			},
+
+			// 信息处理tab
+			handleTab(id){
+				this.handleNavIndex = id;
+				this.initRoutine(id);
+			},
+			// 更多
+			moreRoutine(){
+				this.$router.push({ 
+					path:"/works/routine"
+				});
+			},
+			// 获取信息处理
+			initRoutine(status){
+				this.$api.dashboard_routine({
+					status:status,
+				}).then(data=>{
+					if(data.code == 0){
+						this.handleTotal = data.data.all_count;
+						this.handleType[0].num = data.data.daichuli_count;
+						this.handleType[1].num = data.data.yitongguo_count;
+						this.handleType[2].num = data.data.yibohui_count;
+
+						this.handleData = data.data.list;
+
+					}else{
+						this.$message.error(data.msg);
+					}
+				})
+			},
+			indexMethod(index) { //自增序列
+        return ++index;
+      },
+			// 跳转查看
+			viewDetail(index,row){
+				var url = row.view_url.split("#")[1];
+        if(row.view_url){
+          this.$router.push({ 
+            path:url
+          });
+        }else{
+          this.$router.push({ 
+            path:"/project/project/detail",
+            query:{
+              id:row.details_id
+            },
+          });
+        }
+			},
+
+			// 年份tab
+			handleYearTab(year){
+				this.handleYearIndex = year; 
+				this.initPay(year);
 			},
 			// 获取首页获取付款信息
 			initPay(year){

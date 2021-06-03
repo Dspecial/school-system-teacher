@@ -1,5 +1,7 @@
 <template>
-  <el-menu router :default-active="currentMenu" :unique-opened="true" class="el-menu-vertical-demo" text-color="rgba(255,255,255,0.8)" active-text-color="rgba(255,255,255,1)" @open="handleOpen" @close="handleClose" :collapse="isCollapse"  @select="handleselect">
+  <el-menu router :default-active="currentMenu" :unique-opened="true" class="el-menu-vertical-demo" 
+  text-color="rgba(255,255,255,0.8)" active-text-color="rgba(255,255,255,1)" :default-openeds="defaultOpeneds"
+  @open="handleOpen" @close="handleClose" :collapse="isCollapse"  @select="handleselect">
     <!-- logo -->
     <div class="logo d-flex align-items-center justify-content-center">
     	<i class="icon-cube3 fs_24"></i>
@@ -29,6 +31,7 @@
         currentMenu: 'index', // SideBar里面当前高亮菜单的默认值
 				menuDatas: sideBarData.menu,
         isCollapse:false,
+        defaultOpeneds:[],
 			}
 		},
 		components: {
@@ -123,7 +126,9 @@
         // console.log(key, keyPath);
       },
       handleselect(key, keyPath){
-        // console.log(key, keyPath);
+        if(key == '/index'){
+          this.defaultOpeneds = [];
+        }
         this.reload();  // 点击侧边栏重新载入页面
       },
       toggleCollapse(){

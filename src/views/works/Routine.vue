@@ -9,10 +9,9 @@
         <div class="mb-3" slot="tool">
           <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">事务列表</h4>
           <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-            <el-tab-pane label="待提交" name="1"></el-tab-pane>
-            <el-tab-pane label="待办" name="2"></el-tab-pane>
-            <el-tab-pane label="在办" name="3"></el-tab-pane>
-            <el-tab-pane label="办结" name="4"></el-tab-pane>
+            <el-tab-pane label="待办" name="1"></el-tab-pane>
+            <el-tab-pane label="已办" name="2"></el-tab-pane>
+            <el-tab-pane label="我发起" name="3"></el-tab-pane>
           </el-tabs>
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
@@ -40,41 +39,18 @@
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="work_num" label="编号"></el-table-column>
         <el-table-column prop="title" label="标题"></el-table-column>
-        <el-table-column label="内容">
+				<el-table-column prop="status" label="状态" width="150">
           <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="内容"
-              width="200"
-              trigger="hover"
-              :content="scope.row.desc">
-              <span class="text-truncate" slot="reference">{{scope.row.desc}}</span>
-            </el-popover>
+            <span v-if="scope.row.state == 1"><i class="dot bg-primary mr-1"></i>流转中</span>
+            <span v-else-if="scope.row.state == 2"><i class="dot bg-success mr-1"></i>已通过</span>
+            <span v-else-if="scope.row.state == 3"><i class="dot bg-danger mr-1"></i>已驳回</span>
           </template>
         </el-table-column>
-				<el-table-column prop="status" label="状态">
+				<el-table-column prop="createtime" label="创建时间" width="180"></el-table-column>
+        <el-table-column prop="updatetime" label="更新时间" width="180"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="200" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 1"><i class="dot bg-danger mr-1"></i>待提交</span>
-            <span v-else-if="scope.row.status == 2"><i class="dot bg-warning mr-1"></i>待办</span>
-            <span v-else-if="scope.row.status == 3"><i class="dot bg-primary mr-1"></i>在办</span>
-            <span v-else><i class="dot bg-success mr-1"></i>办结</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="type" label="事务类型">
-          <template slot-scope="scope">
-            <span v-if="scope.row.type == 1"><i class="dot bg-primary mr-1"></i>自办</span>
-            <span v-else><i class="dot bg-success mr-1"></i>他办</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="get_work_level" label="级别"></el-table-column>
-				<el-table-column prop="createtime" label="创建时间"></el-table-column>
-        <el-table-column prop="endtime" label="预计完成时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="200" align="left">
-          <template slot-scope="scope">
-            <template v-if="scope.row.status == 1">
-              <span class="text-primary cursor-pointer mr-3" @click="routineSubmit(scope.$index,scope.row)">提交</span>
-              <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-            </template>
+            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -146,7 +122,7 @@
         }).then(data=>{
           if(data.code == 0){
             this.total = data.data.total;
-            this.tableData = data.data;
+            this.tableData = data.data.data;
           }else{
             this.$message.error(data.msg);
           }
@@ -223,7 +199,19 @@
       },
       // 详情
       goDetail(index,row){
-
+        var url = row.view_url.split("#")[1];
+        if(row.view_url){
+          this.$router.push({ 
+            path:url
+          });
+        }else{
+          this.$router.push({ 
+            path:"/project/project/detail",
+            query:{
+              id:row.details_id
+            },
+          });
+        }
       },
 		},
   }

@@ -64,7 +64,6 @@
               })
               this.$store.commit("SET_ACTION",this.allAction);
             }
-            // console.log(this.allAction,'this.allAction');
           }
         })
       },

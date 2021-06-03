@@ -31,6 +31,9 @@ export default {
 	/*
 		***首页
 	 */
+
+	// 获取信息处理
+	dashboard_routine: p => post('/api/dashboard/get_last_routine', p),	
 	// 获取项目状态数
 	dashboard_state: p => post('/api/dashboard/get_my_project_state', p),
 	// 获取首页获取付款信息

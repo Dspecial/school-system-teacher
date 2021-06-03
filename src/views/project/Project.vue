@@ -191,6 +191,25 @@
             // 为5 进度记录、详情  
             // 为6 进度记录、进入验收、详情  
             // 为7、8、9就进入维保、详情
+
+
+            // current_node_id 为1的话 提交审核;
+
+            // current_node_id 为2的话 提交复审 复审记录;  
+            // current_node_id 为2 且 next_node_id为6的话 进入实施; 
+            // current_node_id 为2 且 next_node_id为10的话 进入验收流程;
+            // current_node_id 为2 且 next_node_id为11的话 进入维保;
+            // current_node_id 为2 且 next_node_id为12的话 进度上传、上传记录; 
+            
+            // current_node_id 为6 且 next_node_id为10的话 进入验收流程;
+            // current_node_id 为6 且 next_node_id为11的话 进入维保;
+            // current_node_id 为6 且 next_node_id为12的话 进度上传、上传记录;
+
+            // current_node_id 为10 且 next_node_id为11的话 进入验收;
+            // current_node_id 为10 且 next_node_id为12的话 进度上传、上传记录;
+
+            // current_node_id 为11 且 next_node_id为12的话 进度上传、上传记录;
+            
             this.actions1 = [...actions_1,...actions_2,...actions_4,...actions_3];
             this.actions2 = [...actions_5,...actions_8,...actions_3];
             this.actions3 = [...actions_5,...actions_8,...actions_6,...actions_3];

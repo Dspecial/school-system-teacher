@@ -318,7 +318,35 @@
 				this.$router.push({ 
 					path:"/works/routine"
 				});
+				// 35是事务管理
+				this.menuClick(35);
 			},
+			menuClick(id){
+        this.$cookies.set('menu_id', id);
+        // 清空
+        this.allAction = {
+          addAction:{},
+          moreAction:[],
+        };
+        this.$api.menuButton({
+          menu_id:id
+        }).then(data=>{
+          if(data.code == 0){
+            if(this.commonJs.isEmpty(data.data.current_menu[0])){
+              this.$store.commit("SET_ACTION",this.allAction);
+            }else{
+              data.data.current_menu.map(item=>{
+                if(item.sign == 1){ // 是添加按钮
+                  this.allAction.addAction = item;
+                }else{
+                  this.allAction.moreAction.push(item);
+                }
+              })
+              this.$store.commit("SET_ACTION",this.allAction);
+            }
+          }
+        })
+      },
 			// 获取信息处理
 			initRoutine(status){
 				this.$api.dashboard_routine({

@@ -6,7 +6,7 @@
     <el-card>
       <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage" :page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
         <div class="mb-3" slot="tool">
-          <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目列表</h4>
+          <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">我的项目列表</h4>
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
           		<el-input
@@ -41,32 +41,25 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="apply_number" width="250" label="项目编号"></el-table-column>
+        <el-table-column prop="apply_number" label="项目编号"></el-table-column>
         <el-table-column prop="p_name" label="项目名称"></el-table-column>
-        <el-table-column prop="budget_amount" label="项目金额"></el-table-column>
-        <el-table-column label="简介">
-          <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="简介"
-              width="200"
-              trigger="hover"
-              :content="scope.row.p_biref">
-              <span class="text-truncate" slot="reference">{{scope.row.p_biref}}</span>
-            </el-popover>
-          </template>
-        </el-table-column>
-        <el-table-column prop="projecttime" label="年份" width="80"></el-table-column>
+        <el-table-column prop="real_amount" label="项目金额"></el-table-column>
+        <el-table-column prop="projecttime" label="年份"></el-table-column>
         <el-table-column prop="job_number" label="教师名称"></el-table-column>
-        <el-table-column prop="createtime" label="创建时间"></el-table-column>
-        <el-table-column prop="checkedtime" label="验收时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="200" align="center">
+        <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="300" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.is_commit == 5 || scope.row.is_commit == 6">
+            <template v-if="scope.row.is_commit == 1">
+              
+            </template>
+            <template v-else-if="scope.row.is_commit == 10 || scope.row.is_commit == 11 || scope.row.is_commit == 12">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.is_commit == 7 || scope.row.is_commit == 8">
+            <template v-else-if="scope.row.is_commit == 13 || scope.row.is_commit == 14">
               <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            </template>
+            <template v-else>
+              <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -160,11 +153,12 @@
                 actions_4.push(item);
               }
             });
-            // is_commit
-            // 为5、6 就上传进度、进度记录、详情  
-            // 为7、8就上传验收、详情
+
+            // is_commit 为10 11 12 上传进度、进度记录、详情
+            // is_commit 为13 14 上传验收、详情
             this.actions1 = [...actions_2,...actions_3,...actions_1];
             this.actions2 = [...actions_4,...actions_1];
+            this.actions3 = [...actions_1];
             
           }else{
             this.$message.error(data.msg);

@@ -6,10 +6,12 @@
 				<el-card class="h-100">
 					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目基本信息</h4>
 					<div class="d-flex align-items-center flex-wrap">
-						<p class="w-100"><span class="opacity-60 mr-2">项目编号：</span>{{basic.apply_number}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">项目名称：</span>{{basic.p_name}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">项目类型：</span>{{basic.category_name}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">项目年份：</span>{{basic.projecttime}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目编号：</span>{{basic.apply_number}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目名称：</span>{{basic.p_name}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">预算金额：</span>{{basic.budget_amount}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目金额：</span>{{basic.real_amount}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目类别：</span>{{basic.category_name}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目年份：</span>{{basic.projecttime}}</p>
 						<p class="w-100 mb-0"><span class="opacity-60 mr-2">申请人所在部门：</span>{{basic.apply_user_depart}}</p>
 					</div>
 				</el-card>
@@ -19,11 +21,11 @@
 				<el-card class="h-100 company_info">
 					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">厂商详情</h4>
 					<div class="d-flex align-items-center flex-wrap">
-						<p class="w-100"><span class="opacity-60 mr-2">公司名称：</span>{{company_info.job_number}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">公司电话：</span>{{company_info.phone}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">联系地址：</span>{{company_info.address}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">公司开户行：</span>{{company_info.bank_info}}</p>
-						<p class="w-100"><span class="opacity-60 mr-2">公司账户：</span>{{company_info.account}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">公司名称：</span>{{company_info.job_number}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">公司电话：</span>{{company_info.phone}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">联系地址：</span>{{company_info.address}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">公司开户行：</span>{{company_info.bank_info}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">公司账户：</span>{{company_info.account}}</p>
 						<p class="w-100 m-0"><span class="opacity-60 mr-2">项目负责人：</span>{{company_info.name}}</p>
 					</div>
 				</el-card>
@@ -84,15 +86,15 @@
 		</el-card>
 
 		<!-- 项目状态 -->
-		<el-card class="mt-3">
+		<!-- <el-card class="mt-3">
 			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目状态</h4>
 			<el-steps :active="statusActive" finish-status="success" align-center>
 				<el-step :title="status" v-for="(status,index) in statusSteps" :key="index"></el-step>
 			</el-steps>
-		</el-card>
+		</el-card> -->
 
 		<!-- 合同付款节点 -->
-		<el-card class="mt-3">
+		<el-card class="mt-3" v-if="tableData.length != 0">
 			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">合同付款节点</h4>
 			<data-tables-server :data="tableData" layout="table,pagination" :total="total" :current-page="currentPage" :page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60] }" :table-props="tableProps">
 				<el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
@@ -100,6 +102,12 @@
 				<el-table-column prop="money" label="金额"></el-table-column>
 				<el-table-column prop="paytime" label="付款节点"></el-table-column>
 				<el-table-column prop="createtime" label="创建时间"></el-table-column>
+				<el-table-column prop="is_pay" label="是否支付">
+					<template slot-scope="scope">
+						<span v-if="scope.row.is_pay == 1"><i class="dot bg-warning mr-1"></i>待支付</span>
+						<span v-else><i class="dot bg-success mr-1"></i>已支付</span>
+					</template>
+				</el-table-column>
 			</data-tables-server>
 		</el-card>
 	</div>
@@ -193,11 +201,7 @@
 						this.company_info = data.data.company_info;
 						// 当前付款节点--图
 						this.money_data = data.data.money_data;
-						this.option = {
-							series:[{
-								data:data.data.money_data	
-							}]
-						};
+						this.option.series[0].data = data.data.money_data;
 						// 表单值
 						this.dataJson = data.data.info.datajson;
 

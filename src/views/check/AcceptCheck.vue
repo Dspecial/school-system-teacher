@@ -42,10 +42,12 @@
 
 				</el-row>
 			</el-form>
+		</el-card>
 
-			<!-- 复核表单 -->
+		<el-card class="mt-3 bg-white">	
+			<!-- 验收项目 -->
 			<el-form ref="checkform" :model="checkform"  class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules" v-if="check_info == 1">
-				<h6 class="fs_20 font-weight-normal mb-3">复核项目</h6>
+				<h6 class="fs_20 font-weight-normal mb-3">验收审核</h6>
 				<el-form-item label="审核状态" prop="check_state">
 					<el-radio-group v-model="checkform.check_state">
 						<el-radio :label="2">通过</el-radio>

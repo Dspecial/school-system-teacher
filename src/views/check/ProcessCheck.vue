@@ -35,7 +35,9 @@
 					</el-col>
 				</el-row>
 			</el-form>
+		</el-card>
 
+		<el-card class="mt-3 bg-white">	
 			<!-- 进度审核 -->
 			<el-form ref="checkform" :model="checkform"  class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules" v-if="check_info == 1">
 				<h6 class="fs_20 font-weight-normal mb-3">进度审核</h6>

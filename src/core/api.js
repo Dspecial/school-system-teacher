@@ -62,25 +62,30 @@ export default {
 	// 项目详情
 	projectDetail: p => post('/api/project.project/details', p),
 
-	// 提交项目
+	// 提交审核
 	projectCommit: p => post('/api/project.project/commit', p),
 	// 提交复审
 	projectRecheck: p => post('/api/project.project/commit_recheck', p),
 	// 获取专家列表(记录一个bug,已选人员不能再选，事务管理里面也有同一个问题)
 	projectExpert: p => post('/api/ajax/get_expert_list', p),
-	// 复审列表
+	// 进入进度上传流程
+	projectProcess: p => post('/api/project.project/to_process', p),
+	// 进入验收流程
+	projectAccept: p => post('/api/project.project/to_accept', p),
+	// 复审记录-列表
 	projectRecheck_list: p => post('/api/project.project/recheck_list', p),
 	// 复审列表-详情
 	projectRecheck_detail: p => post('/api/project.project/recheck_detail', p),
-	// 项目进度记录 列表
+	// 项目进度记录-列表
 	projectProcess_list: p => post('/api/project.project/process_list', p),
 	// 进度记录-详情
 	projectProcess_detail: p => post('/api/project.project/process_detail', p),
-
 	// 进入实施流程
 	projectRunning: p => post('/api/project.project/to_running', p),
-	// 进入验收流程
-	projectAccept: p => post('/api/project.project/to_accept', p),
+	// 项目维保
+	projectMaintenance: p => post('/api/project.project/to_running', p),
+	// 资源申请
+	project_resource_Application: p => post('/api/project.project/to_running', p),
 
 	// 资源列表
 	resourceList: p => post('/api/resource.resource/index', p),
@@ -119,11 +124,11 @@ export default {
 	recheck_detail: p => post('/api/checks.recheckproject/details', p),
 
 	// 实施列表
-	recheckList: p => post('/api/checks.recheckproject/index', p),
+	forceList: p => post('/api/checks.forceproject/index', p),
 	// 实施审核
-	recheckList_check: p => post('/api/checks.recheckproject/check_recheck', p),
+	forceList_check: p => post('/api/checks.forceproject/check_force', p),
 	// 实施详情
-	recheck_detail: p => post('/api/checks.recheckproject/details', p),
+	force_detail: p => post('/api/checks.forceproject/details', p),
 
 	// 进度提交列表
 	processList: p => post('/api/checks.processproject/index', p),
@@ -213,6 +218,8 @@ export default {
 	my_project_process_list: p => post('/api/company.project/process_list', p),
 	// 进度记录-详情
 	my_project_process_detail: p => post('/api/company.project/process_detail', p),
+	// 我的项目详情
+	my_projectDetail: p => post('/api/company.project/details', p),
 	/*
 		***我的资源
 	*/

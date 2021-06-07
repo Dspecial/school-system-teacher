@@ -37,7 +37,7 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="work_num" label="编号"></el-table-column>
+        <el-table-column prop="work_num" label="编号" width="250"></el-table-column>
         <el-table-column prop="title" label="标题"></el-table-column>
 				<el-table-column prop="status" label="状态" width="150">
           <template slot-scope="scope">

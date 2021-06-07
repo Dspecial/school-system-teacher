@@ -41,19 +41,8 @@
             <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核驳回</span>
           </template>
         </el-table-column>
-        <el-table-column prop="recheck_number" label="复审编号" width="180"></el-table-column>
-        <el-table-column label="复审内容" width="120">
-          <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="复审内容"
-              width="200"
-              trigger="hover"
-              :content="scope.row.content">
-              <span class="text-truncate" slot="reference">{{scope.row.content}}</span>
-            </el-popover>
-          </template>
-        </el-table-column>
+        <el-table-column prop="budget_amount" label="预算金额" width="100"></el-table-column>
+        <el-table-column prop="real_amount" label="项目金额" width="100"></el-table-column>
         <el-table-column prop="name" label="申请人姓名" width="100"></el-table-column>
         <el-table-column prop="depart_name" label="申请人所在部门" width="120"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
@@ -126,7 +115,7 @@
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
         }
-        this.$api.recheckList({
+        this.$api.forceList({
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
@@ -157,17 +146,16 @@
       // 操作们
       fun(index,row,sign){
         if(sign == 6){ // 审核
-          this.recheckCheck(index,row);
+          this.forceCheck(index,row);
         }else if(sign == 4){ // 详情
           this.goDetail(index,row);
         }
       },
-      // 复核
-      recheckCheck(index,row){
+      // 审核
+      forceCheck(index,row){
         this.$router.push({
-          path:"/check/recheck/check",
+          path:"/check/force/check",
           query: {
-            project_id:row.project_id,
             id: row.id,
           }
         })
@@ -175,7 +163,7 @@
       // 详情
       goDetail(index,row){
         this.$router.push({
-          path:"/check/recheck/detail",
+          path:"/check/force/detail",
           query: {
             id: row.id,
           }

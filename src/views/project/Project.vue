@@ -51,25 +51,80 @@
         <el-table-column prop="apply_user_depart" label="所属部门" width="180"></el-table-column>
         <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="250" align="center">
+        <el-table-column fixed="right" label="操作" width="280" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.is_commit == 1">
+            <template v-if="scope.row.is_commit == 0">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.is_commit == 2 || scope.row.is_commit == 3">
+            <template v-else-if="scope.row.is_commit == 1">
               <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-if="scope.row.is_commit == 4">
-              <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            <template v-else-if="scope.row.is_commit == 3 || scope.row.is_commit == 4 || scope.row.is_commit == 5 || scope.row.is_commit == 6">
+              <template v-if="scope.row.check_process.next_node_id == 2">
+                <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 6">
+                <span v-for="(action,index) in actions4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 12">
+                <span v-for="(action,index) in actions5" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 10">
+                <span v-for="(action,index) in actions6" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 11">
+                <span v-for="(action,index) in actions7" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 13">
+                <span v-for="(action,index) in actions8" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
             </template>
-            <template v-if="scope.row.is_commit == 5">
-              <span v-for="(action,index) in actions4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            <template v-else-if="scope.row.is_commit == 7 || scope.row.is_commit == 8 || scope.row.is_commit == 9">
+              <template v-if="scope.row.check_process.next_node_id == 12">
+                <span v-for="(action,index) in actions9" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 10">
+                <span v-for="(action,index) in actions10" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 11">
+                <span v-for="(action,index) in actions11" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 13">
+                <span v-for="(action,index) in actions12" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
             </template>
-            <template v-if="scope.row.is_commit == 6">
-              <span v-for="(action,index) in actions5" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            <template v-else-if="scope.row.is_commit == 10 || scope.row.is_commit == 11 || scope.row.is_commit == 12">
+              <template v-if="scope.row.check_process.next_node_id == 10">
+                <span v-for="(action,index) in actions14" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 11">
+                <span v-for="(action,index) in actions15" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 13">
+                <span v-for="(action,index) in actions16" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else>
+                <span v-for="(action,index) in actions13" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
             </template>
-            <template v-if="scope.row.is_commit == 7 || scope.row.is_commit == 8 || scope.row.is_commit == 9">
-              <span v-for="(action,index) in actions6" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            <template v-else-if="scope.row.is_commit == 13 || scope.row.is_commit == 14 || scope.row.is_commit == 15">
+              <template v-if="scope.row.check_process.next_node_id == 11">
+                <span v-for="(action,index) in actions17" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 13">
+                <span v-for="(action,index) in actions18" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+            </template>
+            <template v-else-if="scope.row.is_commit == 16 || scope.row.is_commit == 17 || scope.row.is_commit == 18">
+              <template v-if="scope.row.check_process.next_node_id == 13">
+                <span v-for="(action,index) in actions20" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+              <template v-else>
+                <span v-for="(action,index) in actions19" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+              </template>
+            </template>
+            <template v-else-if="scope.row.is_commit == 19 || scope.row.is_commit == 20 || scope.row.is_commit == 21">
+              <span v-for="(action,index) in actions21" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -129,6 +184,21 @@
         actions4:[],
         actions5:[],
         actions6:[],
+        actions7:[],
+        actions8:[],
+        actions9:[],
+        actions10:[],
+        actions11:[],
+        actions12:[],
+        actions13:[],
+        actions14:[],
+        actions15:[],
+        actions16:[],
+        actions17:[],
+        actions18:[],
+        actions19:[],
+        actions20:[],
+        actions21:[],
       }
     },
     computed: {
@@ -159,9 +229,10 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
+
             var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array,actions_4 = new Array;
             var actions_5 = new Array,actions_6 = new Array,actions_7 = new Array,actions_8 = new Array;
-            var actions_9 = new Array
+            var actions_9 = new Array,actions_10 = new Array,actions_11 = new Array,actions_12 = new Array;
 
             this.$store.getters.getmoreAction.map((item,index)=>{
               if(item.sign == 2){ // 编辑
@@ -174,48 +245,84 @@
                 actions_4.push(item);
               }else if (item.sign == 5.2){ // 提交复审
                 actions_5.push(item);
-              }else if (item.sign == 5.3){ // 进入实施流程
+              }else if (item.sign == 5.3){ // 进入进度上传流程
                 actions_6.push(item);
               }else if (item.sign == 5.4){ // 进入验收流程
                 actions_7.push(item);
               }else if (item.sign == 5.5){ // 复审记录
                 actions_8.push(item);
-              }else if (item.sign == 9.2){ // 进度记录
+              }else if (item.sign == 5.6){ // 进度记录
                 actions_9.push(item);
+              }else if (item.sign == 5.7){ // 进入实施流程
+                actions_10.push(item);
+              }else if (item.sign == 5.8){ // 项目维保
+                actions_11.push(item);
+              }else if (item.sign == 5.9){ // 资源申请
+                actions_12.push(item);
               }
             })
-            // is_commit
-            // 为1 就是 提交审核、编辑、删除、详情
-            // 为2、3 提交复审、复审记录、详情
-            // 为4 提交复审、复审记录、进入实施、详情  
-            // 为5 进度记录、详情  
-            // 为6 进度记录、进入验收、详情  
-            // 为7、8、9就进入维保、详情
 
+            /* 
+              每个都有详情
+              is_commit为0 表示完成，只有详情
 
-            // current_node_id 为1的话 提交审核;
+              is_commit为1  提交审核、编辑、删除；
 
-            // current_node_id 为2的话 提交复审 复审记录;  
-            // current_node_id 为2 且 next_node_id为6的话 进入实施; 
-            // current_node_id 为2 且 next_node_id为10的话 进入验收流程;
-            // current_node_id 为2 且 next_node_id为11的话 进入维保;
-            // current_node_id 为2 且 next_node_id为12的话 进度上传、上传记录; 
+              is_commit为3、4、5、6 且 next_node_id为2  提交复审、复审记录；
+              is_commit为3、4、5、6 且 next_node_id为6  进入实施流程； 
+              is_commit为3、4、5、6 且 next_node_id为12 进入进度上传；
+              is_commit为3、4、5、6 且 next_node_id为10 进入验收流程；
+              is_commit为3、4、5、6 且 next_node_id为11 项目维保；
+              is_commit为3、4、5、6 且 next_node_id为13 资源申请(这个暂时先不动);
+
+              is_commit为7、8、9 且 next_node_id为12  进入进度上传；
+              is_commit为7、8、9 且 next_node_id为10 进入验收流程；
+              is_commit为7、8、9 且 next_node_id为11 项目维保；
+              is_commit为7、8、9 且 next_node_id为13 资源申请(这个暂时先不动);
             
-            // current_node_id 为6 且 next_node_id为10的话 进入验收流程;
-            // current_node_id 为6 且 next_node_id为11的话 进入维保;
-            // current_node_id 为6 且 next_node_id为12的话 进度上传、上传记录;
+              is_commit为10、11、12 进度记录
+              is_commit为10、11、12 且 next_node_id为10 +进入验收流程；
+              is_commit为10、11、12 且 next_node_id为11 +项目维保；
+              is_commit为10、11、12 且 next_node_id为13 +资源申请(这个暂时先不动);
 
-            // current_node_id 为10 且 next_node_id为11的话 进入验收;
-            // current_node_id 为10 且 next_node_id为12的话 进度上传、上传记录;
+              is_commit为13、14、15 且 next_node_id为11 项目维保；
+              is_commit为13、14、15 且 next_node_id为13 资源申请(这个暂时先不动);
 
-            // current_node_id 为11 且 next_node_id为12的话 进度上传、上传记录;
-            
-            this.actions1 = [...actions_1,...actions_2,...actions_4,...actions_3];
-            this.actions2 = [...actions_5,...actions_8,...actions_3];
-            this.actions3 = [...actions_5,...actions_8,...actions_6,...actions_3];
-            this.actions4 = [...actions_9,...actions_3];
-            this.actions5 = [...actions_9,...actions_7,...actions_3];
-            this.actions6 = [...actions_3];
+              is_commit为16、17、18 项目维保
+              is_commit为16、17、18 且 next_node_id为13 +资源申请(这个暂时先不动);
+
+              is_commit为19、20、21 资源申请
+            */
+
+            // is_commit为0
+            this.actions1 = [...actions_3];
+            // is_commit为1
+            this.actions2 = [...actions_1,...actions_2,...actions_4,...actions_3];
+            // is_commit为3、4、5、6
+            this.actions3 = [...actions_5,...actions_8,...actions_3];
+            this.actions4 = [...actions_10,...actions_3];
+            this.actions5 = [...actions_6,...actions_3];
+            this.actions6 = [...actions_7,...actions_3];
+            this.actions7 = [...actions_11,...actions_3];
+            this.actions8 = [...actions_12,...actions_3];
+            // is_commit为7、8、9
+            this.actions9 = [...actions_6,...actions_3];
+            this.actions10 = [...actions_7,...actions_3];
+            this.actions11 = [...actions_11,...actions_3];
+            this.actions12 = [...actions_12,...actions_3];
+            // is_commit为10、11、12
+            this.actions13 = [...actions_9,...actions_3];
+            this.actions14 = [...actions_9,...actions_7,...actions_3];
+            this.actions15 = [...actions_9,...actions_11,...actions_3];
+            this.actions16 = [...actions_9,...actions_12,...actions_3];
+            // is_commit为13、14、15
+            this.actions17 = [...actions_11,...actions_3];
+            this.actions18 = [...actions_12,...actions_3];
+            // is_commit为16、17、18
+            this.actions19 = [...actions_11,...actions_3];  
+            this.actions20 = [...actions_11,...actions_12,...actions_3];
+            // is_commit为19、20、21
+            this.actions21 = [...actions_12,...actions_3];
 
           }else{
             this.$message.error(data.msg);
@@ -242,14 +349,20 @@
           this.handleCommit(index,row);
         }else if(sign == 5.2){ // 提交复审
           this.handleRecheck(index,row);
-        }else if(sign == 5.3){ // 进入实施流程
-          this.handleRunning(index,row);
+        }else if(sign == 5.3){ // 进入进度上传流程
+          this.handleProcess(index,row)
         }else if(sign == 5.4){ // 进入验收流程
           this.handleAccept(index,row);
         }else if(sign == 5.5){ // 复审记录
           this.recheckList(index,row);
-        }else if(sign == 9.2){ // 进度记录
+        }else if(sign == 5.6){ // 进度记录
           this.processList(index,row);
+        }else if(sign == 5.7){ // 进入实施流程
+          this.handleRunning(index,row);
+        }else if(sign == 5.8){ // 项目维保
+          console.log("5555");
+        }else if(sign == 5.9){ // 资源申请 
+          
         }
       },
 
@@ -285,7 +398,7 @@
 
         });
       },
-      // 提交项目
+      // 提交审核
       handleCommit(index,row){
         this.$confirm("此操作将提交该项目, 是否继续?", "提示", {
           type: 'warning'
@@ -316,6 +429,29 @@
           }
         })
       },
+      // 进入进度上传流程
+      handleProcess(index,row){
+       this.$confirm("状态更改成功后，由企业进行进度上传，提交到相应部门审核！", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectProcess({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
+      },
+
       // 复审记录
       recheckList(index,row){
         this.$router.push({
@@ -336,25 +472,32 @@
       },
       // 进入实施流程
       handleRunning(index,row){
-        this.$confirm("此操作将进入实施流程, 是否继续?", "提示", {
-          type: 'warning'
-        }).then(() => {
-          this.$api.projectRunning({
-            id:row.id
-          }).then(data=>{ 
-             if(data.code == 0){
-                this.$message({
-                  message: data.msg,
-                  type: 'success'
-                });
-                this.loadData();
-             }else{
-               this.$message.error(data.msg);
-             }
-          })
-        }).catch(() => {
+        this.$router.push({
+          path:"/project/project/running",
+          query: {
+            id: row.id,
+          }
+        })
 
-        });
+        // this.$confirm("此操作将进入实施流程, 是否继续?", "提示", {
+        //   type: 'warning'
+        // }).then(() => {
+        //   this.$api.projectRunning({
+        //     id:row.id
+        //   }).then(data=>{ 
+        //      if(data.code == 0){
+        //         this.$message({
+        //           message: data.msg,
+        //           type: 'success'
+        //         });
+        //         this.loadData();
+        //      }else{
+        //        this.$message.error(data.msg);
+        //      }
+        //   })
+        // }).catch(() => {
+
+        // });
       },
 
       // 进入验收流程

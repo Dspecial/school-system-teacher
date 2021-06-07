@@ -4,9 +4,9 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
-			<!-- 项目明细 -->
+			<!-- 项目信息 -->
 			<el-form label-width="140px" label-position="left" class="pl-3 pr-3">
-				<h6 class="fs_20 font-weight-normal mb-3">项目明细</h6>
+				<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="项目名称">
@@ -62,7 +62,9 @@
 					</template>
 				</el-row>
 			</el-form>
+		</el-card>
 
+		<el-card class="mt-3 bg-white">	
 			<!-- 审核表单 -->
 			<el-form ref="checkform" :model="checkform" class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules">
 				<h6 class="fs_20 font-weight-normal mb-3">审核项目</h6>

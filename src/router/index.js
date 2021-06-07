@@ -82,6 +82,15 @@ const router = new Router({
 				  children: null
 				},
 				{
+				  path: '/project/project/running',
+				  component: resolve => require(['@/views/project/ProjectRunning'], resolve),
+				  name: 'ProjectRunning',
+				  meta: {
+				    title: '进入项目实施',
+				  },
+				  children: null
+				},
+				{
 				  path: '/project/project/recheck',
 				  component: resolve => require(['@/views/project/ProjectRecheck'], resolve),
 				  name: 'ProjectRecheck',

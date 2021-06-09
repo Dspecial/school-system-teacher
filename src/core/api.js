@@ -62,6 +62,13 @@ export default {
 	// 项目详情
 	projectDetail: p => post('/api/project.project/details', p),
 
+	// 付款节点
+	projectPayNode: p => post('/api/project.project/pay_info', p),
+	// 更新付款节点
+	setPayNode: p => post('/api/project.project/pay_set_node', p),
+	// 上传付款附件或凭证
+	uploadPayNode: p => postUpload('/api/upload/upload_pay_file', p),
+
 	// 提交审核
 	projectCommit: p => post('/api/project.project/commit', p),
 	// 提交复审

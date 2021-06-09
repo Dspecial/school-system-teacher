@@ -143,7 +143,7 @@
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.acceptList_check({
-							id:this.this.projectId,
+							id:this.projectId,
 							function_type:2,
 							check_state:this.checkform.check_state,
 							remark:this.checkform.remark,

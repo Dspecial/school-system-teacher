@@ -53,6 +53,11 @@
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="290" align="center">
           <template slot-scope="scope">
+            <!-- need_to_func_money等于1的时候，付款节点 -->
+            <template v-if="scope.row.need_to_func_money == 1">
+              <span v-for="(action,k) in actions0" :key="k+100" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
+
             <template v-if="scope.row.is_commit == 0">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
@@ -128,7 +133,7 @@
             </template>
             <!-- is_commit不等于0的时候，每条数据都需要详情 -->
             <template v-if="scope.row.is_commit != 0">
-              <span v-for="(action,j) in actions22" :key="j+50" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              <span v-for="(action,j) in actions22" :key="j+200" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -182,6 +187,7 @@
           title:"",
           id:","
         },
+        actions0:[],
         actions1:[],
         actions2:[],
         actions3:[],
@@ -238,35 +244,42 @@
             var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array,actions_4 = new Array;
             var actions_5 = new Array,actions_6 = new Array,actions_7 = new Array,actions_8 = new Array;
             var actions_9 = new Array,actions_10 = new Array,actions_11 = new Array,actions_12 = new Array;
+            var actions_13 = new Array;
 
             this.$store.getters.getmoreAction.map((item,index)=>{
-              if(item.sign == 2){ // 编辑
+              if(item.sign == '2'){ // 编辑
                 actions_1.push(item);
-              }else if (item.sign == 3){ // 删除
+              }else if (item.sign == '3'){ // 删除
                 actions_2.push(item);
-              }else if (item.sign == 4){ // 详情
+              }else if (item.sign == '4'){ // 详情
                 actions_3.push(item);
-              }else if (item.sign == 5.1){ // 提交审核
+              }else if (item.sign == '5.1'){ // 提交审核
                 actions_4.push(item);
-              }else if (item.sign == 5.2){ // 提交复审
+              }else if (item.sign == '5.2'){ // 提交复审
                 actions_5.push(item);
-              }else if (item.sign == 5.3){ // 进入进度上传流程
+              }else if (item.sign == '5.3'){ // 进入进度上传流程
                 actions_6.push(item);
-              }else if (item.sign == 5.4){ // 进入验收流程
+              }else if (item.sign == '5.4'){ // 进入验收流程
                 actions_7.push(item);
-              }else if (item.sign == 5.5){ // 复审记录
+              }else if (item.sign == '5.5'){ // 复审记录
                 actions_8.push(item);
-              }else if (item.sign == 5.6){ // 进度记录
+              }else if (item.sign == '5.6'){ // 进度记录
                 actions_9.push(item);
-              }else if (item.sign == 5.7){ // 进入实施流程
+              }else if (item.sign == '5.7'){ // 进入实施流程
                 actions_10.push(item);
-              }else if (item.sign == 5.8){ // 项目维保
+              }else if (item.sign == '5.8'){ // 项目维保
                 actions_11.push(item);
-              }else if (item.sign == 5.9){ // 资源申请
+              }else if (item.sign == '5.9'){ // 资源申请
                 actions_12.push(item);
+              }else if (item.sign == '5.10'){ // 付款节点
+                actions_13.push(item);
               }
             })
-
+            /* 
+              need_to_func_money=1
+            */
+            this.actions0 = [...actions_13];
+            
             /* 
               每个都有详情
               is_commit为0 表示完成，只有详情
@@ -298,7 +311,6 @@
 
               is_commit为19、20、21 资源申请
             */
-
             // is_commit为0
             this.actions1 = [...actions_3];
             // is_commit为1
@@ -345,30 +357,32 @@
 
       // 操作们
       fun(index,row,sign){
-        if(sign == 2){ // 编辑
+        if(sign == '2'){ // 编辑
           this.editProject(index,row);
-        }else if(sign == 3){ // 删除
+        }else if(sign == '3'){ // 删除
           this.handleDel(index,row);
-        }else if(sign == 4){ // 详情
+        }else if(sign == '4'){ // 详情
           this.goDetail(index,row);
-        }else if(sign == 5.1){ // 提交审核
+        }else if(sign == '5.1'){ // 提交审核
           this.handleCommit(index,row);
-        }else if(sign == 5.2){ // 提交复审
+        }else if(sign == '5.2'){ // 提交复审
           this.handleRecheck(index,row);
-        }else if(sign == 5.3){ // 进入进度上传流程
+        }else if(sign == '5.3'){ // 进入进度上传流程
           this.handleProcess(index,row)
-        }else if(sign == 5.4){ // 进入验收流程
+        }else if(sign == '5.4'){ // 进入验收流程
           this.handleAccept(index,row);
-        }else if(sign == 5.5){ // 复审记录
+        }else if(sign == '5.5'){ // 复审记录
           this.recheckList(index,row);
-        }else if(sign == 5.6){ // 进度记录
+        }else if(sign == '5.6'){ // 进度记录
           this.processList(index,row);
-        }else if(sign == 5.7){ // 进入实施流程
+        }else if(sign == '5.7'){ // 进入实施流程
           this.handleRunning(index,row);
-        }else if(sign == 5.8){ // 项目维保
+        }else if(sign == '5.8'){ // 项目维保
           console.log("5555");
-        }else if(sign == 5.9){ // 资源申请 
+        }else if(sign == '5.9'){ // 资源申请 
           
+        }else if(sign == '5.10'){ // 付款节点 
+          this.paymentNode(index,row);
         }
       },
 
@@ -381,7 +395,6 @@
           }
         })
       },
-      
       // 删除
       handleDel(index,row){
         this.$confirm("此操作将永久删除该项目, 是否继续?", "提示", {
@@ -457,7 +470,6 @@
 
         });
       },
-
       // 复审记录
       recheckList(index,row){
         this.$router.push({
@@ -485,7 +497,6 @@
           }
         })
       },
-
       // 进入验收流程
       handleAccept(index,row){
         this.$confirm("此操作将进入验收流程, 是否继续?", "提示", {
@@ -512,6 +523,15 @@
       goDetail(index,row){
         this.$router.push({
           path:"/project/project/detail",
+          query: {
+            id: row.id,
+          }
+        })
+      },
+      // 付款节点
+      paymentNode(index,row){
+        this.$router.push({
+          path:"/project/project/paymentNode",
           query: {
             id: row.id,
           }

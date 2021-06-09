@@ -238,7 +238,7 @@ const router = new Router({
 				},
 				{
 				  path: '/check/force/check',
-				  component: resolve => require(['@/views/check/ForcecheckCheck'], resolve),
+				  component: resolve => require(['@/views/check/ForceCheck'], resolve),
 				  name: 'ForceCheck',
 				  meta: {
 				    title: '实施审核',
@@ -247,7 +247,7 @@ const router = new Router({
 				},
 				{
 				  path: '/check/force/detail',
-				  component: resolve => require(['@/views/check/ForcecheckDetail'], resolve),
+				  component: resolve => require(['@/views/check/ForceDetail'], resolve),
 				  name: 'ForceDetail',
 				  meta: {
 				    title: '实施详情',
@@ -274,6 +274,15 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				{
+				  path: '/check/process/detail',
+				  component: resolve => require(['@/views/check/ProcessDetail'], resolve),
+				  name: 'ProcessDetail',
+				  meta: {
+				    title: '进度详情',
+				  },
+				  children: null
+				},
 				// 验收审核列表
 				{
 				  path: '/check/accept',
@@ -290,6 +299,15 @@ const router = new Router({
 				  name: 'AcceptCheck',
 				  meta: {
 				    title: '验收审核',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/accept/detail',
+				  component: resolve => require(['@/views/check/AcceptDetail'], resolve),
+				  name: 'AcceptDetail',
+				  meta: {
+				    title: '验收详情',
 				  },
 				  children: null
 				},

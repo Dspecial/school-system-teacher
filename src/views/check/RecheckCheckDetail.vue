@@ -6,7 +6,7 @@
 		<el-card class="mt-3 bg-white">
 			<!-- 项目信息 -->
 			<el-form :model="recheckInfo" ref="recheckInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
-				<h6 class="fs_20 font-weight-normal mb-3">项目复审信息</h6>
+				<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="项目名称">
@@ -26,6 +26,13 @@
 					<el-col :span="8">
 						<el-form-item label="创建时间">
 							{{recheckInfo.createtime}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核状态">
+							<span class="text-warning" v-if="check_info.check_state == 1">待审核</span>
+							<span class="text-success" v-else-if="check_info.check_state == 2">审核成功</span>
+							<span class="text-danger" v-else-if="check_info.check_state == 3">审核失败</span>
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
@@ -61,9 +68,12 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+			</el-form>
 
-				<!-- 已审核信息 -->
-				<el-row :gutter="20" v-if="check_info.check_state != 1">
+			<!-- 审核信息 -->
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3" v-if="check_info.check_state != 1">
+				<h6 class="fs_20 font-weight-normal mb-3">审核信息</h6>
+				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="审核人">
 							{{check_info.checkname}}
@@ -79,8 +89,12 @@
 							{{check_info.checkgroup}}
 						</el-form-item>
 					</el-col>
+					<el-col :span="24">
+						<el-form-item label="审核备注">
+							{{check_info.remark}}
+						</el-form-item>
+					</el-col>
 				</el-row>
-
 			</el-form>
 		</el-card>
 	</div>

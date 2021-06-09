@@ -134,10 +134,16 @@ export default {
 	processList: p => post('/api/checks.processproject/index', p),
 	// 进度审核
 	processList_check: p => post('/api/checks.processproject/check_process', p),
+	// 进度详情
+	process_detail: p => post('/api/checks.processproject/detail', p),
+
 	// 验收审核列表
 	acceptList: p => post('/api/checks.acceptproject/index', p),
 	// 验收审核
 	acceptList_check: p => post('/api/checks.acceptproject/check_accept', p),
+	// 验收详情
+	accept_detail: p => post('/api/checks.acceptproject/detail', p),
+
 	// 资源审核列表
 	resourceListCheck: p => post('/api/resource.resourcecheck/index', p),
 	// 资源审核

@@ -26,8 +26,8 @@
 			<el-row :gutter="20" type="flex">
 				<template v-for="(status,index) in statusList">
 					<el-col class="text-center status-item" :key="index">
-						<span class="mb-2 d-inline-block opacity-60">{{status.title}}</span>
-						<p class="m-0 fs_24">{{status.num}}/{{statusTotal}}</p>
+						<span class="mb-2 d-inline-block opacity-60">{{status.name}}</span>
+						<p class="m-0 fs_24">{{status.count}}/{{statusTotal}}</p>
 					</el-col>
 				</template>
 			</el-row>
@@ -135,34 +135,11 @@
 						total:"100"
 					},
 				],
+				// 我的项目总数
 				statusTotal:"16",
-				// 状态统计
-				statusList:[
-					{
-						title:"所有项目",
-						num:"8",
-					},
-					{
-						title:"项目初审",
-						num:"8",
-					},
-					{
-						title:"项目复审",
-						num:"8",
-					},
-					{
-						title:"项目实施",
-						num:"8",
-					},
-					{
-						title:"项目验收",
-						num:"8",
-					},
-					{
-						title:"项目维保",
-						num:"8",
-					},
-				],
+				// 我的项目
+				statusList:[],
+
 				// 信息处理Tab
 				handleNav:[
 					{
@@ -290,18 +267,13 @@
 			this.initPay();
 		},
 		methods:{
-			// 获取状态统计
+			// 获取我的项目
 			initState(){
 				this.$api.dashboard_state({
 				}).then(data=>{
 					if(data.code == 0){
 						this.statusTotal = data.data.all_count;
-						this.statusList[0].num = data.data.all_count; // 所有
-						this.statusList[1].num = data.data.first_count; // 初审
-						this.statusList[2].num = data.data.recheck_count; // 复审
-						this.statusList[3].num = data.data.process_count; // 实施
-						this.statusList[4].num = data.data.accept_count; // 验收
-						this.statusList[5].num = data.data.extend_count; // 维保
+						this.statusList = data.data.project_node_list;
 					}else{
 						this.$message.error(data.msg);
 					}

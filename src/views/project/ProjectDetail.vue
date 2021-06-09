@@ -39,9 +39,9 @@
 			</el-col>
 		</el-row>
 
-		<!-- 表单值 -->
+		<!-- 表单值-详细信息 -->
 		<el-card class="mt-3">
-			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">表单值</h4>
+			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">详细信息</h4>
 			<el-form class="form_json" label-position="left">
 				<el-row :gutter="20">
 					<template v-for="(formItem,j) in dataJson">
@@ -202,7 +202,7 @@
 						// 当前付款节点--图
 						this.money_data = data.data.money_data;
 						this.option.series[0].data = data.data.money_data;
-						// 表单值
+						// 表单值-详细信息
 						this.dataJson = data.data.info.datajson;
 
 						// 项目状态

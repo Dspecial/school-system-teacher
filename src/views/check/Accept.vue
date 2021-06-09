@@ -30,26 +30,23 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
+        <el-table-column prop="p_name" label="项目名称" width="200"></el-table-column>
         <el-table-column prop="accept_number" label="验收编号"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称"></el-table-column>
-        <el-table-column label="审核备注">
+        <el-table-column prop="job_number" label="上传企业"></el-table-column>
+        <el-table-column prop="check_state" label="审核状态" width="120">
           <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="审核备注"
-              width="200"
-              trigger="hover"
-              :content="scope.row.remark">
-              <span class="text-truncate" slot="reference">{{scope.row.remark}}</span>
-            </el-popover>
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="创建人"></el-table-column>
-        <el-table-column prop="createtime" label="创建时间"></el-table-column>
-        <el-table-column prop="checktime" label="审核时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="180" align="center">
+        <el-table-column prop="name" label="项目申请人"></el-table-column>
+        <el-table-column prop="depart_name" label="申请人部门"></el-table-column>
+        <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
+        <el-table-column prop="checktime" label="审核时间"  width="150"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.node_check_relation_list.can_check == 1">
+            <template v-if="scope.row.check_state == 1">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-else>
@@ -151,19 +148,23 @@
         }
       },
 
-      // 复核
+      // 验证审核
       acceptCheck(index,row){
         this.$router.push({
           path:"/check/accept/check",
           query: {
-            project_id:row.project_id,
             id: row.id,
           }
         })
       },
       // 详情
       goDetail(index,row){
-
+        this.$router.push({
+          path:"/check/accept/detail",
+          query: {
+            id: row.id,
+          }
+        })
       },
 		},
   }

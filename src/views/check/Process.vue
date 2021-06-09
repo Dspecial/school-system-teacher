@@ -40,7 +40,7 @@
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="p_name" label="项目名称" width="200"></el-table-column>
-        <el-table-column prop="process_number" label="进度编号" width="230"></el-table-column>
+        <el-table-column prop="process_number" label="进度编号" width="180"></el-table-column>
         <el-table-column prop="title" label="进度标题" width="150"></el-table-column>
         <el-table-column label="进度内容" width="150">
           <template slot-scope="scope">
@@ -54,13 +54,21 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column prop="remark" label="审核备注" width="120"></el-table-column>
-        <el-table-column prop="name" label="企业名称" width="200"></el-table-column>
+        <el-table-column prop="job_number" label="上传企业" width="200"></el-table-column>
+        <el-table-column prop="check_state" label="审核状态" width="120">
+          <template slot-scope="scope">
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="utname" label="项目申请人" width="100"></el-table-column>
+        <el-table-column prop="depart_name" label="申请人部门" width="100"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column prop="checktime" label="审核时间"  width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="180" align="center">
+        <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.node_check_relation_list.can_check == 1">
+            <template v-if="scope.row.check_state == 1">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-else>
@@ -148,7 +156,6 @@
               }else if(item.sign == 4){ // 详情
                 action_2.push(item);
               }
-              
               this.actions1 = [...action_1,...action_2];
               this.actions2 = [...action_2];
             });
@@ -170,14 +177,18 @@
         this.$router.push({
           path:"/check/process/check",
           query: {
-            project_id:row.project_id,
             id: row.id,
           }
         })
       },
       // 详情
       goDetail(index,row){
-
+        this.$router.push({
+          path:"/check/process/detail",
+          query: {
+            id: row.id,
+          }
+        })
       },
 		},
   }

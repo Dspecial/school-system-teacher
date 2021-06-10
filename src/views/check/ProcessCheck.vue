@@ -142,7 +142,7 @@
 			openEdit(){
 				this.ID = this.$route.query.id;
 				this.$api.processList_check({
-					project_id:this.ID,
+					id:this.ID,
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
@@ -163,8 +163,7 @@
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.processList_check({
-							id:this.id,
-							project_id:this.ID,
+							id:this.ID,
 							function_type:2,
 							check_state:this.checkform.check_state,
 							remark:this.checkform.remark,

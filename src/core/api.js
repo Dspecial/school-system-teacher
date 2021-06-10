@@ -73,7 +73,7 @@ export default {
 	projectCommit: p => post('/api/project.project/commit', p),
 	// 提交复审
 	projectRecheck: p => post('/api/project.project/commit_recheck', p),
-	// 获取专家列表(记录一个bug,已选人员不能再选，事务管理里面也有同一个问题)
+	// 获取专家列表(记录一个bug,已选人员不能再选，事务管理里面也有同一个问题;审核管理-资源审核-审核里面 先选分类 再选资源 也有这个问题)
 	projectExpert: p => post('/api/ajax/get_expert_list', p),
 	// 进入进度上传流程
 	projectProcess: p => post('/api/project.project/to_process', p),
@@ -154,7 +154,7 @@ export default {
 	// 资源审核列表
 	resourceListCheck: p => post('/api/checks.resourceproject/index', p),
 	// 资源审核
-	resourceCheck_check: p => post('/api/resource.resourcecheck/resourcecheck', p),	
+	resourceCheck_check: p => post('/api/checks.resourceproject/check_resource', p),	
 	// 资源审核详情
 	resourceCheck_detail: p => post('/api/checks.resourceproject/details', p),	
 

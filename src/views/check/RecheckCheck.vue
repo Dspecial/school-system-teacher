@@ -128,8 +128,7 @@
 		name: 'RecheckCheck',
 		data () {
 			return {
-				id:'', // 评审id
-				projectId:'',
+				ID:"",
 				check_info:{},
 				projectInfo: {},
 				recheckInfo:{},
@@ -156,11 +155,9 @@
 		methods:{
 			// dialog初始化
 			openEdit(){
-				this.projectId = this.$route.query.project_id;
-				this.id = this.$route.query.id;
+				this.ID = this.$route.query.id;
 				this.$api.recheckList_check({
-					id:this.id,
-					project_id:this.projectId,
+					id:this.ID,
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
@@ -182,8 +179,7 @@
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.recheckList_check({
-							id:this.id,
-							project_id:this.projectId,
+							id:this.ID,
 							function_type:2,
 							check_state:this.checkform.check_state,
 							remark:this.checkform.remark,

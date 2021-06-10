@@ -419,7 +419,7 @@
 							this.projectForm.apply_number = data.data.apply_number;
 							this.projectForm.p_cate_id = data.data.p_cate_id;
 							this.projectForm.p_name = data.data.p_name;
-							this.projectForm.projecttime = data.data.projecttime;
+							this.projectForm.projecttime = data.data.projecttime.toString();
 							this.projectForm.company_id = data.data.company_id;
 
 							var datajson = data.data.datajson;

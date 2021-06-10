@@ -44,68 +44,23 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称"></el-table-column>
-        <el-table-column prop="name" label="资源名称"></el-table-column>
-        <el-table-column label="申请备注">
+        <el-table-column prop="apply_number" label="项目编号" width="200"></el-table-column>
+        <el-table-column prop="p_name" label="项目名称" width="210"></el-table-column>
+        <el-table-column prop="cname" label="项目类别" width="180"></el-table-column>
+        <el-table-column prop="check_state" label="审核状态" width="120">
           <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="申请备注"
-              width="200"
-              trigger="hover"
-              :content="scope.row.remark">
-              <span class="text-truncate" slot="reference">{{scope.row.remark}}</span>
-            </el-popover>
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="审核状态">
+        <el-table-column prop="name" label="申请人姓名" ></el-table-column>
+        <el-table-column prop="depart_name" label="申请人所在部门"></el-table-column>
+        <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
+        <el-table-column prop="checktime" label="审核时间" width="150"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="180" align="center">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
-            <span v-else-if="scope.row.status == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
-            <span v-else-if="scope.row.status == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="资源备注">
-          <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="资源备注"
-              width="200"
-              trigger="hover"
-              :content="scope.row.re_remark">
-              <span class="text-truncate" slot="reference">{{scope.row.re_remark}}</span>
-            </el-popover>
-          </template>
-        </el-table-column>
-        <el-table-column label="申请备注">
-          <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="申请备注"
-              width="200"
-              trigger="hover"
-              :content="scope.row.apply_remark">
-              <span class="text-truncate" slot="reference">{{scope.row.apply_remark}}</span>
-            </el-popover>
-          </template>
-        </el-table-column>
-        <el-table-column label="审核备注">
-          <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="审核备注"
-              width="200"
-              trigger="hover"
-              :content="scope.row.remark">
-              <span class="text-truncate" slot="reference">{{scope.row.remark}}</span>
-            </el-popover>
-          </template>
-        </el-table-column>
-        <el-table-column prop="applytime" label="申请时间"></el-table-column>
-        <el-table-column prop="checktime" label="审核时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="120" align="center">
-          <template slot-scope="scope">
-            <template v-if="scope.row.status == 1">
+            <template v-if="scope.row.check_state == 2 || scope.row.check_state == 3">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-else>
@@ -188,8 +143,8 @@
           checktime:this.filters[3].value?this.filters[3].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
-            this.total = data.data.total;
-            this.tableData = data.data.data;
+            this.total = data.count;
+            this.tableData = data.data;
 
             var action_1 = new Array;
             var action_2 = new Array;
@@ -200,8 +155,9 @@
                 action_2.push(item);
               }
               
-              this.actions1 = [...action_1,...action_2];
-              this.actions2 = [...action_2];
+              // 编辑审核  只要不是check_state为2 3  都需要保留
+              this.actions1 = [...action_2];
+              this.actions2 = [...action_1,...action_2];
             });
           }else{
             this.$message.error(data.msg);
@@ -212,7 +168,7 @@
       // 操作们
       fun(index,row,sign){
         if(sign == 6){ // 审核
-          this.acceptCheck(index,row);
+          this.resourceCheck(index,row);
         }else if(sign == 4){ // 详情
           this.goDetail(index,row);
         }
@@ -227,6 +183,7 @@
           }
         })
       },
+
       // 详情
       goDetail(index,row){
         this.$router.push({

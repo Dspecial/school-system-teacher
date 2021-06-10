@@ -252,7 +252,7 @@
 		name: 'FirstcheckEdit',
 		data () {
 			return {
-				projectId:'',
+				ID:'',
 				title:"新增项目",
 				accept_file: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
 				accept_img:".jpg,.png,.JPEG",
@@ -348,12 +348,12 @@
 			},
 			// dialog初始化
 			openEdit(){
-				this.projectId = this.$route.query.id;
+				this.ID = this.$route.query.id;
 				this.initCate();
 				this.initCompany();
 				this.title = "编辑初审项目";
 				this.$api.firstCheckList_edit({
-					id:this.projectId,
+					id:this.ID,
 					function_type:2,
 				}).then(data =>{
 					if(data.code == 0){
@@ -413,7 +413,7 @@
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.firstCheckList_edit({
-							id:this.projectId,
+							id:this.ID,
 							function_type:1,
 							apply_number:this.projectForm.apply_number,
 							p_cate_id:this.projectForm.p_cate_id,

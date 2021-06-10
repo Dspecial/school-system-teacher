@@ -115,7 +115,7 @@
 		name: 'RecheckCheck',
 		data () {
 			return {
-				projectId:'',
+				ID:'',
 				check_info:{},
 				processInfo: {},
 				info:{},
@@ -140,9 +140,9 @@
 		methods:{
 			// dialog初始化
 			openEdit(){
-				this.projectId = this.$route.query.id;
+				this.ID = this.$route.query.id;
 				this.$api.processList_check({
-					project_id:this.projectId,
+					project_id:this.ID,
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
@@ -164,7 +164,7 @@
           if (valid) {
 						this.$api.processList_check({
 							id:this.id,
-							project_id:this.projectId,
+							project_id:this.ID,
 							function_type:2,
 							check_state:this.checkform.check_state,
 							remark:this.checkform.remark,

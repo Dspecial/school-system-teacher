@@ -46,7 +46,7 @@
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="apply_number" width="200" label="项目编号"></el-table-column>
         <el-table-column prop="p_name" label="项目名称" width="210"></el-table-column>
-        <el-table-column prop="cname" label="申请类别" width="180"></el-table-column>
+        <el-table-column prop="cname" label="项目类别" width="180"></el-table-column>
         <el-table-column prop="projecttime" label="年份"></el-table-column>
         <el-table-column prop="check_state" label="审核状态" width="120">
           <template slot-scope="scope">

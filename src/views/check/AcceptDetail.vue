@@ -74,7 +74,7 @@
 		name: 'ProcessDetail',
 		data () {
 			return {
-				projectId:'',
+				ID:'',
 				check_info:{},
 				processInfo: {},
 				accept_info_detail:[],
@@ -90,9 +90,9 @@
 		methods:{
 			// dialog初始化
 			openEdit(){
-				this.projectId = this.$route.query.id;
+				this.ID = this.$route.query.id;
 				this.$api.accept_detail({
-					id:this.projectId,
+					id:this.ID,
 				}).then(data =>{
 					if(data.code == 0){
 						this.check_info = data.data.check_info;

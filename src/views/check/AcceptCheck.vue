@@ -95,7 +95,7 @@
 		name: 'AcceptCheck',
 		data () {
 			return {
-				projectId:'',
+				ID:'',
 				check_info:{},
 				processInfo: {},
 				accept_info_detail:[],
@@ -120,9 +120,9 @@
 		methods:{
 			// dialog初始化
 			openEdit(){
-				this.projectId = this.$route.query.id;
+				this.ID = this.$route.query.id;
 				this.$api.acceptList_check({
-					id:this.projectId,
+					id:this.ID,
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
@@ -143,7 +143,7 @@
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.acceptList_check({
-							id:this.projectId,
+							id:this.ID,
 							function_type:2,
 							check_state:this.checkform.check_state,
 							remark:this.checkform.remark,

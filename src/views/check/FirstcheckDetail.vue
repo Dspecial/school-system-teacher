@@ -137,6 +137,7 @@
 		},
 		data () {
 			return {
+				ID:"",
 				// 项目基本信息
 				basic:{},
 				// 厂商详情
@@ -205,8 +206,9 @@
 		methods:{
 			// 获取数据
 			initData(){
+				this.ID = this.$route.query.id;
 				this.$api.firstCheck_detail({
-					id:this.$route.query.id
+					id:this.ID
 				}).then(data => {
 					if(data.code == 0){
 						this.basic = data.data.info;

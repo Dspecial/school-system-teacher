@@ -152,11 +152,11 @@ export default {
 	accept_detail: p => post('/api/checks.acceptproject/detail', p),
 
 	// 资源审核列表
-	resourceListCheck: p => post('/api/resource.resourcecheck/index', p),
+	resourceListCheck: p => post('/api/checks.resourceproject/index', p),
 	// 资源审核
-	resourceListCheck_check: p => post('/api/resource.resourcecheck/resourcecheck', p),	
+	resourceCheck_check: p => post('/api/resource.resourcecheck/resourcecheck', p),	
 	// 资源审核详情
-	resourceListCheck_detail: p => post('/api/resource.resourcecheck/details', p),	
+	resourceCheck_detail: p => post('/api/checks.resourceproject/details', p),	
 
 	/*
 		***信息管理

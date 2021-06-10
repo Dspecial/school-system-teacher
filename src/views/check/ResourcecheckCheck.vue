@@ -5,8 +5,8 @@
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
 			<!-- 项目信息 -->
+			<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
 			<el-form :model="projectInfo" ref="projectInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
-				<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="项目名称">
@@ -82,8 +82,8 @@
 			</el-form>
 
 			<!-- 审核信息 -->
+			<h6 class="fs_20 font-weight-normal mb-3">审核信息</h6>
 			<el-form label-width="110px" label-position="left" class="pl-3 pr-3" v-if="check_info.check_state != 1">
-				<h6 class="fs_20 font-weight-normal mb-3">审核信息</h6>
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="审核人">
@@ -106,8 +106,8 @@
 
 		<el-card class="mt-3 bg-white" v-if="check_info.check_state == 1">	
 			<!-- 资源审核 -->
+			<h6 class="fs_20 font-weight-normal mb-3">资源审核</h6>
 			<el-form ref="checkform" :model="checkform"  class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules">
-				<h6 class="fs_20 font-weight-normal mb-3">资源审核</h6>
 				<el-form-item label="资源选择" class="payment_item"  v-if="need_show_choose_resource == 1">
 					<div slot="label" class="d-flex justify-content-between">
 						<span>绑定资源</span>

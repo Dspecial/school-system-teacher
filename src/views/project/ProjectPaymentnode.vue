@@ -48,13 +48,13 @@
 					<el-table-column prop="title" label="标题"></el-table-column>
 					<el-table-column prop="money" label="金额"></el-table-column>
 					<el-table-column prop="paytime" label="付款节点"></el-table-column>
-					<el-table-column prop="createtime" label="创建时间"></el-table-column>
 					<el-table-column prop="is_pay" label="是否支付">
 						<template slot-scope="scope">
 							<span v-if="scope.row.is_pay == 1"><i class="dot bg-warning mr-1"></i>待支付</span>
 							<span v-else><i class="dot bg-success mr-1"></i>已支付</span>
 						</template>
 					</el-table-column>
+					<el-table-column prop="haspaytime" label="付款时间"></el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
 					<el-table-column fixed="right" label="操作" width="150" align="center">
 						<template slot-scope="scope">
@@ -167,10 +167,5 @@
 </script>
 
 <style>
-	.el-table .row-expand-cover .cell .el-table__expand-icon {
-		display: none;
-	}
-	.el-table .row-expand-cover + tr .el-table__expanded-cell{
-		display: none;
-	}
+
 </style>

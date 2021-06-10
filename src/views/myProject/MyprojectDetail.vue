@@ -8,8 +8,8 @@
 					<div class="d-flex align-items-center flex-wrap">
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目编号：</span>{{basic.apply_number}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目名称：</span>{{basic.p_name}}</p>
-						<p class="w-100 mb-3"><span class="opacity-60 mr-2">预算金额：</span>{{basic.budget_amount}}</p>
-						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目金额：</span>{{basic.real_amount}}</p>
+						<p class="w-100 mb-3" v-if="basic.budget_amount != 0"><span class="opacity-60 mr-2">预算金额：</span>{{basic.budget_amount}}</p>
+						<p class="w-100 mb-3" v-if="basic.real_amount != 0"><span class="opacity-60 mr-2">项目金额：</span>{{basic.real_amount}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目类别：</span>{{basic.category_name}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目年份：</span>{{basic.projecttime}}</p>
 						<p class="w-100 mb-0"><span class="opacity-60 mr-2">申请人所在部门：</span>{{basic.apply_user_depart}}</p>
@@ -96,19 +96,32 @@
 		<!-- 合同付款节点 -->
 		<el-card class="mt-3" v-if="tableData.length != 0">
 			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">合同付款节点</h4>
-			<data-tables-server :data="tableData" layout="table,pagination" :total="total" :current-page="currentPage" :page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60] }" :table-props="tableProps">
-				<el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
+			<el-table :data="tableData" :default-expand-all="true" :row-class-name="getRowClass">
+				<el-table-column type="expand">
+					<template slot-scope="scope">
+						<div class="d-flex align-items-center justify-content-between" v-for="(file,index) in scope.row.files" :key="index">
+							<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+								<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+							</div>
+							<div class="opacity-80">
+								<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+								<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+							</div>
+						</div>
+					</template>
+				</el-table-column>
 				<el-table-column prop="title" label="标题"></el-table-column>
 				<el-table-column prop="money" label="金额"></el-table-column>
 				<el-table-column prop="paytime" label="付款节点"></el-table-column>
-				<el-table-column prop="createtime" label="创建时间"></el-table-column>
 				<el-table-column prop="is_pay" label="是否支付">
 					<template slot-scope="scope">
 						<span v-if="scope.row.is_pay == 1"><i class="dot bg-warning mr-1"></i>待支付</span>
 						<span v-else><i class="dot bg-success mr-1"></i>已支付</span>
 					</template>
 				</el-table-column>
-			</data-tables-server>
+				<el-table-column prop="haspaytime" label="付款时间"></el-table-column>
+				<el-table-column prop="remark" label="备注"></el-table-column>
+			</el-table>
 		</el-card>
 	</div>
 </template>
@@ -218,6 +231,12 @@
       indexMethod(index) { 
         return ++index;
       },
+			// 判断表格是否有子项，无子项不显示展开按钮
+			getRowClass (row) {
+				if (row.row.is_pay == 1) {
+					return 'row-expand-cover'
+				}
+			},
       // 加载数据
       loadData(queryInfo) { 
         let _this = this;

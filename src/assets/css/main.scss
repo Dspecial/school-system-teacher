@@ -542,3 +542,10 @@ html,body,#app,.page-container{
     color: var(--danger)!important;
   }
 }
+
+.el-table .row-expand-cover .cell .el-table__expand-icon {
+  display: none;
+}
+.el-table .row-expand-cover + tr .el-table__expanded-cell{
+  display: none;
+}

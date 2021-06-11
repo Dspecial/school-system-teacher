@@ -11,23 +11,29 @@
           <div class="d-flex align-items-center project_search_div">
             <div class="d-flex align-items-center">
               <el-input
-                placeholder="请输入项目名称/企业名称/标题/内容"
+                placeholder="请输入项目名称/进度编号/申请人/申请所在部门"
                 prefix-icon="el-icon-search"
                 v-model="filters[0].value"
+                clearable
                 class="mr-3">
               </el-input>
+              <el-select v-model="filters[1].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>
+                <el-option label="待审核" value="1"></el-option>
+                <el-option label="审核成功" value="2"></el-option>
+                <el-option label="审核失败" value="3"></el-option>
+              </el-select>
               <el-date-picker
-                v-model="filters[1].value"
+                v-model="filters[2].value"
                 type="daterange"
                 range-separator="至"
-                start-placeholder="创建时间"
-                end-placeholder="创建时间"
+                start-placeholder="提交时间"
+                end-placeholder="提交时间"
                 align="right"
                 value-format="yyyy-MM-dd"
                 class="mr-3">
               </el-date-picker>
               <el-date-picker
-                v-model="filters[2].value"
+                v-model="filters[3].value"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="审核时间"
@@ -39,7 +45,14 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称" width="200"></el-table-column>
+        <el-table-column prop="p_name" label="项目名称" width="210"></el-table-column>
+        <el-table-column prop="check_state" label="审核状态" width="120">
+          <template slot-scope="scope">
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核驳回</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="process_number" label="进度编号" width="180"></el-table-column>
         <el-table-column prop="title" label="进度标题" width="150"></el-table-column>
         <el-table-column label="进度内容" width="150">
@@ -55,16 +68,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="job_number" label="上传企业" width="200"></el-table-column>
-        <el-table-column prop="check_state" label="审核状态" width="120">
-          <template slot-scope="scope">
-            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
-            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
-            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="utname" label="项目申请人" width="100"></el-table-column>
-        <el-table-column prop="depart_name" label="申请人部门" width="100"></el-table-column>
-        <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
+        <el-table-column prop="utname" label="申请人姓名" width="100"></el-table-column>
+        <el-table-column prop="depart_name" label="申请人所在部门" width="120"></el-table-column>
+        <el-table-column prop="createtime" label="提交时间" width="150"></el-table-column>
         <el-table-column prop="checktime" label="审核时间"  width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
@@ -107,6 +113,10 @@
 	        },
           {
 	          value: '',
+	          prop: 'check_state'
+	        },
+          {
+	          value: '',
 	          prop: 'createtime'
 	        },
           {
@@ -142,8 +152,9 @@
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
-          createtime:this.filters[1].value?this.filters[1].value.join(" - "):'',
-          checktime:this.filters[2].value?this.filters[2].value.join(" - "):'',
+          check_state:this.filters[1].value,
+          createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
+          checktime:this.filters[3].value?this.filters[3].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
             this.total = data.count;

@@ -11,20 +11,35 @@
           <div class="d-flex align-items-center project_search_div">
             <div class="d-flex align-items-center">
               <el-input
-                placeholder="请输入项目名称/申请编号/项目简介/申请部门名称/申请人"
+                placeholder="请输入项目编号/项目名称/项目类别/申请人/申请所在部门"
                 prefix-icon="el-icon-search"
                 v-model="filters[0].value"
+                clearable
                 class="mr-3">
               </el-input>
+              <el-select v-model="filters[1].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>
+                <el-option label="待审核" value="1"></el-option>
+                <el-option label="审核成功" value="2"></el-option>
+                <el-option label="审核失败" value="3"></el-option>
+              </el-select>
               <el-date-picker
-                v-model="filters[1].value"
+                v-model="filters[2].value"
                 type="daterange"
                 range-separator="至"
-                start-placeholder="创建时间"
-                end-placeholder="创建时间"
+                start-placeholder="提交时间"
+                end-placeholder="提交时间"
                 align="right"
                 value-format="yyyy-MM-dd"
                 class="mr-3">
+              </el-date-picker>
+              <el-date-picker
+                v-model="filters[3].value"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="审核时间"
+                end-placeholder="审核时间"
+                align="right"
+                value-format="yyyy-MM-dd">
               </el-date-picker>
             </div>
           </div>
@@ -32,7 +47,7 @@
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="apply_number" width="200" label="项目编号"></el-table-column>
         <el-table-column prop="p_name" label="项目名称" width="210"></el-table-column>
-        <el-table-column prop="cname" label="申请类别" width="180"></el-table-column>
+        <el-table-column prop="cname" label="项目类别" width="180"></el-table-column>
         <el-table-column prop="projecttime" label="年份"></el-table-column>
         <el-table-column prop="check_state" label="审核状态" width="120">
           <template slot-scope="scope">
@@ -45,9 +60,9 @@
         <el-table-column prop="real_amount" label="项目金额" width="100"></el-table-column>
         <el-table-column prop="name" label="申请人姓名" width="100"></el-table-column>
         <el-table-column prop="depart_name" label="申请人所在部门" width="120"></el-table-column>
-        <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column prop="committime" label="提交时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="180" align="center">
+        <el-table-column prop="createtime" label="提交时间" width="150"></el-table-column>
+        <el-table-column prop="checktime" label="审核时间" width="150"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="130" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.check_state == 1">
               <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
@@ -88,7 +103,15 @@
 	        },
           {
 	          value: '',
+	          prop: 'check_state'
+	        },
+          {
+	          value: '',
 	          prop: 'createtime'
+	        },
+          {
+	          value: '',
+	          prop: 'checktime'
 	        },
         ],
         total: 0, //总条数
@@ -119,7 +142,9 @@
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
-          createtime:this.filters[1].value?this.filters[1].value.join(" - "):'',
+          check_state:this.filters[1].value,
+          createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
+          checktime:this.filters[3].value?this.filters[3].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
             this.total = data.count;

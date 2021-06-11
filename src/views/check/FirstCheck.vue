@@ -11,9 +11,10 @@
           <div class="d-flex align-items-center project_search_div">
             <div class="d-flex align-items-center">
               <el-input
-                placeholder="请输入项目名称/申请编号/申请部门名称/申请人"
+                placeholder="请输入项目编号/项目名称/项目类别/申请人/申请所在部门"
                 prefix-icon="el-icon-search"
                 v-model="filters[0].value"
+                clearable
                 class="mr-3">
               </el-input>
               <el-select v-model="filters[1].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>
@@ -25,8 +26,8 @@
                 v-model="filters[2].value"
                 type="daterange"
                 range-separator="至"
-                start-placeholder="创建时间"
-                end-placeholder="创建时间"
+                start-placeholder="提交时间"
+                end-placeholder="提交时间"
                 align="right"
                 value-format="yyyy-MM-dd"
                 class="mr-3">
@@ -35,8 +36,8 @@
                 v-model="filters[3].value"
                 type="daterange"
                 range-separator="至"
-                start-placeholder="提交时间"
-                end-placeholder="提交时间"
+                start-placeholder="审核时间"
+                end-placeholder="审核时间"
                 align="right"
                 value-format="yyyy-MM-dd">
               </el-date-picker>
@@ -57,8 +58,8 @@
         </el-table-column>
         <el-table-column prop="name" label="申请人姓名" width="100"></el-table-column>
         <el-table-column prop="depart_name" label="申请人所在部门" width="120"></el-table-column>
-        <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column prop="committime" label="提交时间" width="150"></el-table-column>
+        <el-table-column prop="createtime" label="提交时间" width="150"></el-table-column>
+        <el-table-column prop="checktime" label="审核时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="180" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.check_state == 2 || scope.row.check_state == 3">
@@ -108,7 +109,7 @@
 	        },
           {
 	          value: '',
-	          prop: 'committime'
+	          prop: 'checktime'
 	        },
         ],
         total: 0, //总条数
@@ -143,7 +144,7 @@
           keywords:this.filters[0].value,
           check_state:this.filters[1].value,
           createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
-          committime:this.filters[3].value?this.filters[3].value.join(" - "):'',
+          checktime:this.filters[3].value?this.filters[3].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
             this.total = data.count;

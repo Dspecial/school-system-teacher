@@ -21,6 +21,7 @@
                     placeholder="请输入标题、内容"
                     prefix-icon="el-icon-search"
                     v-model="filters[0].value"
+                    clearable
                     class="mr-3">
                   </el-input>
                   <el-date-picker

@@ -10,9 +10,10 @@
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
               <el-input
-    				    placeholder="请输入标题/内容/资源名称"
+    				    placeholder="请输入资源名称/标题/内容"
     				    prefix-icon="el-icon-search"
     				    v-model="filters[0].value"
+                clearable
                 class="mr-3">
     				  </el-input>
           	</div>

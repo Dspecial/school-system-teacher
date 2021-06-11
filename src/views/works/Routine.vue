@@ -19,6 +19,7 @@
     				    placeholder="请输入事务标题、内容、备注"
     				    prefix-icon="el-icon-search"
     				    v-model="filters[0].value"
+                clearable
                 class="mr-3">
     				  </el-input>
               <el-date-picker

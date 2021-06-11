@@ -93,6 +93,32 @@
 			</el-steps>
 		</el-card>
 
+		<!-- 审核记录 -->
+		<el-card class="mt-3">
+			<div class="d-flex justify-content-between align-items-center">
+				<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">审核记录</h4>
+				<div :class="['toggleMenu cursor-pointer text-primary',showMore ? 'menu_arrow' : '']" @click="changeFoldState"  v-if="checkListAll.length > 5">
+					<span>{{showMore?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
+				</div>
+			</div>
+			<el-table :data="checkList">		
+				<el-table-column prop="pname" label="节点名称"></el-table-column>
+				<el-table-column prop="groupname" label="审核部门"></el-table-column>
+				<el-table-column prop="check_state" label="审核状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="checkname" label="审核人"></el-table-column>
+				<el-table-column prop="remark" label="审核备注"></el-table-column>
+				<el-table-column prop="createtime" label="创建时间"></el-table-column>
+				<el-table-column prop="checktime" label="审核时间"></el-table-column>
+			</el-table>
+			
+		</el-card>
+
 		<!-- 合同付款节点 -->
 		<el-card class="mt-3" v-if="tableData.length != 0">
 			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">合同付款节点</h4>
@@ -189,7 +215,11 @@
 				//项目状态
 				statusActive:7,
 				statusSteps:[],
-				// 任务信息
+				// 审核记录
+				checkList:[],
+				checkListAll:[],
+				showMore: true,
+				// 合同付款节点
 				tableProps: {
           'max-height': 670,
         },
@@ -217,7 +247,6 @@
 						this.option.series[0].data = data.data.money_data;
 						// 表单值-详细信息
 						this.dataJson = data.data.info.datajson;
-
 						// 项目状态
 						this.statusSteps = data.data.project_node;
 						data.data.project_node.map((node,index)=>{
@@ -225,10 +254,28 @@
 								this.statusActive = index;
 							}
 						})
+						// 审核记录
+						this.checkListAll = data.data.check_list;
+						// 默认情况下审核记录
+						if(data.data.check_list > 5){
+							this.checkList = this.checkListAll;
+						}else{
+							this.checkList = this.checkListAll.slice(0,5);
+						}
 						// 合同付款节点
 						this.tableData = data.data.pay_info;
 					}
 				})
+			},
+			// 审核列表展开收起
+			changeFoldState() {
+				if(this.showMore){ // 展开
+					this.checkList = this.checkListAll;
+					this.showMore = false;
+				}else{
+					this.checkList = this.checkListAll.slice(0,5);
+					this.showMore = true;
+				}
 			},
 			// 自增序列
       indexMethod(index) { 

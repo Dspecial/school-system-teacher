@@ -13,6 +13,7 @@
     				    placeholder="请输入项目名称/资源名称/备注"
     				    prefix-icon="el-icon-search"
     				    v-model="filters[0].value"
+                clearable
                 class="mr-3">
     				  </el-input>
               <el-select v-model="filters[1].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>

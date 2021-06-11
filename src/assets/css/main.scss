@@ -110,9 +110,6 @@
 .el-form-item__label{
   color: #333;
 }
-.el-form-item:last-child{
-  /*margin-bottom:0;*/
-}
 /*el-table*/
 .el-table{
   color: rgba(0, 0, 0, 0.65)!important;
@@ -124,12 +121,15 @@
   }
 }
 .sc-table{
-  .tool .el-input__inner:not(.el-range-editor){
-    // min-width: 220px;
-    // max-width: 240px;
+  .tool .el-input:not(.el-range-editor),
+  .tool .el-select{
+    width: 250px!important;
+  }
+  .tool .el-date-editor--daterange.el-input__inner{
+    width: 300px!important;
   }
   .tool .el-range-input{
-    min-width: 120px;
+    width: 100px;
   }
   .pagination-bar{
     margin-top:1.25rem;
@@ -462,6 +462,17 @@ html,body,#app,.page-container{
 
 .upload_content .preview_span:hover{
   color:var(--primary);
+}
+
+.toggleMenu {
+  i{
+    transition: all 0.3s;
+    -webkit-transition:all 0.3s;
+  }
+  &.menu_arrow i{
+    -webkit-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+  }
 }
 
 /*knowledge*/

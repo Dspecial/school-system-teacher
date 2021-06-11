@@ -11,10 +11,11 @@
           <div class="d-flex align-items-center project_search_div">
             <div class="d-flex align-items-center">
               <el-input
-                placeholder="请输入项目名称/资源名称/备注"
+                placeholder="请输入项目编号/项目名称/项目类别/申请人/申请所在部门"
                 prefix-icon="el-icon-search"
                 v-model="filters[0].value"
-                class="mr-3">
+                class="mr-3"
+                clearable>
               </el-input>
               <el-select v-model="filters[1].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>
                 <el-option label="待审核" value="1"></el-option>
@@ -25,8 +26,8 @@
                 v-model="filters[2].value"
                 type="daterange"
                 range-separator="至"
-                start-placeholder="申请时间"
-                end-placeholder="申请时间"
+                start-placeholder="提交时间"
+                end-placeholder="提交时间"
                 align="right"
                 value-format="yyyy-MM-dd"
                 class="mr-3">
@@ -56,9 +57,9 @@
         </el-table-column>
         <el-table-column prop="name" label="申请人姓名" ></el-table-column>
         <el-table-column prop="depart_name" label="申请人所在部门"></el-table-column>
-        <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
+        <el-table-column prop="createtime" label="提交时间" width="150"></el-table-column>
         <el-table-column prop="checktime" label="审核时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="180" align="center">
+        <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.check_state == 2 || scope.row.check_state == 3">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
@@ -99,11 +100,11 @@
 	        },
           {
 	          value: '',
-	          prop: 'status'
+	          prop: 'check_state'
 	        },
           {
 	          value: '',
-	          prop: 'applytime'
+	          prop: 'createtime'
 	        },
           {
 	          value: '',
@@ -138,8 +139,8 @@
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
-          status:this.filters[1].value,
-          applytime:this.filters[2].value?this.filters[2].value.join(" - "):'',
+          check_state:this.filters[1].value,
+          createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
           checktime:this.filters[3].value?this.filters[3].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){

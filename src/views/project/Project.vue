@@ -10,26 +10,21 @@
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
           		<el-input
-    				    placeholder="请输入项目编号"
+    				    placeholder="请输入项目编号/项目名称/类别名称"
     				    prefix-icon="el-icon-search"
     				    v-model="filters[0].value"
-                class="mr-3">
-    				  </el-input>
-              <el-input
-    				    placeholder="请输入项目名称/公司名称"
-    				    prefix-icon="el-icon-search"
-    				    v-model="filters[1].value"
+                clearable
                 class="mr-3">
     				  </el-input>
               <el-date-picker
                 placeholder="请选择项目年份"
-                v-model="filters[2].value"
+                v-model="filters[1].value"
                 type="year"
                 class="mr-3"
                 value-format="yyyy">
               </el-date-picker>
               <el-date-picker
-                v-model="filters[3].value"
+                v-model="filters[2].value"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="创建时间"
@@ -161,10 +156,6 @@
         },
         tableData: [],
         filters: [
-	        {
-	          value: '',
-	          prop: 'apply_number'
-	        },
           {
 	          value: '',
 	          prop: 'keywords'
@@ -232,10 +223,9 @@
         this.$api.projectList({
           page:this.currentPage,
           limit:this.pageSize,
-          apply_number:this.filters[0].value,
-          keywords:this.filters[1].value,
-          projecttime:this.filters[2].value,
-          createtime:this.filters[3].value?this.filters[3].value.join(" - "):'',
+          keywords:this.filters[0].value,
+          projecttime:this.filters[1].value,
+          createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
             this.total = data.data.total;

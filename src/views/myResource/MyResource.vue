@@ -10,9 +10,10 @@
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
               <el-input
-    				    placeholder="请输入项目名称/资源名称/备注"
+    				    placeholder="请输入资源名称/资源分类/备注"
     				    prefix-icon="el-icon-search"
     				    v-model="filters[0].value"
+                clearable
                 class="mr-3">
     				  </el-input>
           	</div>
@@ -20,7 +21,7 @@
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="name" label="资源名称"></el-table-column>
-        <el-table-column prop="cate_name" label="分类"></el-table-column>
+        <el-table-column prop="cate_name" label="资源分类"></el-table-column>
         <el-table-column label="备注">
           <template slot-scope="scope">
             <el-popover

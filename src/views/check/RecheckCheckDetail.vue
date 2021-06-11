@@ -71,31 +71,33 @@
 			</el-form>
 
 			<!-- 审核信息 -->
-			<h6 class="fs_20 font-weight-normal mb-3">审核信息</h6>
-			<el-form label-width="110px" label-position="left" class="pl-3 pr-3" v-if="check_info.check_state != 1">
-				<el-row :gutter="20">
-					<el-col :span="8">
-						<el-form-item label="审核人">
-							{{check_info.checkname}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="审核时间">
-							{{check_info.checktime}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="审核部门">
-							{{check_info.checkgroup}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="审核备注">
-							{{check_info.remark}}
-						</el-form-item>
-					</el-col>
-				</el-row>
-			</el-form>
+			<div v-if="check_info.check_state != 1">
+				<h6 class="fs_20 font-weight-normal mb-3">审核信息</h6>
+				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+					<el-row :gutter="20">
+						<el-col :span="8">
+							<el-form-item label="审核人">
+								{{check_info.checkname}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="审核时间">
+								{{check_info.checktime}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="审核部门">
+								{{check_info.checkgroup}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="24">
+							<el-form-item label="审核备注">
+								{{check_info.remark}}
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</el-form>
+			</div>
 		</el-card>
 	</div>
 </template>

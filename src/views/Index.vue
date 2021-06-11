@@ -1,7 +1,7 @@
 <template>
 	<div class="index-container">
 		<!-- 资源概况 -->
-		<div class="w-100">
+		<!-- <div class="w-100">
 			<h4 class="fs_16 font-weight-semibold m-0 mb-3 text-000">资源概况</h4>
 			<el-row :gutter="20">
 				<template v-for="(item,index) in resources">
@@ -18,10 +18,10 @@
 					</el-col>
 				</template>
 			</el-row>	
-		</div>
+		</div> -->
 
 		<!-- 我的项目--状态统计 -->
-		<el-card class="mt-3">
+		<el-card>
 			<h4 class="fs_16 font-weight-semibold m-0 mb-3 text-000">我的项目</h4>
 			<el-row :gutter="20" type="flex">
 				<template v-for="(status,index) in statusList">

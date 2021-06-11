@@ -29,9 +29,14 @@ export default {
 	menuState: p => post('/api/menu/check_menu_state', p),
 
 	/*
+		***头部
+	 */
+	// 消息提示
+	headerNotice: p => post('/api/dashboard/get_index_notice', p),
+	
+	/*
 		***首页
 	 */
-
 	// 获取信息处理
 	dashboard_routine: p => post('/api/dashboard/get_last_routine', p),	
 	// 获取项目状态数

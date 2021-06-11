@@ -175,7 +175,7 @@
 			openEdit(){
 				this.ID = this.$route.query.id;
 				this.$api.forceList_check({
-					project_id:this.ID,
+					id:this.ID,
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){

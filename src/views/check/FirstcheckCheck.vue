@@ -93,7 +93,7 @@
 		name: 'FirstcheckCheck',
 		data () {
 			return {
-				projectId:'',
+				ID:'',
 				titile:"编辑初审项目",
 				check_info:"",
 				projectForm: {},
@@ -120,9 +120,9 @@
 		methods:{
 			// dialog初始化
 			openEdit(){
-				this.projectId = this.$route.query.id;
+				this.ID = this.$route.query.id;
 				this.$api.firstCheckList_check({
-					project_id:this.projectId,
+					project_id:this.ID,
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
@@ -170,7 +170,7 @@
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.firstCheckList_check({
-							project_id:this.projectId,
+							project_id:this.ID,
 							function_type:2,
 							check_state:this.checkform.check_state,
 							remark:this.checkform.remark,

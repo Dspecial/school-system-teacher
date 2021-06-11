@@ -2,7 +2,7 @@
 	<div class="page-header h-100 d-flex align-items-center">
 		<div class="ml-auto d-flex align-items-center">
       <el-dropdown trigger="click">
-        <el-badge :value="totalNews.length" :max="99" class="item">
+        <el-badge :value="totalNews.length" :max="99" class="item cursor-pointer">
           <i class="el-icon-bell fs_16"></i>
         </el-badge>
         <el-dropdown-menu slot="dropdown" :hidden="totalNews.length == 0">
@@ -14,7 +14,7 @@
       </el-dropdown>
       <div class="d-flex align-items-center ml-3">
         <el-dropdown trigger="click">
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center cursor-pointer">
       	    <span class="fs_14 ml-2">{{name}}</span>
           </div>
           <el-dropdown-menu slot="dropdown">

@@ -147,6 +147,12 @@
             <template v-if="scope.row.is_commit != 0">
               <span v-for="(action,j) in actions22" :key="j+200" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
+
+            <!-- is_need_service等于1的时候，工单列表 -->
+            <template v-if="scope.row.is_need_service == 1">
+              <span v-for="(action,k) in actions24" :key="k+300" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
+
           </template>
         </el-table-column>
       </data-tables-server>
@@ -219,6 +225,7 @@
         actions21:[],
         actions22:[],
         actions23:[],
+        actions24:[],
       }
     },
     computed: {
@@ -252,7 +259,7 @@
             var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array,actions_4 = new Array;
             var actions_5 = new Array,actions_6 = new Array,actions_7 = new Array,actions_8 = new Array;
             var actions_9 = new Array,actions_10 = new Array,actions_11 = new Array,actions_12 = new Array;
-            var actions_13 = new Array;
+            var actions_13 = new Array,actions_14 = new Array;
 
             this.$store.getters.getmoreAction.map((item,index)=>{
               if(item.sign == '2'){ // 编辑
@@ -281,8 +288,16 @@
                 actions_12.push(item);
               }else if (item.sign == '5.10'){ // 付款节点
                 actions_13.push(item);
+              }else if (item.sign == '5.11'){ // 工单列表
+                actions_14.push(item);
               }
             })
+
+            /* 
+              is_need_service=1
+            */
+            this.actions24 = [...actions_14];
+
             /* 
               need_to_func_money=1
             */
@@ -390,11 +405,14 @@
         }else if(sign == '5.7'){ // 进入实施流程
           this.handleRunning(index,row);
         }else if(sign == '5.8'){ // 项目维保
-          console.log("5555");
+          
+
         }else if(sign == '5.9'){ // 资源申请 
           
         }else if(sign == '5.10'){ // 付款节点 
           this.paymentNode(index,row);
+        }else if(sign == '5.11'){ // 工单列表 
+          this.goServiceList(index,row);
         }
       },
 
@@ -544,6 +562,15 @@
       paymentNode(index,row){
         this.$router.push({
           path:"/project/project/paymentNode",
+          query: {
+            id: row.id,
+          }
+        })
+      },
+      // 工单列表
+      goServiceList(index,row){
+        this.$router.push({
+          path:"/project/project/serviceList",
           query: {
             id: row.id,
           }

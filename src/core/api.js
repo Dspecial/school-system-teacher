@@ -98,6 +98,10 @@ export default {
 	projectMaintenance: p => post('/api/project.project/to_running', p),
 	// 资源申请
 	project_resource_Application: p => post('/api/project.project/to_running', p),
+	// 工单列表
+	project_serviceList: p => post('/api/service.serviceproject/index', p),
+	// 工单级别
+	project_service_level: p => post('/api/ajax/get_service_level', p),
 
 	// 资源列表
 	resourceList: p => post('/api/resource.resource/index', p),

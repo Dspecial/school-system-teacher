@@ -51,23 +51,13 @@
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="p_name" label="项目名称"></el-table-column>
         <el-table-column prop="name" label="资源名称"></el-table-column>
-        <el-table-column label="申请备注">
-          <template slot-scope="scope">
-            <el-popover
-              placement="top-start"
-              title="简介"
-              width="200"
-              trigger="hover"
-              :content="scope.row.remark">
-              <span class="text-truncate" slot="reference">{{scope.row.remark}}</span>
-            </el-popover>
-          </template>
-        </el-table-column>
         <el-table-column prop="status" label="审核状态">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
-            <span v-else-if="scope.row.status == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
-            <span v-else-if="scope.row.status == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+            <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>待确认</span>
+            <span v-else-if="scope.row.status == 2"><i class="dot bg-warning mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.status == 3"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.status == 4"><i class="dot bg-danger mr-1"></i>审核失败</span>
+            <span v-else-if="scope.row.status == 5"><i class="dot bg-cyan mr-1"></i>已回收</span>
           </template>
         </el-table-column>
         <el-table-column prop="applytime" label="申请时间"></el-table-column>

@@ -20,9 +20,11 @@
 					</el-col>
           <el-col :span="8">
 						<el-form-item label="审核状态">
-              <span class="text-primary" v-if="resourceDetail.status == 1">待审核</span>
-              <span class="text-success" v-else-if="resourceDetail.status == 2">审核成功</span>
-              <span class="text-success" v-else-if="resourceDetail.status == 3">审核失败</span>
+              <span class="text-primary" v-if="resourceDetail.status == 1">待确认</span>
+              <span class="text-warning" v-else-if="resourceDetail.status == 2">待审核</span>
+              <span class="text-success" v-else-if="resourceDetail.status == 3">审核成功</span>
+							<span class="text-danger" v-else-if="resourceDetail.status == 4">审核失败</span>
+							<span class="text-cyan" v-else-if="resourceDetail.status == 5">已回收</span>
 						</el-form-item>
 					</el-col>
           <el-col :span="8">
@@ -41,19 +43,13 @@
 						</el-form-item>
 					</el-col>
           <el-col :span="24">
-						<el-form-item label="申请备注">
-							{{resourceDetail.apply_remark}}
-						</el-form-item>
-					</el-col>
-          <el-col :span="24">
 						<el-form-item label="审核备注">
 							{{resourceDetail.remark}}
 						</el-form-item>
 					</el-col>
-
 					<el-col :span="24">
 						<el-form-item label="资源详细参数">
-              <el-row :gutter="20" class="re_detail_json" v-if="details.lengths>0">
+              <el-row :gutter="20" class="re_detail_json" v-if="details.length > 0">
 								<el-col :span="6" v-for="(item,index) in details" :key="index" class="pl-3 pr-3 pt-2 pb-2">
 									<p class="mb-2 text-primary">{{item.title}}</p>
 									<p class="m-0">{{item.val}}</p>

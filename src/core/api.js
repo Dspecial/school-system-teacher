@@ -102,6 +102,10 @@ export default {
 	project_serviceList: p => post('/api/service.serviceproject/index', p),
 	// 工单级别
 	project_service_level: p => post('/api/ajax/get_service_level', p),
+	// 工单详情
+	project_serviceDetail: p => post('/api/service.serviceproject/details', p),
+	// 工单上传文件
+	project_serviceUpload: p => postUpload('/api/upload/upload_service_attach', p),
 
 	// 资源列表
 	resourceList: p => post('/api/resource.resource/index', p),

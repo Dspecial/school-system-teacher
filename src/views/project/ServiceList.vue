@@ -204,12 +204,12 @@
 
       // 工单详情
       detailService(index,row){
-        // this.$router.push({
-        //   path:"/project/resource/detail",
-        //   query: {
-        //     id: row.id,
-        //   }
-        // })
+        this.$router.push({
+          path:"/project/project/serviceDetail",
+          query: {
+            id: row.id,
+          }
+        })
       },
 		},
   }

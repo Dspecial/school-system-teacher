@@ -560,3 +560,94 @@ html,body,#app,.page-container{
 .el-table .row-expand-cover + tr .el-table__expanded-cell{
   display: none;
 }
+
+/*service*/
+.service-container{
+  height: calc(100% - 74px);
+  border:1px solid #DFDAD3;
+  .left{
+    .left_body{
+      height: 100%;
+      overflow-y:auto;
+      .ownSide{
+        >img{
+          width: 50px;
+          order:1;
+        }
+        .txt {
+          order:0;
+          .txt_content{
+            background-color: #b5d2fc;
+            border-radius: 4px;
+          }
+        }
+      }
+      .otherSide{
+        >img{
+          width: 50px;
+          order:0;
+        }
+        .txt {
+          order:1;
+          .txt_content{
+            background-color: #fff;
+            border-radius: 4px;
+          }
+        }
+      }
+    }
+
+    .left_footer{
+      height: 30%;
+      .send_container {
+        border-top: solid 1px #DFDAD3;
+        position: relative;
+        .toolbar {
+          .upload .el-upload-list{
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translate(0,-50%);
+            display: flex;
+            align-items: center;
+          }
+          .el-upload-list__item{
+            margin-top: 0!important;
+            margin-left:10px;
+          }
+        }
+        .content-container{
+          height: calc(100% - 42px);
+          .custom-textarea{
+            height: calc(100% - 56px);
+          }
+          .el-textarea__inner{
+            height: 100%;
+          }
+        }
+      }
+      .filesList >div .el-icon-circle-close{
+        visibility: hidden;
+      }
+      .filesList >div:hover{
+        background-color: #EDF5FF;
+      }
+      .filesList >div:hover .el-icon-circle-close{
+        visibility: visible;
+      }
+    }
+  }
+  .right{
+    border-radius: 0;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    .worksheetInfo{
+      height: calc(100% - 24px);
+      overflow-y:auto;
+    }
+    .worksheetInfo span.opacity-60{
+      width: 75px;
+      display: inline-block;
+    }
+  }
+}

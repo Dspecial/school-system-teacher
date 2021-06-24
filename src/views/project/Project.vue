@@ -143,14 +143,15 @@
             <template v-else-if="scope.row.is_commit == 19 || scope.row.is_commit == 20 || scope.row.is_commit == 21">
               <span v-for="(action,index) in actions21" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
-            <!-- is_commit不等于0的时候，每条数据都需要详情 -->
-            <template v-if="scope.row.is_commit != 0">
-              <span v-for="(action,j) in actions22" :key="j+200" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-            </template>
 
             <!-- is_need_service等于1的时候，工单列表 -->
             <template v-if="scope.row.is_need_service == 1">
               <span v-for="(action,k) in actions24" :key="k+300" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
+            
+            <!-- is_commit不等于0的时候，每条数据都需要详情 -->
+            <template v-if="scope.row.is_commit != 0">
+              <span v-for="(action,j) in actions22" :key="j+200" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
 
           </template>

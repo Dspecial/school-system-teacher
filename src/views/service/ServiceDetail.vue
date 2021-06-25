@@ -224,7 +224,7 @@
           return item.response.data.path;
         })
         // 调接口获取answer
-        this.$api.project_serviceDetail({
+        this.$api.serviceDetail({
           id:this.$route.query.id,
           function_type:2,
           content:this.message,

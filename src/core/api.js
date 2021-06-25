@@ -98,14 +98,17 @@ export default {
 	projectMaintenance: p => post('/api/project.project/to_running', p),
 	// 资源申请
 	project_resource_Application: p => post('/api/project.project/to_running', p),
-	// 工单列表
+	// 项目工单列表
 	project_serviceList: p => post('/api/service.serviceproject/index', p),
 	// 工单级别
 	project_service_level: p => post('/api/ajax/get_service_level', p),
-	// 工单详情
+	// 项目发起工单
+	project_serviceAdd: p => post('/api/service.serviceproject/add', p),
+	// 项目工单详情
 	project_serviceDetail: p => post('/api/service.serviceproject/details', p),
 	// 工单上传文件
 	project_serviceUpload: p => postUpload('/api/upload/upload_service_attach', p),
+
 
 	// 资源列表
 	resourceList: p => post('/api/resource.resource/index', p),
@@ -122,9 +125,19 @@ export default {
 	// 资源详情
 	resourceDetail: p => post('/api/resource.resource/details', p),
 
+	// 资源工单列表
+	resource_serviceList: p => post('/api/service.serviceresource/index', p),
+	// 资源发起工单
+	resource_serviceAdd: p => post('/api/service.serviceresource/add', p),
+	// 资源工单详情
+	resource_serviceDetail: p => post('/api/service.serviceresource/details', p),
+
 	/*
 		***审核管理
 	 */
+	// 审核列表
+	checkList: p => post('/api/checks.checks/index', p),
+
 	// 初审列表
 	firstCheckList: p => post('/api/checks.firstproject/index', p),
 	// 编辑初审列表
@@ -262,4 +275,12 @@ export default {
 	my_recordList: p => post('/api/companyresource.companyresource/record_index', p),
 	// 记录详情
 	my_recordDetail: p => post('/api/companyresource.companyresource/detail', p),
+
+	/*
+		***工单管理
+	 */
+	// 工单列表
+	serviceList: p => post('/api/service.service/index', p),
+	// 工单详情
+	serviceDetail: p => post('/api/service.service/details', p),
 }

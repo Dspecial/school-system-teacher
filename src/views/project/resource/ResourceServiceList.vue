@@ -3,11 +3,11 @@
     <!-- 登录信息 -->
     <global-tips></global-tips>
     <Breadcrumb></Breadcrumb>
-    <!-- 工单列表 -->
+    <!-- 资源工单列表 -->
     <el-card class="mt-3">
       <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage" :page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
         <div class="mb-3" slot="tool">
-          <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">工单列表</h4>
+          <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">资源工单列表</h4>
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
               <el-input
@@ -109,7 +109,7 @@
 	import Breadcrumb from "@/components/Breadcrumb";
 
 	export default {
-    name: 'ServiceList',
+    name: 'ResourceServiceList',
     components: {
       GlobalTips,
       Breadcrumb
@@ -186,8 +186,8 @@
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
         }
-        this.$api.project_serviceList({
-          project_id:this.$route.query.id,
+        this.$api.resource_serviceList({
+          id:this.$route.query.id,
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
@@ -207,16 +207,17 @@
       // 发起工单
       handleAdd(){
         this.$router.push({
-          path:"/project/project/service/edit",
+          path:"/project/resource/service/edit",
           query:{
             id:this.$route.query.id,
+            project_id:this.$route.query.project_id,
           }
         })
       },
       // 工单详情
       detailService(index,row){
         this.$router.push({
-          path:"/project/project/service/detail",
+          path:"/project/resource/service/detail",
           query: {
             id: row.id,
           }

@@ -113,10 +113,15 @@
         var path = this.$route.path.split('#');
         var pathArr = path[0].split('/');
         var num = pathArr.length;
-        if(num<4){ // 二级页面
+        if(num < 4){ // 二级页面
           this.currentMenu = path[0];
-        }else{ // 三级页面
+        }else if(num < 5){ // 三级页面 
           this.currentMenu = pathArr.slice(0,pathArr.length-1).join("/");
+          if(pathArr[2] == 'first'||pathArr[2] == 'recheck'||pathArr[2] == 'force'||pathArr[2] == 'process'||pathArr[2] == 'accept'){
+            this.currentMenu = "/check/checkList";
+          }
+        }else{ // 四级页面
+          this.currentMenu = pathArr.slice(0,pathArr.length-2).join("/");
         }
       },
 	  	handleOpen(key, keyPath) {

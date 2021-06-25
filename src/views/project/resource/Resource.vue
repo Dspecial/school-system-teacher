@@ -62,9 +62,9 @@
         </el-table-column>
         <el-table-column prop="applytime" label="申请时间"></el-table-column>
         <el-table-column prop="checktime" label="审核时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="120" align="center">
+        <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
-            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="detailResource(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -164,12 +164,32 @@
         })
       },
 
+       // 操作们
+      fun(index,row,sign){
+        if(sign == '4'){ // 详情
+          this.detailResource(index,row);
+        }else if(sign == '5.11'){ // 工单列表
+          this.goServiceList(index,row);
+        }
+      },
+
       // 资源详情
       detailResource(index,row){
         this.$router.push({
           path:"/project/resource/detail",
           query: {
             id: row.id,
+          }
+        })
+      },
+
+      // 工单列表
+      goServiceList(index,row){
+        this.$router.push({
+          path:"/project/resource/serviceList",
+          query: {
+            id: row.id,
+            project_id:row.project_id,
           }
         })
       },

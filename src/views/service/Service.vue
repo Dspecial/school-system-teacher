@@ -52,13 +52,10 @@
                 clearable>
               </el-date-picker>
           	</div>
-            <div class="ml-auto">
-              <el-button type="primary" @click="handleAdd()"><i class="el-icon-plus el-icon--left"></i>发起工单</el-button>
-            </div>
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="question_number" label="工单编号"></el-table-column>
+        <el-table-column prop="question_number" label="工单编号" width="200"></el-table-column>
         <el-table-column prop="title" label="标题" width="220"></el-table-column>
         <el-table-column label="问题描述" width="200">
           <template slot-scope="scope">
@@ -79,8 +76,14 @@
             <span v-else-if="scope.row.status == 3"><i class="dot bg-success mr-1"></i>已完成</span>
           </template>
         </el-table-column>
-        <el-table-column prop="level" label="工单级别"></el-table-column>
-        <el-table-column label="备注" width="200">
+        <el-table-column prop="level" label="工单级别" width="100"></el-table-column>
+        <el-table-column prop="count_no_read" label="工单最新反馈" width="150">
+          <template slot-scope="scope">
+            <span v-if="scope.row.count_no_read == 0">暂无待回复内容</span>
+            <span v-else class="text-danger">存在待回复内容</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="备注" width="150">
           <template slot-scope="scope">
             <el-popover
               placement="top-start"
@@ -92,11 +95,11 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column prop="createtime" label="创建时间"></el-table-column>
-        <el-table-column prop="successtime" label="完成时间"></el-table-column>
+        <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
+        <el-table-column prop="successtime" label="完成时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="120" align="center">
           <template slot-scope="scope">
-            <span @click="detailService(scope.$index,scope.row)" class="text-primary cursor-pointer">详情</span>
+            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="detailService(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -109,18 +112,14 @@
 	import Breadcrumb from "@/components/Breadcrumb";
 
 	export default {
-    name: 'ServiceList',
+    name: 'Service',
     components: {
       GlobalTips,
       Breadcrumb
     },
-    provide() {
-      return {
-        loadData: this.loadData
-      }
-    },
     data() {
       return {
+        user_type:"",
         levelOptions:[],
         tableProps: {
           'max-height': 670,
@@ -180,14 +179,13 @@
         return ++index;
       },
       // 加载数据
-      loadData(queryInfo) { 
+      loadData(queryInfo) {
         let _this = this;
         if (queryInfo != null) {
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
         }
-        this.$api.project_serviceList({
-          project_id:this.$route.query.id,
+        this.$api.serviceList({
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
@@ -197,30 +195,51 @@
           successtime:this.filters[4].value?this.filters[4].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
-            this.total = data.data.total;
-            this.tableData = data.data.data;
+            this.total = data.count;
+            this.tableData = data.data;
+            this.user_type = data.user_type;
           }else{
             this.$message.error(data.msg);
           }
         });
       },
-      // 发起工单
-      handleAdd(){
-        this.$router.push({
-          path:"/project/project/service/edit",
-          query:{
-            id:this.$route.query.id,
-          }
-        })
+
+      // 操作们
+      fun(index,row,sign){
+        if(sign == 4){ // 详情
+          this.detailService(index,row);
+        }else if(sign == 10){ // 回复工单
+
+        }
       },
+      
       // 工单详情
       detailService(index,row){
-        this.$router.push({
-          path:"/project/project/service/detail",
-          query: {
-            id: row.id,
+        // 如果user_type为1的话 如果type为1,你就要跳到资源列表的工单详情;如果为2的,要跳到项目列表的工单详情
+        if(this.user_type == 1){
+          if(row.type == 1){
+            this.$router.push({
+              path:"/project/resource/service/detail",
+              query: {
+                id: row.id,
+              }
+            })
+          }else if(row.type == 2){
+            this.$router.push({
+              path:"/project/project/service/detail",
+              query: {
+                id: row.id,
+              }
+            })
           }
-        })
+        }else{
+          this.$router.push({
+            path:"/service/service/detail",
+            query: {
+              id: row.id,
+            }
+          })
+        }
       },
 		},
   }

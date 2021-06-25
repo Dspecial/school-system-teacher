@@ -84,18 +84,27 @@ const router = new Router({
 				{
 				  path: '/project/project/serviceList',
 				  component: resolve => require(['@/views/project/ServiceList'], resolve),
-				  name: 'ServiceList',
+				  name: 'ProjectServiceList',
 				  meta: {
-				    title: '工单列表',
+				    title: '项目工单列表',
 				  },
 				  children: null
 				},
 				{
-				  path: '/project/project/serviceDetail',
-				  component: resolve => require(['@/views/project/ServiceDetail'], resolve),
-				  name: 'ServiceDetail',
+				  path: '/project/project/service/edit',
+				  component: resolve => require(['@/views/project/ServiceEdit'], resolve),
+				  name: 'ProjectServiceEdit',
 				  meta: {
-				    title: '工单详情',
+				    title: '项目发起工单',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/project/service/detail',
+				  component: resolve => require(['@/views/project/ServiceDetail'], resolve),
+				  name: 'ProjectServiceDetail',
+				  meta: {
+				    title: '项目工单详情',
 				  },
 				  children: null
 				},
@@ -156,7 +165,7 @@ const router = new Router({
 				// 资源列表
 				{
 				  path: '/project/resource',
-				  component: resolve => require(['@/views/project/Resource'], resolve),
+				  component: resolve => require(['@/views/project/resource/Resource'], resolve),
 				  name: 'Resource',
 				  meta: {
 				    title: '资源列表',
@@ -166,7 +175,7 @@ const router = new Router({
 				// 编辑资源
 				{
 				  path: '/project/resource/edit',
-				  component: resolve => require(['@/views/project/ResourceEdit'], resolve),
+				  component: resolve => require(['@/views/project/resource/ResourceEdit'], resolve),
 				  name: 'ResourceEdit',
 				  meta: {
 				    title: '编辑资源',
@@ -176,10 +185,37 @@ const router = new Router({
 				// 资源详情
 				{
 				  path: '/project/resource/detail',
-				  component: resolve => require(['@/views/project/ResourceDetail'], resolve),
+				  component: resolve => require(['@/views/project/resource/ResourceDetail'], resolve),
 				  name: 'ResourceDetail',
 				  meta: {
 				    title: '资源详情',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/resource/serviceList',
+				  component: resolve => require(['@/views/project/resource/ResourceServiceList'], resolve),
+				  name: 'ResourceServiceList',
+				  meta: {
+				    title: '资源工单列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/resource/service/edit',
+				  component: resolve => require(['@/views/project/resource/ResourceServiceEdit'], resolve),
+				  name: 'ResourceServiceEdit',
+				  meta: {
+				    title: '资源发起工单',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/resource/service/detail',
+				  component: resolve => require(['@/views/project/resource/ResourceServiceDetail'], resolve),
+				  name: 'ResourceServiceDetail',
+				  meta: {
+				    title: '资源工单详情',
 				  },
 				  children: null
 				},
@@ -187,6 +223,17 @@ const router = new Router({
 				/*
 				**审核管理
 				 */
+				// 审核列表
+				{
+				  path: '/check/checkList',
+				  component: resolve => require(['@/views/check/CheckList'], resolve),
+				  name: 'checkList',
+				  meta: {
+				    title: '审核列表',
+				  },
+				  children: null
+				},
+
 				// 初审列表
 				{
 				  path: '/check/first',
@@ -547,6 +594,32 @@ const router = new Router({
 				  },
 				  children: null
 				},
+
+				/*
+				**工单管理
+				 */
+				// 工单列表
+				{
+				  path: '/service/service',
+				  component: resolve => require(['@/views/service/Service'], resolve),
+				  name: 'Service',
+				  meta: {
+				    title: '工单列表',
+				  },
+				  children: null
+				},
+				// 工单详情
+				{
+				  path: '/service/service/detail',
+				  component: resolve => require(['@/views/service/ServiceDetail'], resolve),
+				  name: 'ServiceDetail',
+				  meta: {
+				    title: '工单详情',
+				  },
+				  children: null
+				},
+
+
 		  ],
 		}
   ]

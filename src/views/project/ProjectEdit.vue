@@ -425,6 +425,7 @@
 							}else{
 								this.projectForm.company_id = data.data.company_id;
 							}
+							this.projectForm.budget_amount = data.data.budget_amount;
 							var datajson = data.data.datajson;
 							datajson.map((item)=>{
 								if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){

@@ -127,6 +127,15 @@ const router = new Router({
 				  children: null
 				},
 				{
+				  path: '/project/project/maintenance',
+				  component: resolve => require(['@/views/project/ProjectMaintenance'], resolve),
+				  name: 'ProjectMaintenance',
+				  meta: {
+				    title: '进入项目维保',
+				  },
+				  children: null
+				},
+				{
 				  path: '/project/project/recheck',
 				  component: resolve => require(['@/views/project/ProjectRecheck'], resolve),
 				  name: 'ProjectRecheck',

@@ -406,8 +406,7 @@
         }else if(sign == '5.7'){ // 进入实施流程
           this.handleRunning(index,row);
         }else if(sign == '5.8'){ // 项目维保
-          
-
+          this.handleMaintenance(index,row);
         }else if(sign == '5.9'){ // 资源申请 
           
         }else if(sign == '5.10'){ // 付款节点 
@@ -550,6 +549,17 @@
 
         });
       },
+      
+      // 进入项目维保
+      handleMaintenance(index,row){
+        this.$router.push({
+          path:"/project/project/maintenance",
+          query: {
+            id: row.id,
+          }
+        })
+      },
+
       // 项目详情
       goDetail(index,row){
         this.$router.push({

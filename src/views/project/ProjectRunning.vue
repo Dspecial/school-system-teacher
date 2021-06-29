@@ -8,13 +8,13 @@
 			<el-form :model="projectForm" :rules="rules" ref="projectForm" label-width="110px" label-position="top" class="pl-3 pr-3">
 				<el-row :gutter="20">
 					<el-col :span="12">
-						<el-form-item label="申请年份">
-							<el-input v-model="projectForm.projecttime" placeholder="请输入申请年份" readonly></el-input>
+						<el-form-item label="项目名称">
+							<el-input v-model="projectForm.p_name" placeholder="请输入项目名称" readonly></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="项目名称">
-							<el-input v-model="projectForm.p_name" placeholder="请输入项目名称" readonly></el-input>
+						<el-form-item label="申请年份">
+							<el-input v-model="projectForm.projecttime" placeholder="请输入申请年份" readonly></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">

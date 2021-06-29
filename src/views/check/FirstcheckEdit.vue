@@ -9,14 +9,12 @@
 				<el-row :gutter="20">
 					<el-col :span="12">
 						<el-form-item label="项目类别" prop="p_cate_id">
-							<el-select v-model="projectForm.p_cate_id" placeholder="请选择项目类别" class="w-100" @change="cateChange">
-								<el-option
-									v-for="item in cateOptions"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id">
-								</el-option>
-							</el-select>
+							<el-input v-model="projectForm.p_cate_name" placeholder="请选择项目类别" readonly></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="申请年份" prop="projecttime">
+							<el-input v-model="projectForm.projecttime" placeholder="请选择申请年份" readonly></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -34,6 +32,13 @@
 									:value="item.id">
 								</el-option>
 							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="预算金额" prop="budget_amount">
+							<el-input v-model.number="projectForm.budget_amount" placeholder="请输入预算金额">
+								<span slot="suffix" class="el-input__icon mr-2">元</span>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<template v-for="(formItem,j) in projectForm.secondFrom">
@@ -261,8 +266,11 @@
 				projectForm: {
 					apply_number:"",
 					p_cate_id:"",
+					p_cate_name:"",
           p_name: "",
+					projecttime:"",
 					company_id: "",
+					budget_amount:"",
 					secondFrom:{
 					},
         },
@@ -313,23 +321,6 @@
 					}
 				});
 			},
-			// 获取表单
-			initProjectForms(id){
-				this.$api.getProjectForms({
-					p_cate_id:id,
-				}).then(data =>{
-					if(data.code == 0){
-						// 回调成功的方法
-						this.projectForm.secondFrom = data.data.forms_list;
-					}else{
-						this.$message.error(data.msg);
-					}
-				});
-			},
-			// 项目分类change
-			cateChange(value){
-				this.initProjectForms(value);
-			},
 			// 添加审核流程
 			addPro(item,length){
 				var array = new Array();
@@ -359,12 +350,19 @@
 					if(data.code == 0){
 						this.projectForm.apply_number = data.data.apply_number;
 						this.projectForm.p_cate_id = data.data.p_cate_id;
+						this.cateOptions.map((cate)=>{
+							if(cate.id == data.data.p_cate_id){
+								this.projectForm.p_cate_name = cate.name
+							}
+						})
+						this.projectForm.projecttime = data.data.projecttime;
 						this.projectForm.p_name = data.data.p_name;
 						if(data.data.company_id == 0){
 							this.projectForm.company_id = '';
 						}else{
 							this.projectForm.company_id = data.data.company_id;
 						}
+						this.projectForm.budget_amount = data.data.budget_amount;
 						
 						var datajson = data.data.datajson;
 						datajson.map((item)=>{
@@ -422,7 +420,9 @@
 							apply_number:this.projectForm.apply_number,
 							p_cate_id:this.projectForm.p_cate_id,
 							p_name:this.projectForm.p_name,
+							projecttime:this.projectForm.projecttime,
 							company_id:this.projectForm.company_id,
+							budget_amount:this.projectForm.budget_amount,
 							senddata:JSON.stringify(senddata),
 						}).then(data =>{
 							if(data.code == 0){

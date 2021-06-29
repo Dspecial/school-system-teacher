@@ -44,6 +44,7 @@ export default {
 	// 获取首页获取付款信息
 	dashboard_pay: p => post('/api/dashboard/project_pay_state', p),
 	/*
+
 		***项目管理
 	 */
 	// 项目管理列表
@@ -95,7 +96,8 @@ export default {
 	// 进入实施流程
 	projectRunning: p => post('/api/project.project/to_running', p),
 	// 项目维保
-	projectMaintenance: p => post('/api/project.project/to_running', p),
+	projectMaintenance: p => post('/api/project.project/push_maintenance', p),
+	
 	// 资源申请
 	project_resource_Application: p => post('/api/project.project/to_running', p),
 	// 项目工单列表

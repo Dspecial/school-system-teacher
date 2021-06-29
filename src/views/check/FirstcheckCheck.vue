@@ -19,6 +19,11 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
+						<el-form-item label="项目年份">
+							{{projectForm.projecttime}} 年
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
 						<el-form-item label="公司名称">
 							{{projectForm.job_number}}
 						</el-form-item>
@@ -72,9 +77,34 @@
 					</template>
 				</el-row>
 			</el-form>
+
+			<!-- 审核信息 -->
+			<div v-if="check_info.check_state != 1">
+				<h6 class="fs_20 font-weight-normal mb-3">审核信息</h6>
+				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+					<el-row :gutter="20">
+						<el-col :span="8">
+							<el-form-item label="审核人">
+								{{check_info.checkname}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="审核时间">
+								{{check_info.checktime}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="24">
+							<el-form-item label="审核备注">
+								{{check_info.remark}}
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</el-form>
+			</div>
+
 		</el-card>
 
-		<el-card class="mt-3 bg-white">
+		<el-card class="mt-3 bg-white"  v-if="check_info.check_state == 1">
 			<!-- 审核表单 -->
 			<h6 class="fs_20 font-weight-normal mb-3">审核项目</h6>
 			<el-form ref="checkform" :model="checkform" class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules">
@@ -104,11 +134,10 @@
 		data () {
 			return {
 				ID:'',
-				titile:"编辑初审项目",
-				check_info:"",
 				projectForm: {},
 				dataJson:{},
 				agree_payinfo:[],
+				check_info:{},
 				checkform:{
 					check_state:"",
 					remark:"",
@@ -139,6 +168,8 @@
 						this.projectForm = data.data.info;
 						this.projectForm.job_number = data.data.company_info.job_number;
 						this.projectForm.dataJson = data.data.info.datajson;
+						// 审核信息
+						this.check_info =  data.data.check_info;
 					}else{
 						this.$message.error(data.msg);
 					}

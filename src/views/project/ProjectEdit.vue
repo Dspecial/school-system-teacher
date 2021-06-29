@@ -312,7 +312,7 @@
             { required: true, message: '请选择申请年份', trigger: 'change' }
           ],
 					company_id: [
-            { required: true, message: '请选择合作企业', trigger: 'change' }
+            { required: true, message: '请选择所属公司', trigger: 'change' }
           ],
 					budget_amount: [
           	{ required: true, message: '请输入预算金额', trigger: 'blur' },
@@ -420,8 +420,11 @@
 							this.projectForm.p_cate_id = data.data.p_cate_id;
 							this.projectForm.p_name = data.data.p_name;
 							this.projectForm.projecttime = data.data.projecttime.toString();
-							this.projectForm.company_id = data.data.company_id;
-
+							if(data.data.company_id == 0){
+								this.projectForm.company_id = '';
+							}else{
+								this.projectForm.company_id = data.data.company_id;
+							}
 							var datajson = data.data.datajson;
 							datajson.map((item)=>{
 								if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){

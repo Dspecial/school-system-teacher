@@ -25,12 +25,12 @@
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="预算金额" v-if="projectInfo.budget_amount != 0">
-							{{projectInfo.budget_amount}}
+							{{projectInfo.budget_amount}} 元
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="项目金额" v-if="projectInfo.real_amount != 0">
-							{{projectInfo.real_amount}}
+							{{projectInfo.real_amount}} 元
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">

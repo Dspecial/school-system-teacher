@@ -8,8 +8,8 @@
 					<div class="d-flex align-items-center flex-wrap">
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目编号：</span>{{basic.apply_number}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目名称：</span>{{basic.p_name}}</p>
-						<p class="w-100 mb-3" v-if="basic.budget_amount != 0"><span class="opacity-60 mr-2">预算金额：</span>{{basic.budget_amount}}</p>
-						<p class="w-100 mb-3" v-if="basic.real_amount != 0"><span class="opacity-60 mr-2">项目金额：</span>{{basic.real_amount}}</p>
+						<p class="w-100 mb-3" v-if="basic.budget_amount != 0"><span class="opacity-60 mr-2">预算金额：</span>{{basic.budget_amount}} 元</p>
+						<p class="w-100 mb-3" v-if="basic.real_amount != 0"><span class="opacity-60 mr-2">项目金额：</span>{{basic.real_amount}} 元</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目类别：</span>{{basic.category_name}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目年份：</span>{{basic.projecttime}}</p>
 						<p class="w-100 mb-0"><span class="opacity-60 mr-2">申请人所在部门：</span>{{basic.apply_user_depart}}</p>

@@ -35,9 +35,9 @@
         </div>
 				<el-table-column type="selection" width="55" v-if="activeName == 1"></el-table-column>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="title" label="消息标题" width="300"></el-table-column>
+        <el-table-column prop="title" label="消息标题" width="200"></el-table-column>
         <el-table-column label="内容">
-          <template slot-scope="scope">
+          <template slot-scope="scope" width="300">
             <el-popover
               placement="top-start"
               title="内容"
@@ -48,7 +48,7 @@
             </el-popover>
           </template>
         </el-table-column>
-				<el-table-column prop="type" label="类型" width="200">
+				<el-table-column prop="type" label="类型" width="150">
           <template slot-scope="scope">
             <span v-if="scope.row.type == 1"><i class="dot bg-warning mr-1"></i>审核消息</span>
             <span v-else-if="scope.row.type == 2"><i class="dot bg-primary-900 mr-1"></i>通知</span>
@@ -57,13 +57,13 @@
             <span v-else-if="scope.row.type == 5"><i class="dot bg-danger mr-1"></i>其他</span>
           </template>
         </el-table-column>
-        <el-table-column prop="is_read" label="是否已读" width="200">
+        <el-table-column prop="is_read" label="是否已读" width="150">
 					<template slot-scope="scope">
-						<span v-if="scope.row.is_read == 1"><i class="dot bg-warning mr-1"></i>未读</span>
+						<span v-if="scope.row.is_read == 1"><i class="dot bg-danger mr-1"></i>未读</span>
             <span v-else-if="scope.row.is_read == 2"><i class="dot bg-success mr-1"></i>已读</span>
           </template>
 				</el-table-column>
-				<el-table-column prop="createtime" label="发送时间" width="200"></el-table-column>
+				<el-table-column prop="createtime" label="发送时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
             <span class="text-primary cursor-pointer" @click="goAction(scope.$index,scope.row)">跳转</span>
@@ -113,7 +113,6 @@
     },
     methods:{
       handleClick(tab, event) {
-        console.log(this.activeName);
         this.loadData();
       },
 			// 自增序列
@@ -181,7 +180,9 @@
 			},
       // 跳转到详细的操作页面
       goAction(index,row){
-
+        this.$router.push({
+          path:row.to_url
+        })
       }
 		},
   }

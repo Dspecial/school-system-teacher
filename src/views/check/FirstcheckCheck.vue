@@ -23,6 +23,16 @@
 							{{projectForm.job_number}}
 						</el-form-item>
 					</el-col>
+					<el-col :span="8">
+						<el-form-item label="预算金额" v-if="projectForm.budget_amount != 0">
+							{{projectForm.budget_amount}} 元
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="项目金额" v-if="projectForm.real_amount != 0">
+							{{projectForm.real_amount}} 元
+						</el-form-item>
+					</el-col>
 					<template v-for="(formItem,j) in projectForm.dataJson">
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
 							<el-form-item :label="formItem.title">

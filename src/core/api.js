@@ -182,6 +182,13 @@ export default {
 	// 验收详情
 	accept_detail: p => post('/api/checks.acceptproject/detail', p),
 
+	// 项目维保编辑
+	maintenance_edit: p => post('/api/checks.extendproject/edit', p),
+	// 项目维保审核
+	maintenanceList_check: p => post('/api/checks.extendproject/check_extend', p),
+	// 项目维保详情
+	maintenance_detail: p => post('/api/checks.extendproject/detail', p),
+
 	// 资源审核列表
 	resourceListCheck: p => post('/api/checks.resourceproject/index', p),
 	// 资源审核

@@ -13,8 +13,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="维保企业名称" prop="company_id">
-							<el-select v-model="maintenanceForm.company_id" placeholder="请选择维保企业名称" class="w-100">
+						<el-form-item label="所属公司" prop="company_id">
+							<el-select v-model="maintenanceForm.company_id" placeholder="请选择所属公司" class="w-100">
 								<el-option
 									v-for="item in companyOptions"
 									:key="item.id"
@@ -73,13 +73,13 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="维保结束日期" prop="endtime">
-							<el-date-picker type="date" placeholder="选择维保结束日期，必须大于当前日期" v-model="maintenanceForm.endtime" 
+						<el-form-item label="结束时间" prop="endtime">
+							<el-date-picker type="date" placeholder="选择结束时间，必须大于当前日期" v-model="maintenanceForm.endtime" 
 							value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
-						<el-form-item label="维保内容" prop="content">
+						<el-form-item label="内容" prop="content">
 							<el-input type="textarea" v-model="maintenanceForm.content" placeholder="请输入内容" :rows="3"></el-input>
 						</el-form-item>
 					</el-col>
@@ -87,9 +87,9 @@
 						<el-form-item label="合同付款信息" class="payment_item" required>
 							<div slot="label" class="d-flex justify-content-between">
 								<span>合同付款信息</span>
-								<span class="text-primary cursor-pointer" @click="addPayinfo(maintenanceForm.agree_payinfo)"><i class="el-icon-plus mr-1"></i>付款信息</span>
+								<span class="text-primary cursor-pointer" @click="addPayinfo(agree_payinfo)"><i class="el-icon-plus mr-1"></i>付款信息</span>
 							</div>
-							<template v-for="(cell,INDEX) in maintenanceForm.agree_payinfo">
+							<template v-for="(cell,INDEX) in agree_payinfo">
 								<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
 									<el-col :span="24">
 										<el-input v-model="cell.title" placeholder="请输入标题"></el-input>
@@ -103,7 +103,7 @@
 										<el-date-picker type="date" placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 									</el-col>
 									<el-col :span="2" class="text-right">
-										<span class="text-danger cursor-pointer" @click="delPayinfo(maintenanceForm.agree_payinfo,INDEX)">删除</span>
+										<span class="text-danger cursor-pointer" @click="delPayinfo(agree_payinfo,INDEX)">删除</span>
 									</el-col>
 								</el-row>
 							</template>
@@ -142,10 +142,11 @@
 	import Breadcrumb from "@/components/Breadcrumb";
 	import vEditor from "@/components/quill-editor/ue";
 	export default {
-		name: 'ProjectMaintenance',
+		name: 'MaintenanceEdit',
 		data () {
 			return {
-				projectId:'',
+				ID:'',
+				project_id:"",
 				title:"项目维保",
 				companyOptions:[],
 				maintenanceForm: {
@@ -159,9 +160,9 @@
 					agree_number:"",
 					endtime:"",
 					content:"",
-					agree_payinfo:[{}],
 					files:[],
         },
+				agree_payinfo:[],
 				filesList:[],
 				removeFilesArr:[],
 				can_used_funds:"",
@@ -236,6 +237,7 @@
 
 			// 添加付款节点
 			addPayinfo(item){
+				console.log(item,"aaaa");
 				item.push({});
 			},
 			// 删除付款节点
@@ -246,16 +248,12 @@
 			// 根据项目获取信息
 			initFunds(years){
 				this.$api.project_funds({
-					id:this.$route.query.id,
+					id:this.project_id,
 					years:years,
 				}).then(data=>{
 					if(data.code == 0){
-						// 编号
-						this.maintenanceForm.extend_number = data.data.extend_number;
 						// 可用预算金额
 						this.can_used_funds = data.data.can_used_funds;
-						// 公司 企业
-						this.maintenanceForm.company_id = data.data.project_info.company_id;
 					}
 				})
 			},
@@ -268,8 +266,26 @@
 			// dialog初始化
 			openEdit(){
 				this.initCompany();
-				this.initFunds(this.maintenanceForm.projecttime);
-				this.projectId = this.$route.query.id;
+				this.ID = this.$route.query.id; // 维保id
+				this.$api.maintenance_edit({
+					id:this.ID,
+					function_type:2,
+				}).then(data=>{
+					this.maintenanceForm = data.data.info;
+					// 项目id
+					this.project_id = data.data.info.project_id;
+					this.initFunds(this.maintenanceForm.projecttime);
+					// 合同付款节点
+					this.agree_payinfo = data.data.pay_info.map(item=>{
+						return {
+							title:item.title,
+							money:item.money,
+							paytime:item.paytime,
+						}
+					});
+					// 合同附件
+					this.filesList = data.data.info.file_arr;
+				})
 			},
 
 			// 关闭编辑
@@ -283,19 +299,24 @@
 			submitForm(formName) {
 				var _this = this;
 				var payArr = new Array;
-				var isArr2 = this.commonJs.isEmpty(this.maintenanceForm.agree_payinfo[0]);
+				var isArr2 = this.commonJs.isEmpty(this.agree_payinfo[0]);
 				if(!isArr2){
-					payArr = this.maintenanceForm.agree_payinfo
+					payArr = this.agree_payinfo
 				}
 				var files = new Array();
         files = this.filesList.map((item)=>{
-          return item.response.data.path;
+					if(item.isExist){
+						return item.path;
+					}else{
+						return item.response.data.path;
+					}
         });
 
 				this.$refs[formName].validate((valid) => {
           if (valid) {
-						this.$api.projectMaintenance({
-							project_id:this.projectId,
+						this.$api.maintenance_edit({
+							id:this.ID,
+							function_type:1,
 							extend_number:this.maintenanceForm.extend_number,
 							company_id:this.maintenanceForm.company_id,
 							projecttime:this.maintenanceForm.projecttime,
@@ -356,11 +377,11 @@
       // 移除上传文件
       handleRemove(file,fileList) {
       	var path;
-      	if(file.status == 'success'){
-          path = file.response.data.path;
-        }else{
-          return false
-        }
+      	if(file.isExist){ // 原先上传已存在的
+      		path = file.path;
+      	}else{ // 刚刚上传的
+      		path = file.response.data.path;
+      	}
 				this.filesList = fileList;
 				this.$message({message: '成功移除' + file.name, type: 'success'});
 

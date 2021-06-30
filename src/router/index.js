@@ -394,6 +394,43 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				// 项目维保列表
+				{
+				  path: '/check/maintenance',
+				  // component: resolve => require(['@/views/check/Maintenance'], resolve),  // 暂时没有这个页面
+				  name: 'Maintenance',
+				  meta: {
+				    title: '项目维保列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/maintenance/check',
+				  component: resolve => require(['@/views/check/MaintenanceCheck'], resolve),
+				  name: 'MaintenanceCheck',
+				  meta: {
+				    title: '项目维保审核',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/maintenance/edit',
+				  component: resolve => require(['@/views/check/MaintenanceEdit'], resolve),
+				  name: 'MaintenanceEdit',
+				  meta: {
+				    title: '项目维保编辑',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/maintenance/detail',
+				  component: resolve => require(['@/views/check/MaintenanceDetail'], resolve),
+				  name: 'MaintenanceDetail',
+				  meta: {
+				    title: '项目维保详情',
+				  },
+				  children: null
+				},
 				// 资源审核列表
 				{
 				  path: '/check/resource',

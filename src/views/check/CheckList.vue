@@ -67,12 +67,7 @@
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-else>
-              <template v-if="scope.row.node_id == 1">
-                <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-              </template>
-              <template v-else>
-                <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-              </template>
+              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -168,10 +163,9 @@
             });
 
             // 审核、编辑  只要不是check_state为2 3  都需要保留
-            // 但是只有 初审有编辑
             this.actions1 = [...action_3];
-            this.actions2 = [...action_2,...action_3];
-            this.actions3 = [...action_1,...action_2,...action_3];
+            // this.actions2 = [...action_2,...action_3];
+            this.actions2 = [...action_1,...action_2,...action_3];
           }else{
             this.$message.error(data.msg);
           }
@@ -209,7 +203,7 @@
         }else if(node_id == 10){
           return 'accept'
         }else if(node_id == 11){
-          return 'first'
+          return 'maintenance'
         }else if(node_id == 13){
           return 'first'
         }

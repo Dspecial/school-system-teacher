@@ -97,7 +97,11 @@ export default {
 	projectRunning: p => post('/api/project.project/to_running', p),
 	// 项目维保
 	projectMaintenance: p => post('/api/project.project/push_maintenance', p),
-	
+	// 项目维保-根据项目获取信息
+	project_funds: p => post('/api/ajax/get_funds_by_project', p),
+	// 维保上传文件
+	projectMaintenance_Upload: p => postUpload('/api/upload/upload_extend_attach', p),
+
 	// 资源申请
 	project_resource_Application: p => post('/api/project.project/to_running', p),
 	// 项目工单列表
@@ -110,7 +114,6 @@ export default {
 	project_serviceDetail: p => post('/api/service.serviceproject/details', p),
 	// 工单上传文件
 	project_serviceUpload: p => postUpload('/api/upload/upload_service_attach', p),
-
 
 	// 资源列表
 	resourceList: p => post('/api/resource.resource/index', p),

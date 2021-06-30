@@ -79,24 +79,12 @@
                 <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
             </template>
-            <template v-else-if="scope.row.is_commit == 7">
-              <template v-if="scope.row.check_process.next_node_id == 6">
+            <template v-else-if="scope.row.is_commit == 7 || scope.row.is_commit == 8">
+              <template>
                 <span v-for="(action,index) in actions23" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
-              <template v-else-if="scope.row.check_process.next_node_id == 12">
-                <span v-for="(action,index) in actions9" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-              </template>
-              <template v-else-if="scope.row.check_process.next_node_id == 10">
-                <span v-for="(action,index) in actions10" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-              </template>
-              <template v-else-if="scope.row.check_process.next_node_id == 11">
-                <span v-for="(action,index) in actions11" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-              </template>
-              <template v-else-if="scope.row.check_process.next_node_id == 13">
-                <span v-for="(action,index) in actions12" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-              </template>
             </template>
-            <template v-else-if="scope.row.is_commit == 8 || scope.row.is_commit == 9">
+            <template v-else-if="scope.row.is_commit == 9">
               <template v-if="scope.row.check_process.next_node_id == 12">
                 <span v-for="(action,index) in actions9" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
@@ -317,12 +305,12 @@
               is_commit为3、4、5、6 且 next_node_id为11 项目维保；
               is_commit为3、4、5、6 且 next_node_id为13  资源申请(这个暂时先不动);
 
-              is_commit 等于7  next_node_Id为6的话  你加个进入实施呢
-              
-              is_commit为7、8、9 且 next_node_id为12  进入进度上传；
-              is_commit为7、8、9 且 next_node_id为10 进入验收流程；
-              is_commit为7、8、9 且 next_node_id为11 项目维保；
-              is_commit为7、8、9 且 next_node_id为13 资源申请(这个暂时先不动);
+              is_commit 等于7、8  进入实施流程
+
+              is_commit为9 且 next_node_id为12  进入进度上传；
+              is_commit为9 且 next_node_id为10 进入验收流程；
+              is_commit为9 且 next_node_id为11 项目维保；
+              is_commit为9 且 next_node_id为13 资源申请(这个暂时先不动);
             
               is_commit为10、11、12 进度记录
               is_commit为10、11、12 且 next_node_id为10 +进入验收流程；
@@ -348,9 +336,9 @@
             this.actions6 = [...this.actions3,...actions_7];
             this.actions7 = [...this.actions3,...actions_11];
             this.actions8 = [...this.actions3,...actions_12];
-            // is_commit为7
+            // is_commit为7、8
             this.actions23 = [...actions_10];
-            // is_commit为7、8、9
+            // is_commit为9
             this.actions9 = [...actions_6];
             this.actions10 = [...actions_7];
             this.actions11 = [...actions_11];

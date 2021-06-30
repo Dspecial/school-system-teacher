@@ -195,7 +195,9 @@
 			},
 			// 关闭编辑
 			closedEdit(){
-				this.$router.go(-1);//返回上一层
+				this.$router.push({
+          path:"/check/checkList",
+        })
 			},
       // form提交
 			submitForm(formName) {

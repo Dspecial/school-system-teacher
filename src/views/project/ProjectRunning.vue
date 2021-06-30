@@ -270,7 +270,7 @@
 					</el-col>
 				</el-row>
 				<div class="d-flex justify-content-end">
-					<el-button type="primary" @click="submitForm('projectForm')">确 定</el-button>
+					<el-button type="primary" @click="submitForm('projectForm')" v-if="is_commit != 8">确 定</el-button>
 					<el-button @click="closedEdit">取 消</el-button>
 				</div>
 			</el-form>
@@ -288,6 +288,7 @@
 		data () {
 			return {
 				projectId:'',
+				is_commit:"",// 判断有没有确定按钮，当is_commit为8的时候   没有确定按钮
 				title:"项目实施",
 				accept_file: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
 				accept_img:".jpg,.png,.JPEG",
@@ -379,6 +380,7 @@
 					function_type:2,
 				}).then(data =>{
 					if(data.code == 0){
+						this.is_commit = data.data.is_commit; 
 						this.projectForm.apply_number = data.data.apply_number;
 						this.projectForm.p_name = data.data.p_name;
 						this.projectForm.projecttime = data.data.projecttime;

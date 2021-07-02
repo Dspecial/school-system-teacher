@@ -102,8 +102,6 @@ export default {
 	// 维保上传文件
 	projectMaintenance_Upload: p => postUpload('/api/upload/upload_extend_attach', p),
 
-	// 资源申请
-	project_resource_Application: p => post('/api/project.project/to_running', p),
 	// 项目工单列表
 	project_serviceList: p => post('/api/service.serviceproject/index', p),
 	// 工单级别
@@ -129,13 +127,23 @@ export default {
 	getResource_info: p => post('/api/ajax/get_resource_info', p),
 	// 资源详情
 	resourceDetail: p => post('/api/resource.resource/details', p),
-
 	// 资源工单列表
 	resource_serviceList: p => post('/api/service.serviceresource/index', p),
 	// 资源发起工单
 	resource_serviceAdd: p => post('/api/service.serviceresource/add', p),
 	// 资源工单详情
 	resource_serviceDetail: p => post('/api/service.serviceresource/details', p),
+
+	// 维保列表
+	maintenanceList: p => post('/api/project.maintenance/index', p),
+	// 维保详情
+	maintenanceDetail: p => post('/api/project.maintenance/details', p),
+	// 维保工单列表
+	maintenance_serviceList: p => post('/api/service.servicemaintenance/index', p),
+	// 维保发起工单
+	maintenance_serviceAdd: p => post('/api/service.servicemaintenance/add', p),
+	// 维保工单详情
+	maintenance_serviceDetail: p => post('/api/service.serviceproject/details', p),	
 
 	/*
 		***审核管理

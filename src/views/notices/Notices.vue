@@ -48,15 +48,6 @@
             </el-popover>
           </template>
         </el-table-column>
-				<el-table-column prop="type" label="类型" width="150">
-          <template slot-scope="scope">
-            <span v-if="scope.row.type == 1"><i class="dot bg-warning mr-1"></i>审核消息</span>
-            <span v-else-if="scope.row.type == 2"><i class="dot bg-primary-900 mr-1"></i>通知</span>
-            <span v-else-if="scope.row.type == 3"><i class="dot bg-blue mr-1"></i>事务</span>
-            <span v-else-if="scope.row.type == 4"><i class="dot bg-primary mr-1"></i>资源申请</span>
-            <span v-else-if="scope.row.type == 5"><i class="dot bg-danger mr-1"></i>其他</span>
-          </template>
-        </el-table-column>
         <el-table-column prop="is_read" label="是否已读" width="150">
 					<template slot-scope="scope">
 						<span v-if="scope.row.is_read == 1"><i class="dot bg-danger mr-1"></i>未读</span>

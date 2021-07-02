@@ -7,8 +7,11 @@
         </el-badge>
         <el-dropdown-menu slot="dropdown" :hidden="totalNews.length == 0">
           <div v-for="(news,index) in totalNews" :key="index" class="notice_dropdown">
-            <el-dropdown-item v-if="news.type == 0"><i :class="'el-icon-tickets mr-2 text-warning fs_16'"></i>{{news.content}}</el-dropdown-item>
-            <el-dropdown-item v-else><i :class="'el-icon-warning mr-2 text-danger fs_16'"></i>{{news.content}}</el-dropdown-item>
+            <div @click="goAction(news)">
+              <el-dropdown-item>
+                <i :class="'el-icon-tickets mr-2 text-danger fs_16'"></i>{{news.content}}
+              </el-dropdown-item>
+            </div>
           </div>
         </el-dropdown-menu>
       </el-dropdown>
@@ -32,24 +35,7 @@
 		data () {
 			return {
 				// 消息列表
-				totalNews:[
-          {
-           status:"0",//0:消息通知；1:报警
-           content:"京A-888888 需要保养"
-          },
-          {
-           status:"1",//0:消息通知；1:报警
-           content:"京A-888888 未系安全带"
-          },
-          {
-           status:"0",//0:消息通知；1:报警
-           content:"京A-123456 需要保养"
-          },
-          {
-           status:"1",//0:消息通知；1:报警
-           content:"京A-888888 与 京A-123456 发生碰撞"
-          },
-        ],
+				totalNews:[],
         // 头像
         avatarUrl:require("@/assets/images/avatar.jpg"),
         name:this.$cookies.get('application_userName'),
@@ -96,6 +82,13 @@
 					}
 				})
       },
+      // 跳转到详细的操作页面
+      goAction(news){
+        this.$router.push({
+          path:news.to_url
+        });
+        this.headerNotice();
+      }
     },
 
 	}

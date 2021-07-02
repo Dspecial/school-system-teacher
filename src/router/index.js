@@ -229,6 +229,55 @@ const router = new Router({
 				  children: null
 				},
 
+				// 维保列表
+				{
+				  path: '/project/maintenance',
+				  component: resolve => require(['@/views/project/maintenance/Maintenance'], resolve),
+				  name: 'Maintenance',
+				  meta: {
+				    title: '维保列表',
+				  },
+				  children: null
+				},
+				// 维保详情
+				{
+				  path: '/project/maintenance/detail',
+				  component: resolve => require(['@/views/project/maintenance/MaintenanceDetail'], resolve),
+				  name: 'MaintenanceDetail',
+				  meta: {
+				    title: '维保详情',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/maintenance/serviceList',
+				  component: resolve => require(['@/views/project/maintenance/MaintenanceServiceList'], resolve),
+				  name: 'MaintenanceServiceList',
+				  meta: {
+				    title: '维保工单列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/maintenance/service/edit',
+				  component: resolve => require(['@/views/project/maintenance/MaintenanceServiceEdit'], resolve),
+				  name: 'MaintenanceServiceEdit',
+				  meta: {
+				    title: '维保发起工单',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/maintenance/service/detail',
+				  component: resolve => require(['@/views/project/maintenance/MaintenanceServiceDetail'], resolve),
+				  name: 'MaintenanceServiceDetail',
+				  meta: {
+				    title: '维保工单详情',
+				  },
+				  children: null
+				},
+
+
 				/*
 				**审核管理
 				 */
@@ -398,7 +447,7 @@ const router = new Router({
 				{
 				  path: '/check/maintenance',
 				  // component: resolve => require(['@/views/check/Maintenance'], resolve),  // 暂时没有这个页面
-				  name: 'Maintenance',
+				  name: 'CheckMaintenance',
 				  meta: {
 				    title: '项目维保列表',
 				  },
@@ -425,7 +474,7 @@ const router = new Router({
 				{
 				  path: '/check/maintenance/detail',
 				  component: resolve => require(['@/views/check/MaintenanceDetail'], resolve),
-				  name: 'MaintenanceDetail',
+				  name: 'checkMaintenanceDetail',
 				  meta: {
 				    title: '项目维保详情',
 				  },

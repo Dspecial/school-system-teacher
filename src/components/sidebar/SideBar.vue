@@ -117,7 +117,7 @@
           this.currentMenu = path[0];
         }else if(num < 5){ // 三级页面 
           this.currentMenu = pathArr.slice(0,pathArr.length-1).join("/");
-          if(pathArr[2] == 'first'||pathArr[2] == 'recheck'||pathArr[2] == 'force'||pathArr[2] == 'process'||pathArr[2] == 'accept'||pathArr[2] == 'maintenance'){
+          if(pathArr[1] == 'check' && (pathArr[2] == 'first'||pathArr[2] == 'recheck'||pathArr[2] == 'force'||pathArr[2] == 'process'||pathArr[2] == 'accept'||pathArr[2] == 'maintenance')){
             this.currentMenu = "/check/checkList";
           }
         }else{ // 四级页面

@@ -21,11 +21,11 @@
 				<el-card class="h-100 company_info">
 					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">厂商详情</h4>
 					<div class="d-flex align-items-center flex-wrap">
-						<p class="w-100 mb-3"><span class="opacity-60 mr-2">公司名称：</span>{{company_info.job_number}}</p>
-						<p class="w-100 mb-3"><span class="opacity-60 mr-2">公司电话：</span>{{company_info.phone}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">企业名称：</span>{{company_info.job_number}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">企业电话：</span>{{company_info.phone}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">联系地址：</span>{{company_info.address}}</p>
-						<p class="w-100 mb-3"><span class="opacity-60 mr-2">公司开户行：</span>{{company_info.bank_info}}</p>
-						<p class="w-100 mb-3"><span class="opacity-60 mr-2">公司账户：</span>{{company_info.account}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">企业开户行：</span>{{company_info.bank_info}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">企业账户：</span>{{company_info.account}}</p>
 						<p class="w-100 m-0"><span class="opacity-60 mr-2">项目负责人：</span>{{company_info.name}}</p>
 					</div>
 				</el-card>

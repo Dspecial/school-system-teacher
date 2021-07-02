@@ -5,8 +5,8 @@
 		<el-card class="mt-3 bg-white">
 			<h6 class="fs_20 font-weight-normal mb-3">账户信息</h6>
 			<el-form :model="personalForm" :rules="rules" ref="personalForm" label-width="120px" class="pl-3 pr-3">
-				<el-form-item label="公司名称" prop="job_number">
-					<el-input v-model="personalForm.job_number" placeholder="请输入公司名称"></el-input>
+				<el-form-item label="企业名称" prop="job_number">
+					<el-input v-model="personalForm.job_number" placeholder="请输入企业名称"></el-input>
 				</el-form-item>
 				<el-form-item label="营业执照编码" prop="sys_id">
 					<el-input v-model="personalForm.sys_id" placeholder="请输入营业执照编码" :readonly="true"></el-input>
@@ -56,7 +56,7 @@
 				},
 				rules: {
           job_number: [
-            { required: true, message: '请输入公司名称', trigger: 'blur' }
+            { required: true, message: '请输入企业名称', trigger: 'blur' }
           ],
 					name: [
             { required: true, message: '请输入负责人姓名', trigger: 'blur' }

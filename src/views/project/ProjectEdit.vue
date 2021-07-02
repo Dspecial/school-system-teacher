@@ -38,8 +38,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12" v-if="is_need_company == 2">
-						<el-form-item label="所属公司">
-							<el-select v-model="projectForm.company_id" placeholder="请选择所属公司" class="w-100">
+						<el-form-item label="所属企业">
+							<el-select v-model="projectForm.company_id" filterable placeholder="请选择所属企业" class="w-100">
 								<el-option
 									v-for="item in companyOptions"
 									:key="item.id"
@@ -312,7 +312,7 @@
             { required: true, message: '请选择申请年份', trigger: 'change' }
           ],
 					company_id: [
-            { required: true, message: '请选择所属公司', trigger: 'change' }
+            { required: true, message: '请选择所属企业', trigger: 'change' }
           ],
 					budget_amount: [
           	{ required: true, message: '请输入预算金额', trigger: 'blur' },

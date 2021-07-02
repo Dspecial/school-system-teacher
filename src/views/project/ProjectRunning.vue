@@ -25,8 +25,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属公司">
-							<el-select v-model="projectForm.company_id" placeholder="请选择所属公司" class="w-100">
+						<el-form-item label="所属企业">
+							<el-select v-model="projectForm.company_id" filterable placeholder="请选择所属企业" class="w-100">
 								<el-option
 									v-for="item in companyOptions"
 									:key="item.id"

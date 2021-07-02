@@ -127,7 +127,7 @@
 									</el-cascader>
 								</el-col>
 								<el-col :span="24">
-									<el-select v-model="cell.resource_id" placeholder="请选择资源名称" class="w-100" @change="resourceChange(cell)">
+									<el-select v-model="cell.resource_id" filterable placeholder="请选择资源名称" class="w-100" @change="resourceChange(cell)">
 										<el-option
 											v-for="item in listOptions"
 											:key="item.id"

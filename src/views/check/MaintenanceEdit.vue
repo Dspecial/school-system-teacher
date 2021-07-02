@@ -13,8 +13,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属公司" prop="company_id">
-							<el-select v-model="maintenanceForm.company_id" placeholder="请选择所属公司" class="w-100">
+						<el-form-item label="所属企业" prop="company_id">
+							<el-select v-model="maintenanceForm.company_id" filterable placeholder="请选择所属企业" class="w-100">
 								<el-option
 									v-for="item in companyOptions"
 									:key="item.id"
@@ -171,7 +171,7 @@
             { required: true, message: '请填写编号', trigger: 'blur' }
           ],
 					company_id: [
-            { required: true, message: '请选择所属公司', trigger: 'change' }
+            { required: true, message: '请选择所属企业', trigger: 'change' }
           ],
 					projecttime: [
             { required: true, message: '请选择申请年份', trigger: 'change' }

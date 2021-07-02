@@ -14,8 +14,8 @@
 				<el-form-item label="支行信息" prop="bank_attach">
 					<el-input v-model="accountForm.bank_attach" placeholder="请输入支行信息"></el-input>
 				</el-form-item>
-				<el-form-item label="公司地址" prop="address">
-					<el-input v-model="accountForm.address" placeholder="请输入公司地址"></el-input>
+				<el-form-item label="企业地址" prop="address">
+					<el-input v-model="accountForm.address" placeholder="请输入企业地址"></el-input>
 				</el-form-item>
 				<div class="d-flex justify-content-end">
 					<el-button type="primary" @click="submitForm('accountForm')">确 定</el-button>
@@ -49,7 +49,7 @@
             { required: true, message: '请输入支行信息', trigger: 'blur' }
           ],
 					address: [
-            { required: true, message: '请输入公司地址', trigger: 'blur' }
+            { required: true, message: '请输入企业地址', trigger: 'blur' }
           ],
         }
 			}

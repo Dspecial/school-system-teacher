@@ -24,7 +24,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="公司名称">
+						<el-form-item label="企业名称">
 							{{projectForm.job_number}}
 						</el-form-item>
 					</el-col>

@@ -14,7 +14,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="维保企业名称" prop="company_id">
-							<el-select v-model="maintenanceForm.company_id" placeholder="请选择维保企业名称" class="w-100">
+							<el-select v-model="maintenanceForm.company_id" filterable placeholder="请选择维保企业名称" class="w-100">
 								<el-option
 									v-for="item in companyOptions"
 									:key="item.id"
@@ -170,7 +170,7 @@
             { required: true, message: '请填写编号', trigger: 'blur' }
           ],
 					company_id: [
-            { required: true, message: '请选择所属公司', trigger: 'change' }
+            { required: true, message: '请选择所属企业', trigger: 'change' }
           ],
 					projecttime: [
             { required: true, message: '请选择申请年份', trigger: 'change' }
@@ -254,7 +254,7 @@
 						this.maintenanceForm.extend_number = data.data.extend_number;
 						// 可用预算金额
 						this.can_used_funds = data.data.can_used_funds;
-						// 公司 企业
+						// 企业 企业
 						this.maintenanceForm.company_id = data.data.project_info.company_id;
 					}
 				})

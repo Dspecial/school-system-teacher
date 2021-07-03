@@ -164,6 +164,8 @@ export default {
 
 	// 复审列表
 	recheckList: p => post('/api/checks.recheckproject/index', p),
+	// 复审编辑
+	recheckList_edit: p => post('/api/checks.recheckproject/edit', p),
 	// 复审
 	recheckList_check: p => post('/api/checks.recheckproject/check_recheck', p),
 	// 项目复审详情
@@ -171,6 +173,8 @@ export default {
 
 	// 实施列表
 	forceList: p => post('/api/checks.forceproject/index', p),
+	// 复审编辑
+	forceList_edit: p => post('/api/checks.forceproject/edit', p),
 	// 实施审核
 	forceList_check: p => post('/api/checks.forceproject/check_force', p),
 	// 实施详情

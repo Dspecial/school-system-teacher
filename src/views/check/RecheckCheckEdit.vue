@@ -4,7 +4,7 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
-			<h6 class="fs_20 font-weight-normal mb-3">{{titile}}<span class="ml-2 text-warning opacity-80 fs_14">Tips: 一经提交无法修改删除</span></h6>
+			<h6 class="fs_20 font-weight-normal mb-3">{{titile}}</h6>
 			<el-form :model="recheckForm" :rules="rules" ref="recheckForm" label-width="110px" label-position="top" class="pl-3 pr-3">
 				<el-row :gutter="20">
 					<el-col :span="24">
@@ -72,11 +72,11 @@
 	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
 	export default {
-		name: 'ProjectRecheck',
+		name: 'RecheckCheckEdit',
 		data () {
 			return {
 				projectId:'',
-				titile:"提交复审",
+				titile:"复审编辑",
 				expertOptions:[],
 				isSelectArr:[],
 				recheckForm: {
@@ -146,6 +146,16 @@
 			openEdit(){
 				this.projectId = this.$route.query.id;
 				this.initExpert();
+				this.$api.recheckList_edit({
+					function_type:1,
+					id:this.projectId,
+				}).then(data=>{
+					if(data.code == 0){
+						this.recheckForm.sendjson = JSON.parse(data.data.project_recheck_info.sendjson);
+						this.recheckForm.recheck_date = data.data.project_recheck_info.recheck_date;
+						this.recheckForm.content = data.data.project_recheck_info.content;
+					}
+				})
 			},
 			// 关闭编辑
 			closedEdit(){
@@ -161,27 +171,22 @@
 				}
 				this.$refs[formName].validate((valid) => {
           if (valid) {
-						this.$confirm("一经提交无法修改删除, 是否继续?", "提示", {
-							type: 'warning'
-						}).then(() => {
-							this.$api.projectRecheck({
-								project_id:this.projectId,
-								sendjson:JSON.stringify( newArr ),
-								recheck_date: this.recheckForm.recheck_date,
-								content: this.recheckForm.content,
-							}).then(data =>{
-								if(data.code == 0){
-									this.$message({
-										message: data.msg,
-										type: 'success'
-									});
-									this.closedEdit();
-								}else{
-									this.$message.error(data.msg);
-								}
-							});
-						}).catch(() => {
-
+						this.$api.recheckList_edit({
+							function_type:2,
+							id:this.projectId,
+							sendjson:JSON.stringify( newArr ),
+							recheck_date: this.recheckForm.recheck_date,
+							content: this.recheckForm.content,
+						}).then(data =>{
+							if(data.code == 0){
+								this.$message({
+									message: data.msg,
+									type: 'success'
+								});
+								this.closedEdit();
+							}else{
+								this.$message.error(data.msg);
+							}
 						});
           } else {
             console.log('error submit!!');

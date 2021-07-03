@@ -67,7 +67,7 @@
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-else>
-              <template v-if="scope.row.node_id == 13">
+              <template v-if="scope.row.node_id == 12 || scope.row.node_id == 10 || scope.row.node_id == 13">
                 <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
               </template>
               <template v-else>
@@ -168,7 +168,7 @@
             });
 
             // 审核、编辑  只要不是check_state为2 3  都需要保留
-            // node_id = 13 没有编辑
+            // 初审node_id=1、复审node_id=2、实施node_id=6、维保node_id=11应该都要编辑 即node_id = 12、10、13 没有编辑
             this.actions1 = [...action_3];
             this.actions2 = [...action_2,...action_3];
             this.actions3 = [...action_1,...action_2,...action_3];
@@ -196,8 +196,8 @@
         // node_id = 6对应实施   
         // node_id = 12对应进度   
         // node_id = 10对应验收  
-        // node_id = 11对应维保（这个应该暂时没有）  
-        // node_id = 13这个暂时也没有
+        // node_id = 11对应维保 
+        // node_id = 13对应资源
         if(node_id == 1){
           return 'first'
         }else if(node_id == 2){

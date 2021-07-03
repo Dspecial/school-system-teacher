@@ -43,10 +43,10 @@
         <el-table-column prop="p_name" label="项目名称" width="220"></el-table-column>
         <el-table-column prop="cname" label="类别名称" width="200"></el-table-column>
         <el-table-column prop="projecttime" label="年份"></el-table-column>
-        <el-table-column prop="apply_user_depart" label="所属部门" width="160"></el-table-column>
-        <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
+        <el-table-column prop="apply_user_depart" label="所属部门" width="150"></el-table-column>
+        <el-table-column prop="check_process.text" label="项目状态" width="180"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="290" align="center">
+        <el-table-column fixed="right" label="操作" width="350" align="center">
           <template slot-scope="scope">
             <!-- need_to_func_money等于1的时候，付款节点 -->
             <template v-if="scope.row.need_to_func_money == 1">

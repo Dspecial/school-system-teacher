@@ -339,6 +339,15 @@ const router = new Router({
 				  children: null
 				},
 				{
+				  path: '/check/recheck/edit',
+				  component: resolve => require(['@/views/check/RecheckCheckEdit'], resolve),
+				  name: 'RecheckCheckEdit',
+				  meta: {
+				    title: '复审编辑',
+				  },
+				  children: null
+				},
+				{
 				  path: '/check/recheck/check',
 				  component: resolve => require(['@/views/check/RecheckCheck'], resolve),
 				  name: 'RecheckCheck',
@@ -364,6 +373,15 @@ const router = new Router({
 				  name: 'Force',
 				  meta: {
 				    title: '实施列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/force/edit',
+				  component: resolve => require(['@/views/check/ForceEdit'], resolve),
+				  name: 'ForceEdit',
+				  meta: {
+				    title: '实施编辑',
 				  },
 				  children: null
 				},

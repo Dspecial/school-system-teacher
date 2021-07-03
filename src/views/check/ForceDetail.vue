@@ -5,7 +5,7 @@
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
 			<!-- 项目信息 -->
-			<h6 class="fs_20 font-weight-normal mb-3">项目信息</h6>
+			<h6 class="fs_18 font-weight-normal mb-3">项目信息</h6>
 			<el-form :model="projectInfo" ref="projectInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
 				<el-row :gutter="20">
 					<el-col :span="8">
@@ -97,7 +97,7 @@
 
 			<!-- 审核信息 -->
 			<div v-if="check_info.check_state != 1">
-				<h6 class="fs_20 font-weight-normal mb-3">审核信息</h6>
+				<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
 				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
 					<el-row :gutter="20">
 						<el-col :span="8">

@@ -7,7 +7,7 @@
       <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage" :page-size="pageSize" 
 			:pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps" ref="multipleTable" @selection-change="handleSelectionChange">
         <div class="mb-3" slot="tool">
-          <h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">消息列表</h4>
+          <h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">消息列表</h4>
           <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
             <el-tab-pane label="未读" name="1"></el-tab-pane>
             <el-tab-pane label="已读" name="2"></el-tab-pane>

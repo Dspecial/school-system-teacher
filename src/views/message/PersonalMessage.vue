@@ -3,7 +3,7 @@
 		<!-- 登录信息 -->
     <global-tips></global-tips>
 		<el-card class="mt-3 bg-white">
-			<h6 class="fs_20 font-weight-normal mb-3">账户信息</h6>
+			<h6 class="fs_18 font-weight-normal mb-3">账户信息</h6>
 			<el-form :model="personalForm" :rules="rules" ref="personalForm" label-width="120px" class="pl-3 pr-3">
 				<el-form-item label="企业名称" prop="job_number">
 					<el-input v-model="personalForm.job_number" placeholder="请输入企业名称"></el-input>

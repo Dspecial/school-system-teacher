@@ -4,7 +4,7 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
-			<h6 class="fs_20 font-weight-normal mb-3">进度上传<span class="ml-2 text-warning opacity-80 fs_14">Tips: 一经提交无法修改删除</span></h6>
+			<h6 class="fs_18 font-weight-normal mb-3">进度上传<span class="ml-2 text-warning opacity-80 fs_14">Tips: 一经提交无法修改删除</span></h6>
 			<el-form :model="processForm" :rules="rules" ref="processForm" label-width="110px" label-position="top" class="pl-3 pr-3">
 				<el-form-item label="进度标题" prop="title">
 					<el-input v-model="processForm.title" placeholder="请输入进度标题"></el-input>

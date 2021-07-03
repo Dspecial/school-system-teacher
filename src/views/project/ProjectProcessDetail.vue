@@ -6,7 +6,7 @@
 		<el-card class="mt-3 bg-white">
 			<!-- 进度记录详情 -->
 			<el-form :model="processInfo" ref="processInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
-				<h6 class="fs_20 font-weight-normal mb-3">进度记录详情</h6>
+				<h6 class="fs_18 font-weight-normal mb-3">进度记录详情</h6>
 				<el-row :gutter="20">
           <el-col :span="8">
 						<el-form-item label="上传编号">

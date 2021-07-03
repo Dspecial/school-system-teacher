@@ -4,7 +4,7 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
-			<h6 class="fs_20 font-weight-normal mb-3">上传验收</h6>
+			<h6 class="fs_18 font-weight-normal mb-3">上传验收</h6>
 			<el-form ref="acceptForm" :model="acceptForm" label-width="110px" label-position="left" class="pl-3 pr-3" :rules="rules">
 				<el-row>
 					<el-col :span="8" :gutter="20">

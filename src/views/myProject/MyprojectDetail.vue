@@ -4,7 +4,7 @@
 		<el-row class="mt-3" :gutter="20" type="flex">
 			<el-col :span="24">
 				<el-card class="h-100">
-					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目基本信息</h4>
+					<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">项目基本信息</h4>
 					<div class="d-flex align-items-center flex-wrap">
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目编号：</span>{{basic.apply_number}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目名称：</span>{{basic.p_name}}</p>
@@ -19,7 +19,7 @@
 
 			<el-col :span="24" v-if="!commonJs.isEmpty(company_info)">
 				<el-card class="h-100 company_info">
-					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">厂商详情</h4>
+					<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">厂商详情</h4>
 					<div class="d-flex align-items-center flex-wrap">
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">企业名称：</span>{{company_info.job_number}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">企业电话：</span>{{company_info.phone}}</p>
@@ -33,7 +33,7 @@
 
 			<el-col :span="24" v-if="!commonJs.isEmpty(money_data)">
 				<el-card class="h-100">
-					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">当前节点应付款</h4>
+					<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">当前节点应付款</h4>
 					<my-echart :id="'echarts'" :data="option" height="230px"></my-echart>
 				</el-card>
 			</el-col>
@@ -41,7 +41,7 @@
 
 		<!-- 表单值-详细信息 -->
 		<el-card class="mt-3">
-			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">详细信息</h4>
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">详细信息</h4>
 			<el-form class="form_json" label-position="left">
 				<el-row :gutter="20">
 					<template v-for="(formItem,j) in dataJson">
@@ -87,7 +87,7 @@
 
 		<!-- 项目状态 -->
 		<!-- <el-card class="mt-3">
-			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目状态</h4>
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">项目状态</h4>
 			<el-steps :active="statusActive" finish-status="success" align-center>
 				<el-step :title="status" v-for="(status,index) in statusSteps" :key="index"></el-step>
 			</el-steps>
@@ -95,7 +95,7 @@
 
 		<!-- 合同付款节点 -->
 		<el-card class="mt-3" v-if="tableData.length != 0">
-			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">合同付款节点</h4>
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">合同付款节点</h4>
 			<el-table :data="tableData" :default-expand-all="true" :row-class-name="getRowClass">
 				<el-table-column type="expand">
 					<template slot-scope="scope">

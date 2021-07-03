@@ -4,7 +4,7 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
-			<h6 class="fs_20 font-weight-normal mb-3">{{title}}</h6>
+			<h6 class="fs_18 font-weight-normal mb-3">{{title}}</h6>
 			<el-form :model="maintenanceForm" :rules="rules" ref="maintenanceForm" label-width="110px" label-position="top" class="pl-3 pr-3">
 				<el-row :gutter="20">
 					<el-col :span="12">

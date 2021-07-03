@@ -2,7 +2,7 @@
 	<div class="index-container">
 		<!-- 资源概况 -->
 		<!-- <div class="w-100">
-			<h4 class="fs_16 font-weight-semibold m-0 mb-3 text-000">资源概况</h4>
+			<h4 class="fs_18 font-weight-semibold m-0 mb-3 text-000">资源概况</h4>
 			<el-row :gutter="20">
 				<template v-for="(item,index) in resources">
 					<el-col :span="6" :key="index">
@@ -22,7 +22,7 @@
 
 		<!-- 我的项目--状态统计 -->
 		<el-card>
-			<h4 class="fs_16 font-weight-semibold m-0 mb-3 text-000">我的项目</h4>
+			<h4 class="fs_18 font-weight-semibold m-0 mb-3 text-000">我的项目</h4>
 			<el-row :gutter="20" type="flex">
 				<template v-for="(status,index) in statusList">
 					<el-col class="text-center status-item" :key="index">
@@ -38,7 +38,7 @@
 			<el-col :span="12">
 				<el-card :body-style="{ padding: '0px' }">
 					<div class="d-flex justify-content-between align-items-center isCell">
-						<h4 class="fs_16 font-weight-semibold m-0 text-000">信息处理</h4>
+						<h4 class="fs_18 font-weight-semibold m-0 text-000">信息处理</h4>
 						<div class="tab_nav">
 							<template v-for="(nav,index) in handleNav">
 								<span :key="index" :class="['cursor-pointer ml-3',handleNavIndex == nav.id?'active':'']" @click="handleTab(nav.id)">{{nav.title}}</span>
@@ -83,7 +83,7 @@
 			<el-col :span="12">
 				<el-card :body-style="{ padding: '0px' }">
 					<div class="d-flex justify-content-between align-items-center isCell">
-						<h4 class="fs_16 font-weight-semibold m-0 text-000">付款信息</h4>
+						<h4 class="fs_18 font-weight-semibold m-0 text-000">付款信息</h4>
 						<div class="tab_nav">
 							<template v-for="(year,index) in handleYear">
 								<span :key="index" :class="['cursor-pointer ml-3',handleYearIndex == year.id?'active':'']" @click="handleYearTab(year.id)">{{year.title}}</span>

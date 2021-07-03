@@ -4,7 +4,7 @@
 		<el-row class="mt-3" :gutter="20" type="flex">
 			<el-col :span="24">
 				<el-card class="h-100">
-					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">项目基本信息</h4>
+					<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">项目基本信息</h4>
 					<div class="d-flex align-items-center flex-wrap">
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">维保编号：</span>{{basic.extend_number}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">维保标题：</span>{{basic.title}}</p>
@@ -21,7 +21,7 @@
 
 			<el-col :span="24" v-if="!commonJs.isEmpty(company_info)">
 				<el-card class="h-100 company_info">
-					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">厂商详情</h4>
+					<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">厂商详情</h4>
 					<div class="d-flex align-items-center flex-wrap">
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">企业名称：</span>{{company_info.job_number}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">企业电话：</span>{{company_info.phone}}</p>
@@ -35,7 +35,7 @@
 
 			<el-col :span="24" v-if="!commonJs.isEmpty(money_data)">
 				<el-card class="h-100">
-					<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">当前节点应付款</h4>
+					<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">当前节点应付款</h4>
 					<my-echart :id="'echarts'" :data="option" height="230px"></my-echart>
 				</el-card>
 			</el-col>
@@ -44,7 +44,7 @@
 		<!-- 审核记录 -->
 		<el-card class="mt-3">
 			<div class="d-flex justify-content-between align-items-center">
-				<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">审核记录</h4>
+				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">审核记录</h4>
 				<div :class="['toggleMenu cursor-pointer text-primary',showMore ? 'menu_arrow' : '']" @click="changeFoldState"  v-if="checkListAll.length > 5">
 					<span>{{showMore?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
 				</div>
@@ -69,7 +69,7 @@
 
 		<!-- 合同付款节点 -->
 		<el-card class="mt-3" v-if="tableData.length != 0">
-			<h4 class="fs_16 font-weight-semibold m-0 text-000 mb-3">合同付款节点</h4>
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">合同付款节点</h4>
 			<el-table :data="tableData" :default-expand-all="true" :row-class-name="getRowClass">
 				<!-- <el-table-column type="expand">
 					<template slot-scope="scope">

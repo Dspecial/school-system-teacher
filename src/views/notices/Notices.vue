@@ -78,7 +78,7 @@
       return {
         activeName:'1', // 默认未读
         tableProps: {
-          'max-height': 670,
+          
         },
         tableData: [],
         filters: [

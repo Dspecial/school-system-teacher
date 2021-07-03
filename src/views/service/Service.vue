@@ -122,7 +122,7 @@
         user_type:"",
         levelOptions:[],
         tableProps: {
-          'max-height': 670,
+          
         },
         tableData: [],
         filters: [

@@ -57,7 +57,7 @@
       return {
         projectId:'',
         tableProps: {
-          'max-height': 670,
+          
         },
         tableData: [],
         filters: [

@@ -192,7 +192,7 @@
 				statusSteps:[],
 				// 任务信息
 				tableProps: {
-          'max-height': 670,
+          
         },
         tableData: [],
         total: 0, //总条数

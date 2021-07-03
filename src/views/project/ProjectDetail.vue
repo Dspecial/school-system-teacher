@@ -221,7 +221,7 @@
 				showMore: true,
 				// 合同付款节点
 				tableProps: {
-          'max-height': 670,
+          
         },
         tableData: [],
         total: 0, //总条数

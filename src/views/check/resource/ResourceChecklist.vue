@@ -55,6 +55,18 @@
             <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
           </template>
         </el-table-column>
+        <el-table-column prop="apply_remark" label="申请资源备注">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              title="申请资源备注"
+              width="200"
+              trigger="hover"
+              :content="scope.row.apply_remark">
+              <span class="text-truncate" slot="reference">{{scope.row.apply_remark}}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column prop="name" label="申请人姓名" ></el-table-column>
         <el-table-column prop="depart_name" label="申请人所在部门"></el-table-column>
         <el-table-column prop="createtime" label="提交时间" width="150"></el-table-column>
@@ -135,7 +147,7 @@
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
         }
-        this.$api.resourceListCheck({
+        this.$api.resourceCheckList({
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
@@ -178,7 +190,7 @@
       // 审核
       resourceCheck(index,row){
         this.$router.push({
-          path:"/check/resource/check",
+          path:"/check/resourceList/check",
           query: {
             id: row.id,
           }
@@ -188,7 +200,7 @@
       // 详情
       goDetail(index,row){
         this.$router.push({
-          path:"/check/resource/detail",
+          path:"/check/resourceList/detail",
           query: {
             id: row.id,
           }

@@ -113,6 +113,9 @@ export default {
 	// 工单上传文件
 	project_serviceUpload: p => postUpload('/api/upload/upload_service_attach', p),
 
+	// 申请资源
+	project_apply_resource: p => post('/api/project.project/apply_resource', p),
+
 	// 资源列表
 	resourceList: p => post('/api/resource.resource/index', p),
 	// 申请资源
@@ -201,12 +204,18 @@ export default {
 	// 项目维保详情
 	maintenance_detail: p => post('/api/checks.extendproject/detail', p),
 
-	// 资源审核列表
-	resourceListCheck: p => post('/api/checks.resourceproject/index', p),
-	// 资源审核
+	// 审核列表里的node_id=13 资源审核列表
+	// resourceListCheck: p => post('/api/checks.resourceproject/index', p),
+	// 审核列表里的node_id=13  资源审核
 	resourceCheck_check: p => post('/api/checks.resourceproject/check_resource', p),	
-	// 资源审核详情
+	// 审核列表里的node_id=13  资源审核详情
 	resourceCheck_detail: p => post('/api/checks.resourceproject/details', p),	
+
+
+	// 资源审核列表
+	resourceCheckList: p => post('/api/checks.resourceapply/index', p),
+	// 资源审核
+	resourceCheckList_check: p => post('/api/checks.resourceapply/check_resource', p),	
 
 	/*
 		***信息管理

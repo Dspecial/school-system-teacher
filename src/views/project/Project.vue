@@ -48,98 +48,85 @@
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="350" align="center">
           <template slot-scope="scope">
-            <!-- need_to_func_money等于1的时候，付款节点 -->
-            <template v-if="scope.row.need_to_func_money == 1">
-              <span v-for="(action,k) in actions0" :key="k+100" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-            </template>
-
             <template v-if="scope.row.is_commit == 0">
-              <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              <span v-for="(action,index) in actions1_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
             <template v-if="scope.row.is_commit == 1">
-              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              <span v-for="(action,index) in actions2_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
             <template v-else-if="scope.row.is_commit == 3 || scope.row.is_commit == 4 || scope.row.is_commit == 5 || scope.row.is_commit == 6">
               <template v-if="scope.row.check_process.next_node_id == 6">
-                <span v-for="(action,index) in actions4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions3_2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else-if="scope.row.check_process.next_node_id == 12">
-                <span v-for="(action,index) in actions5" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions3_3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else-if="scope.row.check_process.next_node_id == 10">
-                <span v-for="(action,index) in actions6" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions3_4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else-if="scope.row.check_process.next_node_id == 11">
-                <span v-for="(action,index) in actions7" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-              </template>
-              <template v-else-if="scope.row.check_process.next_node_id == 13">
-                <span v-for="(action,index) in actions8" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions3_5" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else>
-                <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions3_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
             </template>
             <template v-else-if="scope.row.is_commit == 7 || scope.row.is_commit == 8">
               <template>
-                <span v-for="(action,index) in actions23" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions4_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
             </template>
             <template v-else-if="scope.row.is_commit == 9">
               <template v-if="scope.row.check_process.next_node_id == 12">
-                <span v-for="(action,index) in actions9" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions5_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else-if="scope.row.check_process.next_node_id == 10">
-                <span v-for="(action,index) in actions10" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions5_2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else-if="scope.row.check_process.next_node_id == 11">
-                <span v-for="(action,index) in actions11" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-              </template>
-              <template v-else-if="scope.row.check_process.next_node_id == 13">
-                <span v-for="(action,index) in actions12" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions5_3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
             </template>
             <template v-else-if="scope.row.is_commit == 10 || scope.row.is_commit == 11 || scope.row.is_commit == 12">
               <template v-if="scope.row.check_process.next_node_id == 10">
-                <span v-for="(action,index) in actions14" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions6_2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else-if="scope.row.check_process.next_node_id == 11">
-                <span v-for="(action,index) in actions15" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-              </template>
-              <template v-else-if="scope.row.check_process.next_node_id == 13">
-                <span v-for="(action,index) in actions16" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions6_3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else>
-                <span v-for="(action,index) in actions13" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions6_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
             </template>
             <template v-else-if="scope.row.is_commit == 13 || scope.row.is_commit == 14 || scope.row.is_commit == 15">
               <template v-if="scope.row.check_process.next_node_id == 11">
-                <span v-for="(action,index) in actions17" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-              </template>
-              <template v-else-if="scope.row.check_process.next_node_id == 13">
-                <span v-for="(action,index) in actions18" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+                <span v-for="(action,index) in actions7_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
             </template>
             <template v-else-if="scope.row.is_commit == 16 || scope.row.is_commit == 17 || scope.row.is_commit == 18">
-              <template v-if="scope.row.check_process.next_node_id == 13">
-                <span v-for="(action,index) in actions20" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              <template>
+                <span v-for="(action,index) in actions8_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
-              <template v-else>
-                <span v-for="(action,index) in actions19" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-              </template>
-            </template>
-            <template v-else-if="scope.row.is_commit == 19 || scope.row.is_commit == 20 || scope.row.is_commit == 21">
-              <span v-for="(action,index) in actions21" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
 
             <!-- is_need_service等于1的时候，工单列表 -->
             <template v-if="scope.row.is_need_service == 1">
-              <span v-for="(action,k) in actions24" :key="k+300" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              <span v-for="(action,k) in actions11_1" :key="k+100" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
+
+            <!-- need_to_func_money等于1的时候，付款节点 -->
+            <template v-if="scope.row.need_to_func_money == 1">
+              <span v-for="(action,k) in actions12_1" :key="k+200" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
             
+            <!-- need_to_resource_apply等于1的时候，申请资源 -->
+            <template v-if="scope.row.need_to_resource_apply == 1">
+              <span v-for="(action,k) in actions13_1" :key="k+300" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
+
             <!-- is_commit不等于0的时候，每条数据都需要详情 -->
             <template v-if="scope.row.is_commit != 0">
-              <span v-for="(action,j) in actions22" :key="j+200" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              <span v-for="(action,j) in actions10_1" :key="j+400" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
 
           </template>
@@ -190,31 +177,26 @@
           title:"",
           id:","
         },
-        actions0:[],
-        actions1:[],
-        actions2:[],
-        actions3:[],
-        actions4:[],
-        actions5:[],
-        actions6:[],
-        actions7:[],
-        actions8:[],
-        actions9:[],
-        actions10:[],
-        actions11:[],
-        actions12:[],
-        actions13:[],
-        actions14:[],
-        actions15:[],
-        actions16:[],
-        actions17:[],
-        actions18:[],
-        actions19:[],
-        actions20:[],
-        actions21:[],
-        actions22:[],
-        actions23:[],
-        actions24:[],
+        actions1_1:[],
+        actions2_1:[],
+        actions3_1:[],
+        actions3_2:[],
+        actions3_3:[],
+        actions3_4:[],
+        actions3_5:[],
+        actions4_1:[],
+        actions5_1:[],
+        actions5_2:[],
+        actions5_3:[],
+        actions6_1:[],
+        actions6_2:[],
+        actions6_3:[],
+        actions7_1:[],
+        actions8_1:[],
+        actions10_1:[],
+        actions11_1:[],
+        actions12_1:[],
+        actions13_1:[],
       }
     },
     computed: {
@@ -248,7 +230,7 @@
             var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array,actions_4 = new Array;
             var actions_5 = new Array,actions_6 = new Array,actions_7 = new Array,actions_8 = new Array;
             var actions_9 = new Array,actions_10 = new Array,actions_11 = new Array,actions_12 = new Array;
-            var actions_13 = new Array,actions_14 = new Array;
+            var actions_13 = new Array,actions_14 = new Array,actions_15 = new Array;
 
             this.$store.getters.getmoreAction.map((item,index)=>{
               if(item.sign == '2'){ // 编辑
@@ -281,83 +263,78 @@
                 actions_14.push(item);
               }
             })
-
-            /* 
-              is_need_service=1
-            */
-            this.actions24 = [...actions_14];
-
-            /* 
-              need_to_func_money=1
-            */
-            this.actions0 = [...actions_13];
             
             /* 
               每个都有详情
-              is_commit为0 表示完成，只有详情
+              01. is_commit为0 表示完成，只有详情
 
-              is_commit为1  提交审核、编辑、删除；
+              02. is_commit为1  提交审核、编辑、删除；
 
-              is_commit为3、4、5、6 提交复审、复审记录
-              is_commit为3、4、5、6 且 next_node_id为6  进入实施流程；
-              is_commit为3、4、5、6 且 next_node_id为12 进入进度上传；
-              is_commit为3、4、5、6 且 next_node_id为10 进入验收流程；
-              is_commit为3、4、5、6 且 next_node_id为11 项目维保；
-              is_commit为3、4、5、6 且 next_node_id为13  资源申请(这个暂时先不动);
+              31 is_commit为3、4、5、6 提交复审、复审记录
+              32. is_commit为3、4、5、6 且 next_node_id为6  进入实施流程；
+              33. is_commit为3、4、5、6 且 next_node_id为12 进入进度上传；
+              34. is_commit为3、4、5、6 且 next_node_id为10 进入验收流程；
+              35. is_commit为3、4、5、6 且 next_node_id为11 项目维保；
 
-              is_commit 等于7、8  进入实施流程
+              04. is_commit 等于7、8  进入实施流程
 
-              is_commit为9 且 next_node_id为12  进入进度上传；
-              is_commit为9 且 next_node_id为10 进入验收流程；
-              is_commit为9 且 next_node_id为11 项目维保；
-              is_commit为9 且 next_node_id为13 资源申请(这个暂时先不动);
+              51. is_commit为9 且 next_node_id为12  进入进度上传；
+              52. is_commit为9 且 next_node_id为10 进入验收流程；
+              53. is_commit为9 且 next_node_id为11 项目维保；
             
-              is_commit为10、11、12 进度记录
-              is_commit为10、11、12 且 next_node_id为10 +进入验收流程；
-              is_commit为10、11、12 且 next_node_id为11 +项目维保；
-              is_commit为10、11、12 且 next_node_id为13 +资源申请(这个暂时先不动);
+              61. is_commit为10、11、12 进度记录
+              62. is_commit为10、11、12 且 next_node_id为10 +进入验收流程；
+              63. is_commit为10、11、12 且 next_node_id为11 +项目维保；
 
-              is_commit为13、14、15 且 next_node_id为11 项目维保；
-              is_commit为13、14、15 且 next_node_id为13 资源申请(这个暂时先不动);
+              71. is_commit为13、14、15 且 next_node_id为11 项目维保；
 
-              is_commit为16、17、18 项目维保
-              is_commit为16、17、18 且 next_node_id为13 +资源申请(这个暂时先不动);
+              81. is_commit为16、17、18 项目维保
 
-              is_commit为19、20、21 资源申请
+              10. 其他情况
+
+              11. is_need_service=1 工单列表
+
+              12. need_to_func_money=1 付款节点
+
+              13. need_to_resource_apply=1 申请资源
             */
+          
             // is_commit为0
-            this.actions1 = [...actions_3];
+            this.actions1_1 = [...actions_3];
             // is_commit为1
-            this.actions2 = [...actions_1,...actions_2,...actions_4];
+            this.actions2_1 = [...actions_1,...actions_2,...actions_4];
             // is_commit为3、4、5、6
-            this.actions3 = [...actions_5,...actions_8];
-            this.actions4 = [...this.actions3,...actions_10];
-            this.actions5 = [...this.actions3,...actions_6];
-            this.actions6 = [...this.actions3,...actions_7];
-            this.actions7 = [...this.actions3,...actions_11];
-            this.actions8 = [...this.actions3,...actions_12];
+            this.actions3_1 = [...actions_5,...actions_8];
+            this.actions3_2 = [...this.actions3_1,...actions_10];
+            this.actions3_3 = [...this.actions3_1,...actions_6];
+            this.actions3_4 = [...this.actions3_1,...actions_7];
+            this.actions3_5 = [...this.actions3_1,...actions_11];
             // is_commit为7、8
-            this.actions23 = [...actions_10];
+            this.actions4_1 = [...actions_10];
             // is_commit为9
-            this.actions9 = [...actions_6];
-            this.actions10 = [...actions_7];
-            this.actions11 = [...actions_11];
-            this.actions12 = [...actions_12];
+            this.actions5_1 = [...actions_6];
+            this.actions5_2 = [...actions_7];
+            this.actions5_3 = [...actions_11];
             // is_commit为10、11、12
-            this.actions13 = [...actions_9];
-            this.actions14 = [...this.actions13,...actions_7];
-            this.actions15 = [...this.actions13,...actions_11];
-            this.actions16 = [...this.actions13,...actions_12];
+            this.actions6_1 = [...actions_9];
+            this.actions6_2 = [...this.actions6_1,...actions_7];
+            this.actions6_3 = [...this.actions6_1,...actions_11];
             // is_commit为13、14、15
-            this.actions17 = [...actions_11];
-            this.actions18 = [...actions_12];
+            this.actions7_1 = [...actions_11];
             // is_commit为16、17、18
-            this.actions19 = [...actions_11];  
-            this.actions20 = [...this.actions19,...actions_12];
-            // is_commit为19、20、21
-            this.actions21 = [...actions_12];
+            this.actions8_1 = [...actions_11];
+            
             // 其他情况
-            this.actions22 = [...actions_3];
+            this.actions10_1 = [...actions_3];
+
+            // is_need_service=1 工单列表
+            this.actions11_1 = [...actions_14];
+            
+            // need_to_func_money=1 付款节点
+            this.actions12_1 = [...actions_13];
+
+            // need_to_resource_apply=1 申请资源
+            this.actions13_1 = [...actions_12];
           }else{
             this.$message.error(data.msg);
           }
@@ -396,7 +373,7 @@
         }else if(sign == '5.8'){ // 项目维保
           this.handleMaintenance(index,row);
         }else if(sign == '5.9'){ // 资源申请 
-          
+          this.handleResourceApply(index,row);
         }else if(sign == '5.10'){ // 付款节点 
           this.paymentNode(index,row);
         }else if(sign == '5.11'){ // 工单列表 
@@ -570,6 +547,16 @@
       goServiceList(index,row){
         this.$router.push({
           path:"/project/project/serviceList",
+          query: {
+            id: row.id,
+          }
+        })
+      },
+
+      // 申请资源
+      handleResourceApply(index,row){
+        this.$router.push({
+          path:"/project/project/applyResource",
           query: {
             id: row.id,
           }

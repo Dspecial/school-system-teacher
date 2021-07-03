@@ -62,6 +62,18 @@
             <span v-else-if="scope.row.status == 5"><i class="dot bg-cyan mr-1"></i>已回收</span>
           </template>
         </el-table-column>
+        <el-table-column prop="apply_remark" label="申请资源备注">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              title="申请资源备注"
+              width="200"
+              trigger="hover"
+              :content="scope.row.apply_remark">
+              <span class="text-truncate" slot="reference">{{scope.row.apply_remark}}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column prop="applytime" label="申请时间"></el-table-column>
         <el-table-column prop="checktime" label="审核时间"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150" align="center">

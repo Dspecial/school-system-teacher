@@ -171,6 +171,17 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				{
+				  path: '/project/project/applyResource',
+				  component: resolve => require(['@/views/project/ProjectApplyresource'], resolve),
+				  name: 'ProjectApplyresource',
+				  meta: {
+				    title: '项目申请资源',
+				  },
+				  children: null
+				},
+
+
 				// 资源列表
 				{
 				  path: '/project/resource',
@@ -278,7 +289,7 @@ const router = new Router({
 				},
 
 				/*
-				**审核管理
+				**审核管理-审核列表
 				 */
 				// 审核列表
 				{
@@ -497,34 +508,50 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				// 资源审核列表
-				{
-				  path: '/check/resource',
-				  component: resolve => require(['@/views/check/ResourceCheck'], resolve),
-				  name: 'ResourceCheck',
-				  meta: {
-				    title: '资源审核列表',
-				  },
-				  children: null
-				},
+				// 资源审核
 				{
 				  path: '/check/resource/check',
 				  component: resolve => require(['@/views/check/ResourcecheckCheck'], resolve),
 				  name: 'ResourcecheckCheck',
 				  meta: {
-				    title: '资源审核',
+				    title: '审核-资源审核',
 				  },
 				  children: null
 				},
+				// 资源审核详情
 				{
 				  path: '/check/resource/detail',
 				  component: resolve => require(['@/views/check/ResourcecheckDetail'], resolve),
 				  name: 'ResourcecheckDetail',
 				  meta: {
-				    title: '资源审核详情',
+				    title: '审核-资源审核详情',
 				  },
 				  children: null
 				},
+
+				/*
+				**审核管理-资源审核列表
+				 */
+				// 资源审核列表
+				{
+				  path: '/check/resourceList',
+				  component: resolve => require(['@/views/check/resource/ResourceChecklist'], resolve),
+				  name: 'resource-ResourceChecklist',
+				  meta: {
+				    title: '资源-资源审核列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/resourceList/check',
+				  component: resolve => require(['@/views/check/resource/ResourcechecklistCheck'], resolve),
+				  name: 'resource-ResourcechecklistCheck',
+				  meta: {
+				    title: '资源-资源审核',
+				  },
+				  children: null
+				},
+
 				/*
 				**信息管理
 				 */

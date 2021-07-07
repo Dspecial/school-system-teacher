@@ -375,26 +375,32 @@
 			openEdit(){
 				this.initCompany();
 				this.projectId = this.$route.query.id;
-				this.$api.projectRunning({
+				this.$api.forceList_edit({
 					id:this.projectId,
-					function_type:2,
+					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
-						this.is_commit = data.data.is_commit; 
-						this.projectForm.apply_number = data.data.apply_number;
-						this.projectForm.p_name = data.data.p_name;
-						this.projectForm.projecttime = data.data.projecttime;
-						this.projectForm.company_id = data.data.company_id;
-						this.projectForm.budget_amount = data.data.budget_amount;
-						this.projectForm.real_amount = data.data.real_amount;
+						// this.is_commit = data.data.is_commit; 
+						this.projectForm.apply_number = data.data.info.apply_number;
+						this.projectForm.p_name = data.data.info.p_name;
+						this.projectForm.projecttime = data.data.info.projecttime;
+						this.projectForm.company_id = data.data.info.company_id;
+						this.projectForm.budget_amount = data.data.info.budget_amount;
+						this.projectForm.real_amount = data.data.info.real_amount;
 						
-						if(data.data.agree_payinfo.length == 0){
+						if(data.data.pay_info.length == 0){
 							this.projectForm.agree_payinfo = [{}]
 						}else{
-							this.projectForm.agree_payinfo = data.data.agree_payinfo;
+							this.projectForm.agree_payinfo = data.data.pay_info.map((item)=>{
+								return {
+									title:item.title,
+									money:item.money,
+									paytime:item.paytime,
+								}
+							});
 						}
 
-						var datajson = data.data.datajson;
+						var datajson = data.data.info.datajson;
 						datajson.map((item)=>{
 							if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){
 								item.value = [];
@@ -451,9 +457,9 @@
 
 				this.$refs[formName].validate((valid) => {
           if (valid) {
-						this.$api.projectRunning({
+						this.$api.forceList_edit({
 							id:this.projectId,
-							function_type:1,
+							function_type:2,
 							real_amount:this.projectForm.real_amount,
 							company_id:this.projectForm.company_id,
 							senddata:JSON.stringify(senddata),

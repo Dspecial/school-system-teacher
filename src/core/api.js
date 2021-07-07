@@ -176,7 +176,7 @@ export default {
 
 	// 实施列表
 	forceList: p => post('/api/checks.forceproject/index', p),
-	// 复审编辑
+	// 实施编辑
 	forceList_edit: p => post('/api/checks.forceproject/edit', p),
 	// 实施审核
 	forceList_check: p => post('/api/checks.forceproject/check_force', p),

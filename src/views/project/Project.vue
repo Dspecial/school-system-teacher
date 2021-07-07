@@ -21,7 +21,8 @@
                 v-model="filters[1].value"
                 type="year"
                 class="mr-3"
-                value-format="yyyy">
+                value-format="yyyy"
+                clearable>
               </el-date-picker>
               <el-date-picker
                 v-model="filters[2].value"
@@ -30,7 +31,8 @@
                 start-placeholder="创建时间"
                 end-placeholder="创建时间"
                 align="right"
-                value-format="yyyy-MM-dd">
+                value-format="yyyy-MM-dd"
+                clearable>
               </el-date-picker>
           	</div>
             <div class="ml-auto">

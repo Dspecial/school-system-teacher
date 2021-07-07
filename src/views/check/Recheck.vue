@@ -29,6 +29,7 @@
                 end-placeholder="提交时间"
                 align="right"
                 value-format="yyyy-MM-dd"
+                clearable
                 class="mr-3">
               </el-date-picker>
               <el-date-picker
@@ -38,7 +39,8 @@
                 start-placeholder="审核时间"
                 end-placeholder="审核时间"
                 align="right"
-                value-format="yyyy-MM-dd">
+                value-format="yyyy-MM-dd"
+                clearable>
               </el-date-picker>
             </div>
           </div>

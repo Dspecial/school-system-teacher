@@ -9,7 +9,7 @@
 				<el-row :gutter="20">
 					<el-col :span="12" v-if="!this.projectId">
 						<el-form-item label="项目" prop="project_id">
-							<el-select v-model="resourceForm.project_id" placeholder="请选择项目" class="w-100">
+							<el-select v-model="resourceForm.project_id" clearable placeholder="请选择项目" class="w-100">
 								<el-option
 									v-for="item in proOptions"
 									:key="item.id"
@@ -31,7 +31,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="资源" prop="resource_id">
-							<el-select v-model="resourceForm.resource_id" placeholder="请选择资源" class="w-100" @change="resourceChange">
+							<el-select v-model="resourceForm.resource_id" clearable placeholder="请选择资源" class="w-100" @change="resourceChange">
 								<el-option
 									v-for="item in listOptions"
 									:key="item.id"

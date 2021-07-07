@@ -19,7 +19,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="优先级" prop="level">
-							<el-select v-model="routineForm.level" placeholder="请选择优先级" class="w-100">
+							<el-select v-model="routineForm.level" clearable placeholder="请选择优先级" class="w-100">
 								<el-option
 									v-for="item in levelOptions"
 									:key="item.id"
@@ -39,7 +39,7 @@
 				<el-row :gutter="20">
 					<el-col :span="12">
 						<el-form-item label="所属类型" prop="work_type">
-							<el-select v-model="routineForm.work_type" placeholder="请选择所属类型" class="w-100" @change="workTypeChange">
+							<el-select v-model="routineForm.work_type" clearable placeholder="请选择所属类型" class="w-100" @change="workTypeChange">
 								<el-option label="所属项目" value="1"></el-option>
 								<el-option label="所属资源" value="2"></el-option>
 								<el-option label="一般事务" value="3"></el-option>
@@ -48,7 +48,7 @@
 					</el-col>
 					<el-col :span="12" v-if="routineForm.work_type == 1 || routineForm.work_type == 2">
 						<el-form-item :label="routineForm.work_type == 1?'选择项目':'选择人员'">
-							<el-select v-model="routineForm.details_id" placeholder="请选择详情" class="w-100">
+							<el-select v-model="routineForm.details_id" clearable placeholder="请选择详情" class="w-100">
 								<el-option
 									v-for="item in detailsOptions"
 									:key="item.id"
@@ -60,7 +60,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="事务类型" prop="type">
-							<el-select v-model="routineForm.type" placeholder="请选择事务类型" class="w-100" @change="typeChange">
+							<el-select v-model="routineForm.type" clearable placeholder="请选择事务类型" class="w-100" @change="typeChange">
 								<el-option label="自办" value="1"></el-option>
 								<el-option label="他办" value="2"></el-option>
 							</el-select>
@@ -98,17 +98,17 @@
 				<el-row :gutter="20">
 					<el-col :span="12">
 						<el-form-item label="预计完成时间">
-							<el-date-picker type="datetime" placeholder="选择完成时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.endtime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="datetime" clearable placeholder="选择完成时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.endtime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="提醒时间">
-							<el-date-picker type="datetime" placeholder="选择提醒时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.remain_time" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="datetime" clearable placeholder="选择提醒时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.remain_time" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="是否重复提醒" prop="is_repeat">
-							<el-select v-model="routineForm.is_repeat" placeholder="请选择是否重复提醒" class="w-100">
+							<el-select v-model="routineForm.is_repeat" clearable placeholder="请选择是否重复提醒" class="w-100">
 								<el-option label="否" value="1"></el-option>
 								<el-option label="是" value="2"></el-option>
 							</el-select>
@@ -116,7 +116,7 @@
 					</el-col>
 					<el-col :span="12" v-if="routineForm.is_repeat == 2">
 						<el-form-item label="重复类型" prop="repeat_type">
-							<el-select v-model="routineForm.repeat_type" placeholder="请选择重复类型" class="w-100">
+							<el-select v-model="routineForm.repeat_type" clearable placeholder="请选择重复类型" class="w-100">
 								<el-option label="每天" value="1"></el-option>
 								<el-option label="每周" value="2"></el-option>
 								<el-option label="每月" value="3"></el-option>

@@ -31,7 +31,8 @@
                     start-placeholder="发送时间"
                     end-placeholder="发送时间"
                     align="right"
-                    value-format="yyyy-MM-dd">
+                    value-format="yyyy-MM-dd"
+                    clearable>
                   </el-date-picker>
                 </div>
               </div>

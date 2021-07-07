@@ -16,7 +16,7 @@
 							<template v-for="(cell,INDEX) in recheckForm.sendjson">
 								<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
 									<el-col :span="24">
-										<el-select v-model="cell.expert_id" placeholder="请选择专家" class="w-100" clearable @change="changeCheck">
+										<el-select  v-model="cell.expert_id" placeholder="请选择专家" class="w-100" clearable @change="changeCheck">
 											<el-option
 												v-for="item in expertOptions"
 												:key="item.id"
@@ -27,7 +27,7 @@
 										</el-select>
 									</el-col>
 									<el-col :span="24">
-										<el-select v-model="cell.is_pass" placeholder="请选择是否通过" class="w-100">
+										<el-select v-model="cell.is_pass" clearable placeholder="请选择是否通过" class="w-100">
 											<el-option label="通过" value="1"></el-option>
 											<el-option label="不通过" value="2"></el-option>
 										</el-select>
@@ -50,6 +50,7 @@
 								:picker-options="startOption" 
 								v-model="recheckForm.recheck_date" 
 								value-format="yyyy-MM-dd"
+								clearable
 								style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>

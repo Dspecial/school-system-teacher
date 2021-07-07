@@ -8,7 +8,7 @@
 	  :before-close="handleClose">
 	  <el-form :model="payForm" :rules="rules" ref="payForm" label-width="130px">
 		  <el-form-item label="付款日期" prop="haspaytime">
-				<el-date-picker type="date" placeholder="选择付款日期，必须大于当前日期" v-model="payForm.haspaytime" 
+				<el-date-picker type="date" clearable placeholder="选择付款日期，必须大于当前日期" v-model="payForm.haspaytime" 
 				value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 			</el-form-item>
 			<el-form-item label="付款凭证或附件">

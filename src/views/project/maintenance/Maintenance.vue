@@ -21,7 +21,8 @@
                 v-model="filters[1].value"
                 type="year"
                 class="mr-3"
-                value-format="yyyy">
+                value-format="yyyy"
+                clearable>
               </el-date-picker>
               <el-select v-model="filters[2].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>
                 <el-option label="审核中" value="1"></el-option>

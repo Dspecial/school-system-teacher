@@ -19,7 +19,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="工单级别" prop="level">
-							<el-select v-model="serviceForm.level" placeholder="请选择工单级别" class="w-100">
+							<el-select v-model="serviceForm.level" clearable  placeholder="请选择工单级别" class="w-100">
 								<el-option
                   v-for="item in levelOptions"
                   :key="item.id"

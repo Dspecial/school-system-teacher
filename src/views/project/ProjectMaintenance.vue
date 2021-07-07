@@ -14,7 +14,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="维保企业名称" prop="company_id">
-							<el-select v-model="maintenanceForm.company_id" filterable placeholder="请选择维保企业名称" class="w-100">
+							<el-select v-model="maintenanceForm.company_id" clearable filterable placeholder="请选择维保企业名称" class="w-100">
 								<el-option
 									v-for="item in companyOptions"
 									:key="item.id"
@@ -33,6 +33,7 @@
                 class="w-100"
                 value-format="yyyy"
 								format="yyyy"
+								clearable
 								@change="yearChange">
               </el-date-picker>
 						</el-form-item>
@@ -74,7 +75,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="维保结束日期" prop="endtime">
-							<el-date-picker type="date" placeholder="选择维保结束日期，必须大于当前日期" v-model="maintenanceForm.endtime" 
+							<el-date-picker type="date" clearable placeholder="选择维保结束日期，必须大于当前日期" v-model="maintenanceForm.endtime" 
 							value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
@@ -100,7 +101,7 @@
 										</el-input>
 									</el-col>
 									<el-col :span="24">
-										<el-date-picker type="date" placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
+										<el-date-picker type="date" clearable placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 									</el-col>
 									<el-col :span="2" class="text-right">
 										<span class="text-danger cursor-pointer" @click="delPayinfo(maintenanceForm.agree_payinfo,INDEX)">删除</span>

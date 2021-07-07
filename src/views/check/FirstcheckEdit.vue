@@ -24,7 +24,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属企业" prop="company_id">
-							<el-select v-model="projectForm.company_id" filterable placeholder="请选择所属企业" class="w-100">
+							<el-select v-model="projectForm.company_id" clearable filterable placeholder="请选择所属企业" class="w-100">
 								<el-option
 									v-for="item in companyOptions"
 									:key="item.id"
@@ -62,7 +62,7 @@
 						<!-- 3=下拉单选 -->
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 3">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
-								<el-select v-model="formItem.value" :placeholder="formItem.placeholder" class="w-100">
+								<el-select v-model="formItem.value" clearable :placeholder="formItem.placeholder" class="w-100">
 									<el-option
 										v-for="item in formItem.extra_val"
 										:key="item"
@@ -80,6 +80,7 @@
 								:placeholder="formItem.placeholder"
 								v-model="formItem.value" 
 								value-format="yyyy-MM-dd"
+								clearable
 								style="width: 100%;"></el-date-picker>
 							</el-form-item>
 						</el-col>
@@ -125,13 +126,14 @@
 								:placeholder="formItem.placeholder"
 								v-model="formItem.value" 
 								value-format="yyyy-MM-dd HH:mm:ss"
+								clearable
 								style="width: 100%;"></el-date-picker>
 							</el-form-item>
 						</el-col>
 						<!-- 9=下拉多选 -->
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 9">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
-								<el-select v-model="formItem.value" multiple collapse-tags :placeholder="formItem.placeholder" class="w-100">
+								<el-select v-model="formItem.value" clearable multiple collapse-tags :placeholder="formItem.placeholder" class="w-100">
 									<el-option
 										v-for="item in formItem.extra_val"
 										:key="item"

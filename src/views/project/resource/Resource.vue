@@ -4,13 +4,14 @@
     <global-tips></global-tips>
     <!-- 资源列表 -->
     <el-card>
-      <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage":page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
+      <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage" :page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" 
+      @query-change="loadData" :filters="filters" :table-props="tableProps" @expand-change="toggleRowExpansion">
         <div class="mb-3" slot="tool">
           <h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">资源列表</h4>
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
               <el-input
-    				    placeholder="请输入项目名称/资源名称/备注"
+    				    placeholder="请输入项目名称/备注"
     				    prefix-icon="el-icon-search"
     				    v-model="filters[0].value"
                 clearable
@@ -50,9 +51,21 @@
             </div>
           </div>
         </div>
-        <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
+        <el-table-column prop="resource_list" label="" type="expand">
+          <template slot-scope="props">
+            <el-table :data="props.row.resource_list" align="center">
+              <el-table-column prop="name" label="资源名称"></el-table-column>
+              <el-table-column prop="re_remark" label="资源备注"></el-table-column>
+              <el-table-column prop="job_number" label="供应商"></el-table-column>
+              <el-table-column fixed="right" label="操作" width="150" align="center">
+                <template slot-scope="scope">
+                  <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+          </template>
+        </el-table-column>
         <el-table-column prop="p_name" label="项目名称"></el-table-column>
-        <el-table-column prop="name" label="资源名称"></el-table-column>
         <el-table-column prop="status" label="审核状态">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>待确认</span>
@@ -62,26 +75,51 @@
             <span v-else-if="scope.row.status == 5"><i class="dot bg-cyan mr-1"></i>已回收</span>
           </template>
         </el-table-column>
-        <el-table-column prop="apply_remark" label="申请资源备注">
+        <el-table-column prop="remark" label="备注">
           <template slot-scope="scope">
             <el-popover
               placement="top-start"
-              title="申请资源备注"
+              title="备注"
               width="200"
               trigger="hover"
-              :content="scope.row.apply_remark">
-              <span class="text-truncate" slot="reference">{{scope.row.apply_remark}}</span>
+              :content="scope.row.remark">
+              <span class="text-truncate" slot="reference">{{scope.row.remark}}</span>
             </el-popover>
           </template>
         </el-table-column>
         <el-table-column prop="applytime" label="申请时间"></el-table-column>
         <el-table-column prop="checktime" label="审核时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
-          <template slot-scope="scope">
-            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-          </template>
-        </el-table-column>
       </data-tables-server>
+    
+    
+      <!-- <template>
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :row-key="getROW" :expand-row-keys="expands"  @expand-change="toggleRowExpansion">
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="商品名称">
+                  <span>{{ props.row.name }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="商品 ID"
+            prop="id">
+          </el-table-column>
+          <el-table-column
+            label="商品名称"
+            prop="name">
+          </el-table-column>
+          <el-table-column
+            label="描述"
+            prop="desc">
+          </el-table-column>
+        </el-table>
+      </template> -->
     </el-card>
   </div>
 </template>
@@ -102,7 +140,11 @@
     data() {
       return {
         tableProps: {
-          
+          'default-expand-all':false,
+          'row-key':function(row){
+            return row.id;
+          },
+          'expand-row-keys':[],
         },
         tableData: [],
         filters: [
@@ -139,10 +181,16 @@
     },
     computed: {
     },
+    watch:{
+
+    },
     mounted(){
-      
     },
     methods:{
+      toggleRowExpansion(row,expandedRows){
+        this.tableProps['expand-row-keys'] = [];
+        this.tableProps['expand-row-keys'].push(row.id);
+      },
 			// 自增序列
       indexMethod(index) { 
         return ++index;
@@ -165,6 +213,7 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
+            this.tableProps['expand-row-keys'].push(data.data.data[0].id);
           }else{
             this.$message.error(data.msg);
           }

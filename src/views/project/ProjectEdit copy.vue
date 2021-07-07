@@ -9,7 +9,7 @@
 				<el-row :gutter="20">
 					<el-col :span="12" v-if="!this.projectId">
 						<el-form-item label="项目类别" prop="p_cate_id">
-							<el-select v-model="projectForm.p_cate_id" placeholder="请选择项目类别" class="w-100">
+							<el-select v-model="projectForm.p_cate_id" clearable placeholder="请选择项目类别" class="w-100">
 								<el-option
 									v-for="item in cateOptions"
 									:key="item.id"
@@ -26,7 +26,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属企业" prop="company_id">
-							<el-select v-model="projectForm.company_id" filterable placeholder="请选择所属企业" class="w-100">
+							<el-select v-model="projectForm.company_id" clearable filterable placeholder="请选择所属企业" class="w-100">
 								<el-option
 									v-for="item in companyOptions"
 									:key="item.id"
@@ -38,17 +38,17 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="录入时间" prop="recordtime">
-							<el-date-picker type="date" placeholder="选择录入时间，必须大于当前日期" v-model="projectForm.recordtime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="date" clearable placeholder="选择录入时间，必须大于当前日期" v-model="projectForm.recordtime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="项目启动时间" prop="starttime">
-							<el-date-picker type="date" placeholder="选择项目启动时间，必须大于当前日期" v-model="projectForm.starttime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="date" clearable placeholder="选择项目启动时间，必须大于当前日期" v-model="projectForm.starttime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="项目完成时间" prop="successtime">
-							<el-date-picker type="date" placeholder="选择项目完成时间，必须大于项目启动时间" v-model="projectForm.successtime" value-format="yyyy-MM-dd" :picker-options="successOption" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="date" clearable placeholder="选择项目完成时间，必须大于项目启动时间" v-model="projectForm.successtime" value-format="yyyy-MM-dd" :picker-options="successOption" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -100,7 +100,7 @@
 										<el-input v-model.number="cell.money" placeholder="请输入合同金额，必须为数值"></el-input>
 									</el-col>
 									<el-col :span="24">
-										<el-date-picker type="date" placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
+										<el-date-picker type="date" clearable placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 									</el-col>
 									<el-col :span="2" class="text-right">
 										<span class="text-danger cursor-pointer" @click="delField(projectForm.agree_payinfo,INDEX)">删除</span>

@@ -188,8 +188,12 @@
     },
     methods:{
       toggleRowExpansion(row,expandedRows){
-        this.tableProps['expand-row-keys'] = [];
-        this.tableProps['expand-row-keys'].push(row.id);
+        if(expandedRows.length == 0){ // 收起来
+          this.tableProps['expand-row-keys'] = [];
+        }else{ // 展开
+          this.tableProps['expand-row-keys'] = [];
+          this.tableProps['expand-row-keys'].push(row.id);
+        }
       },
 			// 自增序列
       indexMethod(index) { 

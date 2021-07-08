@@ -142,7 +142,7 @@
 				<el-table-column prop="is_pay" label="是否支付">
 					<template slot-scope="scope">
 						<span v-if="scope.row.is_pay == 1"><i class="dot bg-warning mr-1"></i>待支付</span>
-						<span v-else><i class="dot bg-success mr-1"></i>已支付</span>
+						<span v-else-if="scope.row.is_pay == 2"><i class="dot bg-success mr-1"></i>已支付</span>
 					</template>
 				</el-table-column>
 				<el-table-column prop="haspaytime" label="付款时间"></el-table-column>

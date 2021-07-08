@@ -62,7 +62,6 @@
           </template>
         </el-table-column>
         <el-table-column prop="projecttime" label="维保年份" width="100"></el-table-column>
-        <el-table-column prop="endtime" label="维保日期" width="150"></el-table-column>
         <el-table-column prop="money" label="维保金额" width="100"></el-table-column>
         <el-table-column prop="job_number" label="维保企业" width="220"></el-table-column>
         <el-table-column prop="contact_name" label="联系人" width="80"></el-table-column>
@@ -74,9 +73,8 @@
             <span v-else-if="scope.row.status == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="check_text" label="审核流程" width="150"></el-table-column> -->
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column fixed="right" label="操作" width="230" align="center">
           <template slot-scope="scope">
             <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
           </template>
@@ -177,6 +175,8 @@
           this.detailMaintenance(index,row);
         }else if(sign == '5.11'){ // 工单列表
           this.goServiceList(index,row);
+        }else if(sign == '5.10'){ // 付款节点
+          this.paymentNode(index,row);
         }
       },
 
@@ -194,6 +194,16 @@
       goServiceList(index,row){
         this.$router.push({
           path:"/project/maintenance/serviceList",
+          query: {
+            id: row.id,
+          }
+        })
+      },
+
+      // 付款节点
+      paymentNode(index,row){
+        this.$router.push({
+          path:"/project/maintenance/paymentNode",
           query: {
             id: row.id,
           }

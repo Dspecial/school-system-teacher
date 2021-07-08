@@ -147,6 +147,12 @@ export default {
 	maintenance_serviceAdd: p => post('/api/service.servicemaintenance/add', p),
 	// 维保工单详情
 	maintenance_serviceDetail: p => post('/api/service.serviceproject/details', p),	
+	// 维保-付款节点
+	maintenancePayNode: p => post('/api/project.maintenance/pay_info', p),
+	// 维保-更新付款节点
+	maintenanceSetPayNode: p => post('/api/project.maintenance/pay_set_node', p),
+	// 维保-上传付款附件或凭证
+	maintenanceUploadPayNode: p => postUpload('/api/upload/upload_pay_file', p),
 
 	/*
 		***审核管理
@@ -298,7 +304,7 @@ export default {
 	// 我的项目-维保详情
 	my_maintenance_detail: p => post('/api/company.maintenance/details', p),
 
-	
+
 	/*
 		***我的资源
 	*/

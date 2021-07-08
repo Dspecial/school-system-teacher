@@ -287,6 +287,16 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				{
+				  path: '/project/maintenance/paymentNode',
+				  component: resolve => require(['@/views/project/maintenance/MaintenancePaymentnode'], resolve),
+				  name: 'MaintenancePaymentnode',
+				  meta: {
+				    title: '维保付款节点',
+				  },
+				  children: null
+				},
+
 
 				/*
 				**审核管理-审核列表

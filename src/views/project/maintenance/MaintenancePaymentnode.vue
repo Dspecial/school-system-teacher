@@ -107,7 +107,7 @@
 			// dialog初始化
 			openEdit(){
 				this.projectId = this.$route.query.id;
-				this.$api.projectPayNode({
+				this.$api.maintenancePayNode({
 					id:this.projectId,
 				}).then(data =>{
 					if(data.code == 0){

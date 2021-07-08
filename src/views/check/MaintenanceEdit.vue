@@ -8,8 +8,8 @@
 			<el-form :model="maintenanceForm" :rules="rules" ref="maintenanceForm" label-width="110px" label-position="top" class="pl-3 pr-3">
 				<el-row :gutter="20">
 					<el-col :span="12">
-						<el-form-item label="编号" prop="extend_number">
-							<el-input v-model="maintenanceForm.extend_number" placeholder="请输入编号" readonly></el-input>
+						<el-form-item label="维保编号" prop="extend_number">
+							<el-input v-model="maintenanceForm.extend_number" placeholder="请输入维保编号" readonly></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -42,19 +42,19 @@
 						<el-form-item prop="money">
 							<template slot="label">
 								<span v-if="can_used_funds == 0">
-									合同金额 <span class="text-danger">(本年度可用预算金额不足，请联系管理员)</span>
+									维保金额 <span class="text-danger">(本年度可用预算金额不足，请联系管理员)</span>
 								</span>
 								<span v-else>
-									合同金额 <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span>
+									维保金额 <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span>
 								</span>
 							</template>
-							<el-input v-model.number="maintenanceForm.money" placeholder="请输入合同金额">
+							<el-input v-model.number="maintenanceForm.money" placeholder="请输入维保金额">
 								<span slot="suffix" class="el-input__icon mr-2">元</span>
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="标题" prop="title">
+						<el-form-item label="维保标题" prop="title">
 							<el-input v-model="maintenanceForm.title" placeholder="请输入标题"></el-input>
 						</el-form-item>
 					</el-col>

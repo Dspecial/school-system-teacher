@@ -46,16 +46,8 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称" width="200"></el-table-column>
-        <el-table-column prop="projecttime" label="项目年份" width="100"></el-table-column>
-        <el-table-column prop="status" label="审核状态" width="100">
-          <template slot-scope="scope">
-            <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>审核中</span>
-            <span v-else-if="scope.row.status == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
-            <span v-else-if="scope.row.status == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
-          </template>
-        </el-table-column>
         <el-table-column prop="extend_number" label="维保编号" width="220"></el-table-column>
+        <el-table-column prop="p_name" label="所属项目" width="200"></el-table-column>
         <el-table-column prop="title" label="维保标题" width="200"></el-table-column>
         <el-table-column prop="content" label="内容" width="150">
           <template slot-scope="scope">
@@ -69,12 +61,21 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column prop="money" label="金额" width="100"></el-table-column>
+        <el-table-column prop="projecttime" label="维保年份" width="100"></el-table-column>
+        <el-table-column prop="endtime" label="维保日期" width="150"></el-table-column>
+        <el-table-column prop="money" label="维保金额" width="100"></el-table-column>
+        <el-table-column prop="job_number" label="维保企业" width="220"></el-table-column>
         <el-table-column prop="contact_name" label="联系人" width="80"></el-table-column>
         <el-table-column prop="contact_phone" label="联系方式" width="120"></el-table-column>
-        <el-table-column prop="job_number" label="维保企业" width="220"></el-table-column>
+        <el-table-column prop="status" label="审核状态" width="100">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>审核中</span>
+            <span v-else-if="scope.row.status == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.status == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="check_text" label="审核流程" width="150"></el-table-column> -->
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column prop="endtime" label="维保时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
             <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>

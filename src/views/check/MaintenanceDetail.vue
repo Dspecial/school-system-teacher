@@ -187,6 +187,34 @@
 					}
 				});
 			},
+
+			// 预览文件
+			preview(path){
+				this.$api.file_preview({
+					path:path,
+				}).then(data=>{
+					if(data.code == 0){
+						let a = document.createElement('a');
+						a.style = 'display: none'; // 创建一个隐藏的a标签
+						a.target = "_blank";
+						a.href = data.data;
+						document.body.appendChild(a);
+						a.click();
+					}else{
+						this.$message.error(data.msg)
+					}
+				})
+			},
+			// 下载文件
+			downloadview(file){
+				let a = document.createElement('a'); 
+				a.style = 'display: none'; // 创建一个隐藏的a标签
+				a.download = file.name;
+				a.href = file.path;
+				document.body.appendChild(a);
+				a.click(); // 触发a标签的click事件
+				document.body.removeChild(a);
+			},
 		}
 	}
 </script>

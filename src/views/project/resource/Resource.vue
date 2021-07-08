@@ -90,36 +90,6 @@
         <el-table-column prop="applytime" label="申请时间"></el-table-column>
         <el-table-column prop="checktime" label="审核时间"></el-table-column>
       </data-tables-server>
-    
-    
-      <!-- <template>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-key="getROW" :expand-row-keys="expands"  @expand-change="toggleRowExpansion">
-          <el-table-column type="expand">
-            <template slot-scope="props">
-              <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="商品名称">
-                  <span>{{ props.row.name }}</span>
-                </el-form-item>
-              </el-form>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="商品 ID"
-            prop="id">
-          </el-table-column>
-          <el-table-column
-            label="商品名称"
-            prop="name">
-          </el-table-column>
-          <el-table-column
-            label="描述"
-            prop="desc">
-          </el-table-column>
-        </el-table>
-      </template> -->
     </el-card>
   </div>
 </template>
@@ -142,7 +112,9 @@
         tableProps: {
           'default-expand-all':false,
           'row-key':function(row){
-            return row.id;
+            if(row.id){
+              return row.id;
+            }
           },
           'expand-row-keys':[],
         },

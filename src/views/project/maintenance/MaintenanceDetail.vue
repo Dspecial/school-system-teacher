@@ -41,6 +41,20 @@
 			</el-col>
 		</el-row>
 
+		<!-- 合同附件 -->
+		<el-card class="mt-3" v-if="basic.files && basic.files.length > 0">
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">合同附件</h4>
+			<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in basic.files" :key="index">
+				<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+					<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+				</div>
+				<div class="opacity-80 ml-5 pl-5">
+					<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+					<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+				</div>
+			</div>
+		</el-card>
+
 		<!-- 审核记录 -->
 		<el-card class="mt-3">
 			<div class="d-flex justify-content-between align-items-center">

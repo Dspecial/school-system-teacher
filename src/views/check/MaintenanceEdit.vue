@@ -238,7 +238,6 @@
 
 			// 添加付款节点
 			addPayinfo(item){
-				console.log(item,"aaaa");
 				item.push({});
 			},
 			// 删除付款节点
@@ -273,6 +272,8 @@
 					function_type:2,
 				}).then(data=>{
 					this.maintenanceForm = data.data.info;
+					this.maintenanceForm.projecttime = data.data.info.projecttime.toString();
+					
 					// 项目id
 					this.project_id = data.data.info.project_id;
 					this.initFunds(this.maintenanceForm.projecttime);
@@ -292,7 +293,7 @@
 			// 关闭编辑
 			closedEdit(){
 				this.$router.go(-1);//返回上一层
-				this.fileList = [];
+				this.filesList = [];
 				this.removeFilesArr = [];
 			},
 

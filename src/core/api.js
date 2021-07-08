@@ -292,6 +292,13 @@ export default {
 	my_project_process_detail: p => post('/api/company.project/process_detail', p),
 	// 我的项目详情
 	my_projectDetail: p => post('/api/company.project/details', p),
+
+	// 我的项目-维保列表
+	my_maintenanceList: p => post('/api/company.maintenance/index', p),	
+	// 我的项目-维保详情
+	my_maintenance_detail: p => post('/api/company.maintenance/details', p),
+
+	
 	/*
 		***我的资源
 	*/

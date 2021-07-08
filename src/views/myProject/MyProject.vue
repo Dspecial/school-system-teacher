@@ -38,8 +38,8 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="apply_number" label="项目编号"></el-table-column>
-        <el-table-column prop="p_name" label="项目名称"></el-table-column>
+        <el-table-column prop="apply_number" label="项目编号" width="250"></el-table-column>
+        <el-table-column prop="p_name" label="项目名称" width="220"></el-table-column>
         <el-table-column prop="real_amount" label="项目金额"></el-table-column>
         <el-table-column prop="projecttime" label="年份"></el-table-column>
         <el-table-column prop="job_number" label="教师名称"></el-table-column>

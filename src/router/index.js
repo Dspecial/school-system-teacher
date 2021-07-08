@@ -691,6 +691,27 @@ const router = new Router({
 				  children: null
 				},
 
+				// 我的项目-维保列表
+				{
+				  path: '/company/maintenance',
+				  component: resolve => require(['@/views/myProject/maintenance/Maintenance'], resolve),
+				  name: 'MyProject-Maintenance',
+				  meta: {
+				    title: '我的项目-维保列表',
+				  },
+				  children: null
+				},
+				// 我的项目-维保列表
+				{
+				  path: '/company/maintenance/detail',
+				  component: resolve => require(['@/views/myProject/maintenance/MaintenanceDetail'], resolve),
+				  name: 'MyProject-MaintenanceDetail',
+				  meta: {
+				    title: '我的项目-维保详情',
+				  },
+				  children: null
+				},
+
 				/*
 				**我的资源
 				 */

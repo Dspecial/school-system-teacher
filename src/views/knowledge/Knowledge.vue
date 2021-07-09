@@ -91,7 +91,6 @@
         total: 0, //总条数
         currentPage: 1, //当前页
         pageSize: 15, //每页显示条数
-				cateOptions:[],
         cateTree:[],
         defaultProps:{
           value:"id",
@@ -113,9 +112,9 @@
       },
       // 获取分类列表
       initCate(){
-        this.$api.knowledgeCate({}).then(data => {
+        this.$api.knowledgeCate({
+        }).then(data => {
           if(data.code == 0){
-            // this.cateOptions = data.data;
             this.cateTree = data.data;
           }
         });

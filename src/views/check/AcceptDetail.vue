@@ -23,7 +23,7 @@
 							{{processInfo.job_number}}
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
+					<el-col :span="24">
 						<el-form-item label="验收列表">
 							<div class="accept_info_detial mb-2" v-for="(info,i) in accept_info_detail" :key="i">
 								<p>{{info.title}}</p>
@@ -127,7 +127,7 @@
 				let a = document.createElement('a'); 
 				a.style = 'display: none'; // 创建一个隐藏的a标签
 				a.download = file.name;
-				a.href = file.path;
+				a.href = this.$globalUrl.baseURL + file.path;
 				document.body.appendChild(a);
 				a.click(); // 触发a标签的click事件
 				document.body.removeChild(a);

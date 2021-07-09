@@ -251,7 +251,7 @@
 								<span class="text-primary cursor-pointer" @click="addPayinfo(projectForm.agree_payinfo)"><i class="el-icon-plus mr-1"></i>付款信息</span>
 							</div>
 							<template v-for="(cell,INDEX) in projectForm.agree_payinfo">
-								<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
+								<el-row type="flex" align="middle" :gutter="20" class="_row mb-3" :key="INDEX">
 									<el-col :span="24">
 										<el-input v-model="cell.title" placeholder="请输入标题"></el-input>
 									</el-col>

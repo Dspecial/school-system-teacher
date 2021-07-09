@@ -272,7 +272,7 @@
 				let a = document.createElement('a'); 
 				a.style = 'display: none'; // 创建一个隐藏的a标签
 				a.download = file.name;
-				a.href = file.path;
+				a.href = this.$globalUrl.baseURL + file.path;
 				document.body.appendChild(a);
 				a.click(); // 触发a标签的click事件
 				document.body.removeChild(a);

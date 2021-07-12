@@ -84,9 +84,9 @@
 		<el-card class="mt-3" v-if="tableData.length != 0">
 			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">合同付款节点</h4>
 			<el-table :data="tableData" :default-expand-all="true" :row-class-name="getRowClass">
-				<!-- <el-table-column type="expand">
+				<!-- <el-table-column type="expand" label="" width="50">
 					<template slot-scope="scope">
-						<div class="d-flex align-items-center justify-content-between" v-for="(file,index) in scope.row.files" :key="index">
+						<div class="d-flex align-items-center justify-content-between files_list" v-for="(file,index) in scope.row.files" :key="index">
 							<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
 								<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 							</div>

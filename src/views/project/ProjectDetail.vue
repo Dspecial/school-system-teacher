@@ -116,7 +116,121 @@
 				<el-table-column prop="createtime" label="创建时间"></el-table-column>
 				<el-table-column prop="checktime" label="审核时间"></el-table-column>
 			</el-table>
-			
+		</el-card>
+
+		<!-- 复审记录 -->
+		<el-card class="mt-3" v-if="recheckListAll.length > 0">
+			<div class="d-flex justify-content-between align-items-center">
+				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">复审记录</h4>
+				<div :class="['toggleMenu cursor-pointer text-primary',showMoreRecheck ? 'menu_arrow' : '']" @click="changeFoldStateRecheck"  v-if="recheckListAll.length > 5">
+					<span>{{showMoreRecheck?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
+				</div>
+			</div>
+			<el-table :data="recheckList" :default-expand-all="false" :row-class-name="getRowClassRecheck">
+				<el-table-column type="expand" label="" width="50">
+					<template slot-scope="scope">
+						<el-table :data="scope.row.recheck_detail">
+							<el-table-column prop="e_name" label="审核人"></el-table-column>
+							<el-table-column prop="is_pass" label="是否通过">
+								<template slot-scope="scope">
+									<span v-if="scope.row.is_pass == 1"><i class="dot bg-success mr-1"></i>通过</span>
+									<span v-else-if="scope.row.is_pass == 2"><i class="dot bg-danger mr-1"></i>不通过</span>
+								</template>
+							</el-table-column>
+							<el-table-column prop="content" label="审核内容"></el-table-column>
+						</el-table>
+					</template>
+				</el-table-column>
+				<el-table-column prop="recheck_number" label="复审编号"></el-table-column>
+				<el-table-column prop="check_state" label="复审状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.status == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.status == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="checkname" label="审核人"></el-table-column>
+				<el-table-column prop="content" label="复审内容"></el-table-column>
+				<el-table-column prop="createtime" label="创建时间"></el-table-column>
+				<el-table-column prop="recheck_date" label="复审时间"></el-table-column>
+			</el-table>
+		</el-card>
+
+		<!-- 进度上传记录 -->
+		<el-card class="mt-3" v-if="processListAll.length > 0">
+			<div class="d-flex justify-content-between align-items-center">
+				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">进度上传记录</h4>
+				<div :class="['toggleMenu cursor-pointer text-primary',showMoreProcess ? 'menu_arrow' : '']" @click="changeFoldStateProcess"  v-if="processListAll.length > 5">
+					<span>{{showMoreProcess?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
+				</div>
+			</div>
+			<el-table :data="processList" :default-expand-all="false" :row-class-name="getRowClassProcess">
+				<el-table-column type="expand" label="" width="50">
+					<template slot-scope="scope">
+						<div class="d-flex align-items-center justify-content-between files_list" v-for="(file,index) in scope.row.files" :key="index">
+							<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+								<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+							</div>
+							<div class="opacity-80">
+								<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+								<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+							</div>
+						</div>
+					</template>
+				</el-table-column>		
+				<el-table-column prop="process_number" label="进度编号"></el-table-column>
+				<el-table-column prop="title" label="进度标题"></el-table-column>
+				<el-table-column prop="status" label="审核状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.status == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.status == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="content" label="进度内容"></el-table-column>
+				<el-table-column prop="remark" label="进度备注"></el-table-column>
+			</el-table>
+		</el-card>
+
+		<!-- 验收记录 -->
+		<el-card class="mt-3" v-if="acceptForm">
+			<div class="d-flex justify-content-between align-items-center">
+				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">验收记录</h4>
+				<div :class="['toggleMenu cursor-pointer text-primary',showMoreAccept ? 'menu_arrow' : '']" @click="changeFoldStateAccept"  v-if="accept_info_all.length > 5">
+					<span>{{showMoreAccept?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
+				</div>
+			</div>
+			<el-form :model="acceptForm" class="form_json" label-position="left">
+				<el-row :gutter="20">
+					<el-col :span="12">
+						<el-form-item label="验收编号">
+							{{acceptForm.accept_number}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="创建时间">
+							{{acceptForm.createtime}}
+						</el-form-item>
+					</el-col>
+
+					<el-col :span="24">
+						<el-form-item label="验收列表" class="file-form-item">
+							<div class="accept_info_detial mb-2" v-for="(info,i) in accept_info" :key="i">
+								<p>{{info.title}}</p>
+								<div class="d-flex align-items-center justify-content-between ml-3 opacity-80" v-for="(file,index) in info.files" :key="index">
+									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+									</div>
+									<div class="opacity-80 ml-3">
+										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+									</div>
+								</div>
+							</div>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
 		</el-card>
 
 		<!-- 合同付款节点 -->
@@ -219,6 +333,23 @@
 				checkList:[],
 				checkListAll:[],
 				showMore: true,
+
+				// 复审记录
+				recheckList:[],
+				recheckListAll:[],
+				showMoreRecheck: true,
+
+				// 进度上传记录
+				processList:[],
+				processListAll:[],
+				showMoreProcess: true,
+
+				// 验收记录
+				acceptForm:{},
+				accept_info:[],
+				accept_info_all:[],
+				showMoreAccept:true,
+
 				// 合同付款节点
 				tableProps: {
           
@@ -262,6 +393,35 @@
 						}else{
 							this.checkList = this.checkListAll.slice(0,5);
 						}
+
+						// 复审记录
+						this.recheckListAll = data.data.recheck_list;
+						// 默认情况下复审记录
+						if(data.data.recheck_list > 5){
+							this.recheckList = this.recheckListAll;
+						}else{
+							this.recheckList = this.recheckListAll.slice(0,5);
+						}
+
+						// 进度上传记录
+						this.processListAll = data.data.process_list;
+						// 默认情况下上传记录
+						if(data.data.process_list > 5){
+							this.processList = this.processListAll;
+						}else{
+							this.processList = this.processListAll.slice(0,5);
+						}
+
+						// 验收记录
+						this.acceptForm = data.data.project_accept_info;
+						this.accept_info_all = data.data.project_accept_info.accept_info;
+						// 默认情况下验收记录
+						if(data.data.project_accept_info.accept_info > 5){
+							this.accept_info = this.accept_info_all;
+						}else{
+							this.accept_info = this.accept_info_all.slice(0,5);
+						}
+
 						// 合同付款节点
 						this.tableData = data.data.pay_info;
 					}
@@ -277,10 +437,56 @@
 					this.showMore = true;
 				}
 			},
+
+			// 复审审核列表展开收起
+			changeFoldStateRecheck() {
+				if(this.showMoreRecheck){ // 展开
+					this.recheckList = this.recheckListAll;
+					this.showMoreRecheck = false;
+				}else{
+					this.recheckList = this.recheckListAll.slice(0,5);
+					this.showMoreRecheck = true;
+				}
+			},
+
+			// 进度上传记录列表展开收起
+			changeFoldStateProcess() {
+				if(this.showMoreProcess){ // 展开
+					this.processList = this.processListAll;
+					this.showMoreProcess = false;
+				}else{
+					this.processList = this.processListAll.slice(0,5);
+					this.showMoreProcess = true;
+				}
+			},
+
+			// 验收列表展示收起
+			changeFoldStateAccept() {
+				if(this.showMoreAccept){ // 展开
+					this.accept_info = this.accept_info_all;
+					this.showMoreAccept = false;
+				}else{
+					this.accept_info = this.accept_info_all.slice(0,5);
+					this.showMoreAccept = true;
+				}
+			},
+
 			// 自增序列
       indexMethod(index) { 
         return ++index;
       },
+			// 判断表格是否有子项，无子项不显示展开按钮
+			getRowClassRecheck (row) {
+				if (!row.row.recheck_detail) {
+					return 'row-expand-cover'
+				}
+			},
+			// 判断表格是否有子项，无子项不显示展开按钮
+			getRowClassProcess (row) {
+				if (!row.row.files) {
+					return 'row-expand-cover'
+				}
+			},
 			// 判断表格是否有子项，无子项不显示展开按钮
 			getRowClass (row) {
 				if (row.row.is_pay == 1) {

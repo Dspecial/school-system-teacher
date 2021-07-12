@@ -17,7 +17,7 @@
                 clearable
                 class="mr-3">
               </el-input>
-              <el-select v-model="filters[1].value" clearable placeholder="请选择审核状态" class="mr-3 w-100" clearable>
+              <el-select v-model="filters[1].value" placeholder="请选择审核状态" class="mr-3 w-100" clearable>
                 <el-option label="待审核" value="1"></el-option>
                 <el-option label="审核成功" value="2"></el-option>
                 <el-option label="审核失败" value="3"></el-option>

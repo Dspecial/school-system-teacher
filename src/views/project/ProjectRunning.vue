@@ -36,9 +36,18 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
+
 					<el-col :span="12">
-						<el-form-item label="项目金额" prop="real_amount">
-							<el-input v-model="projectForm.real_amount" placeholder="请输入项目金额">
+						<el-form-item prop="real_amount">
+							<template slot="label">
+								<span v-if="can_used_funds == 0">
+									项目金额 <span class="text-danger">(本年度可用项目金额不足，请联系管理员)</span>
+								</span>
+								<span v-else>
+									项目金额 <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span>
+								</span>
+							</template>
+							<el-input v-model.number="projectForm.real_amount" placeholder="请输入项目金额">
 								<span slot="suffix" class="el-input__icon mr-2">元</span>
 							</el-input>
 						</el-form-item>
@@ -373,6 +382,22 @@
 				item.splice(index, 1);
 			},
 
+			// 编辑的时候获取表单
+			initProjectForms(id,year){
+				this.$api.getProjectForms({
+					p_cate_id:id,
+					years:year,
+					id:this.projectId,
+					type:1,
+				}).then(data =>{
+					if(data.code == 0){
+						this.can_used_funds = data.data.can_used_funds;
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
+			},
+
 			// dialog初始化
 			openEdit(){
 				this.initCompany();
@@ -385,11 +410,13 @@
 						this.is_commit = data.data.is_commit; 
 						this.projectForm.apply_number = data.data.apply_number;
 						this.projectForm.p_name = data.data.p_name;
-						this.projectForm.projecttime = data.data.projecttime;
+						this.projectForm.projecttime = data.data.projecttime.toString();
 						this.projectForm.company_id = data.data.company_id;
 						this.projectForm.budget_amount = data.data.budget_amount;
 						this.projectForm.real_amount = data.data.real_amount;
-						
+
+						this.initProjectForms(data.data.p_cate_id,this.projectForm.projecttime);
+
 						if(data.data.agree_payinfo.length == 0){
 							this.projectForm.agree_payinfo = [{}]
 						}else{

@@ -33,7 +33,7 @@
 										</el-select>
 									</el-col>
 									<el-col :span="24">
-										<el-input type="textarea" v-model="cell.content" placeholder="请输入评审意见" :rows="1"></el-input>
+										<el-input v-model="cell.content" placeholder="请输入评审意见"></el-input>
 									</el-col>
 									<el-col :span="2" class="text-right">
 										<span class="text-danger cursor-pointer" @click="delField(recheckForm.sendjson,INDEX)">删除</span>

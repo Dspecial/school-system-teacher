@@ -36,8 +36,17 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
+
 					<el-col :span="12">
-						<el-form-item label="项目金额" prop="real_amount">
+						<el-form-item prop="money">
+							<template slot="label">
+								<span v-if="can_used_funds == 0">
+									项目金额 <span class="text-danger">(本年度可用预算金额不足，请联系管理员)</span>
+								</span>
+								<span v-else>
+									项目金额 <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span>
+								</span>
+							</template>
 							<el-input v-model="projectForm.real_amount" placeholder="请输入项目金额">
 								<span slot="suffix" class="el-input__icon mr-2">元</span>
 							</el-input>
@@ -59,7 +68,7 @@
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 2">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false" 
 							:rules="[{ type: 'number', message: formItem.title +'必须为数字值'}]">
-								<el-input v-model.number="formItem.value" :placeholder="formItem.placeholder">
+								<el-input v-model="formItem.value" :placeholder="formItem.placeholder">
 									<span slot="suffix" class="el-input__icon mr-2">元</span>
 								</el-input>
 							</el-form-item>
@@ -289,7 +298,8 @@
 		name: 'ForceEdit',
 		data () {
 			return {
-				projectId:'',
+				ID:'',
+				project_id:"",
 				is_commit:"",// 判断有没有确定按钮，当is_commit为8的时候   没有确定按钮
 				title:"项目实施编辑",
 				accept_file: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
@@ -313,14 +323,7 @@
         rules: {
 					real_amount: [
           	{ required: true, message: '请输入项目金额', trigger: 'blur' },
-          	{ validator:(rule, value, callback) => {
-								if (!Number(value)) {
-									callback(new Error('项目金额必须是数值'));
-								}else{
-									callback();
-								}
-            	},trigger: 'blur'
-          	},
+          	{ validator:this.commonJs.checkNumber,trigger: 'blur'},
           ],
         },
 				startOption:{
@@ -373,23 +376,42 @@
 				item.splice(index, 1);
 			},
 
+			// 根据项目获取信息
+			initFunds(years){
+				this.$api.project_funds({
+					id:this.project_id,
+					years:years,
+					type:1,
+				}).then(data=>{
+					if(data.code == 0){
+						// 可用预算金额
+						this.can_used_funds = data.data.can_used_funds;
+					}
+				})
+			},
+
 			// dialog初始化
 			openEdit(){
 				this.initCompany();
-				this.projectId = this.$route.query.id;
+				this.ID = this.$route.query.id;
 				this.$api.forceList_edit({
-					id:this.projectId,
+					id:this.ID,
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
 						// this.is_commit = data.data.is_commit; 
 						this.projectForm.apply_number = data.data.info.apply_number;
 						this.projectForm.p_name = data.data.info.p_name;
-						this.projectForm.projecttime = data.data.info.projecttime;
+						this.projectForm.projecttime = data.data.info.projecttime.toString();
 						this.projectForm.company_id = data.data.info.company_id;
 						this.projectForm.budget_amount = data.data.info.budget_amount;
 						this.projectForm.real_amount = data.data.info.real_amount;
-						
+
+
+						// 项目id
+						this.project_id = data.data.info.id;
+						this.initFunds(this.projectForm.projecttime);
+
 						if(data.data.pay_info.length == 0){
 							this.projectForm.agree_payinfo = [{}]
 						}else{
@@ -460,7 +482,7 @@
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.forceList_edit({
-							id:this.projectId,
+							id:this.ID,
 							function_type:2,
 							real_amount:this.projectForm.real_amount,
 							company_id:this.projectForm.company_id,

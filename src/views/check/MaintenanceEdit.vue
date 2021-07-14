@@ -48,7 +48,7 @@
 									维保金额 <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span>
 								</span>
 							</template>
-							<el-input v-model.number="maintenanceForm.money" placeholder="请输入维保金额">
+							<el-input v-model="maintenanceForm.money" placeholder="请输入维保金额">
 								<span slot="suffix" class="el-input__icon mr-2">元</span>
 							</el-input>
 						</el-form-item>
@@ -178,15 +178,8 @@
             { required: true, message: '请选择申请年份', trigger: 'change' }
           ],
 					money: [
-          	{ required: true, message: '请填写合同金额', trigger: 'blur' },
-          	{ validator:(rule, value, callback) => {
-								if (!Number(value)) {
-									callback(new Error('项目金额必须是数值'));
-								}else{
-									callback();
-								}
-            	},trigger: 'blur'
-          	},
+          	{ required: true, message: '请填写维保金额', trigger: 'blur' },
+          	{ validator:this.commonJs.checkNumber,trigger: 'blur'},
           ],
 					title: [
             { required: true, message: '请填写标题', trigger: 'blur' }
@@ -250,6 +243,7 @@
 				this.$api.project_funds({
 					id:this.project_id,
 					years:years,
+					type:2,
 				}).then(data=>{
 					if(data.code == 0){
 						// 可用预算金额

@@ -36,7 +36,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="预算金额" prop="budget_amount">
-							<el-input v-model.number="projectForm.budget_amount" placeholder="请输入预算金额">
+							<el-input v-model="projectForm.budget_amount" placeholder="请输入预算金额">
 								<span slot="suffix" class="el-input__icon mr-2">元</span>
 							</el-input>
 						</el-form-item>
@@ -54,7 +54,7 @@
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 2">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false" 
 							:rules="[{ type: 'number', message: formItem.title +'必须为数字值'}]">
-								<el-input v-model.number="formItem.value" :placeholder="formItem.placeholder">
+								<el-input v-model="formItem.value" :placeholder="formItem.placeholder">
 									<span slot="suffix" class="el-input__icon mr-2">元</span>
 								</el-input>
 							</el-form-item>

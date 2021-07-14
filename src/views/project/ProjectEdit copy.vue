@@ -56,7 +56,7 @@
 				<el-row :gutter="20">
 					<el-col :span="12">
 						<el-form-item label="合同金额" prop="budget_amount">
-							<el-input v-model.number="projectForm.budget_amount" placeholder="请输入合同金额，必须为数值">
+							<el-input v-model="projectForm.budget_amount" placeholder="请输入合同金额，必须为数值">
 								<span slot="suffix" class="el-input__icon mr-2">元</span>
 							</el-input>
 						</el-form-item>
@@ -97,7 +97,7 @@
 										<el-input v-model="cell.title" placeholder="请输入标题"></el-input>
 									</el-col>
 									<el-col :span="24">
-										<el-input v-model.number="cell.money" placeholder="请输入合同金额，必须为数值"></el-input>
+										<el-input v-model="cell.money" placeholder="请输入合同金额，必须为数值"></el-input>
 									</el-col>
 									<el-col :span="24">
 										<el-date-picker type="date" clearable placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
@@ -199,14 +199,7 @@
           ],
 					budget_amount: [
           	{ required: true, message: '请输入合同金额', trigger: 'blur' },
-          	{ validator:(rule, value, callback) => {
-								if (!Number(value)) {
-									callback(new Error('合同金额必须是数值'));
-								}else{
-									callback();
-								}
-            	},trigger: 'blur'
-          	},
+          	{ validator:this.commonJs.checkNumber,trigger: 'blur'},
           ],
 					construction_b_o: [
             { required: true, message: '请输入建设背景与目标', trigger: 'blur' }

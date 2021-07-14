@@ -60,7 +60,7 @@
 									预算金额 <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span>
 								</span>
 							</template>
-							<el-input v-model.number="projectForm.budget_amount" placeholder="请输入预算金额">
+							<el-input v-model="projectForm.budget_amount" placeholder="请输入预算金额">
 								<span slot="suffix" class="el-input__icon mr-2">元</span>
 							</el-input>
 						</el-form-item>
@@ -78,7 +78,7 @@
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 2">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false" 
 							:rules="[{ type: 'number', message: formItem.title +'必须为数字值'}]">
-								<el-input v-model.number="formItem.value" :placeholder="formItem.placeholder">
+								<el-input v-model="formItem.value" :placeholder="formItem.placeholder">
 									<span slot="suffix" class="el-input__icon mr-2">元</span>
 								</el-input>
 							</el-form-item>
@@ -319,14 +319,7 @@
           ],
 					budget_amount: [
           	{ required: true, message: '请输入预算金额', trigger: 'blur' },
-          	{ validator:(rule, value, callback) => {
-								if (!Number(value)) {
-									callback(new Error('预算金额必须是数值'));
-								}else{
-									callback();
-								}
-            	},trigger: 'blur'
-          	},
+          	{ validator:this.commonJs.checkNumber,trigger: 'blur'},
           ],
         }
 			}

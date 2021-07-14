@@ -129,7 +129,22 @@ let commonJs = {
     }else{
       callback()
     }
-  }
+  },
+
+  // 验证数字，保留两位
+  checkNumber(rule, value, callback){
+    // console.log(/\D/.test(value),'99999');
+    var reg = /[^0-9.]/g; // 数字
+    if (reg.test(value)) {
+      callback(new Error('金额必须是数值'));
+    }else if(value.indexOf(".") != -1 && value.split('.').length > 2){
+      callback(new Error('请输入正确格式的金额')) //防止输入多个小数点
+     }else if(value.indexOf(".") != -1 && value.split('.')[1].length > 2){
+       callback(new Error('请输入正确的小数位数，保留两位小数')) //小数点后两位
+    }else{
+      callback();
+    }
+  },
 
 };
 export default commonJs;

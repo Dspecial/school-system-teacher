@@ -208,7 +208,7 @@
               fontSize: 14,
             },
             subtextStyle:{
-            	color: '#005DDA',
+            	color: '#032F99',
               fontWeight: '500', //字体粗细
               fontSize: 20,
             },

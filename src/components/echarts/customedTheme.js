@@ -25,7 +25,7 @@ import echarts from 'echarts';
     }
     echarts.registerTheme('customedTheme', {
         "color": [
-            "#005dda",
+            "#032F99",
             "#52c41b",
             "#7367f0",
             "#0396FF",
@@ -135,7 +135,7 @@ import echarts from 'echarts';
             "symbol": "emptyCircle",
             "smooth": false,
             "color": [
-                "#005dda",
+                "#032F99",
                 "#52c41b",
                 "#7367f0",
                 "#626c91",

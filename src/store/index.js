@@ -1,10 +1,10 @@
 /*
-* @Author: dxx
-* @Email: dxxtalking@163.com
-* @Date:   2020-12-24 16:10:05
-* @Last Modified by:   dxx
-* @Last Modified time: 2020-12-24 16:10:30
-*/
+ * @Author: dxx
+ * @Email: dxxtalking@163.com
+ * @Date: 2020-12-24 09:09:03
+ * @LastEditors: dxx
+ * @LastEditTime: 2021-07-21 13:29:59
+ */
 //import $ from 'jquery'; //局部引入jquery
 import Vue from 'vue';
 import Vuex from 'vuex'; // 对vue应用中多个组件的共享状态进行集中式的管理（读/写）

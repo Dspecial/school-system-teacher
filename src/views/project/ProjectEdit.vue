@@ -196,10 +196,10 @@
 								</div>
 								<template v-for="(cell,INDEX) in formItem.value">
 									<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
-										<el-col :span="24" :key="x" v-for="(formCol,x) in formItem.extra_val">
-											<el-input v-model="cell[x]" :placeholder="'请输入'+ formCol.title"></el-input>
+										<el-col :span="23" class="d-flex align-items-center">
+											<el-input :key="x" v-for="(formCol,x) in formItem.extra_val" class="mr-3" v-model="cell[x]" :placeholder="'请输入'+ formCol.title"></el-input>
 										</el-col>
-										<el-col :span="3" class="text-right">
+										<el-col :span="1" class="text-right">
 											<span class="text-danger cursor-pointer" @click="delField(formItem.value,INDEX)">删除</span>
 										</el-col>
 									</el-row>
@@ -220,7 +220,8 @@
 									:on-success="(res, file, fileList)=>handleSuccess(res, file, fileList,formItem)"
 									:on-remove="(file, fileList)=>handleRemove(file, fileList,formItem)"
 									:before-upload="(file)=>beforeUpload(file,formItem)"
-									:on-exceed="onExceed">
+									:on-exceed="onExceed"
+									:class="formItem.value.length>0?'limit_upload':''">
 									<i class="el-icon-plus"></i>
 								</el-upload>
 							</el-form-item>

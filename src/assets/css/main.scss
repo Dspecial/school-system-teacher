@@ -1,10 +1,11 @@
 /*
-* @Author: dxx
-* @Email: dxxtalking@163.com
-* @Date:   2020-12-24 11:19:21
-* @Last Modified by:   dxx
-* @Last Modified time: 2021-01-11 14:45:52
-*/
+ * @Author: dxx
+ * @Email: dxxtalking@163.com
+ * @Date: 2020-12-24 09:09:03
+ * @LastEditors: dxx
+ * @LastEditTime: 2021-07-21 13:27:35
+ */
+ 
 @charset "UTF-8";
 
 /* 整体配色 */
@@ -198,6 +199,21 @@
 .el-step__title.is-success,
 .el-step__description.is-success{
   color: inherit;
+}
+
+/*e-icon-picker*/
+.el-icon-popper{
+  z-index: 9999!important;
+}
+.el-cascader-menu__wrap{
+  height: auto;
+}
+
+/*el-upload*/
+.limit_upload{
+  .el-upload{
+    display: none;
+  }
 }
 
 /*---------- 页面开始 ----------*/

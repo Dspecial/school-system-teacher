@@ -1,10 +1,10 @@
 /*
-* @Author: dxx
-* @Email: dxxtalking@163.com
-* @Date:   2021-03-16 13:53:24
-* @Last Modified by:   dxx
-* @Last Modified time: 2021-03-16 13:54:06
-*/
+ * @Author: dxx
+ * @Email: dxxtalking@163.com
+ * @Date: 2020-12-24 09:09:03
+ * @LastEditors: dxx
+ * @LastEditTime: 2021-07-21 13:29:37
+ */
 import {post,postJson,postUpload} from '@/core/axios.js';
 
 export default {

@@ -1,10 +1,10 @@
 /*
-* @Author: dxx
-* @Email: dxxtalking@163.com
-* @Date:   2020-12-24 11:19:21
-* @Last Modified by:   dxx
-* @Last Modified time: 2021-01-28 14:38:13
-*/
+ * @Author: dxx
+ * @Email: dxxtalking@163.com
+ * @Date: 2020-12-24 09:09:03
+ * @LastEditors: dxx
+ * @LastEditTime: 2021-07-21 13:27:35
+ */
 export const fixedData = {
 	menu:[
 		{

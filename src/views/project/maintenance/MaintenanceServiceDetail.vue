@@ -62,9 +62,9 @@
                 <emoji-panel id="emoji_panel" v-show="emojiPanelVisible" v-on:select-emoticon="selectEmoticon"></emoji-panel>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="d-flex align-items-center">
-                    <a class="cursor-pointer mr-2" title="表情" @click="displayEmojiPanel" v-clickOutside="handleCloseEmojiPanel">
+                    <!-- <a class="cursor-pointer mr-2" title="表情" @click="displayEmojiPanel" v-clickOutside="handleCloseEmojiPanel">
                       <img src="@/assets/images/emoji.png" alt="">
-                    </a>
+                    </a> -->
                     <el-upload
                       class="upload"
                       ref="fileUpload"

@@ -59,7 +59,7 @@
               <el-table-column prop="job_number" label="供应商"></el-table-column>
               <el-table-column fixed="right" label="操作" width="150" align="center">
                 <template slot-scope="scope">
-                  <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+                  <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,props.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -189,7 +189,9 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
-            this.tableProps['expand-row-keys'].push(data.data.data[0].id);
+            if(data.data.data.length > 0){
+              this.tableProps['expand-row-keys'].push(data.data.data[0].id);
+            }
           }else{
             this.$message.error(data.msg);
           }
@@ -204,11 +206,11 @@
       },
 
        // 操作们
-      fun(index,row,sign){
+      fun(index,row,prow,sign){
         if(sign == '4'){ // 详情
           this.detailResource(index,row);
         }else if(sign == '5.11'){ // 工单列表
-          this.goServiceList(index,row);
+          this.goServiceList(index,row,prow);
         }
       },
 
@@ -223,12 +225,12 @@
       },
 
       // 工单列表
-      goServiceList(index,row){
+      goServiceList(index,row,prow){
         this.$router.push({
           path:"/project/resource/serviceList",
           query: {
             id: row.id,
-            project_id:row.project_id,
+            project_id:prow.project_id,
           }
         })
       },

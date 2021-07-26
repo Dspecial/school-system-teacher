@@ -76,7 +76,12 @@
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="230" align="center">
           <template slot-scope="scope">
-            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+            <template v-if="scope.row.status == 2">
+              <span v-for="(action,k) in actions2" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
+            <template v-else>
+              <span v-for="(action,k) in actions1" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -130,9 +135,8 @@
           title:"",
           id:","
         },
-        actions:[
-
-        ],
+        actions1:[],
+        actions2:[],
       }
     },
     computed: {
@@ -163,6 +167,20 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
+            var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array;
+            this.$store.getters.getmoreAction.map((item,index)=>{
+              if (item.sign == '4'){ // 详情
+                actions_1.push(item);
+              }else if (item.sign == '5.11'){ // 工单列表
+                actions_2.push(item);
+              }else if (item.sign == '5.10'){ // 付款节点
+                actions_3.push(item);
+              }
+            })
+
+            // status = 1，3 待审核和审核失败的  就不显示工单列表和付款详情
+            this.actions1 = [...actions_1];
+            this.actions2 = [...actions_1,...actions_2,...actions_3];
           }else{
             this.$message.error(data.msg);
           }

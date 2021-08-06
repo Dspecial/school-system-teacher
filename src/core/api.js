@@ -3,9 +3,9 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2021-07-21 13:29:37
+ * @LastEditTime: 2021-08-06 17:32:50
  */
-import {post,postJson,postUpload} from '@/core/axios.js';
+import {post,post2,postJson,postUpload} from '@/core/axios.js';
 
 export default {
 	/*
@@ -14,7 +14,7 @@ export default {
 	// 登录
 	login: p => post('/api/user.login/login', p),
 	// 获取登录申请着的身份
-	loginConfig: p => post('/api/ajax/get_sys_config', p),
+	loginConfig: p => post2('/api/ajax/get_sys_config', p),
 	// 获取状态，判断是否单点登录
 	isLogin_state: p => post('/api/ajax/get_type_no_state', p),
 
@@ -27,7 +27,7 @@ export default {
 	menuButton: p => post('/api/menu/get_menu_buttom', p),
 	// 操作权限
 	menuState: p => post('/api/menu/check_menu_state', p),
-
+	
 	/*
 		***头部
 	 */

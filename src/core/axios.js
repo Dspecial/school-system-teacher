@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2021-07-21 13:27:35
+ * @LastEditTime: 2021-08-06 14:55:12
  */
 import Vue from 'vue';
 import axios from 'axios';
@@ -204,6 +204,20 @@ export function post (url, params) {  // eslint-disable-line no-unused-vars
 };
 
 
+//返回一个Promise(发送post请求,不带user_token)
+export function post2 (url, params) {  // eslint-disable-line no-unused-vars
+  let opt = setParams(url, params);
+  return new Promise((resolve, reject) => {
+    axios.post(opt.url, qs.stringify(opt.params))
+    .then(res => { 
+      resolve(res.data); 
+    })
+    .catch(err => { 
+      reject(err.data,'hhhhh') 
+    });
+  });
+};
+
 // postJson 请求
 export function postJson (url, params) { 
   let opt = setParams(url, params);
@@ -257,6 +271,7 @@ export function postUpload (url, params) {
 
 export default {
   post,
+  post2,
   get,
   postJson,
   postUpload

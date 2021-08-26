@@ -211,7 +211,7 @@
 						// 审核记录
 						this.checkListAll = data.data.check_list;
 						// 默认情况下审核记录
-						if(data.data.check_list > 5){
+						if(data.data.check_list.length < 5){
 							this.checkList = this.checkListAll;
 						}else{
 							this.checkList = this.checkListAll.slice(0,5);

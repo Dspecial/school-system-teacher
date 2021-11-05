@@ -1,11 +1,11 @@
 <template>
   <el-menu router :default-active="currentMenu" :unique-opened="true" class="el-menu-vertical-demo" 
   text-color="rgba(255,255,255,0.8)" active-text-color="rgba(255,255,255,1)" :default-openeds="defaultOpeneds"
-  @open="handleOpen" @close="handleClose" :collapse="isCollapse"  @select="handleselect">
+  @open="handleOpen" @close="handleClose" @select="handleselect">
     <!-- logo -->
     <div class="logo d-flex align-items-center justify-content-center">
     	<i class="icon-cube3 fs_24"></i>
-    	<span class="fs_20 ml-2" v-if="!isCollapse">{{systemName}}</span>
+    	<span class="fs_20 ml-2">{{systemName}}</span>
     </div>
     <!-- 为了做递归，所以把Menu抽出来做成一个组件 -->
     <Menu :menuDatas="menuDatas"></Menu>

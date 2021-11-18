@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2021-08-06 17:32:50
+ * @LastEditTime: 2021-11-17 18:23:33
  */
 import {post,post2,postJson,postUpload} from '@/core/axios.js';
 
@@ -223,6 +223,12 @@ export default {
 	// 资源审核
 	resourceCheckList_check: p => post('/api/checks.resourceapply/check_resource', p),	
 
+
+	// 厂商密码更改申请列表
+	companyapplyList: p => post('/api/company.companyapply/index', p),
+	// 资源审核
+	companyapplyList_check: p => post('/api/company.companyapply/check', p),	
+	
 	/*
 		***信息管理
 	 */
@@ -329,4 +335,20 @@ export default {
 	serviceList: p => post('/api/service.service/index', p),
 	// 工单详情
 	serviceDetail: p => post('/api/service.service/details', p),
+
+	/*
+		***厂商管理
+	 */
+	// 厂商列表
+	companyList: p => post('/api/company.companymanager/index', p),
+	// 编辑厂商
+	companyEdit: p => post('/api/company.companymanager/edit', p),
+	// 新增厂商
+	companyAdd: p => post('/api/company.companymanager/add', p),
+	// 删除厂商
+	companyDel: p => post('/api/company.companymanager/del', p),
+	// 申请修改密码
+	companyChangpwd: p => post('/api/company.companymanager/changpwd', p),
+	// 申请修改密码列表
+	companyChangpwdList: p => post('/api/company.companymanager/change_list', p),
 }

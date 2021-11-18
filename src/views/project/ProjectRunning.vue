@@ -41,10 +41,12 @@
 						<el-form-item prop="real_amount">
 							<template slot="label">
 								<span v-if="can_used_funds == 0">
-									项目金额 <span class="text-danger">(本年度可用项目金额不足，请联系管理员)</span>
+									项目金额 
+									<!-- <span class="text-danger">(本年度可用项目金额不足，请联系管理员)</span> -->
 								</span>
 								<span v-else>
-									项目金额 <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span>
+									项目金额 
+									<!-- <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span> -->
 								</span>
 							</template>
 							<el-input v-model="projectForm.real_amount" placeholder="请输入项目金额">

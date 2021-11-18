@@ -54,10 +54,12 @@
 						<el-form-item prop="budget_amount">
 							<template slot="label">
 								<span v-if="can_used_funds == 0">
-									预算金额 <span class="text-danger">(本年度可用预算金额不足，请联系管理员)</span>
+									预算金额 
+									<!-- <span class="text-danger">(本年度可用预算金额不足，请联系管理员)</span> -->
 								</span>
 								<span v-else>
-									预算金额 <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span>
+									预算金额 
+									<!-- <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span> -->
 								</span>
 							</template>
 							<el-input v-model="projectForm.budget_amount" placeholder="请输入预算金额">

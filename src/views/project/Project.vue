@@ -48,7 +48,7 @@
         <el-table-column prop="apply_user_depart" label="所属部门" width="150"></el-table-column>
         <el-table-column prop="check_process.text" label="项目状态" width="180"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="350" align="center">
+        <el-table-column fixed="right" label="操作" width="380" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.is_commit == 0">
               <span v-for="(action,index) in actions1_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>

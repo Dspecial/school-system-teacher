@@ -563,6 +563,30 @@ const router = new Router({
 				},
 
 				/*
+				**审核管理-厂商密码更改申请
+				 */
+				// 厂商密码更改申请列表
+				{
+				  path: '/check/companyapplyList',
+				  component: resolve => require(['@/views/check/company/CompanyapplyList'], resolve),
+				  name: 'check-CompanyapplyList',
+				  meta: {
+				    title: '审核-厂商密码更改申请列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/check/companyapplyList/check',
+				  component: resolve => require(['@/views/check/company/CompanyapplyListCheck'], resolve),
+				  name: 'resource-CompanyapplyListCheck',
+				  meta: {
+				    title: '审核-厂商密码更改申请',
+				  },
+				  children: null
+				},
+
+
+				/*
 				**信息管理
 				 */
 				// 个人信息
@@ -785,6 +809,20 @@ const router = new Router({
 				  name: 'ServiceDetail',
 				  meta: {
 				    title: '工单详情',
+				  },
+				  children: null
+				},
+
+				/*
+				**厂商管理
+				 */
+				// 厂商列表
+				{
+				  path: '/company/company',
+				  component: resolve => require(['@/views/manufacturer/ManufacturerUser'], resolve),
+				  name: 'Company',
+				  meta: {
+				    title: '厂商列表',
 				  },
 				  children: null
 				},

@@ -95,6 +95,45 @@
 				</el-row>
 			</el-form>
 
+			<!-- 厂商信息 -->
+			<div>
+				<h6 class="fs_18 font-weight-normal mb-3">厂商信息</h6>
+				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+					<el-row :gutter="20">
+						<el-col :span="8">
+							<el-form-item label="企业名称">
+								{{company_info.job_number}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="负责人电话">
+								{{company_info.phone}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="联系地址">
+								{{company_info.address}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="企业开户行">
+								{{company_info.bank_info}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="企业账户">
+								{{company_info.account}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="项目负责人">
+								{{company_info.name}}
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</el-form>
+			</div>
+
 			<!-- 审核信息 -->
 			<div v-if="check_info.check_state != 1">
 				<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
@@ -134,6 +173,8 @@
 				dataJson:{},
 				payInfo:[],
 				check_info:{},
+				// 厂商信息
+				company_info:{},
 			}
 		},
 		components: {
@@ -158,6 +199,8 @@
 						this.payInfo = data.data.pay_info;
 						// 审核信息
 						this.check_info =  data.data.check_info;
+						// 厂商信息
+						this.company_info = data.data.company_info;
 					}else{
 						this.$message.error(data.msg);
 					}

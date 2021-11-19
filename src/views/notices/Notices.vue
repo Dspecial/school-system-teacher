@@ -170,11 +170,27 @@
         }).catch(() => {
         });
 			},
+
       // 跳转到详细的操作页面
       goAction(index,row){
-        this.$router.push({
-          path:row.to_url
-        })
+
+        if(row.is_read == 1){ // 未读的列表
+          this.$api.noticeIsread({
+            id: row.id,
+          }).then(data => {
+            if (data.code == '0') {
+              this.$router.push({
+                path:row.to_url,
+              })
+            } else {
+              this.$message.error(data.msg);
+            }
+          });
+        }else{ // 已读的列表
+          this.$router.push({
+            path:row.to_url,
+          })
+        }
       }
 		},
   }

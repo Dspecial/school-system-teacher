@@ -414,9 +414,9 @@
 
 						// 验收记录
 						this.acceptForm = data.data.project_accept_info;
-						this.accept_info_all = data.data.project_accept_info.accept_info;
+						this.accept_info_all = data.data.project_accept_info?data.data.project_accept_info.accept_info:[];
 						// 默认情况下验收记录
-						if(data.data.project_accept_info.accept_info.length < 5){
+						if(data.data.project_accept_info&&data.data.project_accept_info.accept_info.length < 5){
 							this.accept_info = this.accept_info_all;
 						}else{
 							this.accept_info = this.accept_info_all.slice(0,5);

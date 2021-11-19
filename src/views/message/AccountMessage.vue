@@ -66,7 +66,9 @@
 					function_type:2,
 				}).then(data=>{
 					if(data.code == 0){
-						this.accountForm = data.data
+						if(data.data){
+							this.accountForm = data.data
+						}
 					}
 				})
 			},

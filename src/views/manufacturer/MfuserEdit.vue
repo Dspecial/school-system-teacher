@@ -7,8 +7,8 @@
 	  @closed="closedEdit('mfuserForm')"
 	  :before-close="handleClose">
 	  <el-form :model="mfuserForm" :rules="rules" ref="mfuserForm" label-width="120px">
-	  	<el-form-item label="公司名称" prop="job_number">
-		    <el-input v-model="mfuserForm.job_number" placeholder="请输入公司名称"></el-input>
+	  	<el-form-item label="企业名称" prop="job_number">
+		    <el-input v-model="mfuserForm.job_number" placeholder="请输入企业名称"></el-input>
 		  </el-form-item>
 		  <el-form-item label="营业执照编码" prop="sys_id">
 		    <el-input v-model="mfuserForm.sys_id" placeholder="请输入营业执照编码"></el-input>
@@ -71,7 +71,7 @@
 				],
 				rules: {
           job_number: [
-            { required: true, message: '请输入公司名称', trigger: 'blur' }
+            { required: true, message: '请输入企业名称', trigger: 'blur' }
           ],
           sys_id: [
             { required: true, message: '请输入营业执照编码', trigger: 'blur' }

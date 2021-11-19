@@ -11,7 +11,7 @@
           	<div class="mr-auto d-flex align-items-center w-80">
               <el-input
                 class="w-40"
-                placeholder="公司名称/负责人姓名"
+                placeholder="企业名称/负责人姓名"
                 prefix-icon="el-icon-search"
                 v-model="filters[0].value"
                 clearable>
@@ -35,7 +35,7 @@
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="job_number" label="公司名称" width="200"></el-table-column>
+        <el-table-column prop="job_number" label="企业名称" width="200"></el-table-column>
         <el-table-column prop="sys_id" label="营业执照编码" width="200"></el-table-column>
         <el-table-column prop="name" label="负责人姓名" width="100"></el-table-column>
         <el-table-column prop="sex" label="性别">

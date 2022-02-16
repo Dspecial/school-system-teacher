@@ -183,7 +183,7 @@
 	      const formData = new FormData();
 	      formData.append("accept_number", this.acceptForm.accept_number);
 	      formData.append("file", params.file);
-	      formData.append("user_token", this.$cookies.get("application_token"));
+	      formData.append("user_token", this.VueCookies.get("application_token"));
 				this.$api.my_project_acceptUpload(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法

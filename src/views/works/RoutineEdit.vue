@@ -254,7 +254,7 @@
 			workTypeChange(val){
 				if(val == 1){
 					this.$api.routineProject({
-						user_type:this.$cookies.get('application_type'),
+						user_type:this.VueCookies.get('application_type'),
 						work_type:val,
 					}).then(data=>{
 						if(data.code == 0){
@@ -263,7 +263,7 @@
 					})
 				}else if(val == 2){
 					this.$api.routineUser({
-						type:this.$cookies.get('application_type'),
+						type:this.VueCookies.get('application_type'),
 					}).then(data=>{
 						if(data.code == 0){
 							this.detailsOptions = data.data;
@@ -274,7 +274,7 @@
 			// 事务类型change
 			typeChange(){
 				this.$api.routineUser({
-					type:this.$cookies.get('application_type'),
+					type:this.VueCookies.get('application_type'),
 				}).then(data=>{
 					if(data.code == 0){
 						this.userOptions = data.data;
@@ -439,7 +439,7 @@
 	      const formData = new FormData();
 	      formData.append("work_num", this.routineForm.work_num);
 	      formData.append("file", params.file);
-	      formData.append("user_token", this.$cookies.get("application_token"));
+	      formData.append("user_token", this.VueCookies.get("application_token"));
 				this.$api.routineUpload(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法

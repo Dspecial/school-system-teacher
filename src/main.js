@@ -1,3 +1,10 @@
+/*
+ * @Author: dxx
+ * @Email: dingxixi@techbloom.net
+ * @Date: 2021-04-27 09:31:16
+ * @LastEditors: dxx
+ * @LastEditTime: 2022-02-16 15:30:18
+ */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
@@ -22,6 +29,7 @@ Vue.prototype.$echarts = echarts
 Vue.prototype.commonJs = commonJs; // 挂载原型链
 Vue.prototype.$api = api;
 Vue.prototype.$globalUrl = globalUrl;
+Vue.prototype.VueCookies = VueCookies; // 挂载原型链
 Vue.prototype.$moment = moment;
 
 Vue.config.productionTip = false

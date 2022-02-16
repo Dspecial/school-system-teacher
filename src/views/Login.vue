@@ -51,9 +51,9 @@
     mounted(){
       this.loginConfig();
       this.currentHref = window.location.href;
-      var isToken = this.commonJs.isEmpty(this.$cookies.get('application_token')); // 是否登录，true 未登录；false 登录
-      var isTpye = this.commonJs.isEmpty(this.$cookies.get('application_type')); // 是否有type，true 失效，没有；false 有
-      var typeType = this.$cookies.get('application_type');
+      var isToken = this.commonJs.isEmpty(this.VueCookies.get('application_token')); // 是否登录，true 未登录；false 登录
+      var isTpye = this.commonJs.isEmpty(this.VueCookies.get('application_type')); // 是否有type，true 失效，没有；false 有
+      var typeType = this.VueCookies.get('application_type');
 
       if(!isToken){ // 登录了，直接进系统端
         // dxx：判断，如果初次进入，直接跳转home页面；如果在别的页面停留过久，token失效，则登录以后直接跳转到当前页面
@@ -108,11 +108,11 @@
         }).then( data =>{
           if(data.code == 0){
             // 存值给cookies
-            this.$cookies.set('application_token', data.data.token,{expires:7});
-            this.$cookies.set('application_userId', data.data.id,{expires:7});
-            this.$cookies.set('application_userName', data.data.name,{expires:7});
-            this.$cookies.set('application_job_number', data.data.job_number,{expires:7});
-            this.$cookies.set('application_type', data.data.type,{expires:30});
+            this.VueCookies.set('application_token', data.data.token,{expires:7});
+            this.VueCookies.set('application_userId', data.data.id,{expires:7});
+            this.VueCookies.set('application_userName', data.data.name,{expires:7});
+            this.VueCookies.set('application_job_number', data.data.job_number,{expires:7});
+            this.VueCookies.set('application_type', data.data.type,{expires:30});
 
             // dxx：判断，如果初次进入，直接跳转home页面；如果在别的页面停留过久，token失效，则登录以后直接跳转到当前页面
             var redirect = this.$route.query.redirect;

@@ -454,7 +454,7 @@
 	      const formData = new FormData();
 	      formData.append("apply_number", this.projectForm.apply_number);
 	      formData.append("file", params.file);
-	      formData.append("user_token", this.$cookies.get("application_token"));
+	      formData.append("user_token", this.VueCookies.get("application_token"));
 
 				this.$api.uploadAgree(formData).then(data =>{
 					if(data.code == 0){

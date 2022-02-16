@@ -5,7 +5,7 @@
     <!-- logo -->
     <div class="logo d-flex align-items-center justify-content-center">
     	<i class="icon-cube3 fs_24"></i>
-    	<span class="fs_20 ml-2">{{systemName}}</span>
+    	<span class="fs_18 ml-2">{{systemName}}</span>
     </div>
     <!-- 为了做递归，所以把Menu抽出来做成一个组件 -->
     <Menu :menuDatas="menuDatas"></Menu>

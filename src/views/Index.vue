@@ -294,7 +294,7 @@
 				this.menuClick(35);
 			},
 			menuClick(id){
-        this.$cookies.set('menu_id', id);
+        this.VueCookies.set('menu_id', id);
         // 清空
         this.allAction = {
           addAction:{},

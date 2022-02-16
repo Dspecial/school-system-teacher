@@ -38,7 +38,7 @@
 				totalNews:[],
         // 头像
         avatarUrl:require("@/assets/images/avatar.jpg"),
-        name:this.$cookies.get('application_userName'),
+        name:this.VueCookies.get('application_userName'),
 			}
 		},
 		components: {},
@@ -48,12 +48,12 @@
     methods:{
       // 点击退出登录
       logOut(){
-        var type = this.$cookies.get('application_type');
-        var isTpye = this.commonJs.isEmpty(this.$cookies.get('application_type')); // 是否有type，true 失效，没有；false 有
+        var type = this.VueCookies.get('application_type');
+        var isTpye = this.commonJs.isEmpty(this.VueCookies.get('application_type')); // 是否有type，true 失效，没有；false 有
         if(!isTpye){
           if(type == 1){
             window.location.href = this.$globalUrl.baseURL + "/index/index?login=logout";
-            this.$cookies.remove("application_token");
+            this.VueCookies.remove("application_token");
           }else{
             this.replaceUrl();
           }
@@ -69,7 +69,7 @@
             redirect: this.$router.currentRoute.fullPath
           }
         });
-        this.$cookies.remove("application_token");
+        this.VueCookies.remove("application_token");
       },
       // 消息提醒
       headerNotice(){

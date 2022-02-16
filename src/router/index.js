@@ -297,6 +297,37 @@ const router = new Router({
 				  children: null
 				},
 
+				// 承办列表
+				{
+				  path: '/project/hoster',
+				  component: resolve => require(['@/views/project/hoster/Hoster'], resolve),
+				  name: 'Hoster',
+				  meta: {
+				    title: '承办列表',
+				  },
+				  children: null
+				},
+				// 编辑承办
+				{
+				  path: '/project/hoster/edit',
+				  component: resolve => require(['@/views/project/hoster/HosterEdit'], resolve),
+				  name: 'HosterEdit',
+				  meta: {
+				    title: '编辑承办',
+				  },
+				  children: null
+				},
+				// 承办详情
+				{
+				  path: '/project/hoster/detail',
+				  component: resolve => require(['@/views/project/hoster/HosterDetail'], resolve),
+				  name: 'HosterDetail',
+				  meta: {
+				    title: '承办详情',
+				  },
+				  children: null
+				},
+
 
 				/*
 				**审核管理-审核列表

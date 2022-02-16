@@ -21,8 +21,8 @@
 		components: {},
 		mounted(){
 			this.loginConfig();
-			this.userId = this.$cookies.get('application_userId');
-			this.userName = this.$cookies.get('application_userName');
+			this.userId = this.VueCookies.get('application_userId');
+			this.userName = this.VueCookies.get('application_userName');
 			this.time = this.getDayjsTime();
 		},
 		methods:{

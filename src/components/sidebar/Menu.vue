@@ -37,12 +37,12 @@
       }
     },
     mounted(){
-      this.menuClick(this.$cookies.get("menu_id"));
+      this.menuClick(this.VueCookies.get("menu_id"));
     },
     methods: {
       // 获取该菜单列表下的所有操作按钮
       menuClick(id){
-        this.$cookies.set('menu_id', id);
+        this.VueCookies.set('menu_id', id);
         // 清空
         this.allAction = {
           addAction:{},

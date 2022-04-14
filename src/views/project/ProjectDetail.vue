@@ -104,6 +104,7 @@
 			<el-table :data="checkList">		
 				<el-table-column prop="pname" label="节点名称"></el-table-column>
 				<el-table-column prop="groupname" label="审核部门"></el-table-column>
+				<el-table-column prop="load_check_name" label="待审核人"></el-table-column>
 				<el-table-column prop="check_state" label="审核状态">
           <template slot-scope="scope">
             <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>

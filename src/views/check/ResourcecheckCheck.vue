@@ -110,51 +110,110 @@
 			<!-- 资源审核 -->
 			<h6 class="fs_18 font-weight-normal mb-3">资源审核</h6>
 			<el-form ref="checkform" :model="checkform"  class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules">
-				<el-form-item label="资源选择" class="payment_item"  v-if="need_show_choose_resource == 1">
+				<el-form-item label="绑定资源" class="payment_item"  v-if="check_info.node_id == 14">
 					<div slot="label" class="d-flex justify-content-between">
+						<!-- check_info.node_id == 14 可以绑定资源；check_info.node_id == 13 无 -->
 						<span>绑定资源</span>
-						<span class="text-primary cursor-pointer mr-2" @click="addPro(checkform.bindResources)"><i class="el-icon-plus mr-1"></i>资源</span>
+						<span class="text-primary cursor-pointer" @click="addPro(checkform.bindResources)"><i class="el-icon-plus mr-1"></i>资源</span>
 					</div>
 					<template v-for="(cell,INDEX) in checkform.bindResources">
-						<div class="cell_row mb-3" :key="INDEX">
-							<el-row type="flex" align="middle" :gutter="20">
-								<el-col :span="24">
-									<el-cascader class="w-100" v-model="cell.resource_cate_id" placeholder="请选择资源分类" 
-										clearable 
-										:options="cateOptions" 
-										:props="{value:'id',label:'cate_name',children:'children',checkStrictly: false}"
-										@change="cateChange(cell)">
-									</el-cascader>
-								</el-col>
-								<el-col :span="24">
-									<el-select v-model="cell.resource_id" clearable filterable placeholder="请选择资源名称" class="w-100" @change="resourceChange(cell)">
-										<el-option
-											v-for="item in listOptions"
-											:key="item.id"
-											:label="item.name"
-											:value="item.id">
-										</el-option>
-									</el-select>
-								</el-col>
-								<el-col :span="24">
-									<el-input v-model="cell.remark" placeholder="请输入备注"></el-input>
-								</el-col>
-								<el-col :span="2" class="text-right">
+						<div class="cell_row" :key="INDEX">
+							<hr class="hr_cell mb-3" v-if="INDEX > 0"/>
+							<div class="d-flex align-items-end justify-content-between">
+								<div style="width:95%">
+									<el-row align="middle" :gutter="20">
+										<el-col :span="6" class="mb-2">
+											<el-input v-model="cell.name" placeholder="请输入资源名称"></el-input>
+										</el-col>
+										<el-col :span="6" class="mb-2">
+											<el-cascader class="w-100" v-model="cell.cate_id" placeholder="请选择资源分类" 
+												clearable 
+												:options="cateOptions" 
+												:props="{value:'id',label:'cate_name',children:'children',checkStrictly: false}"
+												@change="cateChange(cell)">
+											</el-cascader>
+										</el-col>
+										<el-col :span="6" class="mb-2">
+											<el-select v-model="cell.supplier_id" clearable filterable placeholder="请选择供应商" class="w-100">
+												<template v-for="(item,index) in supplierOptions">
+													<el-option :label="item.name" :value="item.id" :key="index"></el-option>
+												</template>
+											</el-select>
+										</el-col>
+										<el-col :span="6" class="mb-2">
+											<el-input v-model.number="cell.number" placeholder="请输入数量"></el-input>
+										</el-col>
+										<el-col :span="6" class="mb-2">
+											<el-radio-group v-model="cell.type">
+												<el-radio :label="'1'">永久使用</el-radio>
+												<el-radio :label="'2'">临时使用</el-radio>
+											</el-radio-group>
+										</el-col>
+										<el-col :span="6" v-if="cell.type == '2'" class="mb-2">
+											<el-date-picker v-model="cell.usetime" type="date" clearable placeholder="选择具体到期时间" value-format="yyyy-MM-dd" class="w-100"></el-date-picker>
+										</el-col>
+										<el-col :span="cell.type == '2'?12:18" class="mb-2">
+											<el-input v-model="cell.remark" placeholder="请输入备注"></el-input>
+										</el-col>
+										<el-col :span="24" v-if="cell.detailjson.length != 0">
+											<div class="resourceAdd_form pt-1 pl-3 pr-3 pb-3">
+												<p class="text-primary m-0 mb-1">资源拓展值</p>
+												<el-row :gutter="20">
+													<template v-for="(field, index) in cell.detailjson">
+														<!-- 字段类型:1=文本框,2=数字框,3=下拉单选,4=日期选择,5=文件上传,6=文本域 -->
+														<el-col :span="6" v-if="field.name_type == 1" :key="index">
+															<el-form-item :label="field.title" :required="field.is_required == 2">
+																<el-input v-model="field.val" :placeholder="field.placeholder == ''?'请输入'+field.title:field.placeholder"></el-input>
+															</el-form-item>
+														</el-col>
+														<el-col :span="6" v-if="field.name_type == 2" :key="index">
+															<el-form-item :label="field.title" :required="field.is_required == 2">
+																<el-input v-model.number="field.val" :placeholder="field.placeholder == ''?'请输入'+field.title:field.placeholder"></el-input>
+															</el-form-item>
+														</el-col>
+
+														<el-col :span="6" v-if="field.name_type == 3" :key="index">
+															<el-form-item :label="field.title" :required="field.is_required == 2">
+																<el-select v-model="field.val" :placeholder="field.placeholder == ''?'请选择'+field.title:field.placeholder" class="w-100" clearable>
+																	<el-option v-for="(option,j) in field.extra_val" :label="option" :value="option" :key="j"></el-option>
+																</el-select>
+															</el-form-item>
+														</el-col>
+														<el-col :span="6" v-if="field.name_type == 4" :key="index">
+															<el-form-item :label="field.title" :required="field.is_required == 2">
+																<el-date-picker v-model="field.val" type="date" :placeholder="field.placeholder == ''?'请选择'+field.title:field.placeholder" clearable class="w-100"></el-date-picker>
+															</el-form-item>
+														</el-col>
+
+														<el-col :span="24" v-if="field.name_type == 5" :key="index">
+															<el-form-item :label="field.title" :required="field.is_required == 2">
+																<el-upload
+																	action="#"
+																	drag
+																	:auto-upload="false"
+																	:on-success="handleAvatarSuccess"
+																	:before-upload="beforeAvatarUpload">
+																	<i class="el-icon-upload"></i>
+																	<div class="el-upload__text">将{{ field.title }}文件拖到此处，或<em>点击上传</em></div>
+																</el-upload>
+															</el-form-item>
+														</el-col>
+
+														<el-col :span="24" v-if="field.name_type == 6" :key="index">
+															<el-form-item :label="field.title" :required="field.is_required == 2">
+																<el-input type="textarea" v-model="field.val" :placeholder="field.placeholder == ''?'请输入'+field.title:field.placeholder" :autosize="{ minRows: 3, maxRows: 8 }"></el-input>
+															</el-form-item>
+														</el-col>
+													</template>
+												</el-row>
+											</div>
+										</el-col>
+									</el-row>
+								</div>
+								<div class="text-right" style="width:5%">
 									<span class="text-danger cursor-pointer" @click="delField(checkform.bindResources,INDEX)">删除</span>
-								</el-col>
-							</el-row>
-							<el-row type="flex" align="middle" :gutter="20" class="mt-2" v-if="cell.detailjson.length != 0">
-								<el-col :span="24">
-									<el-form-item label="资源详细">
-										<el-row :gutter="20" class="re_detail_json">
-											<el-col :span="6" v-for="(item,index) in cell.detailjson" :key="index" class="pl-3 pr-3 pt-2 pb-2">
-												<p class="mb-2 text-primary">{{item.title}}</p>
-												<p class="m-0">{{item.val}}</p>
-											</el-col>
-										</el-row>
-									</el-form-item>
-								</el-col>
-							</el-row>
+								</div>
+							</div>
 						</div>
 					</template>
 				</el-form-item>
@@ -189,14 +248,17 @@
 				dataJson:{},
 				check_info:{},
 
-				need_show_choose_resource:"",// 是否出现绑定资源  1 可以绑定 2 无
 				cateOptions:[],
-				listOptions:[],
+				supplierOptions:[],
 
 				checkform:{
 					bindResources:[{
-						resource_cate_id:"",
-						resource_id:"",
+						name:"",
+						cate_id:"",
+						supplier_id:"",
+						number:"",
+						type:"2",
+						usetime:"",
 						remark:"",
 						detailjson:[],
 					}],
@@ -221,6 +283,7 @@
 			// dialog初始化
 			openEdit(){
 				this.initCate();
+				this.initSupplierOptions();
 				this.ID = this.$route.query.id;
 				this.$api.resourceCheck_check({
 					id:this.ID,
@@ -232,8 +295,6 @@
 						this.dataJson = data.data.info.datajson;
 						// 审核信息
 						this.check_info =  data.data.check_info;
-						// 是否绑定资源
-						this.need_show_choose_resource = data.data.need_show_choose_resource;
 					}else{
 						this.$message.error(data.msg);
 					}
@@ -242,8 +303,12 @@
 			// 添加绑定资源
 			addPro(item){
 				item.push({
-					resource_cate_id:"",
-					resource_id:"",
+					name:"",
+					cate_id:"",
+					supplier_id:"",
+					number:"",
+					type:"2",
+					usetime:"",
 					remark:"",
 					detailjson:[],
 				});
@@ -266,48 +331,55 @@
 			},
 			// 资源分类选择
 			cateChange(cell){
-				cell.resource_id = ""; // 清空资源
-				cell.detailjson = []; // 清空资源详细
-				if(cell.resource_cate_id.length > 2){
-					this.isExpand = true;
-					var cate_id = cell.resource_cate_id[cell.resource_cate_id.length-1]
-					this.initResource(cate_id);
-				}else{
-					this.isExpand = false;
+				cell.detailjson = []; // 清空资源拓展值
+				if(cell.cate_id.length > 2){
+					var cate_id = cell.cate_id[cell.cate_id.length-1]
+					this.initParams(cate_id,cell);
 				}
 			},
-			// 获取资源
-			initResource(cate_id){
-				this.$api.getResource_list({
+			// 资源分类选择后获取资源拓展值
+			initParams(cate_id,cell){
+				this.$api.getResource_cateParamsOption({
 					cate_id:cate_id,
-				}).then(data =>{
-					if(data.code == 0){
-						// 回调成功的方法
-						this.listOptions = data.data;
-					}else{
-						this.$message.error(data.msg);
-					}
-				});
-			},
-			// 资源选择
-			resourceChange(cell){
-				this.$set(this.checkform.bindResources);
-				this.initResourceInfo(cell);
-			},
-			// 获取资源详情
-			initResourceInfo(cell){
-				this.$api.getResource_info({
-					resource_id:cell.resource_id,
-				}).then(data =>{
-					if(data.code == 0){
-						// 回调成功的方法
-						cell.detailjson = data.data.detailjson;
+					function_type:1,
+        }).then(data=>{
+          if(data.code == 0){
+            cell.detailjson = data.data;
 						this.$set(this.checkform.bindResources);
-					}else{
-						this.$message.error(data.msg);
-					}
-				});
+          }else{
+            this.$message.error(data.msg);
+          }
+        });
 			},
+			// 获取供应商
+			initSupplierOptions(){
+				this.$api.getResource_supplier({
+        }).then(data=>{
+          if(data.code == 0){
+            this.supplierOptions = data.data;
+          }else{
+            this.$message.error(data.msg);
+          }
+        });
+			},
+			// 上传成功
+			handleAvatarSuccess(res, file) {
+        // this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      // 上传前验证
+      beforeAvatarUpload(file) {
+        const isPic = file.type === 'image/gif' || file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png';
+        const isLt = file.size / 1024  < 100;
+        if (!isPic) {
+          this.$message.error('上传头像图片只能是 GIF、JPG、JPEG、PNG 格式!');
+          return isPic
+        }
+        if (!isLt) {
+          this.$message.error('上传Logo图片大小不能超过 100kb!');
+          return isLt
+        }
+        return isPic && isLt;
+      },
 			// 关闭编辑
 			closedEdit(){
 				// this.$router.go(-1);//返回上一层
@@ -318,16 +390,29 @@
       // form提交
 			submitForm(formName) {
 				var resourcejson = new Array;
-				var isArr = this.commonJs.isEmpty(this.checkform.bindResources[0]);
+				var isArr = this.commonJs.isEmpty(this.checkform.bindResources[0].cate_id);
 				if(!isArr){
 					resourcejson = this.checkform.bindResources.map((item)=>{
+						var cate_id = item.cate_id[item.cate_id.length - 1];
+						var new_arr = item.detailjson.map(obj => {
+          		return {
+          			"name":obj.name,
+          			"val":obj.val
+          		}
+          	});
 						return {
-							"id":item.resource_id,
-							"re_remark":item.remark,
+							name:item.name,
+							cate_id:cate_id,
+							supplier_id:item.supplier_id,
+							number:item.number,
+							type:item.type,
+							usetime:item.usetime,
+							remark:item.remark,
+							detailjson:JSON.stringify(new_arr),
 						}
 					});
 				};
-				
+
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.resourceCheck_check({

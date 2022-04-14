@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2021-11-05 15:26:03
+ * @LastEditTime: 2022-04-14 18:35:36
  */
  
 @charset "UTF-8";
@@ -683,4 +683,12 @@ html,body,#app,.page-container{
       display: inline-block;
     }
   }
+}
+
+/*resource*/
+.resourceAdd_form{
+  border:1px solid var(--grey-200);
+}
+.hr_cell{
+	border-top:1px solid #EBEEF5;
 }

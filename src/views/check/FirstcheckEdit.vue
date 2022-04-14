@@ -133,7 +133,7 @@
 						<!-- 9=下拉多选 -->
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 9">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
-								<el-select v-model="formItem.value" clearable multiple collapse-tags :placeholder="formItem.placeholder" class="w-100">
+								<el-select v-model="formItem.value" clearable multiple :placeholder="formItem.placeholder" class="w-100">
 									<el-option
 										v-for="item in formItem.extra_val"
 										:key="item"

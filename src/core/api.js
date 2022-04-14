@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-02-16 15:33:05
+ * @LastEditTime: 2022-04-14 16:41:03
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -128,6 +128,10 @@ export default {
 	getResource_list: p => postToken('/api/ajax/get_resource_list', p),
 	// 获取资源详情
 	getResource_info: p => postToken('/api/ajax/get_resource_info', p),
+	// 获取资源列表
+	getResource_cateParamsOption: p => postToken('/api/ajax/get_cate_form', p),
+	// 编辑资源时-供应商列表
+	getResource_supplier: p => postToken('/api/ajax/get_company_supplier', p),
 	// 资源详情
 	resourceDetail: p => postToken('/api/resource.resource/details', p),
 	// 资源工单列表

@@ -262,9 +262,8 @@
 		},
 		mounted(){
 			this.initRoutine();
-
 			this.initState();
-			this.initPay();
+			this.initPay(this.handleYearIndex);
 		},
 		methods:{
 			// 获取我的项目

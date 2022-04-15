@@ -359,8 +359,8 @@
       // form提交
 			submitForm(formName) {
 				var resourcejson = new Array;
-				var isArr = this.commonJs.isEmpty(this.checkform.bindResources[0].cate_id);
-				if(!isArr){
+				var isArr = this.checkform.bindResources.length > 0;
+				if(isArr){
 					resourcejson = this.checkform.bindResources.map((item)=>{
 						var cate_id = item.cate_id[item.cate_id.length - 1];
 						var new_arr = item.detailjson.map(obj => {
@@ -380,8 +380,9 @@
 							detailjson:JSON.stringify(new_arr),
 						}
 					});
+				}else{
+					resourcejson.push({});
 				};
-				
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.resourceCheckList_check({

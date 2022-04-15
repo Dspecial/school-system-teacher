@@ -608,7 +608,7 @@
 								}
 								if(item.name_type == 12){
 
-									console.log(item,'iiiii');
+									// console.log(item,'iiiii');
 									return
 									// if(){
 									// 	item.value = [{}];

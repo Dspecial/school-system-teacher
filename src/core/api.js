@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-04-14 16:41:03
+ * @LastEditTime: 2022-04-15 15:11:09
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -115,7 +115,9 @@ export default {
 
 	// 申请资源
 	project_apply_resource: p => postToken('/api/project.project/apply_resource', p),
-
+	// 申请资源详情
+	project_apply_resourceDetail: p => postToken('/api/resource.resource/applydetails', p),
+	
 	// 资源列表
 	resourceList: p => postToken('/api/resource.resource/index', p),
 	// 申请资源
@@ -165,6 +167,19 @@ export default {
 	// 承办列表-详情
 	hosterDetail: p => postToken('/api/project.hosterproject/details', p),
 
+	// 承办资源列表
+	hosterResourceList: p => postToken('/api/undertake.resource/index', p),
+	// 承办资源列表-删除
+	hosterResourceDel: p => postToken('/api/undertake.resource/delete', p),
+	// 承办资源列表-编辑
+	hosterResourceEdit: p => postToken('/api/undertake.resource/edit', p),
+	// 承办资源列表-提交
+	hosterResourceAdd: p => postToken('/api/undertake.resource/add', p),
+	// 承办列表-详情
+	hosterResourceDetail: p => postToken('/api/undertake.resource/details', p),
+
+	// 承办资源维护记录列表
+	hosterResourceRecordList: p => postToken('/api/undertake.resource/record', p),
 
 	/*
 		***审核管理

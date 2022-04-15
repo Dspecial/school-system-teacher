@@ -59,7 +59,7 @@
               <el-table-column prop="job_number" label="供应商"></el-table-column>
               <el-table-column fixed="right" label="操作" width="150" align="center">
                 <template slot-scope="scope">
-                  <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,props.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+                  <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,props.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -89,6 +89,11 @@
         </el-table-column>
         <el-table-column prop="applytime" label="申请时间"></el-table-column>
         <el-table-column prop="checktime" label="审核时间"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="150" align="center">
+          <template slot-scope="scope">
+            <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
+          </template>
+        </el-table-column>
       </data-tables-server>
     </el-card>
   </div>
@@ -146,9 +151,8 @@
           title:"",
           id:","
         },
-        actions:[
-
-        ],
+        actions1:[],
+        actions2:[],
       }
     },
     computed: {
@@ -192,6 +196,20 @@
             if(data.data.data.length > 0){
               this.tableProps['expand-row-keys'].push(data.data.data[0].id);
             }
+            var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array;
+            this.$store.getters.getmoreAction.map((item,index)=>{
+              if(item.sign == '4'){ // 详情
+                actions_1.push(item);
+              }if(item.sign == '4.1'){ // 详情
+                actions_2.push(item);
+              }else if (item.sign == '5.11'){ // 工单列表
+                actions_3.push(item);
+              }
+            })
+            // 父列表有 详情
+            this.actions1 = [...actions_1];
+            // 子列表有 详情 和 工单列表
+            this.actions2 = [...actions_2,...actions_3];
           }else{
             this.$message.error(data.msg);
           }
@@ -207,14 +225,25 @@
 
        // 操作们
       fun(index,row,prow,sign){
-        if(sign == '4'){ // 详情
+        if(sign == '4'){ // 父列表详情
+          this.detailResourceProject(index,row);
+        }else if(sign == '4.1'){ // 子列表详情
           this.detailResource(index,row);
         }else if(sign == '5.11'){ // 工单列表
           this.goServiceList(index,row,prow);
         }
       },
+      // 父列表资源详情
+      detailResourceProject(index,row){
+        this.$router.push({
+          path:"/project/resource/p_detail",
+          query: {
+            id: row.id,
+          }
+        })
+      },
 
-      // 资源详情
+      // 子列表资源详情
       detailResource(index,row){
         this.$router.push({
           path:"/project/resource/detail",
@@ -224,7 +253,7 @@
         })
       },
 
-      // 工单列表
+      // 子列表工单列表
       goServiceList(index,row,prow){
         this.$router.push({
           path:"/project/resource/serviceList",

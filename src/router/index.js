@@ -202,6 +202,16 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				// 项目资源详情
+				{
+				  path: '/project/resource/p_detail',
+				  component: resolve => require(['@/views/project/resource/ResourceProjectDetail'], resolve),
+				  name: 'ResourceProjectDetail',
+				  meta: {
+				    title: '项目资源详情',
+				  },
+				  children: null
+				},
 				// 资源详情
 				{
 				  path: '/project/resource/detail',
@@ -328,6 +338,46 @@ const router = new Router({
 				  children: null
 				},
 
+				// 承办资源列表
+				{
+				  path: '/project/hosterResource',
+				  component: resolve => require(['@/views/project/hosterResource/HosterResource'], resolve),
+				  name: 'HosterResource',
+				  meta: {
+				    title: '承办资源列表',
+				  },
+				  children: null
+				},
+				// 承办详情
+				{
+				  path: '/project/hosterResource/detail',
+				  component: resolve => require(['@/views/project/hosterResource/HosterResourceDetail'], resolve),
+				  name: 'HosterResourceDetail',
+				  meta: {
+				    title: '承办资源详情',
+				  },
+				  children: null
+				},
+				// 承办资源使用列表
+				{
+				  path: '/project/hosterResource/useList',
+				  component: resolve => require(['@/views/project/hosterResource/HosterResourceUselist'], resolve),
+				  name: 'HosterResourceUselist',
+				  meta: {
+				    title: '承办资源使用列表'
+				  },
+				  children: null
+				},
+				// 承办资源维护记录列表
+				{
+				  path: '/project/hosterResource/recordList',
+				  component: resolve => require(['@/views/project/hosterResource/HosterResourceRecordlist'], resolve),
+				  name: 'HosterResourceRecordlist',
+				  meta: {
+				    title: '承办资源维护记录列表'
+				  },
+				  children: null
+				},
 
 				/*
 				**审核管理-审核列表
@@ -336,7 +386,7 @@ const router = new Router({
 				{
 				  path: '/check/checkList',
 				  component: resolve => require(['@/views/check/CheckList'], resolve),
-				  name: 'checkList',
+				  name: 'CheckList',
 				  meta: {
 				    title: '审核列表',
 				  },

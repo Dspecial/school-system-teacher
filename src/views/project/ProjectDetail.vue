@@ -131,14 +131,14 @@
 				<el-table-column type="expand" label="" width="50">
 					<template slot-scope="scope">
 						<el-table :data="scope.row.recheck_detail">
-							<el-table-column prop="e_name" label="审核人"></el-table-column>
+							<el-table-column prop="e_name" label="专家姓名"></el-table-column>
 							<el-table-column prop="is_pass" label="是否通过">
 								<template slot-scope="scope">
 									<span v-if="scope.row.is_pass == 1"><i class="dot bg-success mr-1"></i>通过</span>
 									<span v-else-if="scope.row.is_pass == 2"><i class="dot bg-danger mr-1"></i>不通过</span>
 								</template>
 							</el-table-column>
-							<el-table-column prop="content" label="审核内容"></el-table-column>
+							<el-table-column prop="content" label="评审内容"></el-table-column>
 						</el-table>
 					</template>
 				</el-table-column>
@@ -151,7 +151,7 @@
           </template>
         </el-table-column>
 				<el-table-column prop="checkname" label="审核人"></el-table-column>
-				<el-table-column prop="content" label="复审内容"></el-table-column>
+				<el-table-column prop="content" label="审核备注"></el-table-column>
 				<el-table-column prop="createtime" label="创建时间"></el-table-column>
 				<el-table-column prop="recheck_date" label="复审时间"></el-table-column>
 			</el-table>

@@ -92,6 +92,7 @@
         }).then(data=>{
           if(data.code == 0){
             this.configName = data.data.application_name;
+            document.title = data.data.application_name;
           }else{
             this.$message.error(data.msg);
           }

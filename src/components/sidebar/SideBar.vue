@@ -75,6 +75,7 @@
         }).then(data=>{
           if(data.code == 0){
             this.systemName = data.data.application_name;
+            document.title = data.data.application_name;
           }else{
             const h = this.$createElement;
             this.$notify({

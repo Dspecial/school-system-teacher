@@ -63,6 +63,10 @@
 						<!-- 1=文本框 -->
 						<el-col :span="12" :key="j" v-if="formItem.name_type == 1">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-input v-model="formItem.value" :placeholder="formItem.placeholder"></el-input>
 							</el-form-item>
 						</el-col>
@@ -70,6 +74,10 @@
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 2">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false" 
 							:rules="[{ type: 'number', message: formItem.title +'必须为数字值'}]">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-input v-model="formItem.value" :placeholder="formItem.placeholder">
 									<span slot="suffix" class="el-input__icon mr-2">元</span>
 								</el-input>
@@ -78,6 +86,10 @@
 						<!-- 3=下拉单选 -->
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 3">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-select v-model="formItem.value" clearable :placeholder="formItem.placeholder" class="w-100">
 									<el-option
 										v-for="item in formItem.extra_val"
@@ -91,6 +103,10 @@
 						<!-- 4=日期选择 -->
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 4">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-date-picker 
 								type="date" 
 								:placeholder="formItem.placeholder"
@@ -103,6 +119,10 @@
 						<!-- 5=文件上传(单选) -->
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 5">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<div class="d-flex align-items-start justify-content-between">
 									<el-upload
 										class="my_upload"
@@ -125,18 +145,30 @@
 						<!-- 6=文本域 -->
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 6">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-input type="textarea" v-model="formItem.value" :placeholder="formItem.placeholder"  :rows="3"></el-input>
 							</el-form-item>
 						</el-col>
 						<!-- 7=富文本 -->
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 7">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<vEditor v-model="formItem.value" class="pro_vEditor"></vEditor>
 							</el-form-item>
 						</el-col>
 						<!-- 8=时间选择 -->
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 8">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-date-picker 
 								type="datetime" 
 								:placeholder="formItem.placeholder"
@@ -149,6 +181,10 @@
 						<!-- 9=下拉多选 -->
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 9">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-select v-model="formItem.value" clearable multiple :placeholder="formItem.placeholder" class="w-100">
 									<el-option
 										v-for="item in formItem.extra_val"
@@ -162,6 +198,10 @@
 						<!-- 10=复选 -->
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 10">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-checkbox-group v-model="formItem.value">
 									<template v-for="(checkbox,z) in formItem.extra_val">
 										<el-checkbox :label="checkbox" :name="formItem.name" :key="z"></el-checkbox>
@@ -172,6 +212,10 @@
 						<!-- 11=单选 -->
 						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 11">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-radio-group v-model="formItem.value">
 									<template v-for="(radio,z) in formItem.extra_val">
 										<el-radio :label="radio" :key="z"></el-radio>
@@ -183,7 +227,10 @@
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false" class="payment_item">
 								<div slot="label" class="d-flex justify-content-between">
-									<span>{{formItem.title}}</span>
+									<div>
+										<span>{{formItem.title}}</span>
+										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+									</div>
 									<span class="text-primary cursor-pointer" @click="addPro(formItem.value,formItem.extra_val)"><i class="el-icon-plus mr-1"></i>添加</span>
 								</div>
 								<template v-for="(cell,INDEX) in formItem.value">
@@ -201,6 +248,10 @@
 						<!-- 13=图片上传(单选) -->
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 13">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-upload
 									action="void"
 									:accept="accept_img"
@@ -221,6 +272,10 @@
 						<!-- 14=图片上传(多选) -->
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 14">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<el-upload
 									action="void"
 									:accept="accept_img"
@@ -238,6 +293,10 @@
 						<!-- 15=文件上传(多选) -->
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 15">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
+								<template slot="label">
+									<span>{{ formItem.title }}</span>
+									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+								</template>
 								<div class="d-flex align-items-start justify-content-between">
 									<el-upload
 										class="my_upload"

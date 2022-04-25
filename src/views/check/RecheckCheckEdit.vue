@@ -3,6 +3,87 @@
 		<!-- 登录信息 -->
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
+		<!-- 项目基本信息 -->
+		<el-card class="mt-3 bg-white" :body-style="{'padding-bottom':'0px'}">
+			<h6 class="fs_18 font-weight-normal mb-3">项目基本信息</h6>
+			<el-form label-width="140px" label-position="left" class="pl-3 pr-3">
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="项目编号">
+							{{projectInfo.apply_number}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="项目名称">
+							{{projectInfo.p_name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请类别">
+							{{projectInfo.pname}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请人">
+							{{projectInfo.name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请人所在部门">
+							{{projectInfo.depart_name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="项目年份">
+							{{projectInfo.projecttime}} 年
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="预算金额" v-if="projectInfo.budget_amount != 0">
+							{{projectInfo.budget_amount}} 元
+						</el-form-item>
+					</el-col>
+					<template v-for="(formItem,j) in projectInfo.dataJson">
+						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
+							<el-form-item :label="formItem.title">
+								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
+									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+									</div>
+									<div class="opacity-80 ml-5 pl-5">
+										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+									</div>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
+							<el-form-item :label="formItem.title" class="json-form-item">
+								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
+									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
+							<el-form-item :label="formItem.title">
+								{{formItem.value.join(",")}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 7">
+							<el-form-item :label="formItem.title">
+								<span v-html="formItem.value"></span>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else>
+							<el-form-item :label="formItem.title">
+								{{formItem.value}}
+							</el-form-item>
+						</el-col>
+					</template>
+				</el-row>
+			</el-form>
+		</el-card>
+
 		<el-card class="mt-3 bg-white">
 			<h6 class="fs_18 font-weight-normal mb-3">{{titile}}</h6>
 			<el-form :model="recheckForm" :rules="rules" ref="recheckForm" label-width="110px" label-position="top" class="pl-3 pr-3">
@@ -55,8 +136,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
-						<el-form-item label="复审内容" prop="content">
-							<el-input type="textarea" v-model="recheckForm.content" placeholder="请输入复审内容" :rows="3"></el-input>
+						<el-form-item label="评审内容" prop="content">
+							<el-input type="textarea" v-model="recheckForm.content" placeholder="请输入评审内容" :rows="3"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -76,8 +157,11 @@
 		name: 'RecheckCheckEdit',
 		data () {
 			return {
+				// 项目基本信息
+				projectInfo: {},
+				// 评审（复审）相关
 				projectId:'',
-				titile:"复审编辑",
+				titile:"评审编辑",
 				expertOptions:[],
 				isSelectArr:[],
 				recheckForm: {
@@ -98,7 +182,7 @@
             { required: true, message: '请选择评审日期', trigger: 'change' }
           ],
 					content: [
-            { required: true, message: '请输入复审内容', trigger: 'blur' }
+            { required: true, message: '请输入评审内容', trigger: 'blur' }
           ],
         }
 			}
@@ -152,6 +236,11 @@
 					id:this.projectId,
 				}).then(data=>{
 					if(data.code == 0){
+						// 项目基本信息
+						this.projectInfo = data.data.info;
+						this.projectInfo.dataJson = data.data.info.datajson;
+
+						// 评审（复审）相关
 						this.recheckForm.sendjson = JSON.parse(data.data.project_recheck_info.sendjson);
 						this.recheckForm.recheck_date = data.data.project_recheck_info.recheck_date;
 						this.recheckForm.content = data.data.project_recheck_info.content;
@@ -198,6 +287,34 @@
           }
         });
       },
+
+			// 预览文件
+			preview(path){
+				this.$api.file_preview({
+					path:path,
+				}).then(data=>{
+					if(data.code == 0){
+						let a = document.createElement('a');
+						a.style = 'display: none'; // 创建一个隐藏的a标签
+						a.target = "_blank";
+						a.href = data.data;
+						document.body.appendChild(a);
+						a.click();
+					}else{
+						this.$message.error(data.msg)
+					}
+				})
+			},
+			// 下载文件
+			downloadview(file){
+				let a = document.createElement('a'); 
+				a.style = 'display: none'; // 创建一个隐藏的a标签
+				a.download = file.name;
+				a.href = this.$globalUrl.baseURL + file.path;
+				document.body.appendChild(a);
+				a.click(); // 触发a标签的click事件
+				document.body.removeChild(a);
+			},
 		}
 	}
 </script>

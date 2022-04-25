@@ -3,42 +3,47 @@
 		<!-- 登录信息 -->
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
-		<el-card class="mt-3 bg-white">
-			<!-- 项目信息 -->
-			<h6 class="fs_18 font-weight-normal mb-3">项目信息</h6>
+		<!-- 项目基本信息 -->
+		<el-card class="mt-3 bg-white" :body-style="{'padding-bottom':'0px'}">
+			<h6 class="fs_18 font-weight-normal mb-3">项目基本信息</h6>
 			<el-form label-width="140px" label-position="left" class="pl-3 pr-3">
 				<el-row :gutter="20">
 					<el-col :span="8">
+						<el-form-item label="项目编号">
+							{{projectInfo.apply_number}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
 						<el-form-item label="项目名称">
-							{{projectForm.p_name}}
+							{{projectInfo.p_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="申请类别">
-							{{projectForm.category_name}}
+							{{projectInfo.category_name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请人">
+							{{projectInfo.name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请人所在部门">
+							{{projectInfo.depart_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="项目年份">
-							{{projectForm.projecttime}} 年
+							{{projectInfo.projecttime}} 年
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="企业名称">
-							{{projectForm.job_number}}
+						<el-form-item label="预算金额" v-if="projectInfo.budget_amount != 0">
+							{{projectInfo.budget_amount}} 元
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
-						<el-form-item label="预算金额" v-if="projectForm.budget_amount != 0">
-							{{projectForm.budget_amount}} 元
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="项目金额" v-if="projectForm.real_amount != 0">
-							{{projectForm.real_amount}} 元
-						</el-form-item>
-					</el-col>
-					<template v-for="(formItem,j) in projectForm.dataJson">
+					<template v-for="(formItem,j) in projectInfo.dataJson">
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
 							<el-form-item :label="formItem.title">
 								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
@@ -77,31 +82,35 @@
 					</template>
 				</el-row>
 			</el-form>
+		</el-card>
 
-			<!-- 审核信息 -->
-			<div v-if="check_info.check_state != 1">
-				<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
-				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-					<el-row :gutter="20">
-						<el-col :span="8">
-							<el-form-item label="审核人">
-								{{check_info.checkname}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="审核时间">
-								{{check_info.checktime}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="24">
-							<el-form-item label="审核备注">
-								{{check_info.remark}}
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</el-form>
-			</div>
-
+		<!-- 审核信息 -->
+		<el-card class="mt-3 bg-white" v-if="check_info.check_state != 1">
+			<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="审核人">
+							{{check_info.checkname}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核时间">
+							{{check_info.checktime}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核部门">
+							{{check_info.checkgroup}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="24">
+						<el-form-item label="审核备注">
+							{{check_info.remark}}
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
 		</el-card>
 
 		<el-card class="mt-3 bg-white"  v-if="check_info.check_state == 1">
@@ -134,10 +143,9 @@
 		data () {
 			return {
 				ID:'',
-				projectForm: {},
-				dataJson:{},
-				agree_payinfo:[],
+				projectInfo: {},
 				check_info:{},
+
 				checkform:{
 					check_state:"",
 					remark:"",
@@ -165,11 +173,11 @@
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
-						this.projectForm = data.data.info;
-						this.projectForm.job_number = data.data.company_info.job_number;
-						this.projectForm.dataJson = data.data.info.datajson;
+						// 项目基本信息
+						this.projectInfo = data.data.info;
+						this.projectInfo.dataJson = data.data.info.datajson;
 						// 审核信息
-						this.check_info =  data.data.check_info;
+						this.check_info = data.data.check_info;
 					}else{
 						this.$message.error(data.msg);
 					}

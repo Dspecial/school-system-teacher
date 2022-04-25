@@ -436,7 +436,7 @@ const router = new Router({
 				  component: resolve => require(['@/views/check/Recheck'], resolve),
 				  name: 'Recheck',
 				  meta: {
-				    title: '复审列表',
+				    title: '评审列表',
 				  },
 				  children: null
 				},
@@ -445,7 +445,7 @@ const router = new Router({
 				  component: resolve => require(['@/views/check/RecheckCheckEdit'], resolve),
 				  name: 'RecheckCheckEdit',
 				  meta: {
-				    title: '复审编辑',
+				    title: '审核编辑',
 				  },
 				  children: null
 				},
@@ -454,7 +454,7 @@ const router = new Router({
 				  component: resolve => require(['@/views/check/RecheckCheck'], resolve),
 				  name: 'RecheckCheck',
 				  meta: {
-				    title: '复审',
+				    title: '审核',
 				  },
 				  children: null
 				},
@@ -463,7 +463,7 @@ const router = new Router({
 				  component: resolve => require(['@/views/check/RecheckCheckDetail'], resolve),
 				  name: 'RecheckCheckDetail',
 				  meta: {
-				    title: '复审详情',
+				    title: '审核详情',
 				  },
 				  children: null
 				},

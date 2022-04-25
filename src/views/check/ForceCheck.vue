@@ -3,23 +3,38 @@
 		<!-- 登录信息 -->
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
-		<el-card class="mt-3 bg-white">
-			<!-- 项目信息 -->
-			<h6 class="fs_18 font-weight-normal mb-3">项目信息</h6>
-			<el-form :model="projectInfo" ref="projectInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
+		<!-- 项目基本信息 -->
+		<el-card class="mt-3 bg-white" :body-style="{'padding-bottom':'0px'}">
+			<h6 class="fs_18 font-weight-normal mb-3">项目基本信息</h6>
+			<el-form label-width="140px" label-position="left" class="pl-3 pr-3">
 				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="项目编号">
+							{{projectInfo.apply_number}}
+						</el-form-item>
+					</el-col>
 					<el-col :span="8">
 						<el-form-item label="项目名称">
 							{{projectInfo.p_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="项目类别">
+						<el-form-item label="申请类别">
 							{{projectInfo.category_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="年份">
+						<el-form-item label="申请人">
+							{{projectInfo.name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请人所在部门">
+							{{projectInfo.depart_name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="项目年份">
 							{{projectInfo.projecttime}} 年
 						</el-form-item>
 					</el-col>
@@ -28,22 +43,9 @@
 							{{projectInfo.budget_amount}} 元
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
-						<el-form-item label="项目金额" v-if="projectInfo.real_amount != 0">
-							{{projectInfo.real_amount}} 元
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="审核状态">
-							<span class="text-warning" v-if="check_info.check_state == 1">待审核</span>
-							<span class="text-success" v-else-if="check_info.check_state == 2">审核成功</span>
-							<span class="text-danger" v-else-if="check_info.check_state == 3">审核失败</span>
-						</el-form-item>
-					</el-col>
-
-					<template v-for="(formItem,j) in dataJson">
+					<template v-for="(formItem,j) in projectInfo.dataJson">
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
-							<el-form-item :label="formItem.title" class="file-form-item">
+							<el-form-item :label="formItem.title">
 								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
 									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
 										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
@@ -56,7 +58,7 @@
 							</el-form-item>
 						</el-col>
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
-							<el-form-item :label="formItem.title" label-width="80px"  class="json-form-item">
+							<el-form-item :label="formItem.title" class="json-form-item">
 								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
 									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
 								</div>
@@ -78,12 +80,11 @@
 							</el-form-item>
 						</el-col>
 					</template>
-
-					<el-col :span="24">
-						<el-form-item label="付款节点">
+					<el-col :span="24" v-if="pay_info">
+						<el-form-item label="付款信息">
 							<template>
 								<el-table
-									:data="payInfo"
+									:data="pay_info"
 									style="width: 100%">
 									<el-table-column prop="title" label="标题"></el-table-column>
 									<el-table-column prop="money" label="金额"></el-table-column>
@@ -94,69 +95,73 @@
 					</el-col>
 				</el-row>
 			</el-form>
+		</el-card>
 
-			<!-- 厂商信息 -->
-			<div>
-				<h6 class="fs_18 font-weight-normal mb-3">厂商信息</h6>
-				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-					<el-row :gutter="20">
-						<el-col :span="8">
-							<el-form-item label="企业名称">
-								{{company_info.job_number}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="负责人电话">
-								{{company_info.phone}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="联系地址">
-								{{company_info.address}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="企业开户行">
-								{{company_info.bank_info}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="企业账户">
-								{{company_info.account}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="项目负责人">
-								{{company_info.name}}
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</el-form>
-			</div>
+		<el-card class="mt-3 bg-white">
+			<h6 class="fs_18 font-weight-normal mb-3">厂商信息</h6>
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="企业名称">
+							{{company_info.job_number}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="负责人电话">
+							{{company_info.phone}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="联系地址">
+							{{company_info.address}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="企业开户行">
+							{{company_info.bank_info}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="企业账户">
+							{{company_info.account}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="项目负责人">
+							{{company_info.name}}
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+		</el-card>
 
-			<!-- 审核信息 -->
-			<div v-if="check_info.check_state != 1">
-				<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
-				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-					<el-row :gutter="20">
-						<el-col :span="8">
-							<el-form-item label="审核人">
-								{{check_info.checkname}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="审核时间">
-								{{check_info.checktime}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="24">
-							<el-form-item label="审核备注">
-								{{check_info.remark}}
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</el-form>
-			</div>
+		<!-- 审核信息 -->
+		<el-card class="mt-3 bg-white" v-if="check_info.check_state != 1">
+			<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="审核人">
+							{{check_info.checkname}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核时间">
+							{{check_info.checktime}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核部门">
+							{{check_info.checkgroup}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="24">
+						<el-form-item label="审核备注">
+							{{check_info.remark}}
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
 		</el-card>
 
 		<el-card class="mt-3 bg-white" v-if="check_info.check_state == 1">	
@@ -196,17 +201,17 @@
 			return {
 				id:'',
 				projectInfo: {},
-				dataJson:{},
-				payInfo:[],
 				check_info:{},
+				pay_info:[],
+				// 厂商信息
+				company_info:{},
+				isFinance:0, // 1是 0 否
+
 				checkform:{
 					check_state:"",
 					can_finance_check:0,
 					remark:"",
 				},
-				// 厂商信息
-				company_info:{},
-				isFinance:0, // 1是 0 否
 				rules:{
 					check_state:[
 						{ required: true, message: '请选择审核状态', trigger: 'change' }
@@ -233,17 +238,17 @@
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
+						// 项目基本信息
 						this.projectInfo = data.data.info;
-						// 表单值
-						this.dataJson = data.data.info.datajson;
-						// 付款节点
-						this.payInfo = data.data.pay_info;
-						// 审核信息
-						this.check_info =  data.data.check_info;
-						// 是否财务审核
-						this.isFinance = data.data.can_finance_check;
+						this.projectInfo.dataJson = data.data.info.datajson;
+						// 付款信息
+						this.pay_info = data.data.pay_info;
 						// 厂商信息
 						this.company_info = data.data.company_info;
+						// 审核信息
+						this.check_info = data.data.check_info;
+						// 是否财务审核
+						this.isFinance = data.data.can_finance_check;
 					}else{
 						this.$message.error(data.msg);
 					}

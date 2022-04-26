@@ -4,7 +4,7 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<!-- 项目基本信息 -->
-		<el-card class="mt-3 bg-white" :body-style="{'padding-bottom':'0px'}">
+		<el-card class="mt-3 bg-white">
 			<h6 class="fs_18 font-weight-normal mb-3">项目基本信息</h6>
 			<el-form label-width="140px" label-position="left" class="pl-3 pr-3">
 				<el-row :gutter="20">

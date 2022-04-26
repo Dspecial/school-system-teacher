@@ -22,54 +22,54 @@
 					</el-col>
 				</el-row>
 			</el-form>
+		</el-card>
 
-			<!-- 申请信息 -->
-			<div>
-				<h6 class="fs_18 font-weight-normal mb-3">申请信息</h6>
-				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-					<el-row :gutter="20">
-						<el-col :span="8">
-							<el-form-item label="申请人">
-								{{companyInfo.name}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="申请人所在部门">
-								{{companyInfo.depart_name}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="申请备注">
-								{{companyInfo.remark}}
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</el-form>
-			</div>
+		<!-- 申请信息 -->
+		<el-card class="mt-3 bg-white">
+			<h6 class="fs_18 font-weight-normal mb-3">申请信息</h6>
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="申请人">
+							{{companyInfo.name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请人所在部门">
+							{{companyInfo.depart_name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请备注">
+							{{companyInfo.remark}}
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+		</el-card>
 
-			<!-- 审核信息 -->
-			<div v-if="companyInfo.status != 1">
-				<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
-				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-					<el-row :gutter="20">
-						<el-col :span="8">
-							<el-form-item label="审核人">
-								{{companyInfo.checkname}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="审核时间">
-								{{companyInfo.checktime}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="审核备注">
-								{{companyInfo.check_remark}}
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</el-form>
-			</div>
+		<!-- 审核信息 -->
+		<el-card class="mt-3 bg-white" v-if="companyInfo.status != 1">
+			<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="审核人">
+							{{companyInfo.checkname}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核时间">
+							{{companyInfo.checktime}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核备注">
+							{{companyInfo.check_remark}}
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
 		</el-card>
 
 		<el-card class="mt-3 bg-white" v-if="companyInfo.status == 1">	

@@ -4,77 +4,137 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
-			<!-- 项目信息 -->
-			<h6 class="fs_18 font-weight-normal mb-3">项目信息</h6>
+			<!-- 项目基本信息 -->
+			<h6 class="fs_18 font-weight-normal mb-3">项目基本信息</h6>
 			<el-form :model="projectInfo" ref="projectInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
 				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="项目编号">
+							{{projectInfo.apply_number}}
+						</el-form-item>
+					</el-col>
 					<el-col :span="8">
 						<el-form-item label="项目名称">
 							{{projectInfo.p_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="项目类别">
+						<el-form-item label="申请类别">
 							{{projectInfo.category_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="审核状态">
-							<span class="text-warning" v-if="check_info.check_state == 1">待审核</span>
-							<span class="text-success" v-else-if="check_info.check_state == 2">审核成功</span>
-							<span class="text-danger" v-else-if="check_info.check_state == 3">审核失败</span>
+						<el-form-item label="申请人">
+							{{projectInfo.name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请人所在部门">
+							{{projectInfo.depart_name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="年份">
+							{{projectInfo.projecttime}} 年
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="预算金额" v-if="projectInfo.budget_amount != 0">
+							{{projectInfo.budget_amount}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="项目金额" v-if="projectInfo.real_amount != 0">
+							{{projectInfo.real_amount}}
+						</el-form-item>
+					</el-col>
+					<template v-for="(formItem,j) in dataJson">
+						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
+							<el-form-item :label="formItem.title" class="file-form-item">
+								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
+									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+									</div>
+									<div class="opacity-80 ml-5 pl-5">
+										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+									</div>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
+							<el-form-item :label="formItem.title" label-width="110px"  class="json-form-item">
+								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
+									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
+							<el-form-item :label="formItem.title">
+								{{formItem.value.join(",")}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 7">
+							<el-form-item :label="formItem.title">
+								<span v-html="formItem.value"></span>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else>
+							<el-form-item :label="formItem.title">
+								{{formItem.value}}
+							</el-form-item>
+						</el-col>
+					</template>
+				</el-row>
+			</el-form>
+		</el-card>
+
+		<!-- 资源申请信息 -->
+		<el-card class="mt-3 bg-white">
+			<h6 class="fs_18 font-weight-normal mb-3">资源申请信息</h6>
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="申请人">
+							{{resourceInfo.apply_name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请部门">
+							{{resourceInfo.depart_name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请资源备注">
+							{{resourceInfo.apply_remark}}
 						</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
+		</el-card>
 
-			<!-- 资源申请信息 -->
-			<div>
-				<h6 class="fs_18 font-weight-normal mb-3">资源申请信息</h6>
-				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-					<el-row :gutter="20">
-						<el-col :span="8">
-							<el-form-item label="申请人">
-								{{resourceInfo.apply_name}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="申请部门">
-								{{resourceInfo.depart_name}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="申请资源备注">
-								{{resourceInfo.apply_remark}}
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</el-form>
-			</div>
-
-			<!-- 审核信息 -->
-			<div v-if="check_info.check_state != 1">
-				<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
-				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-					<el-row :gutter="20">
-						<el-col :span="8">
-							<el-form-item label="审核人">
-								{{check_info.checkname}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="审核时间">
-								{{check_info.checktime}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="审核备注">
-								{{check_info.remark}}
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</el-form>
-			</div>
+		<!-- 审核信息 -->
+		<el-card class="mt-3 bg-white" v-if="check_info.check_state != 1">
+			<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="审核人">
+							{{check_info.checkname}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核时间">
+							{{check_info.checktime}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核备注">
+							{{check_info.remark}}
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
 		</el-card>
 
 		<el-card class="mt-3 bg-white" v-if="check_info.check_state == 1">	
@@ -216,6 +276,7 @@
 			return {
 				id:'',
 				projectInfo: {},
+				dataJson:{},
 				resourceInfo:{},
 				check_info:{},
 
@@ -259,7 +320,10 @@
 					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
+						// 项目基本信息
 						this.projectInfo = data.data.info;
+						// 表单值
+						this.dataJson = data.data.info.datajson;
 						// 资源申请信息
 						this.resourceInfo = data.data.resource_apply_info;
 						// 审核信息

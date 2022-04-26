@@ -4,18 +4,33 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
-			<!-- 项目信息 -->
-			<h6 class="fs_18 font-weight-normal mb-3">项目信息</h6>
+			<!-- 项目基本信息 -->
+			<h6 class="fs_18 font-weight-normal mb-3">项目基本信息</h6>
 			<el-form :model="projectInfo" ref="projectInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
 				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="项目编号">
+							{{projectInfo.apply_number}}
+						</el-form-item>
+					</el-col>
 					<el-col :span="8">
 						<el-form-item label="项目名称">
 							{{projectInfo.p_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="项目类别">
+						<el-form-item label="申请类别">
 							{{projectInfo.category_name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请人">
+							{{projectInfo.name}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="申请人所在部门">
+							{{projectInfo.depart_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
@@ -33,14 +48,6 @@
 							{{projectInfo.real_amount}}
 						</el-form-item>
 					</el-col>
-					<el-col :span="8">
-						<el-form-item label="审核状态">
-							<span class="text-warning" v-if="check_info.check_state == 1">待审核</span>
-							<span class="text-success" v-else-if="check_info.check_state == 2">审核成功</span>
-							<span class="text-danger" v-else-if="check_info.check_state == 3">审核失败</span>
-						</el-form-item>
-					</el-col>
-
 					<template v-for="(formItem,j) in dataJson">
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
 							<el-form-item :label="formItem.title" class="file-form-item">
@@ -80,30 +87,30 @@
 					</template>
 				</el-row>
 			</el-form>
+		</el-card>
 
-			<!-- 审核信息 -->
-			<div v-if="check_info.check_state != 1">
-				<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
-				<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-					<el-row :gutter="20">
-						<el-col :span="8">
-							<el-form-item label="审核人">
-								{{check_info.checkname}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="审核时间">
-								{{check_info.checktime}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="8">
-							<el-form-item label="审核备注">
-								{{check_info.remark}}
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</el-form>
-			</div>
+		<!-- 审核信息 -->
+		<el-card class="mt-3 bg-white" v-if="check_info.check_state != 1">
+			<h6 class="fs_18 font-weight-normal mb-3">审核信息</h6>
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="审核人">
+							{{check_info.checkname}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核时间">
+							{{check_info.checktime}}
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="审核备注">
+							{{check_info.remark}}
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
 		</el-card>
 
 		<el-card class="mt-3 bg-white" v-if="check_info.check_state == 1">	

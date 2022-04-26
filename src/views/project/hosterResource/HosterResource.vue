@@ -23,6 +23,8 @@
 						    <el-option label="永久" :value="'1'"></el-option>
                 <el-option label="临时" :value="'2'"></el-option>
 						  </el-select>
+              <el-cascader v-model="filters[3].value" placeholder="请选择资源分类" class="ml-3" :show-all-levels="false" clearable :options="cateOptions" :props="{value:'id',label:'cate_name',children:'children',checkStrictly: true}">
+					    </el-cascader>
           	</div>
             <div class="ml-auto">
               <el-button type="primary" @click="handleAdd()" v-if="$store.getters.getaddAction.title" ><i class="el-icon-plus el-icon--left"></i>{{$store.getters.getaddAction.title}}</el-button>
@@ -100,6 +102,7 @@
     },
     data() {
       return {
+        cateOptions:[],
         tableProps: {
           
         },
@@ -117,6 +120,10 @@
           {
             value: '',
             prop: 'type'
+          },
+          {
+            value: '',
+            prop: 'cate_id'
           }
         ],
         total: 0, //总条数
@@ -139,9 +146,21 @@
     computed: {
     },
     mounted(){
-
+      this.initCateOptions();
     },
     methods: {
+      // 获取分类
+			initCateOptions(){
+				this.$api.getResource_cate({
+        }).then(data=>{
+          if(data.code == 0){
+            this.cateOptions = data.data;
+          }else{
+            this.$message.error(data.msg);
+          }
+        });
+			},
+
       // 自增序列
       indexMethod(index) { 
         return ++index;
@@ -149,6 +168,10 @@
       // 加载数据
       loadData(queryInfo) { 
         let _this = this;
+        var cate_id = "";
+        if(this.filters[3].value.length > 0){
+          cate_id = this.filters[3].value[this.filters[3].value.length - 1];
+        }
         if (queryInfo != null) {
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
@@ -159,6 +182,7 @@
           keywords:this.filters[0].value,
           is_use:this.filters[1].value,
           type:this.filters[2].value,
+          cate_id:cate_id,
         }).then(data=>{
           if(data.code == 0){
             this.total = data.data.total;

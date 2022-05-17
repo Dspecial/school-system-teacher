@@ -220,7 +220,4 @@
 </script>
 
 <style>
-  .project_search_div .el-date-editor.el-input{
-    width:100%!important;
-  }
 </style>

@@ -3,98 +3,58 @@
 		<!-- 登录信息 -->
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
+		<!-- 项目验收 -->
 		<el-card class="mt-3 bg-white">
 			<h6 class="fs_18 font-weight-normal mb-3">{{title}}</h6>
-			<el-form :model="projectForm" :rules="rules" ref="projectForm" label-width="110px" label-position="top" class="pl-3 pr-3">
+			<!-- 审核内容的表格 -->
+			<div class="accept_info">
+				<div class="accept_info_header fs_16 text-center font-weight-black">
+					<el-row type="flex" align="middle">
+						<el-col :span="18">
+							<div class="p-2">审核内容</div>
+						</el-col>
+						<el-col :span="3">
+							<div class="p-2">执行情况</div>
+						</el-col>
+						<el-col :span="3">
+							<div class="p-2">审核人</div>
+						</el-col>
+					</el-row>
+				</div>
+				<div class="accept_info_content">
+					<template v-for="(item,index) in acceptInfo">
+						<el-row :key="index" type="flex" align="middle">
+							<el-col :span="6">
+								<div class="p-2 text-center">{{ item.group_name }}</div>
+							</el-col>
+							<el-col :span="18">
+								<template v-for="(cell,j) in item.group_list">
+									<el-row :key="j" type="flex">
+										<el-col :span="16">
+											<div class="p-2">{{ j+1 }}、 {{ cell.title }}</div>
+										</el-col>
+										<el-col :span="4">
+											<div class="p-2">
+												<el-input v-model="cell.desc" placeholder="请输入执行情况"></el-input>
+											</div>
+										</el-col>
+										<el-col :span="4">
+											<div class="p-2">
+												<el-input v-model="cell.checkname" placeholder="请输入审核人"></el-input>
+											</div>
+										</el-col>
+									</el-row>
+								</template>
+							</el-col>
+						</el-row>
+					</template>
+				</div>
+			</div>
+
+			<el-form :model="projectForm" ref="projectForm" label-width="110px" label-position="top" class="pl-3 pr-3">
+				<!-- 验收流程的额外参数 -->
 				<el-row :gutter="20">
-					<el-col :span="12">
-						<el-form-item label="项目类别" prop="p_cate_id">
-							<el-select v-model="projectForm.p_cate_id" clearable placeholder="请选择项目类别" class="w-100" @change="cateChange">
-								<el-option
-									v-for="item in cateOptions"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id">
-								</el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12">
-						<el-form-item label="申请年份" prop="projecttime">
-							<el-date-picker
-                placeholder="请选择申请年份"
-                v-model="projectForm.projecttime"
-                type="year"
-                class="w-100"
-                value-format="yyyy"
-								format="yyyy"
-								clearable
-								@change="yearChange">
-              </el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12">
-						<el-form-item label="负责人">
-							<div class="d-flex align-items-center">
-								<el-select v-model="projectForm.dept_id" clearable filterable placeholder="请选择负责人所在部门" class="w-100" @change="deptChange">
-									<el-option
-										v-for="item in deptOptions"
-										:key="item.wid"
-										:label="item.name"
-										:value="item.wid">
-									</el-option>
-								</el-select>
-								<el-select v-model="projectForm.leader_id" clearable filterable placeholder="请选择负责人" class="w-100 ml-3">
-									<el-option
-										v-for="item in leaderOptions"
-										:key="item.id"
-										:label="item.name"
-										:value="item.id">
-									</el-option>
-								</el-select>
-							</div>
-						</el-form-item>
-					</el-col>
-					<!-- <el-col :span="12">
-						<el-form-item label="负责人" prop="leader_id">
-							
-						</el-form-item>
-					</el-col> -->
-					<el-col :span="12">
-						<el-form-item label="项目名称" prop="p_name">
-							<el-input v-model="projectForm.p_name" placeholder="请输入项目名称"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12" v-if="is_need_company == 2">
-						<el-form-item label="所属企业">
-							<el-select v-model="projectForm.company_id" clearable filterable placeholder="请选择所属企业" class="w-100">
-								<el-option
-									v-for="item in companyOptions"
-									:key="item.id"
-									:label="item.job_number"
-									:value="item.id">
-								</el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12" v-if="is_open_money == 2">
-						<el-form-item prop="budget_amount">
-							<template slot="label">
-								<span v-if="can_used_funds == 0">
-									预算金额 
-									<!-- <span class="text-danger">(本年度可用预算金额不足，请联系管理员)</span> -->
-								</span>
-								<span v-else>
-									预算金额 
-									<!-- <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span> -->
-								</span>
-							</template>
-							<el-input v-model="projectForm.budget_amount" placeholder="请输入预算金额">
-								<span slot="suffix" class="el-input__icon mr-2">元</span>
-							</el-input>
-						</el-form-item>
-					</el-col>
-					<template v-for="(formItem,j) in projectForm.secondFrom">
+					<template v-for="(formItem,j) in projectForm.acceptExtraForms">
 						<!-- 字段类型:1=文本框,2=数字框,3=下拉单选,4=日期选择,5=文件上传(单选),6=文本域,7=富文本,
 						8=时间选择,9=下拉多选,10=复选,11=单选,12=数组,13=图片上传(单选),14=图片上传(多选),15=文件上传(多选) -->
 						<!-- 1=文本框 -->
@@ -149,7 +109,7 @@
 								:placeholder="formItem.placeholder"
 								v-model="formItem.value" 
 								value-format="yyyy-MM-dd"
-								clearable
+								clearable 
 								style="width: 100%;"></el-date-picker>
 							</el-form-item>
 						</el-col>
@@ -351,213 +311,67 @@
 								</div>
 							</el-form-item>
 						</el-col>
-
 					</template>
-
 				</el-row>
+
 				<div class="d-flex justify-content-end">
-					<el-button type="primary" @click="submitForm('projectForm')">确 定</el-button>
+					<el-button type="primary" @click="submitForm('projectForm')" v-if="isShow">确 定</el-button>
 					<el-button @click="closedEdit">取 消</el-button>
 				</div>
 			</el-form>
 		</el-card>
+
 	</div>
 </template>
 
 <script>
 	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
-	import vEditor from "@/components/quill-editor/ue";
 	export default {
-		props:['editData'],
-		name: 'ProjectEdit',
+		name: 'ProjectAccept',
 		data () {
 			return {
 				projectId:'',
-				title:"新增项目",
+				is_commit:"",// 判断有没有确定按钮，当is_commit为8的时候   没有确定按钮
+				title:"项目验收",
 				accept_file: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
 				accept_img:".jpg,.png,.JPEG",
-				cateOptions:[],
-				companyOptions:[],
-				deptOptions:[],
-				leaderOptions:[],
 				projectForm: {
-					apply_number:"",
-					p_cate_id:"",
-          p_name: "",
-					projecttime:this.$moment(new Date()).format('YYYY'),
-					company_id: "",
-					dept_id: "",
-					leader_id: "",
-					budget_amount:"",
-					secondFrom:{
-					},
+					accept_number:"",
+					acceptExtraForms:[],
         },
-				is_need_company:"1", // 是否开启企业选择
-				is_open_money:"1", // 是否开启金额申请
-				can_used_funds:'',
+				acceptInfo:[],
 				removeFilesArr:[],
-        rules: {
-					p_cate_id: [
-            { required: true, message: '请选择项目类别', trigger: 'change' }
-          ],
-					p_name: [
-            { required: true, message: '请输入项目名称', trigger: 'blur' }
-          ],
-					projecttime: [
-            { required: true, message: '请选择申请年份', trigger: 'change' }
-          ],
-					company_id: [
-            { required: true, message: '请选择所属企业', trigger: 'change' }
-          ],
-					dept_id: [
-            { required: false, message: '请选择负责人所在部门', trigger: 'change' }
-          ],
-					leader_id: [
-            { required: false, message: '请选择负责人', trigger: 'change' }
-          ],
-					budget_amount: [
-          	{ required: true, message: '请输入预算金额', trigger: 'blur' },
-          	{ validator:this.commonJs.checkNumber,trigger: 'blur'},
-          ],
-        }
+				isShow:true,
 			}
 		},
 		components: {
 			GlobalTips,
 			Breadcrumb,
-			vEditor
 		},
 		mounted(){
 			this.openEdit();
 		},
 		methods:{
-			// 获取项目分类
-			initCate(){
-				this.$api.getProjectCate({
-				}).then(data =>{
-					if(data.code == 0){
-						// 回调成功的方法
-						this.cateOptions = data.data;
-					}else{
-						this.$message.error(data.msg);
-					}
-				});
-			},
-			// 获取企业列表
-			initCompany(){
-				this.$api.getCompany({
-				}).then(data =>{
-					if(data.code == 0){
-						// 回调成功的方法
-						this.companyOptions = data.data;
-					}else{
-						this.$message.error(data.msg);
-					}
-				});
-			},
-			// 获取负责人所在部门列表
-			initDept(){
-				this.$api.getDeptOptions({
-				}).then(data =>{
-					if(data.code == 0){
-						// 回调成功的方法
-						this.deptOptions = data.data;
-					}else{
-						this.$message.error(data.msg);
-					}
-				});
-			},
-			// 负责人所在部门选择
-			deptChange(value){
-				this.projectForm.leader_id = "";
-				this.initLeader(value);
-			},
-			// 获取负责人列表
-			initLeader(id){
-				this.$api.getUser_dept({
-					wid:id,
-				}).then(data =>{
-					if(data.code == 0){
-						// 回调成功的方法
-						this.leaderOptions = data.data;
-					}else{
-						this.$message.error(data.msg);
-					}
-				});
-			},
-			// 获取表单
-			initProjectForms(id,year){
-				this.$api.getProjectForms({
-					p_cate_id:id,
-					years:year,
-				}).then(data =>{
-					if(data.code == 0){
-						// 回调成功的方法
-						this.projectForm.secondFrom = data.data.forms_list;
-						this.is_need_company = data.data.is_need_company;
-						this.is_open_money = data.data.is_open_money;
-						this.can_used_funds = data.data.can_used_funds;
-					}else{
-						this.$message.error(data.msg);
-					}
-				});
-			},
-			// 项目分类change
-			cateChange(value){
-				this.initProjectForms(value,this.projectForm.projecttime);
-				this.projectForm.budget_amount = "";
-			},
-			// 年份change
-			yearChange(value){
-				this.initProjectForms(this.projectForm.p_cate_id,value);
-			},
-			// 添加审核流程
-			addPro(item,length){
-				var array = new Array();
-				for(var i=0;i<length.length;i++){
-					array.push('')
-				};
-				item.push(array);
-			},
-			// 删除字段
-			delField(item,index){
-				item.splice(index, 1);
-			},
-			blurChange(cell){
-				// 清空已选人员
-				cell.check_ids = [];
-			},
 			// dialog初始化
 			openEdit(){
 				this.projectId = this.$route.query.id;
 				var randnum = Math.floor(Math.random()*(9999-1000))+1000; // 四位随机数
 				var number = this.$moment(new Date()).format('YYYYMMDDHHss');
-				this.initCate();
-				this.initCompany();
-				this.initDept();
-				if(this.projectId){
-					this.title = "编辑项目";
-					this.$api.projectEdit({
-						id:this.projectId,
-						function_type:2,
-					}).then(data =>{
-						if(data.code == 0){
-							this.projectForm.apply_number = data.data.apply_number;
-							this.projectForm.p_cate_id = data.data.p_cate_id;
-							this.projectForm.p_name = data.data.p_name;
-							this.projectForm.projecttime = data.data.projecttime.toString();
-							if(data.data.company_id == 0){
-								this.projectForm.company_id = '';
-							}else{
-								this.projectForm.company_id = data.data.company_id;
-							}
-							this.projectForm.dept_id = data.data.leader_wid;
-							this.deptChange(data.data.leader_wid);
-							this.projectForm.leader_id = data.data.leader_id;
-							this.projectForm.budget_amount = data.data.budget_amount;
-							var datajson = data.data.datajson;
-							datajson.map((item)=>{
+				this.$api.projectAccept_send({
+					project_id:this.projectId,
+					function_type:1,
+				}).then(data =>{
+					if(data.code == 0){
+						this.projectForm.accept_number = number + randnum;
+						// 验收表格
+						this.acceptInfo = data.data.accept_info;
+						// 验收额外参数
+						if(!data.data.project_info.acceptextra){
+							this.getNodeExtra();
+						}else{
+							var acceptExtraForms = data.data.project_info.acceptextra;
+							acceptExtraForms.map((item)=>{
 								if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){
 									item.value = [];
 									if(!this.commonJs.isEmpty(item.file_arr)){
@@ -565,29 +379,65 @@
 									}
 								}
 							});
-							this.projectForm.secondFrom = datajson;
-						}else{
-							this.$message.error(data.msg);
+							this.projectForm.acceptExtraForms = acceptExtraForms;
+
+							if(data.data.project_accept_info.status == '1' || data.data.project_accept_info.status == '2' ){
+								this.isShow = false
+							}else{
+								this.isShow = true;
+							}
 						}
-					});
-				}else{
-					this.title = "新增项目";
-					this.projectForm.apply_number = this.VueCookies.get('application_job_number') + '_' +  number + '_' + randnum;
-				}
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
 			},
+
+			// 根据流程节点获取额外参数
+			getNodeExtra(){
+				this.$api.project_getExtraNodeForms({
+					id:10,
+				}).then(data =>{
+					if(data.code == 0){
+						var acceptExtraForms = data.data;
+						acceptExtraForms.map((item)=>{
+							if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){
+								item.value = [];
+								if(!this.commonJs.isEmpty(item.file_arr)){
+									item.value = item.file_arr
+								}
+							}
+						});
+						this.projectForm.acceptExtraForms = acceptExtraForms;
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
+			},
+
 			// 关闭编辑
 			closedEdit(){
 				this.$router.go(-1);//返回上一层
-				this.fileList = [];
 				this.removeFilesArr = [];
 			},
       // form提交
 			submitForm(formName) {
 				var _this = this;
-				var senddata = new Array;
-				var isArr = this.commonJs.isEmpty(this.projectForm.secondFrom);
-				if(!isArr){
-					senddata = this.projectForm.secondFrom.map((item)=>{
+				var sendJson = new Array;
+				this.acceptInfo.forEach((item,index)=>{
+					item.group_list.map((list,j)=>{
+						var obj = {
+							id:list.id,
+							desc:list.desc,
+							checkname:list.checkname,
+						};
+						sendJson.push(obj);
+					})
+				});
+				var sendExtra = new Array;
+				var isExtraArr = this.commonJs.isEmpty(this.projectForm.acceptExtraForms);
+				if(!isExtraArr){
+					sendExtra = this.projectForm.acceptExtraForms.map((item)=>{
 						if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){
 							var nameArray = item.value.map((file)=>{
 								if(this.commonJs.isEmpty(file.response)){
@@ -608,59 +458,29 @@
 						}
 					});
 				};
+
 				this.$refs[formName].validate((valid) => {
           if (valid) {
-						if(this.projectId){ // 编辑
-							this.$api.projectEdit({
-								id:this.projectId,
-								function_type:1,
-								apply_number:this.projectForm.apply_number,
-								p_cate_id:this.projectForm.p_cate_id,
-								p_name:this.projectForm.p_name,
-								projecttime:this.projectForm.projecttime,
-								company_id:this.projectForm.company_id,
-								leader_id:this.projectForm.leader_id,
-								budget_amount:this.projectForm.budget_amount,
-								senddata:JSON.stringify(senddata),
-							}).then(data =>{
-								if(data.code == 0){
-									this.removeFilesArr.map((path)=>{
-										_this.removeFile(path);
-									})
-									this.$message({
-										message: data.msg,
-										type: 'success'
-									});
-									this.closedEdit();
-								}else{
-									this.$message.error(data.msg);
-								}
-							});
-						}else{ // 新增
-							this.$api.projectAdd({
-								apply_number:this.projectForm.apply_number,
-								p_cate_id:this.projectForm.p_cate_id,
-								p_name:this.projectForm.p_name,
-								projecttime:this.projectForm.projecttime,
-								company_id:this.projectForm.company_id,
-								leader_id:this.projectForm.leader_id,
-								budget_amount:this.projectForm.budget_amount,
-								senddata:JSON.stringify(senddata),
-							}).then(data =>{
-								if(data.code == 0){
-									this.removeFilesArr.map((path)=>{
-										_this.removeFile(path);
-									})
-									this.$message({
-										message: data.msg,
-										type: 'success'
-									});
-									this.closedEdit();
-								}else{
-									this.$message.error(data.msg);
-								}
-							});
-						}
+						this.$api.projectAccept_send({
+							project_id:this.projectId,
+							accept_number:this.projectForm.accept_number,
+							acceptextra:JSON.stringify(sendExtra),
+							sendjson:JSON.stringify(sendJson),
+							function_type:2,
+						}).then(data =>{
+							if(data.code == 0){
+								this.removeFilesArr.map((path)=>{
+									_this.removeFile(path);
+								})
+								this.$message({
+									message: data.msg,
+									type: 'success'
+								});
+								this.closedEdit();
+							}else{
+								this.$message.error(data.msg);
+							}
+						});
           } else {
             console.log('error submit!!');
             return false;
@@ -672,11 +492,11 @@
 			myUpload(params,formItem){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("apply_number", this.projectForm.apply_number);
+	      formData.append("accept_number", this.projectForm.accept_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.uploadAgree(formData).then(data =>{
+				this.$api.my_project_acceptUpload(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

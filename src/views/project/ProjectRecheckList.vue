@@ -3,11 +3,11 @@
     <!-- 登录信息 -->
     <global-tips></global-tips>
     <Breadcrumb></Breadcrumb>
-    <!-- 复审记录列表 -->
+    <!-- 评审记录列表 -->
     <el-card class="mt-3 bg-white">
       <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage" :page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
         <div class="mb-3" slot="tool">
-          <h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">复审列表</h4>
+          <h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">评审列表</h4>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="p_name" label="项目名称"></el-table-column>
@@ -43,8 +43,8 @@
       </data-tables-server>
     </el-card>
 
-    <!-- 复审详情 -->
-    <el-dialog title="复审详情" :visible.sync="dialogTableVisible">
+    <!-- 评审详情 -->
+    <el-dialog title="评审详情" :visible.sync="dialogTableVisible">
       <el-table :data="gridData">
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column property="e_name" label="专家姓名"></el-table-column>
@@ -132,7 +132,7 @@
           }
         });
       },
-      // 查看复审详情
+      // 查看评审详情
       listDetail(index,row){
         this.dialogTableVisible = true;
         this.$api.projectRecheck_detail({

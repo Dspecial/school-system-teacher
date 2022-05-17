@@ -120,7 +120,6 @@
 
 			/****  上传  ****/
 			myUpload(params){
-				console.log(params.file);
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
 	      formData.append("process_number", this.processForm.process_number);

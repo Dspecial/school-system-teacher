@@ -82,34 +82,45 @@
 		</el-card> -->
 
 		<!-- 合同付款节点 -->
-		<el-card class="mt-3" v-if="tableData.length != 0">
-			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">合同付款节点</h4>
-			<el-table :data="tableData" :default-expand-all="true" :row-class-name="getRowClass">
-				<!-- <el-table-column type="expand" label="" width="50">
-					<template slot-scope="scope">
-						<div class="d-flex align-items-center justify-content-between files_list" v-for="(file,index) in scope.row.files" :key="index">
-							<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
-								<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
-							</div>
-							<div class="opacity-80">
-								<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
-								<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
-							</div>
-						</div>
-					</template>
-				</el-table-column> -->
-				<el-table-column prop="title" label="标题"></el-table-column>
-				<el-table-column prop="money" label="金额"></el-table-column>
-				<el-table-column prop="paytime" label="付款节点"></el-table-column>
-				<el-table-column prop="is_pay" label="是否支付">
-					<template slot-scope="scope">
-						<span v-if="scope.row.is_pay == 1"><i class="dot bg-warning mr-1"></i>待支付</span>
-						<span v-else-if="scope.row.is_pay == 2"><i class="dot bg-success mr-1"></i>已支付</span>
-					</template>
-				</el-table-column>
-				<el-table-column prop="haspaytime" label="付款时间"></el-table-column>
-				<el-table-column prop="remark" label="备注"></el-table-column>
-			</el-table>
+		<el-card class="mt-3 bg-white" v-if="tableData.length != 0">
+			<h6 class="fs_18 font-weight-normal mb-3">合同付款节点</h6>
+			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
+				<el-table :data="tableData" :default-expand-all="true" :row-class-name="getRowClass">
+					<el-table-column type="expand" label="" width="50">
+						<template slot-scope="scope">
+							<el-table :data="scope.row.pay_list">
+								<el-table-column prop="real_money" label="实际金额"></el-table-column>
+								<el-table-column prop="haspaytime" label="已付款节点"></el-table-column>
+								<el-table-column prop="remark" label="备注"></el-table-column>
+								<el-table-column prop="files" label="付款凭证或附件">
+									<template slot-scope="scope">
+										<div class="d-flex align-items-center justify-content-between files_list" v-for="(file,index) in scope.row.files" :key="index">
+											<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+												<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+											</div>
+											<div class="opacity-80">
+												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+												<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+											</div>
+										</div>
+									</template>
+								</el-table-column>
+							</el-table>
+						</template>
+					</el-table-column>
+					<el-table-column prop="title" label="标题"></el-table-column>
+					<el-table-column prop="money" label="金额"></el-table-column>
+					<el-table-column prop="paytime" label="付款节点"></el-table-column>
+					<el-table-column prop="is_pay" label="是否支付">
+						<template slot-scope="scope">
+							<span v-if="scope.row.is_pay == 1"><i class="dot bg-warning mr-1"></i>待支付</span>
+							<span v-else-if="scope.row.is_pay == 2"><i class="dot bg-success mr-1"></i>已支付</span>
+						</template>
+					</el-table-column>
+					<el-table-column prop="haspaytime" label="付款时间"></el-table-column>
+					<el-table-column prop="remark" label="备注"></el-table-column>
+				</el-table>
+			</el-form>
 		</el-card>
 	</div>
 </template>
@@ -237,7 +248,7 @@
       },
 			// 判断表格是否有子项，无子项不显示展开按钮
 			getRowClass (row) {
-				if (row.row.is_pay == 1) {
+				if (row.row.pay_list.length == 0) {
 					return 'row-expand-cover'
 				}
 			},

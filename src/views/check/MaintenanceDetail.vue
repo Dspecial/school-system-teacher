@@ -97,8 +97,8 @@
 			</el-form>
 		</el-card>
 
+		<!-- 项目维保信息 -->
 		<el-card class="mt-3 bg-white">
-			<!-- 项目维保信息 -->
 			<h6 class="fs_18 font-weight-normal mb-3">项目维保信息</h6>
 			<el-form :model="maintenanceInfo" ref="maintenanceInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
 				<el-row :gutter="20">

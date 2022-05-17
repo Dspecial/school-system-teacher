@@ -3,100 +3,110 @@
     <!-- 登录信息 -->
     <global-tips></global-tips>
     <Breadcrumb></Breadcrumb>
-    <div class="mt-3 service-container">
+    <div class="mt-3 service-container2">
       <div class="d-flex h-100">
-        <div class="left w-80 d-flex flex-column">
-          <div class="left_body" ref="left_body">
-            <template v-for="(chat,index) in chatBoxes">
-              <div :key="index" class="p-3">
-                <!-- 右边 -->
-                <div class="ownSide d-flex justify-content-end align-items-start w-60 ml-auto" v-if="chat.to_obj == 2">
-                  <img :src="avatarOwnside" alt="" class="img-round img-fluid"/>
-                  <div class="txt mr-3">
-                    <time class="opacity-60 d-block mb-2">{{chat.createtime}}</time>
-                    <div class="txt_content p-2">
-                      <p class="m-0">{{chat.content}}</p>
-                      <template v-if="chat.files && chat.files.length > 0">
-                        <p class="mt-2 mb-2">工单附件:</p>
-                        <div class="d-flex align-items-center justify-content-between" v-for="(file,index) in chat.files" :key="index">
-                          <div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
-                            <i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
-                          </div>
-                          <div class="opacity-80 ml-5">
-                            <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
-                            <i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
-                          </div>
-                        </div>
-                      </template>
-                    </div>
-                  </div>
-                </div>
-                <!-- 左边 -->
-                <div class="otherSide d-flex justify-content-start align-items-start w-60 mr-auto" v-if="chat.to_obj == 1">
-                  <img :src="avatarOtherside" alt="" class="img-round img-fluid"/>
-                  <div class="txt ml-3">
-                    <time class="opacity-60 d-block mb-2">{{chat.createtime}}</time>
-                    <div class="txt_content p-2">
-                      <p class="m-0">{{chat.content}}</p>
-                      <template v-if="chat.files && chat.files.length > 0">
-                        <p class="mt-2 mb-2">工单附件:</p>
-                        <div class="d-flex align-items-center justify-content-between" v-for="(file,index) in chat.files" :key="index">
-                          <div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
-                            <i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
-                          </div>
-                          <div class="opacity-80 ml-5">
-                            <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
-                            <i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
-                          </div>
-                        </div>
-                      </template>
-                    </div>
-                  </div>
-                </div>
+        <div class="left d-flex flex-column mr-3 h-100">
+          <el-card class="h-100" style="overflow-y:auto">
+            <el-form :model="serviceForm" :rules="rules" ref="serviceForm" label-position="top">
+              <el-form-item label="问题汇总">
+                <data-tables-server :data="service_list" layout="table" :table-props="tableProps">
+                  <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
+                  <el-table-column prop="module_name" label="模块名称"></el-table-column>
+                  <el-table-column label="问题简述" width="150">
+                    <template slot-scope="scope">
+                      <el-popover
+                        placement="top-start"
+                        title="问题简述"
+                        width="200"
+                        trigger="hover"
+                        :content="scope.row.question_title">
+                        <span class="text-truncate" slot="reference">{{scope.row.question_title}}</span>
+                      </el-popover>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="level" label="优先度">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.level == 1">低</span>
+                      <span v-else-if="scope.row.level == 2">中</span>
+                      <span v-else-if="scope.row.level == 3">高</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="discovery_date" label="发现日" width="100"></el-table-column>
+                  <el-table-column prop="discovery_name" label="发现人"></el-table-column>
+                  <el-table-column prop="is_resolve" label="是否解决" width="100">
+                    <template slot-scope="scope">
+                      <el-select v-model="scope.row.is_resolve" clearable placeholder="请选择是否解决" class="w-100">
+                        <el-option label="否" value="1"></el-option>
+                        <el-option label="是" value="2"></el-option>
+                      </el-select>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="resolve_predict_date" label="预计解决日" width="150">
+                    <template slot-scope="scope">
+                      <el-date-picker
+                        class="w-100"
+                        v-model="scope.row.resolve_predict_date"
+                        type="date"
+                        align="right"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请输入预计解决日"
+                        clearable>
+                      </el-date-picker>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="resolve_real_date" label="实际解决日" width="150">
+                    <template slot-scope="scope">
+                      <el-date-picker
+                        class="w-100"
+                        v-model="scope.row.resolve_real_date"
+                        type="date"
+                        align="right"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请输入实际解决日"
+                        clearable>
+                      </el-date-picker>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="resolve_name" label="企业解决人" width="150">
+                    <template slot-scope="scope">
+                      <el-input placeholder="请输入企业解决人" v-model="scope.row.resolve_name" clearable></el-input>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="resolve_remark" label="备注" width="150">
+                    <template slot-scope="scope">
+                      <el-input placeholder="请输入企业解决人" v-model="scope.row.resolve_remark" clearable></el-input>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="updatetime" label="更新日期" width="100"></el-table-column>
+                </data-tables-server>
+              </el-form-item>
+              <el-form-item label="企业备注">
+                <el-input type="textarea" v-model="serviceForm.remark" placeholder="请输入备注" :rows="3"></el-input>
+              </el-form-item>
+              <el-form-item label="企业附件">
+                <el-upload
+                  class="my_upload"
+                  drag
+                  action="void"
+                  accept=".doc,.docx,.jpg,.png,.JPEG"
+                  :auto-upload="true"
+                  :http-request="myUpload"
+                  :show-file-list="true"
+                  :file-list="filesList"
+                  :before-upload="beforeUpload"
+                  :on-success="handleSuccess"
+                  :on-remove="handleRemove">
+                  <div class="el-upload__text"><i class="el-icon-upload"></i>将文档拖到此处，或<em>点击选择文档</em></div>
+                </el-upload>
+              </el-form-item>
+              <div class="text-right pb-3">
+                <el-button @click="closedEdit('serviceForm')">取 消</el-button>
+                <el-button type="primary" @click="submitForm('serviceForm')">确 定</el-button>
               </div>
-            </template>
-          </div>
-          <div class="left_footer" v-if="worksheetInfo.status != 3">
-            <div class="send_container h-100" v-loading="loadingVisible">
-              <div class="toolbar pl-3 pr-3 pt-2 pb-2 p-relative">
-                <emoji-panel id="emoji_panel" v-show="emojiPanelVisible" v-on:select-emoticon="selectEmoticon"></emoji-panel>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="d-flex align-items-center">
-                    <!-- <a class="cursor-pointer mr-2" title="表情" @click="displayEmojiPanel" v-clickOutside="handleCloseEmojiPanel">
-                      <img src="@/assets/images/emoji.png" alt="">
-                    </a> -->
-                    <el-upload
-                      class="upload"
-                      ref="fileUpload"
-                      action="void"
-                      accept=".doc,.docx,.jpg,.png,.JPEG"
-                      :auto-upload="true"
-                      :http-request="myUpload"
-                      :show-file-list="true"
-                      :file-list="filesList"
-                      :before-upload="beforeUpload"
-                      :on-success="handleSuccess"
-                      :on-remove="handleRemove">
-                      <a class="cursor-pointer" title="图片和文件">
-                        <img src="@/assets/images/folder.png" alt="">
-                      </a>
-                    </el-upload>
-                  </div>
-                </div>
-              </div>
-              <div class="content-container pl-3 pr-3">
-                <el-input type="textarea" class="custom-textarea" id="message_content" autocomplete="off" placeholder="输入要发送的消息..." 
-                  v-model="message" :rows="5" @keydown.enter.native="enterKeyDown($event)">
-                </el-input>
-                <div class="mt-3 text-right">
-                  <span class="opacity-60 ml-2">Ctrl+Enter换行</span>
-                  <el-button type="primary" size="small" @click="doSendMessage(message)" :disabled="sendButtonDisabled">发送</el-button>
-                </div>
-              </div>
-            </div>
-          </div>
+            </el-form>
+          </el-card>
         </div>
-        <div class="right w-20 bg-white h-100 p-3">
+        <el-card class="right bg-white h-100 p-3">
           <h6 class="fs_18 font-weight-normal mb-3">工单信息</h6>
           <div class="mt-3 worksheetInfo">
             <p class="mb-3 text-truncate"><span class="opacity-60 mr-2">工单编号：</span>{{worksheetInfo.question_number}}</p>
@@ -110,74 +120,43 @@
             </p>
 						<p class="mb-3 text-truncate"><span class="opacity-60 mr-2">提交时间：</span>{{worksheetInfo.createtime}}</p>
           </div>
-        </div>
+        </el-card>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  const clickOutside = {
-    // 初始化指令
-    bind(el, binding, vnode) {
-      function documentHandler(e) {
-        // 这里判断点击的元素是否是本身，是本身，则返回。
-        if (el.contains(e.target)) {
-          return false
-        }
-        // 展开的表情pannel，也返回不执行关闭操作。
-        if(e.target.getAttribute('isEmoji') != null) {
-          return false
-        }
-        // Emoji图标，也返回不执行关闭操作。
-        if(e.target.getAttribute('type') != null && e.target.getAttribute('type') === 'emoji_icon') {
-          return false
-        }      
-        // 判断指令中是否绑定了函数
-        if (binding.expression) {
-          // 如果绑定了函数 则调用那个函数，此处binding.value就是handleCloseEmojiPanel方法
-          binding.value(e)
-        }
-      }
-      // 给当前元素绑定个私有变量，方便在unbind中可以解除事件监听
-      el.__vueClickOutside__ = documentHandler
-      document.addEventListener('click', documentHandler)
-    },
-    update() {},
-    unbind(el, binding) {
-      // 解除事件监听
-      document.removeEventListener('click', el.__vueClickOutside__)
-      delete el.__vueClickOutside__
-    },
-  }
-
   import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
-  import EmojiPanel from "@/components/emojiPanel";
 
   export default {
     name:"ServiceDetail",
     components:{
       GlobalTips,
       Breadcrumb,
-      EmojiPanel
     },
-    directives: { 
-      clickOutside
+    provide() {
+      return {
+        loadData: this.initDetail
+      }
     },
     data(){
       return {
-        avatarOwnside:require("@/assets/images/ownSide.jpg"),
-        avatarOtherside:require("@/assets/images/otherSide.jpg"),
-        // 聊天对话
-        chatBoxes: [],
-        // 消息发送
-        message: '',
-        emojiPanelVisible: false,
-        loadingVisible: false,
-        sendButtonDisabled: true,
+        // 问题汇总
+        service_list:[],
+        tableProps:{
+          'max-height':500,
+        },
+        serviceData:{},
+        // 新增
+				serviceForm:{
+          remark:"",
+				},
         filesList:[],
-        removeFilesArr:[],
+				removeFilesArr:[],
+				rules: {
+        },
         // 工单信息
         worksheetInfo:{
         },
@@ -193,13 +172,14 @@
 
     },
     updated() {
-      this.$nextTick(() => {
-        this.sendButtonDisabled = (this.message.trim() === '');
-        // 滚动条永远保持在最下方
-        this.$refs.left_body.scrollTop = this.$refs.left_body.scrollHeight;
-      })
+
     },
     methods:{
+      // 自增序列
+      indexMethod(index) { 
+        return ++index;
+      },
+
       // 获取工单详情信息
       initDetail(){
         this.$api.serviceDetail({
@@ -207,81 +187,113 @@
           function_type:1,
         }).then(data=>{
           if(data.code == 0){
+            this.service_list = data.data.service_list;
             this.worksheetInfo = data.data.info;
-            this.chatBoxes = data.data.dialog_list;
+            if(this.commonJs.isEmpty(data.data.info.company_files)){
+              this.filesList = [];
+            }else{
+              this.filesList = data.data.info.company_files;
+            }
+            this.serviceForm.remark = data.data.info.remark;
           }
         })
       },
-      // 发送消息
-      doSendMessage(message) {
-        if(message.trim() === '') {
-          return
-        }
-        this.loadingVisible = true;
 
+      // 添加问题
+      handleAdd(){
+        this.serviceData.title = "更新";
+        this.serviceData.dialog = true;
+        this.serviceData.worksheetInfo = this.worksheetInfo;
+      },
+
+      // 预览文件
+			preview(path){
+				this.$api.file_preview({
+					path:path,
+				}).then(data=>{
+					if(data.code == 0){
+						let a = document.createElement('a');
+						a.style = 'display: none'; // 创建一个隐藏的a标签
+						a.target = "_blank";
+						a.href = data.data;
+						document.body.appendChild(a);
+						a.click();
+					}else{
+						this.$message.error(data.msg)
+					}
+				})
+			},
+			// 下载文件
+			downloadview(file){
+				let a = document.createElement('a'); 
+				a.style = 'display: none'; // 创建一个隐藏的a标签
+				a.download = file.name;
+				a.href = this.$globalUrl.baseURL + file.path;
+				document.body.appendChild(a);
+				a.click(); // 触发a标签的click事件
+				document.body.removeChild(a);
+			},
+
+      // 关闭编辑
+			closedEdit(){
+				this.initDetail();
+			},
+
+      // form提交
+			submitForm(formName) {
+				var _this = this;
         var files = new Array();
         files = this.filesList.map((item)=>{
-          return item.response.data.path;
-        })
-        // 调接口获取answer
-        this.$api.serviceDetail({
-          id:this.$route.query.id,
-          function_type:2,
-          content:this.message,
-          files:files.join(","),
-        }).then(data=>{
-          if(data.code == 0){
-            this.removeFilesArr.map((path)=>{
-              _this.removeFile(path);
-            })
-            // 清空message
-            this.message = "";
-            this.filesList = [];
-            this.loadingVisible = false;
-            this.initDetail();
+					if(item.isExist){
+						return item.path;
+					}else{
+						return item.response.data.path;
+					}
+        });
+        var newArr = new Array;
+				newArr = this.service_list.map((item,index)=>{
+          return {
+            id:item.id,
+            is_resolve:item.is_resolve,
+            resolve_predict_date:item.resolve_predict_date,
+            resolve_real_date:item.resolve_real_date,
+            resolve_name:item.resolve_name,
+            resolve_remark:item.resolve_remark,
           }
-        })
-      },
-
-      // 表情面板显示与隐藏
-      displayEmojiPanel() {
-        this.emojiPanelVisible = !this.emojiPanelVisible
-      },
-
-      // 表情面板隐藏
-      handleCloseEmojiPanel() {
-        this.emojiPanelVisible = false
-      },
-      
-      // 表情选择
-      selectEmoticon(emoticon) {
-        var textarea = document.getElementById('message_content') // 根据id选择器选中对象
-        let pos = textarea.selectionStart;
-        let leftStr = this.message.substring(0, pos);
-        let rightStr = this.message.substring(pos, this.message.length)
-        this.message = leftStr + emoticon + rightStr
-      },
-
-      // el-input，textarea 回车键不换行，发送消息 ctrl+enter 换行
-      enterKeyDown(e) {
-        if(e.keyCode === 17) {
-          return
-        }
-        if(e.keyCode === 13) {
-          if (!e.ctrlKey) {
-            this.doSendMessage(this.message)
+        });
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+          	this.$api.serviceDetail_add({
+              id:this.$route.query.id,
+              service_list:JSON.stringify( newArr ),
+							remark:this.serviceForm.remark,
+							company_files:files.join(","),
+              function_type:2,
+            }).then(data => {
+              if(data.code == 0){
+                _this.resetForm(formName);
+                _this.initDetail();
+              }else{
+                this.$message.error(data.msg);
+              }
+            });
           } else {
-            this.message = this.message + '\n';
+            console.log('error submit!!');
+            return false;
           }
-          e.preventDefault();
-        }
+        });
+      },
+
+      // 表单重置
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
       },
 
       /****  上传  ****/
 			myUpload(params,formItem){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("question_number", this.worksheetInfo.question_number);
+	      formData.append("question_number", this.serviceForm.question_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
@@ -342,35 +354,6 @@
 				})
 				return isUpload;
       },
-
-			// 预览文件
-			preview(path){
-				this.$api.file_preview({
-					path:path,
-				}).then(data=>{
-					if(data.code == 0){
-						let a = document.createElement('a');
-						a.style = 'display: none'; // 创建一个隐藏的a标签
-						a.target = "_blank";
-						a.href = data.data;
-						document.body.appendChild(a);
-						a.click();
-					}else{
-						this.$message.error(data.msg)
-					}
-				})
-			},
-			// 下载文件
-			downloadview(file){
-				let a = document.createElement('a'); 
-				a.style = 'display: none'; // 创建一个隐藏的a标签
-				a.download = file.name;
-				a.href = this.$globalUrl.baseURL + file.path;
-				document.body.appendChild(a);
-				a.click(); // 触发a标签的click事件
-				document.body.removeChild(a);
-			},
-
     },
   }
 </script>

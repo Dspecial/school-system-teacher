@@ -170,7 +170,7 @@
             });
 
             // 审核、编辑  只要不是check_state为2 3  都需要保留
-            // 初审node_id=1、复审node_id=2、实施node_id=6、维保node_id=11应该都要编辑 即node_id = 12、10、13、14 没有编辑
+            // 初审node_id=1、评审node_id=2、实施node_id=6、维保node_id=11应该都要编辑 即node_id = 12、10、13、14 没有编辑
             this.actions1 = [...action_3];
             this.actions2 = [...action_2,...action_3];
             this.actions3 = [...action_1,...action_2,...action_3];
@@ -194,7 +194,7 @@
       // 项目当前到达的节点、步骤
       nodeActive(node_id){
         // node_id = 1初审对应之前的初审列表  
-        // node_id = 2对应之前的复审  
+        // node_id = 2对应之前的评审  
         // node_id = 6对应实施   
         // node_id = 12对应进度   
         // node_id = 10对应验收  

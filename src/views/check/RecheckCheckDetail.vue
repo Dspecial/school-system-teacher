@@ -130,6 +130,33 @@
 							</template>
 						</el-form-item>
 					</el-col>
+					<el-col :span="24">
+						<el-form-item label="方案附件">
+							<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in recheckInfo.planattach" :key="index">
+								<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+									<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+								</div>
+								<div class="opacity-80 ml-5 pl-5">
+									<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+									<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+								</div>
+							</div>
+						</el-form-item>
+					</el-col>
+
+					<el-col :span="24">
+						<el-form-item label="专家签字附件">
+							<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in recheckInfo.expertattch" :key="index">
+								<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+									<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+								</div>
+								<div class="opacity-80 ml-5 pl-5">
+									<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+									<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+								</div>
+							</div>
+						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 		</el-card>
@@ -202,6 +229,34 @@
 						this.$message.error(data.msg);
 					}
 				});
+			},
+
+			// 预览文件
+			preview(path){
+				this.$api.file_preview({
+					path:path,
+				}).then(data=>{
+					if(data.code == 0){
+						let a = document.createElement('a');
+						a.style = 'display: none'; // 创建一个隐藏的a标签
+						a.target = "_blank";
+						a.href = data.data;
+						document.body.appendChild(a);
+						a.click();
+					}else{
+						this.$message.error(data.msg)
+					}
+				})
+			},
+			// 下载文件
+			downloadview(file){
+				let a = document.createElement('a'); 
+				a.style = 'display: none'; // 创建一个隐藏的a标签
+				a.download = file.name;
+				a.href = this.$globalUrl.baseURL + file.path;
+				document.body.appendChild(a);
+				a.click(); // 触发a标签的click事件
+				document.body.removeChild(a);
 			},
 		}
 	}

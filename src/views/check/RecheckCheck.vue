@@ -130,6 +130,34 @@
 							</template>
 						</el-form-item>
 					</el-col>
+
+					<el-col :span="24">
+						<el-form-item label="方案附件">
+							<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in recheckInfo.planattach" :key="index">
+								<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+									<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+								</div>
+								<div class="opacity-80 ml-5 pl-5">
+									<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+									<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+								</div>
+							</div>
+						</el-form-item>
+					</el-col>
+
+					<el-col :span="24">
+						<el-form-item label="专家签字附件">
+							<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in recheckInfo.expertattch" :key="index">
+								<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+									<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+								</div>
+								<div class="opacity-80 ml-5 pl-5">
+									<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+									<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+								</div>
+							</div>
+						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 		</el-card>
@@ -158,8 +186,34 @@
 			</el-form>
 		</el-card>
 
+		<!-- 审核记录 -->
+		<el-card class="mt-3">
+			<div class="d-flex justify-content-between align-items-center">
+				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">审核记录</h4>
+				<div :class="['toggleMenu cursor-pointer text-primary',showMore ? 'menu_arrow' : '']" @click="changeFoldState"  v-if="checkListAll.length > 5">
+					<span>{{showMore?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
+				</div>
+			</div>
+			<el-table :data="checkList">		
+				<el-table-column prop="pname" label="节点名称"></el-table-column>
+				<el-table-column prop="groupname" label="审核部门"></el-table-column>
+				<el-table-column prop="load_check_name" label="待审核人"></el-table-column>
+				<el-table-column prop="check_state" label="审核状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="checkname" label="审核人"></el-table-column>
+				<el-table-column prop="remark" label="审核备注"></el-table-column>
+				<el-table-column prop="createtime" label="创建时间"></el-table-column>
+				<el-table-column prop="checktime" label="审核时间"></el-table-column>
+			</el-table>
+		</el-card>
+
 		<el-card class="mt-3 bg-white" v-if="check_info.check_state == 1">		
-			<!-- 审核（复审）评审 -->
+			<!-- 审核（评审）评审 -->
 			<h6 class="fs_18 font-weight-normal mb-3">审核评审</h6>
 			<el-form ref="checkform" :model="checkform"  class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules">
 				<el-form-item label="审核状态" prop="check_state">
@@ -193,6 +247,10 @@
 				recheckInfo:{},
 				check_info:{},
 				detailInfo:[],
+				// 审核记录
+				checkList:[],
+				checkListAll:[],
+				showMore: true,
 
 				checkform:{
 					check_state:"",
@@ -229,10 +287,29 @@
 						this.detailInfo = data.data.project_recheck_detail_info;
 						// 审核信息
 						this.check_info = data.data.check_info;
+
+						// 审核记录
+						this.checkListAll = data.data.check_log_list;
+						// 默认情况下审核记录
+						if(data.data.check_log_list.length < 5){
+							this.checkList = this.checkListAll;
+						}else{
+							this.checkList = this.checkListAll.slice(0,5);
+						}
 					}else{
 						this.$message.error(data.msg);
 					}
 				});
+			},
+			// 审核列表展开收起
+			changeFoldState() {
+				if(this.showMore){ // 展开
+					this.checkList = this.checkListAll;
+					this.showMore = false;
+				}else{
+					this.checkList = this.checkListAll.slice(0,5);
+					this.showMore = true;
+				}
 			},
 			// 关闭编辑
 			closedEdit(){
@@ -267,6 +344,34 @@
           }
         });
       },
+
+			// 预览文件
+			preview(path){
+				this.$api.file_preview({
+					path:path,
+				}).then(data=>{
+					if(data.code == 0){
+						let a = document.createElement('a');
+						a.style = 'display: none'; // 创建一个隐藏的a标签
+						a.target = "_blank";
+						a.href = data.data;
+						document.body.appendChild(a);
+						a.click();
+					}else{
+						this.$message.error(data.msg)
+					}
+				})
+			},
+			// 下载文件
+			downloadview(file){
+				let a = document.createElement('a'); 
+				a.style = 'display: none'; // 创建一个隐藏的a标签
+				a.download = file.name;
+				a.href = this.$globalUrl.baseURL + file.path;
+				document.body.appendChild(a);
+				a.click(); // 触发a标签的click事件
+				document.body.removeChild(a);
+			},
 		}
 	}
 </script>

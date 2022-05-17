@@ -93,6 +93,43 @@
 							</template>
 						</el-form-item>
 					</el-col>
+					<template v-for="(formItem,j) in projectInfo.acceptextra">
+						<el-col :span="24" :key="j + 100" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
+							<el-form-item :label="formItem.title">
+								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
+									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+									</div>
+									<div class="opacity-80 ml-5 pl-5">
+										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+									</div>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
+							<el-form-item :label="formItem.title" class="json-form-item">
+								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
+									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
+							<el-form-item :label="formItem.title">
+								{{formItem.value.join(",")}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 7">
+							<el-form-item :label="formItem.title">
+								<span v-html="formItem.value"></span>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8" :key="j" v-else>
+							<el-form-item :label="formItem.title">
+								{{formItem.value}}
+							</el-form-item>
+						</el-col>
+					</template>
 				</el-row>
 			</el-form>
 		</el-card>
@@ -119,16 +156,43 @@
 					</el-col>
 					<el-col :span="24">
 						<el-form-item label="验收列表">
-							<div class="accept_info_detial mb-2" v-for="(info,i) in accept_info_detail" :key="i">
-								<p>{{info.title}}</p>
-								<div class="d-flex align-items-center justify-content-between" v-for="(file,index) in info.files" :key="index">
-									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
-										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
-									</div>
-									<div class="opacity-80">
-										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
-										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
-									</div>
+							<div class="accept_info">
+								<div class="accept_info_header fs_16 text-center font-weight-black">
+									<el-row type="flex" align="middle">
+										<el-col :span="18">
+											<div class="p-2">审核内容</div>
+										</el-col>
+										<el-col :span="3">
+											<div class="p-2">执行情况</div>
+										</el-col>
+										<el-col :span="3">
+											<div class="p-2">审核人</div>
+										</el-col>
+									</el-row>
+								</div>
+								<div class="accept_info_content">
+									<template v-for="(item,index) in accept_info_detail">
+										<el-row :key="index" type="flex" align="middle">
+											<el-col :span="6">
+												<div class="p-2 text-center">{{ item.group_name }}</div>
+											</el-col>
+											<el-col :span="18">
+												<template v-for="(cell,j) in item.group_list">
+													<el-row :key="j" type="flex">
+														<el-col :span="16">
+															<div class="p-2">{{ j+1 }}、 {{ cell.title }}</div>
+														</el-col>
+														<el-col :span="4">
+															<div class="p-2">{{ cell.desc }}</div>
+														</el-col>
+														<el-col :span="4">
+															<div class="p-2">{{ cell.checkname }}</div>
+														</el-col>
+													</el-row>
+												</template>
+											</el-col>
+										</el-row>
+									</template>
 								</div>
 							</div>
 						</el-form-item>
@@ -159,6 +223,32 @@
 					</el-col>
 				</el-row>
 			</el-form>
+		</el-card>
+
+		<!-- 审核记录 -->
+		<el-card class="mt-3">
+			<div class="d-flex justify-content-between align-items-center">
+				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">审核记录</h4>
+				<div :class="['toggleMenu cursor-pointer text-primary',showMore ? 'menu_arrow' : '']" @click="changeFoldState"  v-if="checkListAll.length > 5">
+					<span>{{showMore?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
+				</div>
+			</div>
+			<el-table :data="checkList">		
+				<el-table-column prop="pname" label="节点名称"></el-table-column>
+				<el-table-column prop="groupname" label="审核部门"></el-table-column>
+				<el-table-column prop="load_check_name" label="待审核人"></el-table-column>
+				<el-table-column prop="check_state" label="审核状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="checkname" label="审核人"></el-table-column>
+				<el-table-column prop="remark" label="审核备注"></el-table-column>
+				<el-table-column prop="createtime" label="创建时间"></el-table-column>
+				<el-table-column prop="checktime" label="审核时间"></el-table-column>
+			</el-table>
 		</el-card>
 
 		<el-card class="mt-3 bg-white" v-if="check_info.check_state == 1">	
@@ -197,6 +287,11 @@
 				acceptInfo: {},
 				accept_info_detail:[],
 				check_info:{},
+				// 审核记录
+				checkList:[],
+				checkListAll:[],
+				showMore: true,
+
 				checkform:{
 					check_state:"",
 					remark:"",
@@ -234,10 +329,29 @@
 						this.accept_info_detail = data.data.accept_info_detial;
 						// 审核信息
 						this.check_info = data.data.check_info;
+
+						// 审核记录
+						this.checkListAll = data.data.check_log_list;
+						// 默认情况下审核记录
+						if(data.data.check_log_list.length < 5){
+							this.checkList = this.checkListAll;
+						}else{
+							this.checkList = this.checkListAll.slice(0,5);
+						}
 					}else{
 						this.$message.error(data.msg);
 					}
 				});
+			},
+			// 审核列表展开收起
+			changeFoldState() {
+				if(this.showMore){ // 展开
+					this.checkList = this.checkListAll;
+					this.showMore = false;
+				}else{
+					this.checkList = this.checkListAll.slice(0,5);
+					this.showMore = true;
+				}
 			},
 			// 关闭编辑
 			closedEdit(){

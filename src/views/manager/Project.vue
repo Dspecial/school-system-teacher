@@ -6,11 +6,11 @@
     <el-card>
       <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage" :page-size="pageSize" :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
         <div class="mb-3" slot="tool">
-          <h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">我的项目列表</h4>
+          <h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">项目列表</h4>
           <div class="d-flex align-items-center project_search_div">
           	<div class="d-flex align-items-center">
           		<el-input
-    				    placeholder="请输入项目编号/项目名称/教师姓名"
+    				    placeholder="请输入项目编号/项目名称/类别名称"
     				    prefix-icon="el-icon-search"
     				    v-model="filters[0].value"
                 clearable
@@ -35,26 +35,31 @@
                 clearable>
               </el-date-picker>
           	</div>
+            <div class="ml-auto">
+              <el-button type="primary" @click="handleAdd()" v-if="$store.getters.getaddAction.title"><i class="el-icon-plus el-icon--left"></i>{{$store.getters.getaddAction.title}}</el-button>
+            </div>
+          </div>
+          <!-- 金额 -->
+          <div class="allMoney mt-3 mb-3 pt-2 pb-2 pl-3 pr-3">
+            <div class="d-flex align-items-center">
+              <i class="el-icon-coin mr-2 text-success"></i>
+              <span class="mr-5">总金额：{{ money_data.all_money}} 元</span>
+              <span class="mr-5">已付款金额：{{ money_data.alread_pay }} 元</span>
+              <span>未付款金额：{{ money_data.load_pay }} 元</span>
+            </div>
           </div>
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
-        <el-table-column prop="apply_number" label="项目编号" width="250"></el-table-column>
+        <el-table-column prop="apply_number" width="220" label="项目编号"></el-table-column>
         <el-table-column prop="p_name" label="项目名称" width="220"></el-table-column>
-        <el-table-column prop="real_amount" label="项目金额"></el-table-column>
+        <el-table-column prop="cname" label="类别名称" width="200"></el-table-column>
         <el-table-column prop="projecttime" label="年份"></el-table-column>
-        <el-table-column prop="job_number" label="教师名称"></el-table-column>
+        <el-table-column prop="apply_user_depart" label="所属部门" width="150"></el-table-column>
+        <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="300" align="center">
+        <el-table-column fixed="right" label="操作" width="100" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.is_commit == 9">
-              <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-            </template>
-            <template v-else-if="scope.row.is_commit == 13 || scope.row.is_commit == 14">
-              <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-            </template>
-            <template v-else>
-              <span v-for="(action,index) in actions3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
-            </template>
+            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -64,9 +69,8 @@
 
 <script>
   import GlobalTips from "@/components/GlobalTips";
-
 	export default {
-    name: 'Application',
+    name: 'Project',
     components: {
       GlobalTips,
     },
@@ -77,6 +81,11 @@
     },
     data() {
       return {
+        money_data:{
+          all_money:"",
+          alread_pay:"",
+          load_pay:"",
+        },
         tableProps: {
           
         },
@@ -98,10 +107,14 @@
         total: 0, //总条数
         currentPage: 1, //当前页
         pageSize: 15, //每页显示条数
-        actions1:[],
-        actions2:[],
-        actions3:[],
-        actions4:[],
+        // 审批状态
+        applicationApproval: {
+          dialog:false,
+          title:"",
+          id:","
+        },
+        dialogVisible:false,
+        rowRecheck:{},
       }
     },
     computed: {
@@ -121,7 +134,7 @@
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
         }
-        this.$api.my_projectList({
+        this.$api.manager_projectList({
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
@@ -129,75 +142,68 @@
           createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
+            this.money_data = data.money_data;
             this.total = data.data.total;
             this.tableData = data.data.data;
-            var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array,actions_4 = new Array;
-            this.$store.getters.getmoreAction.map((item,index)=>{
-              if(item.sign == 4){ // 详情
-                actions_1.push(item);
-              }else if (item.sign == 9.1){ // 上传进度
-                actions_2.push(item);
-              }else if (item.sign == 9.2){ // 进度记录
-                actions_3.push(item);
-              }else if (item.sign == 9.3){ // 上传验收
-                actions_4.push(item);
-              }
-            });
-            // is_commit 为9 上传进度、进度记录、详情
-            // is_commit 为13 14 上传验收、详情
-            this.actions1 = [...actions_2,...actions_3,...actions_1];
-            this.actions2 = [...actions_4,...actions_1];
-            this.actions3 = [...actions_1];
-
           }else{
             this.$message.error(data.msg);
           }
         });
       },
 
+      // 新增项目类别
+      handleAdd(){
+        this.$router.push({
+          path:"/project/project/edit",
+        })
+      },
+
       // 操作们
       fun(index,row,sign){
-        if(sign == 4){ // 详情
+        if(sign == '2'){ // 编辑
+          this.editProject(index,row);
+        }else if(sign == '3'){ // 删除
+          this.handleDel(index,row);
+        }else if(sign == '4'){ // 详情
           this.goDetail(index,row);
-        }else if(sign == 9.1){ // 上传进度
-          this.handleProcess(index,row);
-        }else if(sign == 9.2){ // 进度记录
-          this.ProcessList(index,row);
-        }else if(sign == 9.3){ // 上传验收
-          this.handleAccept(index,row);
         }
       },
-      // 上传进度
-      handleProcess(index,row){
+
+      // 编辑项目
+      editProject(index,row){
         this.$router.push({
-          path:"/company/myProject/process",
+          path:"/project/project/edit",
           query: {
             id: row.id,
           }
         })
       },
-      // 进度记录
-      ProcessList(index,row){
-        this.$router.push({
-          path:"/company/myProject/processList",
-          query: {
-            id: row.id,
-          }
-        })
+      // 删除
+      handleDel(index,row){
+        this.$confirm("此操作将永久删除该项目, 是否继续?", "提示", {
+          type: 'warning'
+        }).then(() => {
+          this.$api.projectDel({
+            id:row.id
+          }).then(data=>{ 
+             if(data.code == 0){
+                this.$message({
+                  message: data.msg,
+                  type: 'success'
+                });
+                this.loadData();
+             }else{
+               this.$message.error(data.msg);
+             }
+          })
+        }).catch(() => {
+
+        });
       },
-      // 上传验收
-      handleAccept(index,row){
-        this.$router.push({
-          path:"/company/myProject/accept",
-          query: {
-            id: row.id,
-          }
-        })
-      },
-      // 查看详情
+      // 项目详情
       goDetail(index,row){
         this.$router.push({
-          path:"/company/myProject/detail",
+          path:"/project/project/detail",
           query: {
             id: row.id,
           }

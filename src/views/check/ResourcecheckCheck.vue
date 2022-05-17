@@ -113,6 +113,32 @@
 			</el-form>
 		</el-card>
 
+		<!-- 审核记录 -->
+		<el-card class="mt-3">
+			<div class="d-flex justify-content-between align-items-center">
+				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">审核记录</h4>
+				<div :class="['toggleMenu cursor-pointer text-primary',showMore ? 'menu_arrow' : '']" @click="changeFoldState"  v-if="checkListAll.length > 5">
+					<span>{{showMore?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
+				</div>
+			</div>
+			<el-table :data="checkList">		
+				<el-table-column prop="pname" label="节点名称"></el-table-column>
+				<el-table-column prop="groupname" label="审核部门"></el-table-column>
+				<el-table-column prop="load_check_name" label="待审核人"></el-table-column>
+				<el-table-column prop="check_state" label="审核状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
+            <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
+            <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="checkname" label="审核人"></el-table-column>
+				<el-table-column prop="remark" label="审核备注"></el-table-column>
+				<el-table-column prop="createtime" label="创建时间"></el-table-column>
+				<el-table-column prop="checktime" label="审核时间"></el-table-column>
+			</el-table>
+		</el-card>
+		
 		<el-card class="mt-3 bg-white" v-if="check_info.check_state == 1">	
 			<!-- 资源审核 -->
 			<h6 class="fs_18 font-weight-normal mb-3">资源审核</h6>
@@ -258,6 +284,11 @@
 				cateOptions:[],
 				supplierOptions:[],
 
+				// 审核记录
+				checkList:[],
+				checkListAll:[],
+				showMore: true,
+
 				checkform:{
 					bindResources:[{
 						name:"",
@@ -387,6 +418,16 @@
         }
         return isPic && isLt;
       },
+			// 审核列表展开收起
+			changeFoldState() {
+				if(this.showMore){ // 展开
+					this.checkList = this.checkListAll;
+					this.showMore = false;
+				}else{
+					this.checkList = this.checkListAll.slice(0,5);
+					this.showMore = true;
+				}
+			},
 			// 关闭编辑
 			closedEdit(){
 				// this.$router.go(-1);//返回上一层

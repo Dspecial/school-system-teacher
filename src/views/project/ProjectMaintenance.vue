@@ -56,23 +56,29 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="标题" prop="title">
-							<el-input v-model="maintenanceForm.title" placeholder="请输入标题"></el-input>
+						<el-form-item label="维保简介" prop="title">
+							<el-input v-model="maintenanceForm.title" placeholder="请输入维保简介"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="联系人" prop="contact_name">
+						<el-form-item label="企业联系人" prop="contact_name">
 							<el-input v-model="maintenanceForm.contact_name" placeholder="请输入联系人"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="联系电话" prop="contact_phone">
-							<el-input v-model="maintenanceForm.contact_phone" placeholder="请输入联系电话"></el-input>
+						<el-form-item label="企业联系方式" prop="contact_phone">
+							<el-input v-model="maintenanceForm.contact_phone" placeholder="请输入企业联系方式"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="合同编号">
 							<el-input v-model="maintenanceForm.agree_number" placeholder="请输入合同编号"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="维保开始日期" prop="starttime">
+							<el-date-picker type="date" clearable placeholder="选择维保开始日期，必须大于当前日期" v-model="maintenanceForm.starttime" 
+							value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -160,6 +166,7 @@
 					contact_name:"",
 					contact_phone:"",
 					agree_number:"",
+					starttime:"",
 					endtime:"",
 					content:"",
 					agree_payinfo:[{}],
@@ -183,19 +190,22 @@
           	{ validator:this.commonJs.checkNumber,trigger: 'blur'},
           ],
 					title: [
-            { required: true, message: '请填写标题', trigger: 'blur' }
+            { required: true, message: '请填写维保简介', trigger: 'blur' }
           ],
 					contact_name: [
-            { required: true, message: '请填写联系人', trigger: 'blur' }
+            { required: true, message: '请填写企业联系人', trigger: 'blur' }
           ],
 					contact_phone: [
-            { required: true, message: '请填写联系电话', trigger: 'blur' }
+            { required: true, message: '请填写企业联系方式', trigger: 'blur' }
           ],
 					agree_number: [
             { required: true, message: '请填写合同编号', trigger: 'blur' }
           ],
+					starttime:[
+            { required: true, message: '请选择开始日期', trigger: 'change' }
+          ],
 					endtime:[
-            { required: true, message: '请选择结束时间', trigger: 'change' }
+            { required: true, message: '请选择结束日期', trigger: 'change' }
           ],
 					content: [
             { required: true, message: '请填写内容', trigger: 'blur' }
@@ -300,6 +310,7 @@
 							contact_name:this.maintenanceForm.contact_name,
 							contact_phone:this.maintenanceForm.contact_phone,
 							agree_number:this.maintenanceForm.agree_number,
+							starttime:this.maintenanceForm.starttime,
 							endtime:this.maintenanceForm.endtime,
 							content:this.maintenanceForm.content,
 							agree_payinfo:JSON.stringify( payArr ),

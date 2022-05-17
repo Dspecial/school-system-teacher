@@ -120,10 +120,10 @@
 		</el-card>
 
 
-		<!-- 复审记录 -->
+		<!-- 评审记录 -->
 		<el-card class="mt-3" v-if="recheckListAll.length > 0">
 			<div class="d-flex justify-content-between align-items-center">
-				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">复审记录</h4>
+				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">评审记录</h4>
 				<div :class="['toggleMenu cursor-pointer text-primary',showMoreRecheck ? 'menu_arrow' : '']" @click="changeFoldStateRecheck"  v-if="recheckListAll.length > 5">
 					<span>{{showMoreRecheck?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
 				</div>
@@ -143,8 +143,8 @@
 						</el-table>
 					</template>
 				</el-table-column>
-				<el-table-column prop="recheck_number" label="复审编号"></el-table-column>
-				<el-table-column prop="check_state" label="复审状态">
+				<el-table-column prop="recheck_number" label="评审编号"></el-table-column>
+				<el-table-column prop="check_state" label="评审状态">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
             <span v-else-if="scope.row.status == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
@@ -152,9 +152,9 @@
           </template>
         </el-table-column>
 				<el-table-column prop="checkname" label="审核人"></el-table-column>
-				<el-table-column prop="content" label="复审内容"></el-table-column>
+				<el-table-column prop="content" label="评审内容"></el-table-column>
 				<el-table-column prop="createtime" label="创建时间"></el-table-column>
-				<el-table-column prop="recheck_date" label="复审时间"></el-table-column>
+				<el-table-column prop="recheck_date" label="评审时间"></el-table-column>
 			</el-table>
 		</el-card>
 
@@ -336,7 +336,7 @@
 				checkListAll:[],
 				showMore: true,
 
-				// 复审记录
+				// 评审记录
 				recheckList:[],
 				recheckListAll:[],
 				showMoreRecheck: true,
@@ -396,9 +396,9 @@
 							this.checkList = this.checkListAll.slice(0,5);
 						}
 
-						// 复审记录
+						// 评审记录
 						this.recheckListAll = data.data.recheck_list;
-						// 默认情况下复审记录
+						// 默认情况下评审记录
 						if(data.data.recheck_list.length < 5){
 							this.recheckList = this.recheckListAll;
 						}else{
@@ -444,7 +444,7 @@
 				}
 			},
 
-			// 复审审核列表展开收起
+			// 评审审核列表展开收起
 			changeFoldStateRecheck() {
 				if(this.showMoreRecheck){ // 展开
 					this.recheckList = this.recheckListAll;

@@ -11,11 +11,10 @@
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
         <el-table-column prop="title" label="进度标题"></el-table-column>
-        <el-table-column prop="status" label="审核状态">
+        <el-table-column prop="status" label="查看状态">
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 1"><i class="dot bg-warning mr-1"></i>待审核</span>
-            <span v-else-if="scope.row.status == 2"><i class="dot bg-primary-900 mr-1"></i>审核成功</span>
-            <span v-else-if="scope.row.status == 3"><i class="dot bg-success mr-1"></i>审核失败</span>
+            <span v-if="scope.row.status == 1"><i class="dot bg-warning mr-1"></i>待查看</span>
+            <span v-else-if="scope.row.status == 2"><i class="dot bg-success mr-1"></i>已查看</span>
           </template>
         </el-table-column>
         <el-table-column label="进度内容">

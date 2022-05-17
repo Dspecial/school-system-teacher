@@ -55,8 +55,44 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
-						<el-form-item label="复审内容" prop="content">
-							<el-input type="textarea" v-model="recheckForm.content" placeholder="请输入复审内容" :rows="3"></el-input>
+						<el-form-item label="评审内容" prop="content">
+							<el-input type="textarea" v-model="recheckForm.content" placeholder="请输入评审内容" :rows="3"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="24">
+						<el-form-item label="方案附件" prop="planattach">
+							<el-upload
+								class="my_upload"
+								drag
+								action="void"
+								accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.jpg,.png,.JPEG"
+								:auto-upload="true"
+								:http-request="myUploadPlan"
+								:show-file-list="true"
+								:file-list="filesListPlan"
+								:before-upload="beforeUploadPlan"
+								:on-success="handleSuccessPlan"
+								:on-remove="handleRemovePlan">
+								<div class="el-upload__text"><i class="el-icon-upload"></i>将文档拖到此处，或<em>点击选择文档</em></div>
+							</el-upload>
+						</el-form-item>
+					</el-col>
+					<el-col :span="24">
+						<el-form-item label="专家签字附件" prop="expertattch">
+							<el-upload
+								class="my_upload"
+								drag
+								action="void"
+								accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.jpg,.png,.JPEG"
+								:auto-upload="true"
+								:http-request="myUploadExpert"
+								:show-file-list="true"
+								:file-list="filesListExpert"
+								:before-upload="beforeUploadExpert"
+								:on-success="handleSuccessExpert"
+								:on-remove="handleRemoveExpert">
+								<div class="el-upload__text"><i class="el-icon-upload"></i>将文档拖到此处，或<em>点击选择文档</em></div>
+							</el-upload>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -77,14 +113,21 @@
 		data () {
 			return {
 				projectId:'',
-				titile:"提交复审",
+				projectInfo:{},
+				titile:"提交评审",
 				expertOptions:[],
 				isSelectArr:[],
 				recheckForm: {
 					sendjson:[{}],
 					recheck_date:"",
 					content:"",
+					planattach:[],
+					expertattch:[],
         },
+				filesListPlan:[],
+				removeFilesPlanArr:[],
+				filesListExpert:[],
+				removeFilesExpertArr:[],
 				startOption:{
 					disabledDate: time =>{
 						return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
@@ -98,7 +141,13 @@
             { required: true, message: '请选择评审日期', trigger: 'change' }
           ],
 					content: [
-            { required: true, message: '请输入复审内容', trigger: 'blur' }
+            { required: true, message: '请输入评审内容', trigger: 'blur' }
+          ],
+					planattach: [
+            { required: true, message: '请上传方案附件', trigger: 'change' }
+          ],
+					expertattch: [
+            { required: true, message: '请上传专家签字附件', trigger: 'change' }
           ],
         }
 			}
@@ -147,10 +196,21 @@
 			openEdit(){
 				this.projectId = this.$route.query.id;
 				this.initExpert();
+				this.$api.projectDetail({
+					id:this.$route.query.id
+				}).then(data => {
+					if(data.code == 0){
+						this.projectInfo = data.data.info;
+					}
+				})
 			},
 			// 关闭编辑
 			closedEdit(){
 				this.$router.go(-1);//返回上一层
+				this.filesListPlan = [];
+				this.removeFilesPlanArr = [];
+				this.filesListExpert = [];
+				this.removeFilesExpertArr = [];
 			},
       // form提交
 			submitForm(formName) {
@@ -160,6 +220,12 @@
 				if(!isArr){
 					newArr = this.recheckForm.sendjson
 				}
+				var planattachArr = this.filesListPlan.map((item)=>{
+					return item.response.data.path;
+				})
+				var expertattchArr = this.filesListExpert.map((item)=>{
+					return item.response.data.path;
+				})
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$confirm("一经提交无法修改删除, 是否继续?", "提示", {
@@ -170,8 +236,16 @@
 								sendjson:JSON.stringify( newArr ),
 								recheck_date: this.recheckForm.recheck_date,
 								content: this.recheckForm.content,
+								planattach:planattachArr.join(','),
+								expertattch:expertattchArr.join(','),
 							}).then(data =>{
 								if(data.code == 0){
+									this.removeFilesPlanArr.map((path)=>{
+										_this.removeFile(path);
+									})
+									this.removeFilesExpertArr.map((path)=>{
+										_this.removeFile(path);
+									})
 									this.$message({
 										message: data.msg,
 										type: 'success'
@@ -190,6 +264,137 @@
           }
         });
       },
+
+			/****  上传  ****/
+			myUploadPlan(params){
+	      // 通过 FormData 对象上传文件
+	      const formData = new FormData();
+	      formData.append("apply_number", this.projectInfo.apply_number);
+	      formData.append("file", params.file);
+	      formData.append("user_token", this.VueCookies.get("application_token"));
+
+				this.$api.uploadRecheck(formData).then(data =>{
+					if(data.code == 0){
+						// 回调成功的方法
+						params.onSuccess(data);
+						this.$message.success(data.msg);
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
+			},
+			
+      // 上传成功
+			handleSuccessPlan(res, file, fileList) {
+				this.filesListPlan = fileList;
+				this.recheckForm.planattach = fileList.map((item,index)=>{
+					return item.name
+				});
+      },
+
+      // 移除上传文件
+      handleRemovePlan(file,fileList) {
+      	var path;
+				if(file.status == 'success'){
+					if(file.isExist){ // 原先上传已存在的
+						path = file.path;
+					}else{ // 刚刚上传的
+						path = file.response.data.path;
+					}
+					this.filesListPlan = fileList;
+					this.$message({message: '成功移除' + file.name, type: 'success'});
+
+					if(this.removeFilesPlanArr.indexOf(path) == -1){
+						this.removeFilesPlanArr.push(path);
+					}
+				}
+      },
+      
+      // 上传前验证
+      beforeUploadPlan(file) {
+				var isUpload = true;
+      	// 验证大小等
+				this.filesListPlan.map((fff)=>{
+					if(fff.name == file.name){
+						this.$message.warning("请不要重复上传相同文件！");
+						isUpload = false;
+						return;
+					}
+				})
+				return isUpload;
+      },
+
+			/****  上传  ****/
+			myUploadExpert(params){
+	      // 通过 FormData 对象上传文件
+	      const formData = new FormData();
+	      formData.append("apply_number", this.projectInfo.apply_number);
+	      formData.append("file", params.file);
+	      formData.append("user_token", this.VueCookies.get("application_token"));
+
+				this.$api.uploadRecheck(formData).then(data =>{
+					if(data.code == 0){
+						// 回调成功的方法
+						params.onSuccess(data);
+						this.$message.success(data.msg);
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
+			},
+			
+      // 上传成功
+			handleSuccessExpert(res, file, fileList) {
+				this.filesListExpert = fileList;
+				this.recheckForm.expertattch = fileList.map((item,index)=>{
+					return item.name
+				});
+      },
+
+      // 移除上传文件
+      handleRemoveExpert(file,fileList) {
+      	var path;
+				if(file.status == 'success'){
+					if(file.isExist){ // 原先上传已存在的
+						path = file.path;
+					}else{ // 刚刚上传的
+						path = file.response.data.path;
+					}
+					this.filesListExpert = fileList;
+					this.$message({message: '成功移除' + file.name, type: 'success'});
+
+					if(this.removeFilesExpertArr.indexOf(path) == -1){
+						this.removeFilesExpertArr.push(path);
+					}
+				}
+      },
+
+      // 上传前验证
+      beforeUploadExpert(file) {
+				var isUpload = true;
+      	// 验证大小等
+				this.filesListExpert.map((fff)=>{
+					if(fff.name == file.name){
+						this.$message.warning("请不要重复上传相同文件！");
+						isUpload = false;
+						return;
+					}
+				})
+				return isUpload;
+      },
+
+			// 删除调接口
+			removeFile(path){
+				this.$api.uploadDel({
+      		path:path,
+      	}).then(data =>{
+					if(data.code == 0){
+						// this.$message.success("文件更新成功");
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
+			},
 		}
 	}
 </script>

@@ -57,7 +57,7 @@ const router = new Router({
 				{
 				  path: '/project/project',
 				  component: resolve => require(['@/views/project/Project'], resolve),
-				  name: 'projectList',
+				  name: 'ProjectList',
 				  meta: {
 				    title: '项目列表',
 				  },
@@ -127,6 +127,15 @@ const router = new Router({
 				  children: null
 				},
 				{
+				  path: '/project/project/accept',
+				  component: resolve => require(['@/views/project/ProjectAccept'], resolve),
+				  name: 'ProjectAccept',
+				  meta: {
+				    title: '进入验收流程',
+				  },
+				  children: null
+				},
+				{
 				  path: '/project/project/maintenance',
 				  component: resolve => require(['@/views/project/ProjectMaintenance'], resolve),
 				  name: 'ProjectMaintenance',
@@ -140,7 +149,7 @@ const router = new Router({
 				  component: resolve => require(['@/views/project/ProjectRecheck'], resolve),
 				  name: 'ProjectRecheck',
 				  meta: {
-				    title: '项目提交复审',
+				    title: '项目提交评审',
 				  },
 				  children: null
 				},
@@ -149,7 +158,7 @@ const router = new Router({
 				  component: resolve => require(['@/views/project/ProjectRecheckList'], resolve),
 				  name: 'ProjectRecheckList',
 				  meta: {
-				    title: '项目复审列表',
+				    title: '项目评审列表',
 				  },
 				  children: null
 				},
@@ -380,6 +389,72 @@ const router = new Router({
 				},
 
 				/*
+				**部门项目
+				 */
+				// 项目列表
+				{
+				  path: '/manager/project',
+				  component: resolve => require(['@/views/manager/Project'], resolve),
+				  name: 'manager_ProjectList',
+				  meta: {
+				    title: '部门项目列表',
+				  },
+				  children: null
+				},
+				// 项目详情
+				{
+				  path: '/manager/project/detail',
+				  component: resolve => require(['@/views/manager/ProjectDetail'], resolve),
+				  name: 'manager_ProjectDetail',
+				  meta: {
+				    title: '部门项目详情',
+				  },
+				  children: null
+				},
+				// 维保列表
+				{
+				  path: '/manager/maintenance',
+				  component: resolve => require(['@/views/manager/maintenance/Maintenance'], resolve),
+				  name: 'manager_Maintenance',
+				  meta: {
+				    title: '部门维保列表',
+				  },
+				  children: null
+				},
+				// 维保详情
+				{
+				  path: '/manager/maintenance/detail',
+				  component: resolve => require(['@/views/manager/maintenance/MaintenanceDetail'], resolve),
+				  name: 'manager_MaintenanceDetail',
+				  meta: {
+				    title: '部门项目维保详情',
+				  },
+				  children: null
+				},
+				// 资源列表
+				{
+				  path: '/manager/resource',
+				  component: resolve => require(['@/views/manager/resource/Resource'], resolve),
+				  name: 'manager_Resource',
+				  meta: {
+				    title: '部门资源列表',
+				  },
+				  children: null
+				},
+				// 项目资源详情
+				{
+				  path: '/manager/resource/p_detail',
+				  component: resolve => require(['@/views/manager/resource/ResourceProjectDetail'], resolve),
+				  name: 'manager_ResourceProjectDetail',
+				  meta: {
+				    title: '部门项目资源详情',
+				  },
+				  children: null
+				},
+
+
+
+				/*
 				**审核管理-审核列表
 				 */
 				// 审核列表
@@ -430,7 +505,7 @@ const router = new Router({
 				  },
 				  children: null
 				},
-				// 复审列表
+				// 评审列表
 				{
 				  path: '/check/recheck',
 				  component: resolve => require(['@/views/check/Recheck'], resolve),

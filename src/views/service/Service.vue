@@ -77,17 +77,23 @@
           </template>
         </el-table-column>
         <el-table-column prop="level" label="工单级别" width="100"></el-table-column>
-        <el-table-column prop="count_no_read" label="工单最新反馈" width="150">
-          <template slot-scope="scope">
-            <span v-if="scope.row.count_no_read == 0">暂无待回复内容</span>
-            <span v-else class="text-danger">存在待回复内容</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="备注" width="150">
+        <el-table-column label="校方备注" width="150">
           <template slot-scope="scope">
             <el-popover
               placement="top-start"
-              title="备注"
+              title="校方备注"
+              width="200"
+              trigger="hover"
+              :content="scope.row.school_remark">
+              <span class="text-truncate" slot="reference">{{scope.row.school_remark}}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column label="企业备注" width="150">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              title="企业备注"
               width="200"
               trigger="hover"
               :content="scope.row.remark">
@@ -215,7 +221,7 @@
       
       // 工单详情
       detailService(index,row){
-        // 如果user_type为1的话 如果type为1,你就要跳到资源列表的工单详情;如果为2的,要跳到项目列表的工单详情
+        // 如果user_type为1的话 如果type为1,你就要跳到资源列表的工单详情;如果为2的,要跳到项目列表的工单详情;如果为3的,要跳到维保项目列表的工单详情
         if(this.user_type == 1){
           if(row.type == 1){
             this.$router.push({
@@ -227,6 +233,13 @@
           }else if(row.type == 2){
             this.$router.push({
               path:"/project/project/service/detail",
+              query: {
+                id: row.id,
+              }
+            })
+          }else if(row.type == 3){
+            this.$router.push({
+              path:"/project/maintenance/service/detail",
               query: {
                 id: row.id,
               }

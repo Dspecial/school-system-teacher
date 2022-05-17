@@ -7,6 +7,11 @@
 	  @closed="closedEdit('payForm')"
 	  :before-close="handleClose">
 	  <el-form :model="payForm" :rules="rules" ref="payForm" label-width="130px">
+			<el-form-item label="实际金额" prop="real_money">
+				<el-input v-model="payForm.real_money" placeholder="请输入实际金额 ">
+					<span slot="suffix" class="el-input__icon mr-2">元</span>
+				</el-input>
+			</el-form-item>
 		  <el-form-item label="付款日期" prop="haspaytime">
 				<el-date-picker type="date" clearable placeholder="选择付款日期，必须大于当前日期" v-model="payForm.haspaytime" 
 				value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
@@ -28,7 +33,7 @@
 					</el-upload>
 				</div>
 			</el-form-item>
-			<el-form-item label="简介">
+			<el-form-item label="备注">
 		  	<el-input type="textarea" v-model="payForm.remark" placeholder="请输入备注" :autosize="{ minRows: 3, maxRows: 8 }"></el-input>
 		  </el-form-item>
 	  </el-form>
@@ -50,11 +55,10 @@
 				pidOptions:[],
 				payForm:{
 					id:"",
-					pid:"",
-					pid_all:[],
-					cate_name:"",
-					is_show:"",
+					real_money:"",
+					haspaytime:"",
 					files:[],
+					remark:"",
 				},
 				accept: ".jpg,.png,.JGEG,.pdf,.doc,.docx,.xls,.xlsx,.zip",
 				fileList:[],
@@ -65,6 +69,9 @@
 					}
 				},
 				rules: {
+					real_money: [
+            { required: true, message: '请填写实际金额', trigger: 'blur' }
+          ],
           haspaytime: [
             { required: true, message: '请选择付款日', trigger: 'change' }
           ],
@@ -90,6 +97,13 @@
 				this.payData.dialog = false;
 				this.fileList = [];
 				this.removeFilesArr = [];
+				this.payForm = {
+					id:"",
+					real_money:"",
+					haspaytime:"",
+					files:[],
+					remark:"",
+				};
 			},
 			// form提交
 			submitForm(formName) {
@@ -98,6 +112,7 @@
           if (valid) {
           	this.$api.setPayNode({
 							id:this.payData.id,
+							real_money:this.payForm.real_money,
 							haspaytime:this.payForm.haspaytime,
 							remark:this.payForm.remark,
 							files:this.payForm.files.join(","),

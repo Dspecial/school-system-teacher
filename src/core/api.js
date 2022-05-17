@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-04-15 15:11:09
+ * @LastEditTime: 2022-05-17 21:00:21
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -43,8 +43,8 @@ export default {
 	dashboard_state: p => postToken('/api/dashboard/get_my_project_state', p),
 	// 获取首页获取付款信息
 	dashboard_pay: p => postToken('/api/dashboard/project_pay_state', p),
-	/*
 
+	/*
 		***项目管理
 	 */
 	// 项目管理列表
@@ -57,6 +57,10 @@ export default {
 	projectDel: p => postToken('/api/project.project/del', p),
 	// 获取项目分类
 	getProjectCate: p => postToken('/api/ajax/get_project_cate_list', p),
+	// 获取负责人所在部门
+	getDeptOptions: p => postToken('/api/ajax/getdepartlist', p),
+	// 获取负责人
+	getUser_dept: p => postToken('/api/ajax/get_user_list_by_department', p),
 	// 获取企业列表
 	getCompany: p => postToken('/api/ajax/get_company_list', p),
 	// 获取表单
@@ -77,7 +81,11 @@ export default {
 
 	// 提交审核
 	projectCommit: p => postToken('/api/project.project/commit', p),
-	// 提交复审
+	// 跳过提交评审
+	projectRecheck_skip: p => postToken('/api/project.project/skip_recheck', p),
+	// 上传评审
+	uploadRecheck: p => postUpload('/api/upload/upload_recheck', p),
+	// 提交评审
 	projectRecheck: p => postToken('/api/project.project/commit_recheck', p),
 	// 获取专家列表(记录一个bug,已选人员不能再选，事务管理里面也有同一个问题;审核管理-资源审核-审核里面 先选分类 再选资源 也有这个问题)
 	projectExpert: p => postToken('/api/ajax/get_expert_list', p),
@@ -85,9 +93,12 @@ export default {
 	projectProcess: p => postToken('/api/project.project/to_process', p),
 	// 进入验收流程
 	projectAccept: p => postToken('/api/project.project/to_accept', p),
-	// 复审记录-列表
+	// 提交验收流程
+	projectAccept_send: p => postToken('/api/project.project/send_accept', p),
+	
+	// 评审记录-列表
 	projectRecheck_list: p => postToken('/api/project.project/recheck_list', p),
-	// 复审列表-详情
+	// 评审列表-详情
 	projectRecheck_detail: p => postToken('/api/project.project/recheck_detail', p),
 	// 项目进度记录-列表
 	projectProcess_list: p => postToken('/api/project.project/process_list', p),
@@ -95,6 +106,9 @@ export default {
 	projectProcess_detail: p => postToken('/api/project.project/process_detail', p),
 	// 进入实施流程
 	projectRunning: p => postToken('/api/project.project/to_running', p),
+	// 根据流程节点获取额外参数
+	project_getExtraNodeForms: p => postToken('/api/ajax/get_extra_node_forms', p),
+
 	// 项目维保
 	projectMaintenance: p => postToken('/api/project.project/push_maintenance', p),
 	// 项目维保-根据项目获取信息
@@ -112,6 +126,8 @@ export default {
 	project_serviceDetail: p => postToken('/api/service.serviceproject/details', p),
 	// 工单上传文件
 	project_serviceUpload: p => postUpload('/api/upload/upload_service_attach', p),
+	// 项目工单详情-新增问题
+	project_serviceDetail_add: p => postToken('/api/service.serviceproject/details', p),
 
 	// 申请资源
 	project_apply_resource: p => postToken('/api/project.project/apply_resource', p),
@@ -152,7 +168,9 @@ export default {
 	// 维保发起工单
 	maintenance_serviceAdd: p => postToken('/api/service.servicemaintenance/add', p),
 	// 维保工单详情
-	maintenance_serviceDetail: p => postToken('/api/service.serviceproject/details', p),	
+	maintenance_serviceDetail: p => postToken('/api/service.serviceproject/details', p),
+	// 维保工单详情-新增
+	maintenance_serviceDetail_add: p => postToken('/api/service.serviceproject/details', p),		
 	// 维保-付款节点
 	maintenancePayNode: p => postToken('/api/project.maintenance/pay_info', p),
 	// 维保-更新付款节点
@@ -182,6 +200,14 @@ export default {
 	hosterResourceRecordList: p => postToken('/api/undertake.resource/record', p),
 
 	/*
+		***部门项目
+	 */
+	// 部门项目管理列表
+	manager_projectList: p => postToken('/api/manager.project/index', p),
+
+
+
+	/*
 		***审核管理
 	 */
 	// 审核列表
@@ -198,13 +224,13 @@ export default {
 	// 项目初审详情
 	firstCheck_detail: p => postToken('/api/checks.firstproject/details', p),
 
-	// 复审列表
+	// 评审列表
 	recheckList: p => postToken('/api/checks.recheckproject/index', p),
-	// 复审编辑
+	// 评审编辑
 	recheckList_edit: p => postToken('/api/checks.recheckproject/edit', p),
-	// 复审
+	// 评审
 	recheckList_check: p => postToken('/api/checks.recheckproject/check_recheck', p),
-	// 项目复审详情
+	// 项目评审详情
 	recheck_detail: p => postToken('/api/checks.recheckproject/details', p),
 
 	// 实施列表
@@ -362,7 +388,8 @@ export default {
 	serviceList: p => postToken('/api/service.service/index', p),
 	// 工单详情
 	serviceDetail: p => postToken('/api/service.service/details', p),
-
+	// 工单详情-添加
+	serviceDetail_add: p => postToken('/api/service.service/details', p),
 	/*
 		***厂商管理
 	 */

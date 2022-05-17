@@ -2,16 +2,16 @@
   <div class="page-container">
     <!-- 登录信息 -->
     <global-tips></global-tips>
-    <!-- 复审列表 -->
+    <!-- 评审列表 -->
     <el-card>
       <data-tables-server :data="tableData" layout="tool, table,pagination" :current-page="currentPage" :page-size="pageSize" 
       :pagination-props="{ background: true, pageSizes: [15,30,45,60], total: total }" @query-change="loadData" :filters="filters" :table-props="tableProps">
         <div class="mb-3" slot="tool">
-          <h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">复审列表</h4>
+          <h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">评审列表</h4>
           <div class="d-flex align-items-center project_search_div">
             <div class="d-flex align-items-center">
               <el-input
-                placeholder="请输入项目编号/复审编号/项目名称/项目类别/申请人/申请所在部门"
+                placeholder="请输入项目编号/评审编号/项目名称/项目类别/申请人/申请所在部门"
                 prefix-icon="el-icon-search"
                 v-model="filters[0].value"
                 class="mr-3">
@@ -57,12 +57,12 @@
             <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核驳回</span>
           </template>
         </el-table-column>
-        <el-table-column prop="recheck_number" label="复审编号" width="180"></el-table-column>
-        <el-table-column label="复审内容" width="120">
+        <el-table-column prop="recheck_number" label="评审编号" width="180"></el-table-column>
+        <el-table-column label="评审内容" width="120">
           <template slot-scope="scope">
             <el-popover
               placement="top-start"
-              title="复审内容"
+              title="评审内容"
               width="200"
               trigger="hover"
               :content="scope.row.content">

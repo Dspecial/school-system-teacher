@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-05-17 21:00:21
+ * @LastEditTime: 2022-05-19 14:35:19
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -193,17 +193,49 @@ export default {
 	hosterResourceEdit: p => postToken('/api/undertake.resource/edit', p),
 	// 承办资源列表-提交
 	hosterResourceAdd: p => postToken('/api/undertake.resource/add', p),
-	// 承办列表-详情
-	hosterResourceDetail: p => postToken('/api/undertake.resource/details', p),
+	// 承办资源列表-详情(好像没用到)
+	hosterResourceDetail: p => postToken('/api/undertake.resource/edit', p),
 
 	// 承办资源维护记录列表
 	hosterResourceRecordList: p => postToken('/api/undertake.resource/record', p),
 
+	// 款项信息列表
+	paymentList: p => postToken('/api/project.payinfo/index', p),
+
+	
 	/*
 		***部门项目
 	 */
-	// 部门项目管理列表
+	// 项目列表
 	manager_projectList: p => postToken('/api/manager.project/index', p),
+	// 项目详情
+	manager_projectDetail: p => postToken('/api/manager.project/details', p),
+
+	// 项目授权-负责人选择
+	manager_auth_user: (p, c) => postToken('/api/ajax/get_teacher_list', p, c = { showLoading:false }),
+	// 项目授权
+	manager_projectAuth: p => postToken('/api/manager.project/set_auth', p),
+
+	// 维保列表
+	manager_maintenanceList: p => postToken('/api/manager.maintenance/index', p),
+	// 维保详情
+	manager_maintenanceDetail: p => postToken('/api/manager.maintenance/details', p),
+	// 维保授权
+	manager_maintenanceAuth: p => postToken('/api/manager.maintenance/set_auth', p),
+
+	// 资源列表
+	manager_hosterResourceList: p => postToken('/api/manager.resource/index', p),
+	// 资源详情
+	manager_hosterResourceDetail: p => postToken('/api/manager.resource/edit', p),
+
+	// 款项信息列表
+	manager_paymentList: p => postToken('/api/manager.payinfo/index', p),
+
+
+
+
+
+
 
 
 
@@ -328,7 +360,7 @@ export default {
 	// 获取项目列表
 	routineProject: p => postToken('/api/ajax/get_work_detail_info', p),
 	// 获取处理用户列表
-	routineUser: p => postToken('/api/ajax/get_works_user', p),
+	routineUser: (p,c) => postToken('/api/ajax/get_works_user', p, c = { showLoading:false }),
 	// 事务上传文件
 	routineUpload: p => postUpload('/api/upload/upload_works_attach', p),
 	// 事务删除上传文件

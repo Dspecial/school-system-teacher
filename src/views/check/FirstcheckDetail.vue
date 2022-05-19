@@ -34,7 +34,7 @@
 
 			<el-col :span="24" v-if="!commonJs.isEmpty(money_data)">
 				<el-card class="h-100">
-					<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">当前节点应付款</h4>
+					<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">当前节点付款情况</h4>
 					<my-echart :id="'echarts'" :data="option" height="230px"></my-echart>
 				</el-card>
 			</el-col>
@@ -143,7 +143,7 @@
 				basic:{},
 				// 厂商详情
 				company_info:{},
-				// 当前节点应付款 -图
+				// 当前节点付款情况 -图
 				option:{
 			    tooltip: {
 		        trigger: 'item',
@@ -155,20 +155,29 @@
 		        bottom: '0',
 		        icon: 'circle',
 		        itemWidth: 10,
-		        data: ['未付款', '应付款']
+		        data: ['未付款', '已付款']
 			    },
 			    series: [
 		        {
-	            name: '资金',
+	            name: '金额',
 	            type: 'pie',
 	            radius: ['50%', '70%'],
 	            center: ['50%', '48%'],
 	            label: {
-                fontSize: 14,
-            },
+                formatter: `{b|{b}：}{c} 元 {per|{d}%}`,
+                fontSize: 16,
+                rich: {
+                  per: {
+                    color: '#eee',
+                    backgroundColor: '#334455',
+                    padding: [6, 6],
+                    borderRadius: 4,
+                  }
+                }
+            	},
 	            data: [
                 {value: 7000, name: '未付款'},
-                {value: 3000, name: '应付款'},
+                {value: 3000, name: '已付款'},
 	            ],
 	            hoverOffset:5,
 	            emphasis: {

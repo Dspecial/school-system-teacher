@@ -55,11 +55,6 @@
 							</div>
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :span="12">
-						<el-form-item label="负责人" prop="leader_id">
-							
-						</el-form-item>
-					</el-col> -->
 					<el-col :span="12">
 						<el-form-item label="项目名称" prop="p_name">
 							<el-input v-model="projectForm.p_name" placeholder="请输入项目名称"></el-input>

@@ -179,7 +179,6 @@
           createtime:this.filters[3].value?this.filters[3].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
-            this.money_data = data.money_data;
             this.total = data.data.total;
             this.tableData = data.data.data;
             var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array;
@@ -192,10 +191,11 @@
                 actions_3.push(item);
               }
             })
-
             // status = 1，3 待审核和审核失败的  就不显示工单列表和付款详情
             this.actions1 = [...actions_1];
             this.actions2 = [...actions_1,...actions_2,...actions_3];
+            
+            this.money_data = data.money_data;
           }else{
             this.$message.error(data.msg);
           }

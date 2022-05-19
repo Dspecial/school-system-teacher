@@ -79,26 +79,23 @@
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column prop="ename" label="最新编辑人" width="100"></el-table-column>
         <el-table-column prop="updatetime" label="更新时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="200" align="center">
+        <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
             <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign,action.id)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
           </template>
         </el-table-column>
       </data-tables-server>
-      <hoster-resource-edit :resourceData="resourceData"></hoster-resource-edit>
     </el-card>
   </div>
 </template>
 
 <script>
   import GlobalTips from "@/components/GlobalTips";
-  import HosterResourceEdit from "./HosterResourceEdit";
 
 	export default {
     name: 'HosterResource',
     components: {
       GlobalTips,
-      HosterResourceEdit,
     },
     data() {
       return {
@@ -176,7 +173,7 @@
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
         }
-        this.$api.hosterResourceList({
+        this.$api.manager_hosterResourceList({
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
@@ -192,117 +189,20 @@
           }
         });
       },
-      // 新增资源
-      handleAdd(){
-        this.resourceData.dialog = true;
-        this.resourceData.title = "新增资源";
-        this.resourceData.id = "";
-        this.resourceData.isEdit = false;
-      },
 
       // 操作们
       fun(index,row,sign,actionId){
-        if(sign == 2){ // 编辑
-          this.editResource(index,row);
-        }else if(sign == 3){ // 删除
-          this.handleDel(index,row);
-        }else if(sign == 4){ // 详情
+        if(sign == 4){ // 详情
           this.goDetail(index,row);
-        }else if(sign == 11.1){ // 资源使用列表
-          this.goUseList(index,row);
-          this.menuClick(actionId);
-        }else if(sign == 11.2){ // 资源维护记录列表
-          this.goRecordList(index,row);
-          this.menuClick(actionId);
         }
-      },
-
-      // 编辑资源
-      editResource(index,row){
-        this.resourceData.dialog = true;
-        this.resourceData.title = "编辑资源";
-        this.resourceData.id = row.id;
-        this.resourceData.isEdit = true;
-      },
-
-      // 删除
-      handleDel(index,row){
-        this.$confirm("此操作将永久删除该资源, 是否继续?", "提示", {
-          type: 'warning'
-        }).then(() => {
-          this.$api.hosterResourceDel({
-            id:row.id
-          }).then(data=>{ 
-             if(data.code == 0){
-                this.$message({
-                  message: "删除资源成功!",
-                  type: 'success'
-                });
-                this.loadData();
-             }else{
-               this.$message.error(data.msg);
-             }
-          })
-        }).catch(() => {
-
-        });
       },
 
       // 详情
       goDetail(index,row){
         this.$router.push({
-          path:"/project/hosterResource/detail",
+          path:"/manager/resource/detail",
           query: {
             id: row.id,
-          }
-        })
-      },
-
-      // 资源使用列表
-      goUseList(index,row){
-        this.$router.push({
-          path:"/project/hosterResource/useList",
-          query: {
-            id: row.id,
-          }
-        });
-      },
-
-      // 资源维护记录列表
-      goRecordList(index,row){
-        this.$router.push({
-          path:"/project/hosterResource/recordList",
-          query: {
-            id: row.id,
-          }
-        });
-      },
-
-      // 获取该菜单列表下的所有操作按钮
-      menuClick(id){
-        this.VueCookies.set('back_menu_id', id);
-        // 清空
-        this.allAction = {
-          addAction:{},
-          moreAction:[],
-        };
-        this.$api.menuButton({
-          menu_id:id
-        }).then(data=>{
-          if(data.code == 0){
-            if(this.commonJs.isEmpty(data.data.current_menu[0])){
-              this.$store.commit("SET_ACTION",this.allAction);
-            }else{
-              data.data.current_menu.map(item=>{
-                if(item.sign == 1){ // 是添加按钮
-                  this.allAction.addAction = item;
-                }else{
-                  this.allAction.moreAction.push(item);
-                }
-              })
-              this.$store.commit("SET_ACTION",this.allAction);
-            }
-            // console.log(this.allAction,'this.allAction');
           }
         })
       },

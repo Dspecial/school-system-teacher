@@ -83,28 +83,26 @@
           </template>
         </el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="230" align="center">
+        <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.status == 2">
-              <span v-for="(action,k) in actions2" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-            </template>
-            <template v-else>
-              <span v-for="(action,k) in actions1" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
-            </template>
+            <span v-for="(action,k) in $store.getters.getmoreAction" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
           </template>
         </el-table-column>
       </data-tables-server>
     </el-card>
+    <maintenance-auth :authData="authData"></maintenance-auth>
   </div>
 </template>
 
 <script>
   import GlobalTips from "@/components/GlobalTips";
+  import MaintenanceAuth from "./MaintenanceAuth";
 
 	export default {
     name: 'Resource',
     components: {
       GlobalTips,
+      MaintenanceAuth
     },
     provide() {
       return {
@@ -143,14 +141,11 @@
         total: 0, //总条数
         currentPage: 1, //当前页
         pageSize: 15, //每页显示条数
-        // 审批状态
-        applicationApproval: {
-          dialog:false,
+        authData:{
+          id:"",
           title:"",
-          id:","
+          dialog:false,
         },
-        actions1:[],
-        actions2:[],
       }
     },
     computed: {
@@ -170,7 +165,7 @@
           this.currentPage = queryInfo.page;
           this.pageSize = queryInfo.pageSize;
         }
-        this.$api.maintenanceList({
+        this.$api.manager_maintenanceList({
           page:this.currentPage,
           limit:this.pageSize,
           keywords:this.filters[0].value,
@@ -179,23 +174,10 @@
           createtime:this.filters[3].value?this.filters[3].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
-            this.money_data = data.money_data;
             this.total = data.data.total;
             this.tableData = data.data.data;
-            var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array;
-            this.$store.getters.getmoreAction.map((item,index)=>{
-              if (item.sign == '4'){ // 详情
-                actions_1.push(item);
-              }else if (item.sign == '5.11'){ // 工单列表
-                actions_2.push(item);
-              }else if (item.sign == '5.10'){ // 付款节点
-                actions_3.push(item);
-              }
-            })
 
-            // status = 1，3 待审核和审核失败的  就不显示工单列表和付款详情
-            this.actions1 = [...actions_1];
-            this.actions2 = [...actions_1,...actions_2,...actions_3];
+            this.money_data = data.money_data;
           }else{
             this.$message.error(data.msg);
           }
@@ -206,41 +188,26 @@
       fun(index,row,sign){
         if(sign == '4'){ // 详情
           this.detailMaintenance(index,row);
-        }else if(sign == '5.11'){ // 工单列表
-          this.goServiceList(index,row);
-        }else if(sign == '5.10'){ // 付款节点
-          this.paymentNode(index,row);
+        }else if(sign == '12'){ // 授权
+          this.goAuth(index,row);
         }
       },
 
       // 维保详情
       detailMaintenance(index,row){
         this.$router.push({
-          path:"/project/maintenance/detail",
+          path:"/manager/maintenance/detail",
           query: {
             id: row.id,
           }
         })
       },
 
-      // 工单列表
-      goServiceList(index,row){
-        this.$router.push({
-          path:"/project/maintenance/serviceList",
-          query: {
-            id: row.id,
-          }
-        })
-      },
-
-      // 付款节点
-      paymentNode(index,row){
-        this.$router.push({
-          path:"/project/maintenance/paymentNode",
-          query: {
-            id: row.id,
-          }
-        })
+      // 授权
+      goAuth(index,row){
+        this.authData.id = row.id;
+        this.authData.title = "人员授权";
+        this.authData.dialog = true;
       },
 		},
   }

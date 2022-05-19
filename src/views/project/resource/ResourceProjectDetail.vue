@@ -113,7 +113,7 @@
 				basic:{},
 				// 厂商详情
 				company_info:{},
-				// 当前节点应付款 -图
+				// 当前节点付款情况 -图
 				option:{
 			    tooltip: {
 		        trigger: 'item',
@@ -125,20 +125,29 @@
 		        bottom: '0',
 		        icon: 'circle',
 		        itemWidth: 10,
-		        data: ['未付款', '应付款']
+		        data: ['未付款', '已付款']
 			    },
 			    series: [
 		        {
-	            name: '资金',
+	            name: '金额',
 	            type: 'pie',
 	            radius: ['50%', '70%'],
 	            center: ['50%', '48%'],
 	            label: {
-                fontSize: 14,
+                formatter: `{b|{b}：}{c} 元 {per|{d}%}`,
+                fontSize: 16,
+                rich: {
+                  per: {
+                    color: '#eee',
+                    backgroundColor: '#334455',
+                    padding: [6, 6],
+                    borderRadius: 4,
+                  }
+                }
             	},
 	            data: [
                 {value: 7000, name: '未付款'},
-                {value: 3000, name: '应付款'},
+                {value: 3000, name: '已付款'},
 	            ],
 	            hoverOffset:5,
 	            emphasis: {

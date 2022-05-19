@@ -57,22 +57,25 @@
         <el-table-column prop="apply_user_depart" label="所属部门" width="150"></el-table-column>
         <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100" align="center">
+        <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
             <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
           </template>
         </el-table-column>
       </data-tables-server>
     </el-card>
+    <project-auth :authData="authData"></project-auth>
   </div>
 </template>
 
 <script>
   import GlobalTips from "@/components/GlobalTips";
+  import ProjectAuth from "./ProjectAuth";
 	export default {
     name: 'Project',
     components: {
       GlobalTips,
+      ProjectAuth
     },
     provide() {
       return {
@@ -86,9 +89,7 @@
           alread_pay:"",
           load_pay:"",
         },
-        tableProps: {
-          
-        },
+        tableProps: {},
         tableData: [],
         filters: [
           {
@@ -107,14 +108,11 @@
         total: 0, //总条数
         currentPage: 1, //当前页
         pageSize: 15, //每页显示条数
-        // 审批状态
-        applicationApproval: {
-          dialog:false,
+        authData:{
+          id:"",
           title:"",
-          id:","
+          dialog:false,
         },
-        dialogVisible:false,
-        rowRecheck:{},
       }
     },
     computed: {
@@ -142,9 +140,10 @@
           createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
-            this.money_data = data.money_data;
             this.total = data.data.total;
             this.tableData = data.data.data;
+            
+            this.money_data = data.money_data;
           }else{
             this.$message.error(data.msg);
           }
@@ -154,7 +153,7 @@
       // 新增项目类别
       handleAdd(){
         this.$router.push({
-          path:"/project/project/edit",
+          path:"/manager/project/edit",
         })
       },
 
@@ -166,13 +165,15 @@
           this.handleDel(index,row);
         }else if(sign == '4'){ // 详情
           this.goDetail(index,row);
+        }else if(sign == '12'){ // 授权
+          this.goAuth(index,row);
         }
       },
 
       // 编辑项目
       editProject(index,row){
         this.$router.push({
-          path:"/project/project/edit",
+          path:"/manager/project/edit",
           query: {
             id: row.id,
           }
@@ -203,11 +204,17 @@
       // 项目详情
       goDetail(index,row){
         this.$router.push({
-          path:"/project/project/detail",
+          path:"/manager/project/detail",
           query: {
             id: row.id,
           }
         })
+      },
+      // 授权
+      goAuth(index,row){
+        this.authData.id = row.id;
+        this.authData.title = "人员授权";
+        this.authData.dialog = true;
       },
 		},
   }

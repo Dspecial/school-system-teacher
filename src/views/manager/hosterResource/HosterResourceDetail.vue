@@ -156,7 +156,7 @@
 
 			// 获取数据
 			initData(){
-				this.$api.hosterResourceDetail({
+				this.$api.manager_hosterResourceDetail({
 					id:this.$route.query.id,
 					function_type:2,
 				}).then(data => {

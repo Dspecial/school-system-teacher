@@ -316,6 +316,17 @@ const router = new Router({
 				  children: null
 				},
 
+				// 款项信息列表
+				{
+				  path: '/project/payment',
+				  component: resolve => require(['@/views/project/payment/Payment'], resolve),
+				  name: 'Payment',
+				  meta: {
+				    title: '款项信息列表'
+				  },
+				  children: null
+				},
+
 				// 承办列表
 				{
 				  path: '/project/hoster',
@@ -387,6 +398,7 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				
 
 				/*
 				**部门项目
@@ -434,24 +446,33 @@ const router = new Router({
 				// 资源列表
 				{
 				  path: '/manager/resource',
-				  component: resolve => require(['@/views/manager/resource/Resource'], resolve),
-				  name: 'manager_Resource',
+				  component: resolve => require(['@/views/manager/hosterResource/HosterResource'], resolve),
+				  name: 'manager_HosterResource',
 				  meta: {
 				    title: '部门资源列表',
 				  },
 				  children: null
 				},
-				// 项目资源详情
+				// 资源详情
 				{
-				  path: '/manager/resource/p_detail',
-				  component: resolve => require(['@/views/manager/resource/ResourceProjectDetail'], resolve),
-				  name: 'manager_ResourceProjectDetail',
+				  path: '/manager/resource/detail',
+				  component: resolve => require(['@/views/manager/hosterResource/HosterResourceDetail'], resolve),
+				  name: 'manager_HosterResourceDetail',
 				  meta: {
-				    title: '部门项目资源详情',
+				    title: '部门资源详情',
 				  },
 				  children: null
 				},
-
+				// 款项信息列表
+				{
+				  path: '/manager/payment',
+				  component: resolve => require(['@/views/manager/payment/Payment'], resolve),
+				  name: 'manager_Payment',
+				  meta: {
+				    title: '款项信息列表'
+				  },
+				  children: null
+				},
 
 
 				/*

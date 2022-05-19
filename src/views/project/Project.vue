@@ -275,7 +275,6 @@
           createtime:this.filters[2].value?this.filters[2].value.join(" - "):'',
         }).then(data=>{
           if(data.code == 0){
-            this.money_data = data.money_data;
             this.total = data.data.total;
             this.tableData = data.data.data;
 
@@ -397,6 +396,8 @@
 
             // need_to_resource_apply=1 申请资源
             this.actions14_1 = [...actions_12];
+
+            this.money_data = data.money_data;
           }else{
             this.$message.error(data.msg);
           }

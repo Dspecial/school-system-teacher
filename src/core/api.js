@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-05-19 14:35:19
+ * @LastEditTime: 2022-05-19 14:42:05
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -231,14 +231,7 @@ export default {
 	// 款项信息列表
 	manager_paymentList: p => postToken('/api/manager.payinfo/index', p),
 
-
-
-
-
-
-
-
-
+	
 	/*
 		***审核管理
 	 */

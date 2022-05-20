@@ -1016,6 +1016,15 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/' || to.path === '/login') {
     next();
   } else {
+		var _this = new Vue();
+		_this.$api.check_login({
+		}).then(data=>{
+			if(data.code == 0){
+				console.log(data,'hi,我是单点登录后的check_login接口');
+			}else{
+				this.$message.error(data.msg);
+			}
+		});
     let token = VueCookies.get('application_token');
     if (token === null || token === '') {
       next({

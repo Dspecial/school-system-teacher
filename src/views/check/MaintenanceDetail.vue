@@ -123,12 +123,12 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="联系人">
+						<el-form-item label="企业联系人">
 							{{maintenanceInfo.contact_name}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="联系电话">
+						<el-form-item label="企业联系方式">
 							{{maintenanceInfo.contact_phone}}
 						</el-form-item>
 					</el-col>

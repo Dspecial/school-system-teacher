@@ -73,8 +73,8 @@
         <el-table-column prop="projecttime" label="维保年份" width="100"></el-table-column>
         <el-table-column prop="money" label="维保金额" width="100"></el-table-column>
         <el-table-column prop="job_number" label="维保企业" width="220"></el-table-column>
-        <el-table-column prop="contact_name" label="联系人" width="80"></el-table-column>
-        <el-table-column prop="contact_phone" label="联系方式" width="120"></el-table-column>
+        <el-table-column prop="contact_name" label="企业联系人" width="80"></el-table-column>
+        <el-table-column prop="contact_phone" label="企业联系方式" width="120"></el-table-column>
         <el-table-column prop="status" label="审核状态" width="100">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 1"><i class="dot bg-primary mr-1"></i>审核中</span>

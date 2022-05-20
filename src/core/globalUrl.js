@@ -6,8 +6,8 @@
  * @LastEditTime: 2022-04-26 14:17:25
  */
 
-// const baseURL = 'http://xmgl.ccit.js.cn'
-const baseURL = 'http://pj.apidata.top'
+const baseURL = 'http://xmgl.ccit.js.cn'
+// const baseURL = 'http://pj.apidata.top'
 
 export default {
   baseURL,

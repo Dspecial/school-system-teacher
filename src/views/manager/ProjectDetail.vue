@@ -8,11 +8,12 @@
 					<div class="d-flex align-items-center flex-wrap">
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目编号：</span>{{basic.apply_number}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目名称：</span>{{basic.p_name}}</p>
-						<p class="w-100 mb-3" v-if="basic.budget_amount != 0"><span class="opacity-60 mr-2">预算金额：</span>{{basic.budget_amount}}</p>
-						<p class="w-100 mb-3" v-if="basic.real_amount != 0"><span class="opacity-60 mr-2">项目金额：</span>{{basic.real_amount}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目类别：</span>{{basic.category_name}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">项目年份：</span>{{basic.projecttime}}</p>
-						<p class="w-100 mb-0"><span class="opacity-60 mr-2">申请人所在部门：</span>{{basic.apply_user_depart}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">申请人所在部门：</span>{{basic.apply_user_depart}}</p>
+						<p class="w-100 mb-3"><span class="opacity-60 mr-2">负责人：</span>{{leader_info.name}}-{{leader_info.depart_name}}</p>
+						<p class="w-100 mb-3" v-if="basic.budget_amount != 0"><span class="opacity-60 mr-2">预算金额：</span>{{basic.budget_amount}}</p>
+						<p class="w-100 mb-0" v-if="basic.real_amount != 0"><span class="opacity-60 mr-2">项目金额：</span>{{basic.real_amount}}</p>
 					</div>
 				</el-card>
 			</el-col>
@@ -46,86 +47,6 @@
 				<!-- 项目额外参数 -->
 				<el-row :gutter="20">
 					<template v-for="(formItem,j) in dataJson">
-						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
-							<el-form-item :label="formItem.title+'：'" class="file-form-item">
-								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
-									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
-										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
-									</div>
-									<div class="opacity-80 ml-5 pl-5">
-										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
-										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
-									</div>
-								</div>
-							</el-form-item>
-						</el-col>
-						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
-							<el-form-item :label="formItem.title+'：'" label-width="110px" class="json-form-item">
-								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
-									<p class="m-0 w-100 pl-2 pr-2 pt-1 pb-1" v-for="(item,k) in cell" :key="k">{{item}}</p>
-								</div>
-							</el-form-item>
-						</el-col>
-						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
-							<el-form-item :label="formItem.title+'：'">
-								{{formItem.value.join(",")}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 7">
-							<el-form-item :label="formItem.title+'：'">
-								<span v-html="formItem.value"></span>
-							</el-form-item>
-						</el-col>
-						<el-col :span="12" :key="j" v-else>
-							<el-form-item :label="formItem.title+'：'">
-								{{formItem.value}}
-							</el-form-item>
-						</el-col>
-					</template>
-				</el-row>
-				<!-- 实施流程额外参数 -->
-				<el-row :gutter="20">
-					<template v-for="(formItem,j) in runningextra">
-						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
-							<el-form-item :label="formItem.title+'：'" class="file-form-item">
-								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
-									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
-										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
-									</div>
-									<div class="opacity-80 ml-5 pl-5">
-										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
-										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
-									</div>
-								</div>
-							</el-form-item>
-						</el-col>
-						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
-							<el-form-item :label="formItem.title+'：'" label-width="110px" class="json-form-item">
-								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
-									<p class="m-0 w-100 pl-2 pr-2 pt-1 pb-1" v-for="(item,k) in cell" :key="k">{{item}}</p>
-								</div>
-							</el-form-item>
-						</el-col>
-						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
-							<el-form-item :label="formItem.title+'：'">
-								{{formItem.value.join(",")}}
-							</el-form-item>
-						</el-col>
-						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 7">
-							<el-form-item :label="formItem.title+'：'">
-								<span v-html="formItem.value"></span>
-							</el-form-item>
-						</el-col>
-						<el-col :span="12" :key="j" v-else>
-							<el-form-item :label="formItem.title+'：'">
-								{{formItem.value}}
-							</el-form-item>
-						</el-col>
-					</template>
-				</el-row>
-				<!-- 验收流程额外参数 -->
-				<el-row :gutter="20">
-					<template v-for="(formItem,j) in acceptextra">
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
 							<el-form-item :label="formItem.title+'：'" class="file-form-item">
 								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
@@ -299,51 +220,117 @@
 		</el-card>
 
 		<!-- 验收记录 -->
-		<el-card class="mt-3" v-if="acceptForm">
+		<el-card class="mt-3" v-if="acceptForm || acceptextra">
 			<div class="d-flex justify-content-between align-items-center">
 				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">验收记录</h4>
-				<div :class="['toggleMenu cursor-pointer text-primary',showMoreAccept ? 'menu_arrow' : '']" @click="changeFoldStateAccept"  v-if="accept_info_all.length > 5">
+				<div :class="['toggleMenu cursor-pointer text-primary',showMoreAccept ? 'menu_arrow' : '']" @click="changeFoldStateAccept">
 					<span>{{showMoreAccept?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
 				</div>
 			</div>
 			<el-form :model="acceptForm" class="form_json" label-position="left">
-				<el-row :gutter="20">
+				<el-row :gutter="20" v-if="acceptForm">
 					<el-col :span="12">
-						<el-form-item label="验收编号">
+						<el-form-item label="验收编号：">
 							{{acceptForm.accept_number}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="创建时间">
+						<el-form-item label="创建时间：">
 							{{acceptForm.createtime}}
 						</el-form-item>
 					</el-col>
-
-					<el-col :span="24">
-						<el-form-item label="验收列表" class="file-form-item">
-							<div class="accept_info_detial mb-2" v-for="(info,i) in accept_info" :key="i">
-								<p>{{info.title}}</p>
-								<div class="d-flex align-items-center justify-content-between ml-3 opacity-80" v-for="(file,index) in info.files" :key="index">
-									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
-										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
-									</div>
-									<div class="opacity-80 ml-3">
-										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
-										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
-									</div>
+					<el-col :span="24" v-if="!showMoreAccept">
+						<el-form-item label="">
+							<div class="accept_info">
+								<div class="accept_info_header fs_16 text-center font-weight-black">
+									<el-row type="flex" align="middle">
+										<el-col :span="18">
+											<div class="p-2">审核内容</div>
+										</el-col>
+										<el-col :span="3">
+											<div class="p-2">执行情况</div>
+										</el-col>
+										<el-col :span="3">
+											<div class="p-2">审核人</div>
+										</el-col>
+									</el-row>
+								</div>
+								<div class="accept_info_content">
+									<template v-for="(item,index) in acceptForm.accept_info">
+										<el-row :key="index" type="flex" align="middle">
+											<el-col :span="6">
+												<div class="p-2 text-center">{{ item.group_name }}</div>
+											</el-col>
+											<el-col :span="18">
+												<template v-for="(cell,j) in item.group_list">
+													<el-row :key="j" type="flex">
+														<el-col :span="16">
+															<div class="p-2">{{ j+1 }}、 {{ cell.title }}</div>
+														</el-col>
+														<el-col :span="4">
+															<div class="p-2">{{ cell.desc }}</div>
+														</el-col>
+														<el-col :span="4">
+															<div class="p-2">{{ cell.checkname }}</div>
+														</el-col>
+													</el-row>
+												</template>
+											</el-col>
+										</el-row>
+									</template>
 								</div>
 							</div>
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-row :gutter="20" v-if="acceptextra">
+					<!-- 验收流程额外参数 -->
+					<template v-for="(formItem,j) in acceptextra">
+						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
+							<el-form-item :label="formItem.title+'：'" class="file-form-item">
+								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
+									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+									</div>
+									<div class="opacity-80 ml-5 pl-5">
+										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+									</div>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
+							<el-form-item :label="formItem.title+'：'" label-width="110px" class="json-form-item">
+								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
+									<p class="m-0 w-100 pl-2 pr-2 pt-1 pb-1" v-for="(item,k) in cell" :key="k">{{item}}</p>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
+							<el-form-item :label="formItem.title+'：'">
+								{{formItem.value.join(",")}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 7">
+							<el-form-item :label="formItem.title+'：'">
+								<span v-html="formItem.value"></span>
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :key="j" v-else>
+							<el-form-item :label="formItem.title+'：'">
+								{{formItem.value}}
+							</el-form-item>
+						</el-col>
+					</template>
+				</el-row>
 			</el-form>
 		</el-card>
 
-		<!-- 合同付款节点 -->
+		<!-- 合同规定付款计划 -->
 		<el-card class="mt-3 bg-white" v-if="tableData.length != 0">
-			<h6 class="fs_18 font-weight-normal mb-3">合同付款节点</h6>
-			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-				<el-table :data="tableData" :default-expand-all="true" :row-class-name="getRowClass">
+			<h6 class="fs_18 font-weight-normal mb-3">合同规定付款计划</h6>
+			<el-form label-position="left" class="form_json">
+				<el-table :data="tableData" :default-expand-all="false" :row-class-name="getRowClass">
 					<el-table-column type="expand" label="" width="50">
 						<template slot-scope="scope">
 							<el-table :data="scope.row.pay_list">
@@ -378,6 +365,46 @@
 					<el-table-column prop="haspaytime" label="付款时间"></el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
 				</el-table>
+				<!-- 实施流程额外参数 -->
+				<el-row :gutter="20" v-if="runningextra" class="mt-3">
+					<template v-for="(formItem,j) in runningextra">
+						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
+							<el-form-item :label="formItem.title+'：'" class="file-form-item">
+								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
+									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
+									</div>
+									<div class="opacity-80 ml-5 pl-5">
+										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
+									</div>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
+							<el-form-item :label="formItem.title+'：'" label-width="110px" class="json-form-item">
+								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
+									<p class="m-0 w-100 pl-2 pr-2 pt-1 pb-1" v-for="(item,k) in cell" :key="k">{{item}}</p>
+								</div>
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
+							<el-form-item :label="formItem.title+'：'">
+								{{formItem.value.join(",")}}
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :key="j" v-else-if="formItem.name_type == 7">
+							<el-form-item :label="formItem.title+'：'">
+								<span v-html="formItem.value"></span>
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :key="j" v-else>
+							<el-form-item :label="formItem.title+'：'">
+								{{formItem.value}}
+							</el-form-item>
+						</el-col>
+					</template>
+				</el-row>
 			</el-form>
 		</el-card>
 	</div>
@@ -396,6 +423,7 @@
 			return {
 				// 项目基本信息
 				basic:{},
+				leader_info:{},
 				// 厂商详情
 				company_info:{},
 				// 当前节点付款情况 -图
@@ -475,11 +503,9 @@
 
 				// 验收记录
 				acceptForm:{},
-				accept_info:[],
-				accept_info_all:[],
 				showMoreAccept:true,
 
-				// 合同付款节点
+				// 合同规定付款计划
 				tableProps: {
           
         },
@@ -500,6 +526,7 @@
 				}).then(data => {
 					if(data.code == 0){
 						this.basic = data.data.info;
+						this.leader_info = data.data.info.leader_info;
 						// 厂商信息
 						this.company_info = data.data.company_info;
 						// 当前付款节点--图
@@ -549,15 +576,8 @@
 
 						// 验收记录
 						this.acceptForm = data.data.project_accept_info;
-						this.accept_info_all = data.data.project_accept_info?data.data.project_accept_info.accept_info:[];
-						// 默认情况下验收记录
-						if(data.data.project_accept_info&&data.data.project_accept_info.accept_info.length < 5){
-							this.accept_info = this.accept_info_all;
-						}else{
-							this.accept_info = this.accept_info_all.slice(0,5);
-						}
 
-						// 合同付款节点
+						// 合同规定付款计划
 						this.tableData = data.data.pay_info;
 					}
 				})
@@ -598,10 +618,8 @@
 			// 验收列表展示收起
 			changeFoldStateAccept() {
 				if(this.showMoreAccept){ // 展开
-					this.accept_info = this.accept_info_all;
 					this.showMoreAccept = false;
 				}else{
-					this.accept_info = this.accept_info_all.slice(0,5);
 					this.showMoreAccept = true;
 				}
 			},

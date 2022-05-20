@@ -11,8 +11,8 @@
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">维保内容：</span>{{basic.content}}</p>
 						<p class="w-50 mb-3"><span class="opacity-60 mr-2">项目年份：</span>{{basic.projecttime}}</p>
 						<p class="w-50 mb-3"><span class="opacity-60 mr-2">金额：</span>{{basic.money}}</p>
-						<p class="w-50 mb-3"><span class="opacity-60 mr-2">联系人：</span>{{basic.contact_name}}</p>
-						<p class="w-50 mb-3"><span class="opacity-60 mr-2">联系方式：</span>{{basic.contact_phone}}</p>
+						<p class="w-50 mb-3"><span class="opacity-60 mr-2">企业联系人：</span>{{basic.contact_name}}</p>
+						<p class="w-50 mb-3"><span class="opacity-60 mr-2">企业联系方式：</span>{{basic.contact_phone}}</p>
 						<p class="w-100 mb-3"><span class="opacity-60 mr-2">创建时间：</span>{{basic.createtime}}</p>
 						<p class="w-100 mb-0"><span class="opacity-60 mr-2">维保时间：</span>{{basic.endtime}}</p>
 					</div>
@@ -81,11 +81,11 @@
 			</el-table>
 		</el-card> -->
 
-		<!-- 合同付款节点 -->
+		<!-- 合同规定付款计划 -->
 		<el-card class="mt-3 bg-white" v-if="tableData.length != 0">
-			<h6 class="fs_18 font-weight-normal mb-3">合同付款节点</h6>
-			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-				<el-table :data="tableData" :default-expand-all="true" :row-class-name="getRowClass">
+			<h6 class="fs_18 font-weight-normal mb-3">合同规定付款计划</h6>
+			<el-form label-width="110px" label-position="left">
+				<el-table :data="tableData" :default-expand-all="false" :row-class-name="getRowClass">
 					<el-table-column type="expand" label="" width="50">
 						<template slot-scope="scope">
 							<el-table :data="scope.row.pay_list">
@@ -201,7 +201,7 @@
 				checkList:[],
 				checkListAll:[],
 				showMore: true,
-				// 合同付款节点
+				// 合同规定付款计划
 				tableProps: {
           
         },
@@ -236,7 +236,7 @@
 						}else{
 							this.checkList = this.checkListAll.slice(0,5);
 						}
-						// 合同付款节点
+						// 合同规定付款计划
 						this.tableData = data.data.pay_info;
 					}
 				})

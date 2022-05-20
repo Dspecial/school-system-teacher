@@ -315,32 +315,6 @@
 							</el-form-item>
 						</el-col>
 					</template>
-					<el-col :span="24">
-						<el-form-item label="合同规定计划付款" class="payment_item" required>
-							<div slot="label" class="d-flex justify-content-between">
-								<span>合同规定计划付款</span>
-								<span class="text-primary cursor-pointer" @click="addPayinfo(projectForm.agree_payinfo)"><i class="el-icon-plus mr-1"></i>付款信息</span>
-							</div>
-							<template v-for="(cell,INDEX) in projectForm.agree_payinfo">
-								<el-row type="flex" align="middle" :gutter="20" class="_row mb-3" :key="INDEX">
-									<el-col :span="24">
-										<el-input v-model="cell.title" placeholder="请输入标题"></el-input>
-									</el-col>
-									<el-col :span="24">
-										<el-input v-model="cell.money" placeholder="请输入合同金额，必须为数值，单位元">
-											<span slot="suffix" class="el-input__icon mr-2">元</span>
-										</el-input>
-									</el-col>
-									<el-col :span="24">
-										<el-date-picker type="date" clearable placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
-									</el-col>
-									<el-col :span="2" class="text-right">
-										<span class="text-danger cursor-pointer" @click="delPayinfo(projectForm.agree_payinfo,INDEX)">删除</span>
-									</el-col>
-								</el-row>
-							</template>
-						</el-form-item>
-					</el-col>
 				</el-row>
 
 				<!-- 实施流程的额外参数 -->
@@ -603,6 +577,36 @@
 							</el-form-item>
 						</el-col>
 					</template>
+				</el-row>
+				
+				<!-- 合同规定付款计划 -->
+				<el-row :gutter="20">
+					<el-col :span="24">
+						<el-form-item label="合同规定付款计划" class="payment_item" required>
+							<div slot="label" class="d-flex justify-content-between">
+								<span>合同规定付款计划</span>
+								<span class="text-primary cursor-pointer" @click="addPayinfo(projectForm.agree_payinfo)"><i class="el-icon-plus mr-1"></i>付款信息</span>
+							</div>
+							<template v-for="(cell,INDEX) in projectForm.agree_payinfo">
+								<el-row type="flex" align="middle" :gutter="20" class="_row mb-3" :key="INDEX">
+									<el-col :span="24">
+										<el-input v-model="cell.title" placeholder="请输入标题"></el-input>
+									</el-col>
+									<el-col :span="24">
+										<el-input v-model="cell.money" placeholder="请输入合同金额，必须为数值，单位元">
+											<span slot="suffix" class="el-input__icon mr-2">元</span>
+										</el-input>
+									</el-col>
+									<el-col :span="24">
+										<el-date-picker type="date" clearable placeholder="选择付款节点，必须大于当前日期" v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
+									</el-col>
+									<el-col :span="2" class="text-right">
+										<span class="text-danger cursor-pointer" @click="delPayinfo(projectForm.agree_payinfo,INDEX)">删除</span>
+									</el-col>
+								</el-row>
+							</template>
+						</el-form-item>
+					</el-col>
 				</el-row>
 				<div class="d-flex justify-content-end">
 					<el-button type="primary" @click="submitForm('projectForm')" v-if="is_commit != 8">确 定</el-button>

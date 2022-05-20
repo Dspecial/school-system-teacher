@@ -85,19 +85,6 @@
 							</el-form-item>
 						</el-col>
 					</template>
-					<el-col :span="24" v-if="pay_info">
-						<el-form-item label="合同规定计划付款">
-							<template>
-								<el-table
-									:data="pay_info"
-									style="width: 100%">
-									<el-table-column prop="title" label="标题"></el-table-column>
-									<el-table-column prop="money" label="金额"></el-table-column>
-									<el-table-column prop="paytime" label="付款节点"></el-table-column>
-								</el-table>
-							</template>
-						</el-form-item>
-					</el-col>
 					<template v-for="(formItem,z) in projectInfo.runningextra">
 						<el-col :span="24" :key="z+100" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
 							<el-form-item :label="formItem.title">
@@ -135,6 +122,19 @@
 							</el-form-item>
 						</el-col>
 					</template>
+					<el-col :span="24" v-if="pay_info">
+						<el-form-item label="合同规定付款计划">
+							<template>
+								<el-table
+									:data="pay_info"
+									style="width: 100%">
+									<el-table-column prop="title" label="标题"></el-table-column>
+									<el-table-column prop="money" label="金额"></el-table-column>
+									<el-table-column prop="paytime" label="付款节点"></el-table-column>
+								</el-table>
+							</template>
+						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 		</el-card>

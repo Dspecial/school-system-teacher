@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-05-19 14:42:05
+ * @LastEditTime: 2022-05-20 10:55:05
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -17,6 +17,8 @@ export default {
 	loginConfig: p => post('/api/ajax/get_sys_config', p),
 	// 获取状态，判断是否单点登录
 	isLogin_state: p => postToken('/api/ajax/get_type_no_state', p),
+	// 单点登录获取token
+	check_login: p => post('/api/ajax/check_login', p),
 
 	/*
 		***菜单

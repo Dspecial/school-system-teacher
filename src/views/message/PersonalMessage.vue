@@ -20,9 +20,6 @@
 						<el-radio label="2">女</el-radio>
 					</el-radio-group>
 				</el-form-item>
-				<el-form-item label="密码" prop="password">
-					<el-input v-model="personalForm.password2" placeholder="请修改密码,不填写默认不修改"></el-input>
-				</el-form-item>
 				<el-form-item label="手机号码" prop="phone">
 					<el-input v-model="personalForm.phone" placeholder="请输入手机号码"></el-input>
 				</el-form-item>
@@ -49,7 +46,6 @@
 					name:"",
 					sys_id:"",
 					password:"",
-					password2:"",
 					phone:"",
 					email:"",
 					sex:"",
@@ -109,14 +105,12 @@
 
 			// form提交
 			submitForm(formName) {
-				// var newpassword = this.personalForm.password2?this.personalForm.password2:'';
         this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.personalInfo({
 							job_number:this.personalForm.job_number,
 							name:this.personalForm.name,
 							sys_id:this.personalForm.sys_id,
-							password:this.personalForm.password2,
 							phone:this.personalForm.phone,
 							email:this.personalForm.email,
 							sex:this.personalForm.sex,

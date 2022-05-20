@@ -58,9 +58,10 @@
             <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
           </template>
         </el-table-column>
+        <el-table-column prop="remark" label="审核备注" width="150"></el-table-column>
         <el-table-column prop="pnname" label="流程名称" width="100"></el-table-column>
         <el-table-column prop="name" label="申请人姓名" width="100"></el-table-column>
-        <el-table-column prop="depart_name" label="申请人所在部门" width="120"></el-table-column>
+        <el-table-column prop="depart_name" label="申请人所在部门" width="200"></el-table-column>
         <el-table-column prop="createtime" label="提交时间" width="150"></el-table-column>
         <el-table-column prop="checktime" label="审核时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="180" align="center">

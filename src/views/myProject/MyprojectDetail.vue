@@ -93,11 +93,11 @@
 			</el-steps>
 		</el-card> -->
 
-		<!-- 合同付款节点 -->
+		<!-- 合同规定付款计划 -->
 		<el-card class="mt-3 bg-white" v-if="tableData.length != 0">
-			<h6 class="fs_18 font-weight-normal mb-3">合同付款节点</h6>
-			<el-form label-width="110px" label-position="left" class="pl-3 pr-3">
-				<el-table :data="tableData" :default-expand-all="true" :row-class-name="getRowClass">
+			<h6 class="fs_18 font-weight-normal mb-3">合同规定付款计划</h6>
+			<el-form label-width="110px" label-position="left">
+				<el-table :data="tableData" :default-expand-all="false" :row-class-name="getRowClass">
 					<el-table-column type="expand" label="" width="50">
 						<template slot-scope="scope">
 							<el-table :data="scope.row.pay_list">
@@ -242,7 +242,7 @@
 						// this.statusActive = data.data.info.current_node_id - 1;
 						// this.statusSteps = data.data.project_node;
 
-						// 合同付款节点
+						// 合同规定付款计划
 						this.tableData = data.data.pay_info;
 					}
 				})

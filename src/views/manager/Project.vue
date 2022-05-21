@@ -53,13 +53,18 @@
         <el-table-column prop="apply_number" width="220" label="项目编号"></el-table-column>
         <el-table-column prop="p_name" label="项目名称" width="220"></el-table-column>
         <el-table-column prop="cname" label="类别名称" width="200"></el-table-column>
-        <el-table-column prop="projecttime" label="年份"></el-table-column>
-        <el-table-column prop="apply_user_depart" label="所属部门" width="150"></el-table-column>
+        <el-table-column prop="projecttime" label="年份" width="80"></el-table-column>
+        <el-table-column prop="apply_user_depart" label="所属部门"></el-table-column>
         <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
-            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            <template v-if="scope.row.is_leader == 1">
+              <span v-for="(action,k) in actions1" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
+            <template v-else>
+              <span v-for="(action,k) in actions2" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -113,6 +118,8 @@
           title:"",
           dialog:false,
         },
+        actions1:[],
+        actions2:[],
       }
     },
     computed: {
@@ -142,6 +149,18 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
+
+            var actions_1 = new Array,actions_2 = new Array;
+            this.$store.getters.getmoreAction.map((item,index)=>{
+              if(item.sign == '4'){ // 详情
+                actions_1.push(item);
+              }else if (item.sign == '12'){ // 授权
+                actions_2.push(item);
+              }
+            });
+            // is_leader  如果是1的话就显示授权按钮 
+            this.actions1 = [...actions_1,...actions_2];
+            this.actions2 = [...actions_1];
             
             this.money_data = data.money_data;
           }else{

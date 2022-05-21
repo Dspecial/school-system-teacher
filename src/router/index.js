@@ -114,6 +114,7 @@ const router = new Router({
 				  name: 'ProjectDetail',
 				  meta: {
 				    title: '项目详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -168,6 +169,7 @@ const router = new Router({
 				  name: 'ProjectProcessList',
 				  meta: {
 				    title: '项目进度列表',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -177,6 +179,7 @@ const router = new Router({
 				  name: 'ProjectProcessDetail',
 				  meta: {
 				    title: '项目进度详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -228,6 +231,7 @@ const router = new Router({
 				  name: 'ResourceDetail',
 				  meta: {
 				    title: '资源详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -255,6 +259,7 @@ const router = new Router({
 				  name: 'ResourceServiceDetail',
 				  meta: {
 				    title: '资源工单详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -276,6 +281,7 @@ const router = new Router({
 				  name: 'MaintenanceDetail',
 				  meta: {
 				    title: '维保详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -303,6 +309,7 @@ const router = new Router({
 				  name: 'MaintenanceServiceDetail',
 				  meta: {
 				    title: '维保工单详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -514,6 +521,7 @@ const router = new Router({
 				  name: 'FirstcheckCheck',
 				  meta: {
 				    title: '审核初审',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -523,6 +531,7 @@ const router = new Router({
 				  name: 'FirstcheckDetail',
 				  meta: {
 				    title: '审核初审详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -551,6 +560,7 @@ const router = new Router({
 				  name: 'RecheckCheck',
 				  meta: {
 				    title: '审核',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -560,6 +570,7 @@ const router = new Router({
 				  name: 'RecheckCheckDetail',
 				  meta: {
 				    title: '审核详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -589,6 +600,7 @@ const router = new Router({
 				  name: 'ForceCheck',
 				  meta: {
 				    title: '实施审核',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -598,6 +610,7 @@ const router = new Router({
 				  name: 'ForceDetail',
 				  meta: {
 				    title: '实施详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -618,6 +631,7 @@ const router = new Router({
 				  name: 'ProcessCheck',
 				  meta: {
 				    title: '进度审核',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -627,6 +641,7 @@ const router = new Router({
 				  name: 'ProcessDetail',
 				  meta: {
 				    title: '进度详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -646,6 +661,7 @@ const router = new Router({
 				  name: 'AcceptCheck',
 				  meta: {
 				    title: '验收审核',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -655,6 +671,7 @@ const router = new Router({
 				  name: 'AcceptDetail',
 				  meta: {
 				    title: '验收详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -674,6 +691,7 @@ const router = new Router({
 				  name: 'MaintenanceCheck',
 				  meta: {
 				    title: '项目维保审核',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -692,6 +710,7 @@ const router = new Router({
 				  name: 'checkMaintenanceDetail',
 				  meta: {
 				    title: '项目维保详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -702,6 +721,7 @@ const router = new Router({
 				  name: 'ResourcecheckCheck',
 				  meta: {
 				    title: '审核-资源审核',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -712,6 +732,7 @@ const router = new Router({
 				  name: 'ResourcecheckDetail',
 				  meta: {
 				    title: '审核-资源审核详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -735,6 +756,7 @@ const router = new Router({
 				  name: 'resource-ResourcechecklistCheck',
 				  meta: {
 				    title: '资源-资源审核',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -758,6 +780,7 @@ const router = new Router({
 				  name: 'resource-CompanyapplyListCheck',
 				  meta: {
 				    title: '审核-厂商密码更改申请',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -1016,21 +1039,17 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/' || to.path === '/login') {
     next();
   } else {
-		var _this = new Vue();
-		_this.$api.check_login({
-		}).then(data=>{
-			if(data.code == 0){
-				console.log(data,'hi,我是单点登录后的check_login接口');
-			}else{
-				this.$message.error(data.msg);
-			}
-		});
     let token = VueCookies.get('application_token');
     if (token === null || token === '') {
-      next({
-      	path:'/login',
-      	query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-      });
+			if(to.meta.isSingleOn){
+				var url = window.location.href.split('#')[1];
+				window.location.href = "http://xmgl.ccit.js.cn/api/ajax/check_login?url="+url;
+			}else{
+				next({
+					path:'/login',
+					query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+				});
+			}
     } else {
       next();
     }

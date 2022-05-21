@@ -51,17 +51,17 @@
 				<div class="resourceAdd_form mb-3 pl-3 pr-3 pt-3" v-if="isExpand">
 					<h4 class="fs_18 font-weight-semibold m-0 mb-3 text-primary">拓展参数</h4>
 					<el-row :gutter="20">
-						<template v-for="(field, index) in resourceForm.fieldArray">
+						<div v-for="(field, index) in resourceForm.fieldArray" :key="index">
 							<!-- 字段类型:1=文本框,2=数字框,3=下拉单选,4=日期选择,5=文件上传,6=文本域 -->
-							<el-col :span="8" v-if="field.name_type !== 5" :key="index">
+							<el-col :span="8" v-if="field.name_type !== 5">
 								<el-form-item :label="field.title" :required="field.is_required == 2">
 									{{ field.val }}
 								</el-form-item>
 							</el-col>
 
-							<el-col :span="24" v-if="field.name_type == 5" :key="index">
+							<el-col :span="24" v-if="field.name_type == 5">
 								<el-form-item :label="field.title">
-									<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in field.file_arr" :key="index">
+									<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,j) in field.file_arr" :key="j">
 										<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
 											<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 										</div>
@@ -72,7 +72,7 @@
 									</div>
 								</el-form-item>
 							</el-col>
-						</template>
+						</div>
 					</el-row>
 				</div>
 			</el-form>

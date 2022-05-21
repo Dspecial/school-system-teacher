@@ -127,7 +127,7 @@
             this.$notify({
               title: "登录失败",
               message: h('i', {
-                style: 'color: teal'
+                style: 'color: #F98D15'
               }, data.msg),
               type: 'warning',
               duration: 3000,

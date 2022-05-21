@@ -51,7 +51,7 @@
 					<template v-for="(formItem,j) in dataJson">
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
 							<el-form-item :label="formItem.title" class="file-form-item">
-								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
+								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr">
 									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
 										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 									</div>
@@ -64,7 +64,7 @@
 						</el-col>
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
 							<el-form-item :label="formItem.title" label-width="110px"  class="json-form-item">
-								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
+								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value">
 									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
 								</div>
 							</el-form-item>
@@ -169,7 +169,7 @@
 										<el-col :span="6" class="mb-2">
 											<el-select v-model="cell.supplier_id" clearable filterable placeholder="请选择供应商" class="w-100">
 												<template v-for="(item,index) in supplierOptions">
-													<el-option :label="item.name" :value="item.id" :key="index"></el-option>
+													<el-option :label="item.name" :value="item.id"></el-option>
 												</template>
 											</el-select>
 										</el-col>
@@ -192,33 +192,33 @@
 											<div class="resourceAdd_form pt-1 pl-3 pr-3 pb-3">
 												<p class="text-primary m-0 mb-1">资源拓展值</p>
 												<el-row :gutter="20">
-													<template v-for="(field, index) in cell.detailjson">
+													<div v-for="(field, index) in cell.detailjson" :key="index">
 														<!-- 字段类型:1=文本框,2=数字框,3=下拉单选,4=日期选择,5=文件上传,6=文本域 -->
-														<el-col :span="6" v-if="field.name_type == 1" :key="index">
+														<el-col :span="6" v-if="field.name_type == 1">
 															<el-form-item :label="field.title" :required="field.is_required == 2">
 																<el-input v-model="field.val" :placeholder="field.placeholder == ''?'请输入'+field.title:field.placeholder"></el-input>
 															</el-form-item>
 														</el-col>
-														<el-col :span="6" v-if="field.name_type == 2" :key="index">
+														<el-col :span="6" v-if="field.name_type == 2">
 															<el-form-item :label="field.title" :required="field.is_required == 2">
 																<el-input v-model.number="field.val" :placeholder="field.placeholder == ''?'请输入'+field.title:field.placeholder"></el-input>
 															</el-form-item>
 														</el-col>
 
-														<el-col :span="6" v-if="field.name_type == 3" :key="index">
+														<el-col :span="6" v-if="field.name_type == 3">
 															<el-form-item :label="field.title" :required="field.is_required == 2">
 																<el-select v-model="field.val" :placeholder="field.placeholder == ''?'请选择'+field.title:field.placeholder" class="w-100" clearable>
 																	<el-option v-for="(option,j) in field.extra_val" :label="option" :value="option" :key="j"></el-option>
 																</el-select>
 															</el-form-item>
 														</el-col>
-														<el-col :span="6" v-if="field.name_type == 4" :key="index">
+														<el-col :span="6" v-if="field.name_type == 4">
 															<el-form-item :label="field.title" :required="field.is_required == 2">
 																<el-date-picker v-model="field.val" type="date" :placeholder="field.placeholder == ''?'请选择'+field.title:field.placeholder" clearable class="w-100"></el-date-picker>
 															</el-form-item>
 														</el-col>
 
-														<el-col :span="24" v-if="field.name_type == 5" :key="index">
+														<el-col :span="24" v-if="field.name_type == 5">
 															<el-form-item :label="field.title" :required="field.is_required == 2">
 																<el-upload
 																	action="#"
@@ -232,12 +232,12 @@
 															</el-form-item>
 														</el-col>
 
-														<el-col :span="24" v-if="field.name_type == 6" :key="index">
+														<el-col :span="24" v-if="field.name_type == 6">
 															<el-form-item :label="field.title" :required="field.is_required == 2">
 																<el-input type="textarea" v-model="field.val" :placeholder="field.placeholder == ''?'请输入'+field.title:field.placeholder" :autosize="{ minRows: 3, maxRows: 8 }"></el-input>
 															</el-form-item>
 														</el-col>
-													</template>
+													</div>
 												</el-row>
 											</div>
 										</el-col>

@@ -85,7 +85,12 @@
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
-            <span v-for="(action,k) in $store.getters.getmoreAction" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            <template v-if="scope.row.is_leader == 1">
+              <span v-for="(action,k) in actions1" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
+            <template v-else>
+              <span v-for="(action,k) in actions2" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
           </template>
         </el-table-column>
       </data-tables-server>
@@ -146,6 +151,8 @@
           title:"",
           dialog:false,
         },
+        actions1:[],
+        actions2:[],
       }
     },
     computed: {
@@ -176,6 +183,18 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
+
+            var actions_1 = new Array,actions_2 = new Array;
+            this.$store.getters.getmoreAction.map((item,index)=>{
+              if(item.sign == '4'){ // 详情
+                actions_1.push(item);
+              }else if (item.sign == '12'){ // 授权
+                actions_2.push(item);
+              }
+            });
+            // is_leader  如果是1的话就显示授权按钮 
+            this.actions1 = [...actions_1,...actions_2];
+            this.actions2 = [...actions_1];
 
             this.money_data = data.money_data;
           }else{

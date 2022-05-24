@@ -1043,7 +1043,7 @@ router.beforeEach((to, from, next) => {
     if (token === null || token === '') {
 			if(to.meta.isSingleOn){
 				var url = window.location.href.split('#')[1];
-				window.location.href = "http://xmgl.ccit.js.cn/api/ajax/check_login?url="+url;
+				window.location.href = " http://xmgl.ccit.js.cn/?url="+url;
 			}else{
 				next({
 					path:'/login',

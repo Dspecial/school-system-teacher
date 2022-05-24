@@ -52,8 +52,8 @@
         var isTpye = this.commonJs.isEmpty(this.VueCookies.get('application_type')); // 是否有type，true 失效，没有；false 有
         if(!isTpye){
           if(type == 1){
-            window.location.href = this.$globalUrl.baseURL + "/index/index?login=logout";
             this.VueCookies.remove("application_token");
+            window.location.href = this.$globalUrl.baseURL + "/index/index?login=logout";
           }else{
             this.replaceUrl();
           }

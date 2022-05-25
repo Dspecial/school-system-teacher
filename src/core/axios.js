@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2021-10-13 10:32:33
  * @LastEditors: dxx
- * @LastEditTime: 2022-02-16 14:29:13
+ * @LastEditTime: 2022-05-25 11:36:16
  */
 import Vue from 'vue';
 import axios from 'axios';
@@ -16,7 +16,7 @@ import { Loading,Notification,Message } from 'element-ui'; // 按需引入
 
 import globalUrl from '@/core/globalUrl.js';
 
-axios.defaults.timeout = 8000; // 响应时间
+axios.defaults.timeout = 120000; // 响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'; // 配置请求头
 axios.defaults.baseURL = ''; // 配置接口地址
 axios.defaults.showLoading = true; // 默认接口都带loading

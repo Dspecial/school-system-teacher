@@ -108,12 +108,12 @@
 											</el-input>
 										</el-col>
 										<el-col :span="24">
-											<el-date-picker type="date" placeholder="选择付款节点，必须大于当前日期" clearable v-model="cell.paytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
+											<el-date-picker type="date" placeholder="选择付款节点" clearable v-model="cell.paytime" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
 										</el-col>
 									</el-row>
 									<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3">
 										<el-col :span="24">
-											<el-date-picker type="date" placeholder="选择付款日期，必须大于当前日期" clearable v-model="cell.haspaytime" value-format="yyyy-MM-dd" :picker-options="startOption" style="width: 100%;"></el-date-picker>
+											<el-date-picker type="date" placeholder="选择付款日期" clearable v-model="cell.haspaytime" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
 										</el-col>
 										<el-col :span="24">
 											<el-select v-model="cell.is_pay" clearable placeholder="请选择是否支付" class="w-100">

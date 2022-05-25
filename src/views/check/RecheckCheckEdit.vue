@@ -127,7 +127,7 @@
 						<el-form-item label="评审日期" prop="recheck_date">
 							<el-date-picker 
 								type="date" 
-								placeholder="请选择评审日期，必须大于当前日期"
+								placeholder="请选择评审日期"
 								:picker-options="startOption" 
 								v-model="recheckForm.recheck_date" 
 								value-format="yyyy-MM-dd"

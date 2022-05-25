@@ -46,10 +46,10 @@
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="300" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.is_commit == 9">
+            <template v-if="scope.row.is_commit == 9 || scope.row.is_commit == 13">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
-            <template v-else-if="scope.row.is_commit == 13 || scope.row.is_commit == 14">
+            <template v-else-if="scope.row.is_commit == 14">
               <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             </template>
             <template v-else>
@@ -143,8 +143,8 @@
                 actions_4.push(item);
               }
             });
-            // is_commit 为9 上传进度、进度记录、详情
-            // is_commit 为13 14 上传验收、详情
+            // is_commit 为9、13上传进度、进度记录、详情
+            // is_commit 为14 上传验收、详情
             this.actions1 = [...actions_2,...actions_3,...actions_1];
             this.actions2 = [...actions_4,...actions_1];
             this.actions3 = [...actions_1];

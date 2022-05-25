@@ -98,12 +98,12 @@
 				<el-row :gutter="20">
 					<el-col :span="12">
 						<el-form-item label="预计完成时间">
-							<el-date-picker type="datetime" clearable placeholder="选择完成时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.endtime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="datetime" clearable placeholder="选择完成时间" v-model="routineForm.endtime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="提醒时间">
-							<el-date-picker type="datetime" clearable placeholder="选择提醒时间，必须大于当前时间" :picker-options="expireTimeOption" v-model="routineForm.remain_time" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="datetime" clearable placeholder="选择提醒时间" v-model="routineForm.remain_time" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">

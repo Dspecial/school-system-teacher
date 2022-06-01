@@ -143,6 +143,35 @@
 			<!-- 审核表单 -->
 			<h6 class="fs_18 font-weight-normal mb-3">审核项目</h6>
 			<el-form ref="checkform" :model="checkform" class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules">
+				<el-form-item label="承办人" prop="hoster_ids" v-if="need_set_charge == 1">
+					<el-select class="w-25" popper-class="params_select" 
+						v-model="checkform.hoster_ids" 
+						clearable 
+						filterable
+						multiple
+						:filter-method="getUserList"
+						placeholder="下拉选择或搜索输入姓名/工号/部门"
+						@clear="selectClear">
+						<el-option
+							v-for="item in uidOptions"
+							:key="item.id.toString()"
+							:label="item.name"
+							:value="item.id.toString()">
+							{{item.name + '---' +item.job_number + '---' +item.depart_name}}
+						</el-option>
+						<el-pagination
+							class="text-center"
+							small
+							@size-change="sizeChange"
+							@current-change="currentChange"
+							:current-page.sync="currentPage"
+							:total="total"
+							:page-size.sync="pageSize"
+							layout="prev,pager,next,total"
+							>
+						</el-pagination>
+					</el-select>
+				</el-form-item>
 				<el-form-item label="审核状态" prop="check_state">
 					<el-radio-group v-model="checkform.check_state">
 						<el-radio :label="2">通过</el-radio>
@@ -175,14 +204,24 @@
 				checkList:[],
 				checkListAll:[],
 				showMore: true,
-
+				
+				need_set_charge:1,
+				uidOptions:[],
+				total: 0, //总条数
+        currentPage: 1, //当前页
+        pageSize: 6, //每页显示条数
+				uid_query:"",
 				checkform:{
+					hoster_ids:[],
 					check_state:"",
 					remark:"",
 				},
 				rules:{
 					check_state:[
 						{ required: true, message: '请选择审核状态', trigger: 'change' }
+					],
+					hoster_ids:[
+						{ required: true, message: '请选择承办人', trigger: 'change' }
 					],
 				},
 			}
@@ -195,8 +234,51 @@
 			this.openEdit();
 		},
 		methods:{
+			// 获取人员列表
+			getUserList(query){
+				this.uid_query = query;
+				this.$api.manager_auth_user({
+					page:this.currentPage,
+          limit:this.pageSize,
+					keywords:query,
+					type:1,
+        }).then(data=>{
+          if(data.code == 0){
+						this.total = data.data.total;
+            this.uidOptions = data.data.data;
+          }else{
+            this.$message.error(data.msg);
+          }
+        });
+			},
+			// 每页显示的条数改变
+			sizeChange() {
+				this.currentPage = 1;
+				this.getUserList();
+			},
+			// current-change用于监听页数改变，而内容也发生改变
+			currentChange(){
+				this.getUserList(this.uid_query);
+			},
+			selectClear(){
+				this.currentPage = 1;
+				this.uid_query = "";
+				this.getUserList();
+			},
 			// dialog初始化
 			openEdit(){
+				// 人员回显
+				this.$api.manager_auth_user({// 展示所有的人员，不分页
+        }).then(data=>{
+          if(data.code == 0){
+						// 先获取所有的数据
+            this.uidOptions = data.data;
+						// 再分页获取
+						this.selectClear();
+          }else{
+            this.$message.error(data.msg);
+          }
+        });
 				this.ID = this.$route.query.id;
 				this.$api.firstCheckList_check({
 					project_id:this.ID,
@@ -216,6 +298,12 @@
 							this.checkList = this.checkListAll;
 						}else{
 							this.checkList = this.checkListAll.slice(0,5);
+						}
+
+						this.need_set_charge = data.data.need_set_charge;
+
+						if(data.data.need_set_charge == 1){
+							this.checkform.hoster_ids = data.data.info.hoster_ids.split(",");
 						}
 					}else{
 						this.$message.error(data.msg);
@@ -272,6 +360,7 @@
 						this.$api.firstCheckList_check({
 							project_id:this.ID,
 							function_type:2,
+							hoster_ids:this.checkform.hoster_ids.join(","),
 							check_state:this.checkform.check_state,
 							remark:this.checkform.remark,
 						}).then(data =>{

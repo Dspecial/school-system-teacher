@@ -104,7 +104,7 @@
 										<el-input v-model="cell.title" placeholder="请输入标题"></el-input>
 									</el-col>
 									<el-col :span="24">
-										<el-input v-model="cell.money" placeholder="请输入合同金额，必须为数值，单位元">
+										<el-input v-model="cell.money" placeholder="请输入项目合同金额，必须为数值，单位元">
 											<span slot="suffix" class="el-input__icon mr-2">元</span>
 										</el-input>
 									</el-col>

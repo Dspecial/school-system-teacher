@@ -65,7 +65,7 @@
             <template v-if="scope.row.is_commit == 1">
               <span v-for="(action,index) in actions2_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
-            <template v-else-if="scope.row.is_commit == 3 || scope.row.is_commit == 4 || scope.row.is_commit == 5 || scope.row.is_commit == 6">
+            <template v-else-if="scope.row.is_commit == 3 || scope.row.is_commit == 4 || scope.row.is_commit == 6">
               <template v-if="scope.row.check_process.next_node_id == 6">
                 <span v-for="(action,index) in actions3_2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
@@ -82,7 +82,24 @@
                 <span v-for="(action,index) in actions3_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
             </template>
-            <template v-else-if="scope.row.is_commit == 7 || scope.row.is_commit == 8">
+            <template v-else-if="scope.row.is_commit == 5">
+              <template v-if="scope.row.check_process.next_node_id == 6">
+                <span v-for="(action,index) in actions3_7" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 12">
+                <span v-for="(action,index) in actions3_8" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 10">
+                <span v-for="(action,index) in actions3_9" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 11">
+                <span v-for="(action,index) in actions3_10" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              </template>
+              <template v-else>
+                <span v-for="(action,index) in actions3_6" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              </template>
+            </template>
+            <template v-else-if="scope.row.is_commit == 7">
               <template>
                 <span v-for="(action,index) in actions4_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
@@ -134,9 +151,11 @@
               </template>
             </template>
 
-            <!-- is_need_service等于1的时候，工单列表 -->
+            <!-- is_need_service等于1的时候且is_commit = 9,13,14,15,16,17,18,21,0，工单列表 -->
             <template v-if="scope.row.is_need_service == 1">
-              <span v-for="(action,k) in actions12_1" :key="k+100" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              <template v-if="scope.row.is_commit == 9 || scope.row.is_commit == 13 || scope.row.is_commit == 14 || scope.row.is_commit == 15 || scope.row.is_commit == 16 || scope.row.is_commit == 17 || scope.row.is_commit == 18 || scope.row.is_commit == 21 || scope.row.is_commit == 0">
+                <span v-for="(action,k) in actions12_1" :key="k+100" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              </template>
             </template>
 
             <!-- need_to_func_money等于1的时候，付款节点 -->
@@ -321,11 +340,17 @@
 
               02. is_commit为1  提交审核、编辑、删除；
 
-              31 is_commit为3、4、5、6 提交评审、评审记录
-              32. is_commit为3、4、5、6 且 next_node_id为6  进入实施流程；
-              33. is_commit为3、4、5、6 且 next_node_id为12 进入进度上传；
-              34. is_commit为3、4、5、6 且 next_node_id为10 进入验收流程；
-              35. is_commit为3、4、5、6 且 next_node_id为11 项目维保；
+              31. is_commit为3、4、6 提交评审、评审记录
+              32. is_commit为3、4、6 且 next_node_id为6  进入实施流程；
+              33. is_commit为3、4、6 且 next_node_id为12 进入进度上传；
+              34. is_commit为3、4、6 且 next_node_id为10 进入验收流程；
+              35. is_commit为3、4、6 且 next_node_id为11 项目维保；
+
+              31_1. is_commit为5 评审记录
+              32_1. is_commit为5 且 next_node_id为6  进入实施流程；
+              33_1. is_commit为5 且 next_node_id为12 进入进度上传；
+              34_1. is_commit为5 且 next_node_id为10 进入验收流程；
+              35_1. is_commit为5 且 next_node_id为11 项目维保；
 
               04. is_commit 等于7、8  进入实施流程
 
@@ -365,7 +390,14 @@
             this.actions3_3 = [...this.actions3_1,...actions_6];
             this.actions3_4 = [...this.actions3_1,...actions_7];
             this.actions3_5 = [...this.actions3_1,...actions_11];
-            // is_commit为7、8
+
+            this.actions3_6 = [...actions_8];
+            this.actions3_7 = [...this.actions3_6,...actions_10];
+            this.actions3_8 = [...this.actions3_6,...actions_6];
+            this.actions3_9 = [...this.actions3_6,...actions_7];
+            this.actions3_10 = [...this.actions3_6,...actions_11];
+
+            // is_commit为7
             this.actions4_1 = [...actions_10];
             // is_commit为9
             this.actions5_1 = [...actions_9];
@@ -478,7 +510,8 @@
       // 提交审核
       handleCommit(index,row){
         this.$confirm("此操作将提交该项目, 是否继续?", "提示", {
-          type: 'warning'
+          type: 'warning',
+          confirmButtonText:'提交'
         }).then(() => {
           this.$api.projectCommit({
             id:row.id

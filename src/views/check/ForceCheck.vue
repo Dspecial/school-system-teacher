@@ -44,7 +44,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label="合同金额" v-if="projectInfo.real_amount != 0">
+						<el-form-item label="项目合同金额" v-if="projectInfo.real_amount != 0">
 							{{projectInfo.real_amount}} 元
 						</el-form-item>
 					</el-col>

@@ -22,7 +22,7 @@
 							<el-input v-model="projectForm.p_name" placeholder="请输入项目名称"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<!-- <el-col :span="12">
 						<el-form-item label="所属企业" prop="company_id">
 							<el-select v-model="projectForm.company_id" clearable filterable placeholder="请选择所属企业" class="w-100">
 								<el-option
@@ -33,7 +33,7 @@
 								</el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 					<el-col :span="12">
 						<el-form-item label="预算金额" prop="budget_amount">
 							<el-input v-model="projectForm.budget_amount" placeholder="请输入预算金额">
@@ -483,7 +483,7 @@
 							p_cate_id:this.projectForm.p_cate_id,
 							p_name:this.projectForm.p_name,
 							projecttime:this.projectForm.projecttime,
-							company_id:this.projectForm.company_id,
+							// company_id:this.projectForm.company_id,
 							budget_amount:this.projectForm.budget_amount,
 							senddata:JSON.stringify(senddata),
 						}).then(data =>{

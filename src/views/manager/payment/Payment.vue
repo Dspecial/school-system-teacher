@@ -48,7 +48,7 @@
             {{scope.row.type == 1?'项目':'维保'}}
           </template>
         </el-table-column>
-        <el-table-column prop="money" label="合同金额"></el-table-column>
+        <el-table-column prop="money" label="项目合同金额"></el-table-column>
         <el-table-column prop="year" label="年份"></el-table-column>
         <el-table-column prop="alrady_pay" label="已付金额"></el-table-column>
         <el-table-column prop="no_pay" label="未付金额"></el-table-column>

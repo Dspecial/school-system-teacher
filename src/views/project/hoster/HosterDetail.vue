@@ -133,7 +133,7 @@
 				<el-table-column type="expand" label="" width="50">
 					<template slot-scope="scope">
 						<el-form :model="scope.row" ref="projectInfo" label-width="110px" label-position="left">
-							<el-form-item label="方案附件">
+							<el-form-item label="项目方案附件">
 								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in scope.row.planattach" :key="index">
 									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
 										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>

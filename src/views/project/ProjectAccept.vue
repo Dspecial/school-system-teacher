@@ -315,7 +315,7 @@
 				</el-row>
 
 				<div class="d-flex justify-content-end">
-					<el-button type="primary" @click="submitForm('projectForm')" v-if="isShow">确 定</el-button>
+					<el-button type="primary" @click="submitForm('projectForm')" v-if="isShow">提 交</el-button>
 					<el-button @click="closedEdit">取 消</el-button>
 				</div>
 			</el-form>

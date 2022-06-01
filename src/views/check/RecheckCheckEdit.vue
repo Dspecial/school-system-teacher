@@ -128,7 +128,6 @@
 							<el-date-picker 
 								type="date" 
 								placeholder="请选择评审日期"
-								:picker-options="startOption" 
 								v-model="recheckForm.recheck_date" 
 								value-format="yyyy-MM-dd"
 								clearable
@@ -141,7 +140,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
-						<el-form-item label="方案附件" prop="planattach">
+						<el-form-item label="项目方案附件" prop="planattach">
 							<el-upload
 								class="my_upload"
 								drag

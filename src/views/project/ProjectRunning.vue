@@ -41,11 +41,11 @@
 						<el-form-item prop="real_amount">
 							<template slot="label">
 								<span v-if="can_used_funds == 0">
-									合同金额 
-									<!-- <span class="text-danger">(本年度可用合同金额不足，请联系管理员)</span> -->
+									项目合同金额 
+									<!-- <span class="text-danger">(本年度可用项目合同金额不足，请联系管理员)</span> -->
 								</span>
 								<span v-else>
-									合同金额 
+									项目合同金额 
 									<!-- <span class="text-danger">(年度可用预算 {{can_used_funds}} 元)</span> -->
 								</span>
 							</template>
@@ -593,7 +593,7 @@
 										<el-input v-model="cell.title" placeholder="请输入标题"></el-input>
 									</el-col>
 									<el-col :span="24">
-										<el-input v-model="cell.money" placeholder="请输入合同金额，必须为数值，单位元">
+										<el-input v-model="cell.money" placeholder="请输入项目合同金额，必须为数值，单位元">
 											<span slot="suffix" class="el-input__icon mr-2">元</span>
 										</el-input>
 									</el-col>
@@ -609,7 +609,7 @@
 					</el-col>
 				</el-row>
 				<div class="d-flex justify-content-end">
-					<el-button type="primary" @click="submitForm('projectForm')" v-if="is_commit != 8">确 定</el-button>
+					<el-button type="primary" @click="submitForm('projectForm')" v-if="is_commit != 8">提 交</el-button>
 					<el-button @click="closedEdit">取 消</el-button>
 				</div>
 			</el-form>

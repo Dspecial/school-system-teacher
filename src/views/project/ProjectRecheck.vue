@@ -47,7 +47,6 @@
 							<el-date-picker 
 								type="date" 
 								placeholder="请选择评审日期"
-								:picker-options="startOption" 
 								v-model="recheckForm.recheck_date" 
 								value-format="yyyy-MM-dd"
 								clearable
@@ -60,7 +59,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
-						<el-form-item label="方案附件" prop="planattach">
+						<el-form-item label="项目方案附件" prop="planattach">
 							<el-upload
 								class="my_upload"
 								drag
@@ -97,7 +96,7 @@
 					</el-col>
 				</el-row>
 				<div class="d-flex justify-content-end">
-					<el-button type="primary" @click="submitForm('recheckForm')">确 定</el-button>
+					<el-button type="primary" @click="submitForm('recheckForm')">提 交</el-button>
 					<el-button @click="closedEdit">取 消</el-button>
 				</div>
 			</el-form>
@@ -144,7 +143,7 @@
             { required: true, message: '请输入评审内容', trigger: 'blur' }
           ],
 					planattach: [
-            { required: true, message: '请上传方案附件', trigger: 'change' }
+            { required: true, message: '请上传项目方案附件', trigger: 'change' }
           ],
 					expertattch: [
             { required: true, message: '请上传专家签字附件', trigger: 'change' }

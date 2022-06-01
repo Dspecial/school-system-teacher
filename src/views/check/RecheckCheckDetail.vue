@@ -131,7 +131,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
-						<el-form-item label="方案附件">
+						<el-form-item label="项目方案附件">
 							<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in recheckInfo.planattach" :key="index">
 								<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
 									<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>

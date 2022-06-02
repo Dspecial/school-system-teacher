@@ -53,11 +53,11 @@
         </div>
         <el-table-column prop="resource_list" label="" type="expand">
           <template slot-scope="props">
-            <el-table :data="props.row.resource_list" align="center">
+            <el-table :data="props.row.resource_list" >
               <el-table-column prop="name" label="资源名称"></el-table-column>
               <el-table-column prop="re_remark" label="资源备注"></el-table-column>
               <el-table-column prop="job_number" label="供应商"></el-table-column>
-              <el-table-column fixed="right" label="操作" width="150" align="center">
+              <el-table-column fixed="right" label="操作" width="150" >
                 <template slot-scope="scope">
                   <span v-for="(action,index) in actions2" :key="index" @click="fun(scope.$index,scope.row,props.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
                 </template>
@@ -89,7 +89,7 @@
         </el-table-column>
         <el-table-column prop="applytime" label="申请时间"></el-table-column>
         <el-table-column prop="checktime" label="审核时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column fixed="right" label="操作" width="150" >
           <template slot-scope="scope">
             <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
           </template>

@@ -54,7 +54,7 @@
         <el-table-column prop="check_remark" label="审核备注"></el-table-column>
         <el-table-column prop="createtime" label="申请时间" width="150"></el-table-column>
         <el-table-column prop="checktime" label="审核时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column fixed="right" label="操作" width="150" >
           <template slot-scope="scope">
             <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
           </template>

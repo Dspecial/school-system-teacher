@@ -44,7 +44,7 @@
         <el-table-column prop="projecttime" label="年份"></el-table-column>
         <el-table-column prop="job_number" label="教师名称"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="300" align="center">
+        <el-table-column fixed="right" label="操作" width="300" >
           <template slot-scope="scope">
             <template v-if="scope.row.is_commit == 9 || scope.row.is_commit == 13">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>

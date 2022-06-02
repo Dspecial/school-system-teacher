@@ -274,7 +274,7 @@
 			openEdit(){
 				this.initCompany();
 				this.maintenanceId = this.$route.query.id; // 维保id
-				this.$api.maintenance_edit({
+				this.$api.maintenanceEdit({
 					id:this.maintenanceId,
 					function_type:2,
 				}).then(data=>{
@@ -335,7 +335,7 @@
 
 				this.$refs[formName].validate((valid) => {
           if (valid) {
-						this.$api.maintenance_edit({
+						this.$api.maintenanceEdit({
 							id:this.maintenanceId,
 							function_type:1,
 							extend_number:this.maintenanceForm.extend_number,

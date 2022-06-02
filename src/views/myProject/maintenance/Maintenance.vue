@@ -63,7 +63,7 @@
         <el-table-column prop="contact_name" label="企业联系人" width="100"></el-table-column>
         <el-table-column prop="contact_phone" label="企业联系方式" width="120"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column fixed="right" label="操作" width="150" >
           <template slot-scope="scope">
             <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
           </template>

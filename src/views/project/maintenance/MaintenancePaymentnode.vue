@@ -65,7 +65,7 @@
 					</el-table-column>
 					<el-table-column prop="haspaytime" label="付款时间"></el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
-					<el-table-column fixed="right" label="操作" width="150" align="center">
+					<el-table-column fixed="right" label="操作" width="150" >
 						<template slot-scope="scope">
 							<template v-if="scope.row.is_pay == 1">
 								<span @click="updatePay(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">更新付款信息</span>

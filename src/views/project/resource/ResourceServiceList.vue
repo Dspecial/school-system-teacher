@@ -94,7 +94,7 @@
         </el-table-column>
         <el-table-column prop="createtime" label="创建时间"></el-table-column>
         <el-table-column prop="successtime" label="完成时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="120" align="center">
+        <el-table-column fixed="right" label="操作" width="120" >
           <template slot-scope="scope">
             <span @click="detailService(scope.$index,scope.row)" class="text-primary cursor-pointer">详情</span>
           </template>

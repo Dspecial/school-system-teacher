@@ -35,7 +35,7 @@
         <el-table-column prop="createtime" label="创建时间"></el-table-column>
         <el-table-column prop="recheck_date" label="评审日期" width="150"></el-table-column>
         <el-table-column prop="checktime" label="审核时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column fixed="right" label="操作" width="150" >
           <template slot-scope="scope">
             <span class="text-primary cursor-pointer" @click="listDetail(scope.$index,scope.row)">查看详情</span>
           </template>

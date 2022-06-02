@@ -24,7 +24,7 @@
         <el-table-column prop="title" label="标题"></el-table-column>
         <el-table-column prop="desc" label="内容"></el-table-column>
         <el-table-column prop="createtime" label="创建时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="120" align="center">
+        <el-table-column fixed="right" label="操作" width="120" >
           <template slot-scope="scope">
             <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="detailRecord(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
           </template>

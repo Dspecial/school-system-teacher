@@ -57,7 +57,7 @@
         <el-table-column prop="apply_user_depart" label="所属部门"></el-table-column>
         <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column fixed="right" label="操作" width="150" >
           <template slot-scope="scope">
             <template v-if="scope.row.is_leader == 1">
               <span v-for="(action,k) in actions1" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>

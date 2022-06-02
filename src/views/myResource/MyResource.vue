@@ -36,7 +36,7 @@
         </el-table-column>
         <el-table-column prop="createtime" label="创建时间"></el-table-column>
         <el-table-column prop="updatetime" label="更新时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="220" align="center">
+        <el-table-column fixed="right" label="操作" width="220" >
           <template slot-scope="scope">
             <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="pushRecord(scope.$index,scope.row)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>
             <span @click="goRecord(scope.$index,scope.row)" class="text-primary cursor-pointer">维护记录列表</span>

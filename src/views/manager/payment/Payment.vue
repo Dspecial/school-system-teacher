@@ -55,7 +55,7 @@
         <el-table-column prop="uname" label="创建人" width="100"></el-table-column>
         <el-table-column prop="depart_name" label="创建人所在部门" width="200"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" align="center" width="150">
+        <el-table-column fixed="right" label="操作"  width="150">
           <template slot-scope="scope">
             <span class="text-primary cursor-pointer mr-2" @click="goDetail(scope.$index,scope.row)">详情</span>
           </template>

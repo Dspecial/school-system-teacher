@@ -74,7 +74,7 @@
         <el-table-column prop="depart_name" label="申请人所在部门" width="120"></el-table-column>
         <el-table-column prop="createtime" label="提交时间" width="150"></el-table-column>
         <el-table-column prop="checktime" label="审核时间"  width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="150" align="center">
+        <el-table-column fixed="right" label="操作" width="150" >
           <template slot-scope="scope">
             <template v-if="scope.row.check_state == 1">
               <span v-for="(action,index) in actions1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-3">{{action.title}}</span>

@@ -42,7 +42,7 @@
             <el-table-column prop="desc" label="简介"></el-table-column>
             <el-table-column prop="parent_str" label="所属分类"></el-table-column>
             <el-table-column prop="createtime" label="发送时间"></el-table-column>
-            <el-table-column fixed="right" label="操作" width="150" align="center">
+            <el-table-column fixed="right" label="操作" width="150" >
               <template slot-scope="scope">
                 <span class="text-primary cursor-pointer" @click="knowledgeDetail(scope.$index,scope.row)">查看详情</span>
               </template>

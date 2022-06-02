@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-06-01 17:33:50
+ * @LastEditTime: 2022-06-02 18:05:28
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -166,6 +166,8 @@ export default {
 
 	// 维保列表
 	maintenanceList: p => postToken('/api/project.maintenance/index', p),
+	// 项目维保编辑
+	maintenanceEdit: p => postToken('/api/project.maintenance/edit', p),
 	// 维保详情
 	maintenanceDetail: p => postToken('/api/project.maintenance/details', p),
 	// 维保工单列表

@@ -79,7 +79,7 @@
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column prop="ename" label="最新编辑人" width="100"></el-table-column>
         <el-table-column prop="updatetime" label="更新时间" width="150"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="200" align="center">
+        <el-table-column fixed="right" label="操作" width="200" >
           <template slot-scope="scope">
             <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign,action.id)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
           </template>

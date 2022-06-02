@@ -68,7 +68,7 @@
 							</el-table-column>
 							<!-- <el-table-column prop="createtime" label="创建时间" width="180"></el-table-column>
 							<el-table-column prop="updatetime" label="更新时间" width="180"></el-table-column> -->
-							<el-table-column fixed="right" label="操作" width="100" align="center">
+							<el-table-column fixed="right" label="操作" width="100" >
 								<template slot-scope="scope">
 					      	<div class="text-success cursor-pointer">
 						        <i class="el-icon-view" @click="viewDetail(scope.$index,scope.row)"></i>

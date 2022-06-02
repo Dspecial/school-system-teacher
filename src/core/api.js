@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-05-20 10:55:05
+ * @LastEditTime: 2022-06-01 17:33:50
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -73,6 +73,9 @@ export default {
 	uploadDel: p => postToken('/api/upload/del_upload', p),
 	// 项目详情
 	projectDetail: p => postToken('/api/project.project/details', p),
+
+	// 项目所有流程的文件上传
+	uploadFile: p => postUpload('/api/upload/upload_file', p),
 
 	// 付款节点
 	projectPayNode: p => postToken('/api/project.project/pay_info', p),

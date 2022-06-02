@@ -118,9 +118,9 @@
 							files:this.payForm.files.join(","),
 						}).then(data => {
 							if(data.code == 0){
-								_this.removeFilesArr.map((path)=>{
-									_this.removeFile(path);
-								})
+								// _this.removeFilesArr.map((path)=>{
+								// 	_this.removeFile(path);
+								// })
 								_this.handleClose();
 								_this.resetForm(formName);
 								_this.loadData();
@@ -144,10 +144,11 @@
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
 				formData.append("apply_number", this.apply_number);
+	      formData.append("type", 'fukuan');
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.uploadPayNode(formData).then(data =>{
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

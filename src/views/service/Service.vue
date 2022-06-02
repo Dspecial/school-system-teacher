@@ -228,6 +228,7 @@
               path:"/project/resource/service/detail",
               query: {
                 id: row.id,
+                project_id:row.detail_id
               }
             })
           }else if(row.type == 2){
@@ -235,6 +236,7 @@
               path:"/project/project/service/detail",
               query: {
                 id: row.id,
+                project_id:row.detail_id
               }
             })
           }else if(row.type == 3){
@@ -242,6 +244,7 @@
               path:"/project/maintenance/service/detail",
               query: {
                 id: row.id,
+                project_id:row.detail_id
               }
             })
           }
@@ -250,6 +253,7 @@
             path:"/service/service/detail",
             query: {
               id: row.id,
+              project_id:row.detail_id
             }
           })
         }

@@ -122,6 +122,7 @@
     },
     data(){
       return {
+        apply_number:"",
         // 问题汇总
         service_list:[],
         tableProps:{
@@ -166,6 +167,17 @@
             this.worksheetInfo = data.data.info;
           }
         })
+
+        this.$api.projectEdit({
+					id:this.$route.query.project_id,
+					function_type:2,
+				}).then(data =>{
+					if(data.code == 0){
+						this.apply_number = data.data.apply_number;
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
       },
 
       // 添加问题
@@ -173,6 +185,7 @@
         this.serviceData.title = "添加问题";
         this.serviceData.dialog = true;
         this.serviceData.worksheetInfo = this.worksheetInfo;
+        this.serviceData.apply_number = this.apply_number;
       },
 
       // 预览文件

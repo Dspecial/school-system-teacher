@@ -274,6 +274,16 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				// 维保列表-编辑
+				{
+				  path: '/project/maintenance/edit',
+				  component: resolve => require(['@/views/project/maintenance/MaintenanceEdit'], resolve),
+				  name: 'MaintenanceEdit',
+				  meta: {
+				    title: '维保列表-编辑',
+				  },
+				  children: null
+				},
 				// 维保详情
 				{
 				  path: '/project/maintenance/detail',

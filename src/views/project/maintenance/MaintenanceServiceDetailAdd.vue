@@ -55,7 +55,7 @@
           class="my_upload"
           drag
           action="void"
-          accept=".doc,.docx,.jpg,.png,.JPEG"
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.jpg,.png,.JPEG"
           :auto-upload="true"
           :http-request="myUpload"
           :show-file-list="true"
@@ -81,6 +81,8 @@
 		inject: ['loadData'],
 		data () {
 			return {
+				apply_number:"",
+				extend_number:"",
 				// 新增
 				serviceForm:{
 					service_list:[{}],
@@ -113,6 +115,24 @@
 					this.filesList = this.serviceData.worksheetInfo.school_files;
 				}
         this.serviceForm.school_remark = this.serviceData.worksheetInfo.school_remark;
+
+				this.$api.maintenancePayNode({
+					id:this.$route.query.id,
+				}).then(data =>{
+					if(data.code == 0){
+						this.apply_number = data.data.apply_number;
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
+
+				this.$api.maintenanceDetail({
+					id:this.$route.query.id
+				}).then(data => {
+					if(data.code == 0){
+						this.extend_number = data.data.info.extend_number;
+					}
+				})
 			},
 			// dialog关闭
 			closedEdit(formName){
@@ -174,11 +194,12 @@
 			myUpload(params,formItem){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("question_number", this.serviceForm.question_number);
+	      formData.append("apply_number", this.apply_number);
+	      formData.append("type", 'weibao/'+this.extend_number+'/gongdan/'+this.serviceData.worksheetInfo.question_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.project_serviceUpload(formData).then(data =>{
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

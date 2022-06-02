@@ -759,9 +759,9 @@
 								senddata:JSON.stringify(senddata),
 							}).then(data =>{
 								if(data.code == 0){
-									this.removeFilesArr.map((path)=>{
-										_this.removeFile(path);
-									})
+									// this.removeFilesArr.map((path)=>{
+									// 	_this.removeFile(path);
+									// })
 									this.$message({
 										message: data.msg,
 										type: 'success'
@@ -786,10 +786,11 @@
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
 	      formData.append("apply_number", this.projectForm.apply_number);
+	      formData.append("type", 'fukuan');
 	      formData.append("file", params.file);
-				formData.append("user_token", this.VueCookies.get("application_token"));
+	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.uploadPayNode(formData).then(data =>{
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);
@@ -843,10 +844,11 @@
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
 	      formData.append("apply_number", this.projectForm.apply_number);
+	      formData.append("type", 'chushen');
 	      formData.append("file", params.file);
-				formData.append("user_token", this.VueCookies.get("application_token"));
+	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.uploadAgree(formData).then(data =>{
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

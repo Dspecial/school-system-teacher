@@ -60,7 +60,7 @@
         <el-table-column prop="endtime" label="维保日期" width="150"></el-table-column>
         <el-table-column prop="money" label="维保金额" width="100"></el-table-column>
         <el-table-column prop="uname" label="申请人"></el-table-column>
-        <el-table-column prop="contact_name" label="企业联系人" width="80"></el-table-column>
+        <el-table-column prop="contact_name" label="企业联系人" width="100"></el-table-column>
         <el-table-column prop="contact_phone" label="企业联系方式" width="120"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150" align="center">

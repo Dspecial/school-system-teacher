@@ -30,7 +30,7 @@
 					</div>
 				</el-form-item>
 				<div class="d-flex justify-content-end">
-					<el-button type="primary" @click="submitForm('processForm')">确 定</el-button>
+					<el-button type="primary" @click="submitForm('processForm')">提 交</el-button>
 					<el-button @click="closedEdit">取 消</el-button>
 				</div>
 			</el-form>
@@ -46,6 +46,7 @@
 		data () {
 			return {
 				projectId:'',
+				apply_number:"",
 				accept: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
 				fileList:[],
 				processForm: {
@@ -78,6 +79,14 @@
 				var randnum = Math.floor(Math.random()*(9999-1000))+1000; // 四位随机数
 				var number = this.$moment(new Date()).format('YYYYMMDDHHss');
 				this.processForm.process_number = number + randnum;
+
+				this.$api.my_projectDetail({
+					id:this.$route.query.id
+				}).then(data => {
+					if(data.code == 0){
+						this.apply_number = data.data.info.apply_number;
+					}
+				})
 			},
 			// 关闭编辑
 			closedEdit(){
@@ -122,10 +131,12 @@
 			myUpload(params){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("process_number", this.processForm.process_number);
+	      formData.append("apply_number", this.apply_number);
+	      formData.append("type", 'jindu/'+ this.processForm.process_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
-				this.$api.my_project_processUpload(formData).then(data =>{
+
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

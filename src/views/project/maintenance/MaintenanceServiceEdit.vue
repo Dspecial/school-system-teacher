@@ -8,11 +8,6 @@
 			<el-form :model="serviceForm" :rules="rules" ref="serviceForm" label-width="110px" label-position="top" class="pl-3 pr-3">
 				<el-row :gutter="20">
 					<el-col :span="12">
-						<el-form-item label="项目" prop="project_id">
-							<el-input v-model="serviceForm.projectName" placeholder="请输入项目" readonly></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12">
 						<el-form-item label="工单编号" prop="question_number">
 							<el-input v-model="serviceForm.question_number" placeholder="请输入工单编号" readonly></el-input>
 						</el-form-item>
@@ -92,7 +87,7 @@
 								class="my_upload"
 								drag
 								action="void"
-								accept=".doc,.docx,.jpg,.png,.JPEG"
+								accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.jpg,.png,.JPEG"
 								:auto-upload="true"
 								:http-request="myUpload"
 								:show-file-list="true"
@@ -121,10 +116,11 @@
 		name: 'ServiceEdit',
 		data () {
 			return {
+				apply_number:"",
+				extend_number:"",
 				levelOptions:[],
 				serviceForm: {
-					project_id:"",
-					projectName:"",
+					maintenanceId:"",
 					question_number:"",
 					title:"",
 					level:"",
@@ -135,7 +131,7 @@
 				filesList:[],
 				removeFilesArr:[],
         rules: {
-					project_id: [
+					maintenanceId: [
             { required: true, message: '请选择项目', trigger: 'change' }
           ],
 					question_number: [
@@ -164,22 +160,6 @@
 			this.openEdit();
 		},
 		methods:{
-			// 获取项目
-			initPro(){
-				this.$api.getPro({
-				}).then(data =>{
-					if(data.code == 0){
-						// 回调成功的方法
-						var obj = {};
-						obj = data.data.find((item)=>{
-							return item.id == this.$route.query.id
-						});
-						this.serviceForm.projectName = obj.p_name;
-					}else{
-						this.$message.error(data.msg);
-					}
-				});
-			},
 			// 获取级别
       initlevelOptions(){
         this.$api.project_service_level({
@@ -199,15 +179,34 @@
 
 			// dialog初始化
 			openEdit(){
-				this.initPro();
 				this.initlevelOptions();
 				// 项目id
-				this.serviceForm.project_id = this.$route.query.id;
+				this.serviceForm.maintenanceId = this.$route.query.id;
 
 				// 工单编号
 				var randnum = Math.floor(Math.random()*(9999-1000))+1000; // 四位随机数
 				var number = this.$moment(new Date()).format('YYYYMMDDHHss');
 				this.serviceForm.question_number = "S" + '_' +  number + '_' + randnum;
+
+
+				this.$api.maintenancePayNode({
+					id:this.$route.query.id,
+				}).then(data =>{
+					if(data.code == 0){
+						this.apply_number = data.data.apply_number;
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
+
+				this.$api.maintenanceDetail({
+					id:this.$route.query.id
+				}).then(data => {
+					if(data.code == 0){
+						this.extend_number = data.data.info.extend_number;
+					}
+				})
+				
 			},
 			// 关闭编辑
 			closedEdit(){
@@ -231,7 +230,7 @@
 				this.$refs[formName].validate((valid) => {
           if (valid) {
 						this.$api.maintenance_serviceAdd({
-							project_id:this.serviceForm.project_id,
+							project_id:this.serviceForm.maintenanceId,
 							question_number:this.serviceForm.question_number,
 							title:this.serviceForm.title,
 							level:this.serviceForm.level,
@@ -241,9 +240,9 @@
 							school_files:files.join(","),
 						}).then(data =>{
 							if(data.code == 0){
-								this.removeFilesArr.map((path)=>{
-									_this.removeFile(path);
-								})
+								// this.removeFilesArr.map((path)=>{
+								// 	_this.removeFile(path);
+								// })
 								this.$message({
 									message: data.msg,
 									type: 'success'
@@ -263,11 +262,12 @@
 			myUpload(params,formItem){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("question_number", this.serviceForm.question_number);
+	      formData.append("apply_number", this.apply_number);
+	      formData.append("type", 'weibao/'+this.extend_number+'/gongdan/'+this.serviceForm.question_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.project_serviceUpload(formData).then(data =>{
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

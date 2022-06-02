@@ -303,7 +303,11 @@
 						this.need_set_charge = data.data.need_set_charge;
 
 						if(data.data.need_set_charge == 1){
-							this.checkform.hoster_ids = data.data.info.hoster_ids.split(",");
+							if(data.data.info.hoster_ids){
+								this.checkform.hoster_ids = data.data.info.hoster_ids.split(",");
+							}else{
+								this.checkform.hoster_ids = [];
+							}
 						}
 					}else{
 						this.$message.error(data.msg);

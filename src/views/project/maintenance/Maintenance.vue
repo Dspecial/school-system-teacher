@@ -73,7 +73,7 @@
         <el-table-column prop="projecttime" label="维保年份" width="100"></el-table-column>
         <el-table-column prop="money" label="维保金额" width="100"></el-table-column>
         <el-table-column prop="job_number" label="维保企业" width="220"></el-table-column>
-        <el-table-column prop="contact_name" label="企业联系人" width="80"></el-table-column>
+        <el-table-column prop="contact_name" label="企业联系人" width="100"></el-table-column>
         <el-table-column prop="contact_phone" label="企业联系方式" width="120"></el-table-column>
         <el-table-column prop="status" label="审核状态" width="100">
           <template slot-scope="scope">
@@ -85,11 +85,14 @@
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="230" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.status == 2">
+            <template v-if="scope.row.status == 1">
+              <span v-for="(action,k) in actions1" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
+            <template v-else-if="scope.row.status == 2">
               <span v-for="(action,k) in actions2" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
-            <template v-else>
-              <span v-for="(action,k) in actions1" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            <template v-else-if="scope.row.status == 3">
+              <span v-for="(action,k) in actions3" :key="k" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
             </template>
           </template>
         </el-table-column>
@@ -151,6 +154,7 @@
         },
         actions1:[],
         actions2:[],
+        actions3:[],
       }
     },
     computed: {
@@ -181,19 +185,25 @@
           if(data.code == 0){
             this.total = data.data.total;
             this.tableData = data.data.data;
-            var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array;
+            var actions_1 = new Array,actions_2 = new Array,actions_3 = new Array,actions_4 = new Array;
             this.$store.getters.getmoreAction.map((item,index)=>{
-              if (item.sign == '4'){ // 详情
+              if (item.sign == '2'){ // 编辑
                 actions_1.push(item);
-              }else if (item.sign == '5.11'){ // 工单列表
+              }else if (item.sign == '4'){ // 详情
                 actions_2.push(item);
-              }else if (item.sign == '5.10'){ // 付款节点
+              }else if (item.sign == '5.11'){ // 工单列表
                 actions_3.push(item);
+              }else if (item.sign == '5.10'){ // 付款节点
+                actions_4.push(item);
               }
             })
-            // status = 1，3 待审核和审核失败的  就不显示工单列表和付款详情
-            this.actions1 = [...actions_1];
-            this.actions2 = [...actions_1,...actions_2,...actions_3];
+            // status = 1 待审核 2 审核成功 3审核失败
+            // status = 1  详情
+            // status = 2  工单列表、付款详情、详情
+            // status = 3  编辑、详情
+            this.actions1 = [...actions_2];
+            this.actions2 = [...actions_3,...actions_4,...actions_2];
+            this.actions3 = [...actions_1,...actions_2];
             
             this.money_data = data.money_data;
           }else{
@@ -204,13 +214,25 @@
 
        // 操作们
       fun(index,row,sign){
-        if(sign == '4'){ // 详情
+        if(sign == '2'){ // 详情
+          this.editMaintenance(index,row);
+        }else if(sign == '4'){ // 详情
           this.detailMaintenance(index,row);
         }else if(sign == '5.11'){ // 工单列表
           this.goServiceList(index,row);
         }else if(sign == '5.10'){ // 付款节点
           this.paymentNode(index,row);
         }
+      },
+
+      // 编辑维保
+      editMaintenance(index,row){
+        this.$router.push({
+          path:"/project/maintenance/edit",
+          query: {
+            id: row.id,
+          }
+        })
       },
 
       // 维保详情

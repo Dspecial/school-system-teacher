@@ -88,7 +88,8 @@
 		name: 'ProjectPaymentnode',
 		data () {
 			return {
-				projectId:'',
+				maintenanceId:'',
+				extend_number:"",
 				projectInfo: {},
 				pay_list:[],
 				payData:{
@@ -96,6 +97,7 @@
           title:"",
           id:"",
 					apply_number:"",
+					extend_number:"",
         },
 			}
 		},
@@ -115,9 +117,9 @@
 		methods:{
 			// dialog初始化
 			openEdit(){
-				this.projectId = this.$route.query.id;
+				this.maintenanceId = this.$route.query.id;
 				this.$api.maintenancePayNode({
-					id:this.projectId,
+					id:this.maintenanceId,
 				}).then(data =>{
 					if(data.code == 0){
 						this.projectInfo = data.data;
@@ -126,6 +128,14 @@
 						this.$message.error(data.msg);
 					}
 				});
+
+				this.$api.maintenanceDetail({
+					id:this.$route.query.id
+				}).then(data => {
+					if(data.code == 0){
+						this.extend_number = data.data.info.extend_number;
+					}
+				})
 			},
 			// 关闭编辑
 			closedEdit(){
@@ -143,6 +153,7 @@
         this.payData.title = '更新付款信息';
         this.payData.id = row.id;
 				this.payData.apply_number = this.projectInfo.apply_number;
+				this.payData.extend_number = this.extend_number;
 			},
 			// 预览文件
 			preview(path){

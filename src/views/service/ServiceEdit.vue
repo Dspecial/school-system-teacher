@@ -79,6 +79,7 @@
 		name: 'ServiceEdit',
 		data () {
 			return {
+				apply_number:"",
 				levelOptions:[],
 				serviceForm: {
 					project_id:"",
@@ -152,6 +153,18 @@
 				var randnum = Math.floor(Math.random()*(9999-1000))+1000; // 四位随机数
 				var number = this.$moment(new Date()).format('YYYYMMDDHHss');
 				this.serviceForm.question_number = "S" + '_' +  number + '_' + randnum;
+
+				this.$api.projectEdit({
+					id:this.$route.query.id,
+					function_type:2,
+				}).then(data =>{
+					if(data.code == 0){
+						this.apply_number = data.data.apply_number;
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
+
 			},
 			// 关闭编辑
 			closedEdit(){
@@ -175,9 +188,9 @@
 							files:files.join(","),
 						}).then(data =>{
 							if(data.code == 0){
-								this.removeFilesArr.map((path)=>{
-									_this.removeFile(path);
-								})
+								// this.removeFilesArr.map((path)=>{
+								// 	_this.removeFile(path);
+								// })
 								this.$message({
 									message: data.msg,
 									type: 'success'
@@ -197,11 +210,12 @@
 			myUpload(params,formItem){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("question_number", this.serviceForm.question_number);
+	      formData.append("apply_number", this.apply_number);
+	      formData.append("type", 'gongdan/' + this.serviceForm.question_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.project_serviceUpload(formData).then(data =>{
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

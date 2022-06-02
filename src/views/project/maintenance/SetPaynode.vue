@@ -86,6 +86,7 @@
 			// dialog初始化
 			openEdit(){
 				this.apply_number = this.payData.apply_number;
+				this.extend_number = this.payData.extend_number;
 			},
 			// dialog关闭
 			closedEdit(formName){
@@ -118,9 +119,9 @@
 							files:this.payForm.files.join(","),
 						}).then(data => {
 							if(data.code == 0){
-								_this.removeFilesArr.map((path)=>{
-									_this.removeFile(path);
-								})
+								_// this.removeFilesArr.map((path)=>{
+								// 	_this.removeFile(path);
+								// })
 								_this.handleClose();
 								_this.resetForm(formName);
 								_this.loadData();
@@ -144,10 +145,11 @@
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
 				formData.append("apply_number", this.apply_number);
+	      formData.append("type", 'weibao/'+this.extend_number+'/fukuan');
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.maintenanceUploadPayNode(formData).then(data =>{
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

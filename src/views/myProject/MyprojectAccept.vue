@@ -66,6 +66,7 @@
 		data () {
 			return {
 				projectId:'',
+				apply_number:"",
 				accept: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
 				fileList:[],
 				titile:"上传验收",
@@ -96,6 +97,15 @@
 				this.projectId = this.$route.query.id;
 				var randnum = Math.floor(Math.random()*(9999-1000))+1000; // 四位随机数
 				var number = this.$moment(new Date()).format('YYYYMMDDHHss');
+
+				this.$api.my_projectDetail({
+					id:this.$route.query.id
+				}).then(data => {
+					if(data.code == 0){
+						this.apply_number = data.data.info.apply_number;
+					}
+				})
+
 				this.$api.my_project_accept({
 					project_id:this.projectId,
 					function_type:1,
@@ -181,10 +191,12 @@
 			myUpload(item,params){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("accept_number", this.acceptForm.accept_number);
+	      formData.append("apply_number", this.apply_number);
+	      formData.append("type", 'yanshou/'+ this.acceptForm.accept_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
-				this.$api.my_project_acceptUpload(formData).then(data =>{
+
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

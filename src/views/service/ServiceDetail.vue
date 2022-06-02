@@ -88,7 +88,7 @@
                   class="my_upload"
                   drag
                   action="void"
-                  accept=".doc,.docx,.jpg,.png,.JPEG"
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.jpg,.png,.JPEG"
                   :auto-upload="true"
                   :http-request="myUpload"
                   :show-file-list="true"
@@ -143,6 +143,7 @@
     },
     data(){
       return {
+        apply_number:"",
         // 问题汇总
         service_list:[],
         tableProps:{
@@ -196,7 +197,18 @@
             }
             this.serviceForm.remark = data.data.info.remark;
           }
-        })
+        });
+        
+        this.$api.projectEdit({
+          id:this.$route.query.project_id,
+          function_type:2,
+        }).then(data =>{
+          if(data.code == 0){
+            this.apply_number = data.data.apply_number;
+          }else{
+            this.$message.error(data.msg);
+          }
+        });
       },
 
       // 添加问题
@@ -293,11 +305,12 @@
 			myUpload(params,formItem){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("question_number", this.serviceForm.question_number);
+	      formData.append("apply_number", this.apply_number);
+	      formData.append("type", 'gongdan/' + this.worksheetInfo.question_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.project_serviceUpload(formData).then(data =>{
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

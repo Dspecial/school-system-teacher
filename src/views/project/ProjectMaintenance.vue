@@ -155,6 +155,7 @@
 		data () {
 			return {
 				projectId:'',
+				apply_number:"",
 				title:"项目维保",
 				companyOptions:[],
 				maintenanceForm: {
@@ -276,6 +277,16 @@
 				this.initCompany();
 				this.initFunds(this.maintenanceForm.projecttime);
 				this.projectId = this.$route.query.id;
+				this.$api.projectEdit({
+					id:this.projectId,
+					function_type:2,
+				}).then(data =>{
+					if(data.code == 0){
+						this.apply_number = data.data.apply_number;
+					}else{
+						this.$message.error(data.msg);
+					}
+				});
 			},
 
 			// 关闭编辑
@@ -317,9 +328,9 @@
 							files:files.join(","),
 						}).then(data =>{
 							if(data.code == 0){
-								this.removeFilesArr.map((path)=>{
-									_this.removeFile(path);
-								})
+								// this.removeFilesArr.map((path)=>{
+								// 	_this.removeFile(path);
+								// })
 								this.$message({
 									message: data.msg,
 									type: 'success'
@@ -340,11 +351,12 @@
 			myUpload(params){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("extend_number", this.maintenanceForm.extend_number);
+	      formData.append("apply_number", this.apply_number);
+	      formData.append("type", 'weibao/' + this.maintenanceForm.extend_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
-				this.$api.projectMaintenance_Upload(formData).then(data =>{
+				this.$api.uploadFile(formData).then(data =>{
 					if(data.code == 0){
 						// 回调成功的方法
 						params.onSuccess(data);

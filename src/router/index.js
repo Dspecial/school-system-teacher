@@ -708,7 +708,7 @@ const router = new Router({
 				{
 				  path: '/check/maintenance/edit',
 				  component: resolve => require(['@/views/check/MaintenanceEdit'], resolve),
-				  name: 'MaintenanceEdit',
+				  name: 'MaintenanceCheckEdit',
 				  meta: {
 				    title: '项目维保编辑',
 				  },

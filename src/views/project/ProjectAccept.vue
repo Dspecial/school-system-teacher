@@ -117,8 +117,19 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 5">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<span>{{ formItem.title }}</span>
-									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+									<div class="d-inline-flex align-items-center justify-content-between">
+										<span>{{ formItem.title }}</span>
+										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
+											<div class="cursor-pointer view" @click="preview(formItem.example)" title="在线预览">
+												<i class="el-icon-document mr-2"></i><span>查看示例</span>
+											</div>
+											<div class="opacity-80 ml-3">
+												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i>
+												<i class="el-icon-download cursor-pointer view" @click="downloadview(formItem.example)"></i>
+											</div>
+										</div>
+									</div>
 								</template>
 								<div class="d-flex align-items-start justify-content-between">
 									<el-upload
@@ -246,8 +257,19 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 13">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<span>{{ formItem.title }}</span>
-									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+									<div class="d-inline-flex align-items-center justify-content-between">
+										<span>{{ formItem.title }}</span>
+										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
+											<div class="cursor-pointer view" @click="preview(formItem.example)" title="在线预览">
+												<i class="el-icon-document mr-2"></i><span>查看示例</span>
+											</div>
+											<div class="opacity-80 ml-3">
+												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i>
+												<i class="el-icon-download cursor-pointer view" @click="downloadview(formItem.example)"></i>
+											</div>
+										</div>
+									</div>
 								</template>
 								<el-upload
 									action="void"
@@ -270,8 +292,19 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 14">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<span>{{ formItem.title }}</span>
-									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+									<div class="d-inline-flex align-items-center justify-content-between">
+										<span>{{ formItem.title }}</span>
+										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
+											<div class="cursor-pointer view" @click="preview(formItem.example)" title="在线预览">
+												<i class="el-icon-document mr-2"></i><span>查看示例</span>
+											</div>
+											<div class="opacity-80 ml-3">
+												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i>
+												<i class="el-icon-download cursor-pointer view" @click="downloadview(formItem.example)"></i>
+											</div>
+										</div>
+									</div>
 								</template>
 								<el-upload
 									action="void"
@@ -291,8 +324,19 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 15">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<span>{{ formItem.title }}</span>
-									<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+									<div class="d-inline-flex align-items-center justify-content-between">
+										<span>{{ formItem.title }}</span>
+										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
+										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
+											<div class="cursor-pointer view" @click="preview(formItem.example)" title="在线预览">
+												<i class="el-icon-document mr-2"></i><span>查看示例</span>
+											</div>
+											<div class="opacity-80 ml-3">
+												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i>
+												<i class="el-icon-download cursor-pointer view" @click="downloadview(formItem.example)"></i>
+											</div>
+										</div>
+									</div>
 								</template>
 								<div class="d-flex align-items-start justify-content-between">
 									<el-upload
@@ -561,6 +605,33 @@
 			// 文件超出限制
 			onExceed(file,fileList){
 				this.$message.error("只能上传一个文件哦，可以先删除再重新上传！");
+			},
+			// 预览文件
+			preview(path){
+				this.$api.file_preview({
+					path:path,
+				}).then(data=>{
+					if(data.code == 0){
+						let a = document.createElement('a');
+						a.style = 'display: none'; // 创建一个隐藏的a标签
+						a.target = "_blank";
+						a.href = data.data;
+						document.body.appendChild(a);
+						a.click();
+					}else{
+						this.$message.error(data.msg)
+					}
+				})
+			},
+			// 下载文件
+			downloadview(path){
+				let a = document.createElement('a'); 
+				a.style = 'display: none'; // 创建一个隐藏的a标签
+				a.download = '查看示例';
+				a.href = this.$globalUrl.baseURL + path;
+				document.body.appendChild(a);
+				a.click(); // 触发a标签的click事件
+				document.body.removeChild(a);
 			},
 		}
 	}

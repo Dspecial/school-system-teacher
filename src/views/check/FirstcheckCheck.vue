@@ -204,7 +204,7 @@
 				checkList:[],
 				checkListAll:[],
 				showMore: true,
-				
+				// 承办人
 				need_set_charge:1,
 				uidOptions:[],
 				total: 0, //总条数

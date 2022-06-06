@@ -51,7 +51,7 @@
 					<template v-for="(formItem,j) in dataJson">
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
 							<el-form-item :label="formItem.title" class="file-form-item">
-								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr">
+								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
 									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
 										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 									</div>
@@ -64,7 +64,7 @@
 						</el-col>
 						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
 							<el-form-item :label="formItem.title" label-width="110px"  class="json-form-item">
-								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value">
+								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
 									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
 								</div>
 							</el-form-item>
@@ -169,7 +169,7 @@
 										<el-col :span="6" class="mb-2">
 											<el-select v-model="cell.supplier_id" clearable filterable placeholder="请选择供应商" class="w-100">
 												<template v-for="(item,index) in supplierOptions">
-													<el-option :label="item.name" :value="item.id"></el-option>
+													<el-option :label="item.name" :value="item.id" :key="index"></el-option>
 												</template>
 											</el-select>
 										</el-col>
@@ -250,7 +250,35 @@
 						</div>
 					</template>
 				</el-form-item>
-
+				<el-form-item label="承办人" prop="hoster_ids" v-if="need_set_charge == 1">
+					<el-select class="w-25" popper-class="params_select" 
+						v-model="checkform.hoster_ids" 
+						clearable 
+						filterable
+						multiple
+						:filter-method="getUserList"
+						placeholder="下拉选择或搜索输入姓名/工号/部门"
+						@clear="selectClear">
+						<el-option
+							v-for="item in uidOptions"
+							:key="item.id.toString()"
+							:label="item.name"
+							:value="item.id.toString()">
+							{{item.name + '---' +item.job_number + '---' +item.depart_name}}
+						</el-option>
+						<el-pagination
+							class="text-center"
+							small
+							@size-change="sizeChange"
+							@current-change="currentChange"
+							:current-page.sync="currentPage"
+							:total="total"
+							:page-size.sync="pageSize"
+							layout="prev,pager,next,total"
+							>
+						</el-pagination>
+					</el-select>
+				</el-form-item>
 				<el-form-item label="审核状态" prop="check_state">
 					<el-radio-group v-model="checkform.check_state">
 						<el-radio :label="2">通过</el-radio>
@@ -288,7 +316,13 @@
 				checkList:[],
 				checkListAll:[],
 				showMore: true,
-
+				// 承办人
+				need_set_charge:1,
+				uidOptions:[],
+				total: 0, //总条数
+        currentPage: 1, //当前页
+        pageSize: 6, //每页显示条数
+				uid_query:"",
 				checkform:{
 					bindResources:[{
 						name:"",
@@ -300,10 +334,14 @@
 						remark:"",
 						detailjson:[],
 					}],
+					hoster_ids:[],
 					check_state:"",
 					remark:"",
 				},
 				rules:{
+					hoster_ids:[
+						{ required: true, message: '请选择承办人', trigger: 'change' }
+					],
 					check_state:[
 						{ required: true, message: '请选择审核状态', trigger: 'change' }
 					],
@@ -318,11 +356,54 @@
 			this.openEdit();
 		},
 		methods:{
+			// 获取人员列表
+			getUserList(query){
+				this.uid_query = query;
+				this.$api.manager_auth_user({
+					page:this.currentPage,
+          limit:this.pageSize,
+					keywords:query,
+					type:1,
+        }).then(data=>{
+          if(data.code == 0){
+						this.total = data.data.total;
+            this.uidOptions = data.data.data;
+          }else{
+            this.$message.error(data.msg);
+          }
+        });
+			},
+			// 每页显示的条数改变
+			sizeChange() {
+				this.currentPage = 1;
+				this.getUserList();
+			},
+			// current-change用于监听页数改变，而内容也发生改变
+			currentChange(){
+				this.getUserList(this.uid_query);
+			},
+			selectClear(){
+				this.currentPage = 1;
+				this.uid_query = "";
+				this.getUserList();
+			},
 			// dialog初始化
 			openEdit(){
 				this.initCate();
 				this.initSupplierOptions();
 				this.ID = this.$route.query.id;
+				// 人员回显
+				this.$api.manager_auth_user({// 展示所有的人员，不分页
+        }).then(data=>{
+          if(data.code == 0){
+						// 先获取所有的数据
+            this.uidOptions = data.data;
+						// 再分页获取
+						this.selectClear();
+          }else{
+            this.$message.error(data.msg);
+          }
+        });
 				this.$api.resourceCheck_check({
 					id:this.ID,
 					function_type:1,
@@ -333,6 +414,25 @@
 						this.dataJson = data.data.info.datajson;
 						// 审核信息
 						this.check_info =  data.data.check_info;
+
+						// 审核记录
+						this.checkListAll = data.data.check_log_list;
+						// 默认情况下审核记录
+						if(data.data.check_log_list.length < 5){
+							this.checkList = this.checkListAll;
+						}else{
+							this.checkList = this.checkListAll.slice(0,5);
+						}
+						
+						this.need_set_charge = data.data.need_set_charge;
+
+						if(data.data.need_set_charge == 1){
+							if(data.data.info.hoster_ids){
+								this.checkform.hoster_ids = data.data.info.hoster_ids.split(",");
+							}else{
+								this.checkform.hoster_ids = [];
+							}
+						}
 					}else{
 						this.$message.error(data.msg);
 					}
@@ -467,6 +567,7 @@
 						this.$api.resourceCheck_check({
 							id:this.ID,
 							function_type:2,
+							hoster_ids:this.checkform.hoster_ids.join(","),
 							check_state:this.checkform.check_state,
 							resourcejson:JSON.stringify( resourcejson ),
 							remark:this.checkform.remark,

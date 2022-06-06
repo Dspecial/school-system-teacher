@@ -120,7 +120,7 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 5">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<div class="d-inline-flex align-items-center justify-content-between">
+									<div class="d-inline-flex align-items-center justify-content-between" v-if="formItem.example">
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
@@ -260,7 +260,7 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 13">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<div class="d-inline-flex align-items-center justify-content-between">
+									<div class="d-inline-flex align-items-center justify-content-between" v-if="formItem.example">
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
@@ -295,7 +295,7 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 14">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<div class="d-inline-flex align-items-center justify-content-between">
+									<div class="d-inline-flex align-items-center justify-content-between" v-if="formItem.example">
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
@@ -327,7 +327,7 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 15">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<div class="d-inline-flex align-items-center justify-content-between">
+									<div class="d-inline-flex align-items-center justify-content-between" v-if="formItem.example">
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
@@ -426,7 +426,7 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 5">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<div class="d-inline-flex align-items-center justify-content-between">
+									<div class="d-inline-flex align-items-center justify-content-between" v-if="formItem.example">
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
@@ -566,7 +566,7 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 13">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<div class="d-inline-flex align-items-center justify-content-between">
+									<div class="d-inline-flex align-items-center justify-content-between" v-if="formItem.example">
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
@@ -601,7 +601,7 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 14">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<div class="d-inline-flex align-items-center justify-content-between">
+									<div class="d-inline-flex align-items-center justify-content-between" v-if="formItem.example">
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
@@ -633,7 +633,7 @@
 						<el-col :span="24" v-else-if="formItem.name_type == 15">
 							<el-form-item :label="formItem.title" :required="formItem.is_required == 2?true:false">
 								<template slot="label">
-									<div class="d-inline-flex align-items-center justify-content-between">
+									<div class="d-inline-flex align-items-center justify-content-between" v-if="formItem.example">
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">

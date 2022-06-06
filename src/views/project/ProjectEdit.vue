@@ -60,7 +60,7 @@
 							<el-input v-model="projectForm.p_name" placeholder="请输入项目名称"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12" v-if="is_need_company == 2">
+					<!-- <el-col :span="12" v-if="is_need_company == 2">
 						<el-form-item label="所属企业">
 							<el-select v-model="projectForm.company_id" clearable filterable placeholder="请选择所属企业" class="w-100">
 								<el-option
@@ -71,7 +71,7 @@
 								</el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 					<el-col :span="12" v-if="is_open_money == 2">
 						<el-form-item prop="budget_amount">
 							<template slot="label">
@@ -668,7 +668,7 @@
 								p_cate_id:this.projectForm.p_cate_id,
 								p_name:this.projectForm.p_name,
 								projecttime:this.projectForm.projecttime,
-								company_id:this.projectForm.company_id,
+								// company_id:this.projectForm.company_id,
 								leader_id:this.projectForm.leader_id,
 								budget_amount:this.projectForm.budget_amount,
 								senddata:JSON.stringify(senddata),
@@ -692,7 +692,7 @@
 								p_cate_id:this.projectForm.p_cate_id,
 								p_name:this.projectForm.p_name,
 								projecttime:this.projectForm.projecttime,
-								company_id:this.projectForm.company_id,
+								// company_id:this.projectForm.company_id,
 								leader_id:this.projectForm.leader_id,
 								budget_amount:this.projectForm.budget_amount,
 								senddata:JSON.stringify(senddata),

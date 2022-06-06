@@ -39,10 +39,10 @@
         </div>
         <el-table-column type="index" :index="indexMethod" label="序号" width="50"></el-table-column>
 				<el-table-column prop="job_number" label="厂商名称" width="200"></el-table-column>
-				<el-table-column prop="name" label="申请人"></el-table-column>
+				<el-table-column prop="name" label="申请人" width="100"></el-table-column>
 				<el-table-column prop="apply_info" label="申请人信息"></el-table-column>
         <el-table-column prop="set_pwd" label="新密码"></el-table-column>
-				<el-table-column prop="checkname" label="审核人姓名"></el-table-column>
+				<el-table-column prop="checkname" label="审核人姓名" width="100"></el-table-column>
         <el-table-column prop="status" label="审核状态" width="100">
           <template slot-scope="scope">
             <span v-if="scope.row.status == 1"><i class="dot bg-warning mr-1"></i>待审核</span>
@@ -50,13 +50,27 @@
 						<span v-if="scope.row.status == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
           </template>
         </el-table-column>
-        <el-table-column prop="remark" label="申请备注"></el-table-column>
-        <el-table-column prop="check_remark" label="审核备注"></el-table-column>
+        <el-table-column prop="remark" label="申请备注" width="150">
+          <template slot-scope="scope">
+            <el-tooltip class="item" effect="dark" :content="scope.row.remark" placement="top" popper-class="my-tooltip">
+              <span class="text-truncate d-block">{{scope.row.remark}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="check_remark" label="审核备注" width="150">
+          <template slot-scope="scope">
+            <el-tooltip class="item" effect="dark" :content="scope.row.check_remark" placement="top" popper-class="my-tooltip">
+              <span class="text-truncate d-block">{{scope.row.check_remark}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="createtime" label="申请时间" width="150"></el-table-column>
         <el-table-column prop="checktime" label="审核时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150" >
           <template slot-scope="scope">
-            <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            <template v-if="scope.row.status != 2 && scope.row.status != 3">
+              <span v-for="(action,index) in $store.getters.getmoreAction" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+            </template>
           </template>
         </el-table-column>
       </data-tables-server>

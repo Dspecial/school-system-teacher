@@ -105,7 +105,7 @@
 								process_number:this.processForm.process_number,
 								title:this.processForm.title,
 								content:this.processForm.content,
-								files:this.processForm.files,
+								files:this.processForm.files.join(","),
 							}).then(data =>{
 								if(data.code == 0){
 									this.$message({

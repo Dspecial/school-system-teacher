@@ -275,19 +275,25 @@
         });
         this.$refs[formName].validate((valid) => {
           if (valid) {
-          	this.$api.serviceDetail_add({
-              id:this.$route.query.id,
-              service_list:JSON.stringify( newArr ),
-							remark:this.serviceForm.remark,
-							company_files:files.join(","),
-              function_type:2,
-            }).then(data => {
-              if(data.code == 0){
-                _this.resetForm(formName);
-                _this.initDetail();
-              }else{
-                this.$message.error(data.msg);
-              }
+            this.$confirm("此操作对应教师会接收消息提醒, 是否继续?", "提示", {
+              type: 'warning'
+            }).then(() => {
+              this.$api.serviceDetail_add({
+                id:this.$route.query.id,
+                service_list:JSON.stringify( newArr ),
+                remark:this.serviceForm.remark,
+                company_files:files.join(","),
+                function_type:2,
+              }).then(data => {
+                if(data.code == 0){
+                  _this.resetForm(formName);
+                  _this.initDetail();
+                }else{
+                  this.$message.error(data.msg);
+                }
+              });
+            }).catch(() => {
+
             });
           } else {
             console.log('error submit!!');

@@ -25,9 +25,9 @@
 		  <el-form-item label="设置密码" prop="password" v-if="!mfuserData.isEdit">
 		    <el-input v-model="mfuserForm.password" placeholder="请输入密码，默认123456"></el-input>
 		  </el-form-item>
-		  <el-form-item label="修改密码" prop="password2" v-else>
+		  <!-- <el-form-item label="修改密码" prop="password2" v-else>
 		    <el-input v-model="mfuserForm.password2" placeholder="请修改密码，不填写默认不修改"></el-input>
-		  </el-form-item>
+		  </el-form-item> -->
 		  <el-form-item label="手机号码" prop="phone">
 		    <el-input v-model="mfuserForm.phone" placeholder="请输入手机号码"></el-input>
 		  </el-form-item>
@@ -143,7 +143,7 @@
 	          		sys_id:this.mfuserForm.sys_id,
 	          		name:this.mfuserForm.name,
 	          		sex:this.mfuserForm.sex,
-	          		password:this.mfuserForm.password2,
+	          		// password:this.mfuserForm.password2,
 	          		phone:this.mfuserForm.phone,
 	          		email:this.mfuserForm.email,
 	          		func_type:1,

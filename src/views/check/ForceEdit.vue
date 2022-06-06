@@ -24,7 +24,7 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="12" v-if="is_need_company == 2">
 						<el-form-item label="所属企业">
 							<el-select v-model="projectForm.company_id" clearable filterable placeholder="请选择所属企业" class="w-100">
 								<el-option
@@ -802,6 +802,8 @@
 					if(data.code == 0){
 						// 可用预算金额
 						this.can_used_funds = data.data.can_used_funds;
+						this.is_need_company = data.data.is_need_company;
+						this.is_open_money = data.data.is_open_money;
 					}
 				})
 			},

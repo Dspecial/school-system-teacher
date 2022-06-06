@@ -53,6 +53,10 @@
         if(!isTpye){
           if(type == 1){
             this.VueCookies.remove("application_token");
+            this.VueCookies.remove("application_userId");
+            this.VueCookies.remove("application_userName");
+            this.VueCookies.remove("application_job_number");
+            this.VueCookies.remove("application_type");
             window.location.href = this.$globalUrl.baseURL + "/index/index?login=logout";
           }else{
             this.replaceUrl();

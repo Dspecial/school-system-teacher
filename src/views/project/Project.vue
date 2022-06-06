@@ -54,7 +54,19 @@
         <el-table-column prop="p_name" label="项目名称" width="220"></el-table-column>
         <el-table-column prop="cname" label="类别名称" width="200"></el-table-column>
         <el-table-column prop="projecttime" label="年份"></el-table-column>
-        <el-table-column prop="apply_user_depart" label="所属部门" width="150"></el-table-column>
+        <el-table-column prop="uaname" label="申请人" ></el-table-column>
+        <el-table-column prop="uadepart_name" label="申请人部门" width="200">
+          <template slot-scope="scope">
+            <el-popover
+              placement="top-start"
+              title="申请人部门"
+              width="200"
+              trigger="hover"
+              :content="scope.row.uadepart_name">
+              <span class="text-truncate" slot="reference">{{scope.row.uadepart_name}}</span>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column prop="check_process.text" label="项目状态" width="220"></el-table-column>
         <el-table-column prop="createtime" label="创建时间" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="420" >

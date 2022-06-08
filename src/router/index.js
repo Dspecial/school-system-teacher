@@ -78,6 +78,7 @@ const router = new Router({
 				  name: 'ProjectPaymentnode',
 				  meta: {
 				    title: '付款节点',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -105,6 +106,7 @@ const router = new Router({
 				  name: 'ProjectServiceDetail',
 				  meta: {
 				    title: '项目工单详情',
+						isSingleOn: true,
 				  },
 				  children: null
 				},
@@ -329,6 +331,7 @@ const router = new Router({
 				  name: 'MaintenancePaymentnode',
 				  meta: {
 				    title: '维保付款节点',
+						isSingleOn: true,
 				  },
 				  children: null
 				},

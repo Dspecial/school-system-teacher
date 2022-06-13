@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-05-19 18:14:18
+ * @LastEditTime: 2022-06-10 10:22:10
  */
  
 @charset "UTF-8";
@@ -235,7 +235,7 @@ html,body,#app,.page-container{
   background-color:#F3F7FF;
   position: relative;
   .login{
-    height: 500px;
+    max-height: 500px;
     position: absolute;
     top:50%;
     left:50%;
@@ -259,6 +259,28 @@ html,body,#app,.page-container{
     }
   }
 }
+@media (max-width: 414.99px){
+  .login-container{
+    .login{
+      width: 80%!important;
+    }
+    .login-left{
+      display: none;
+    }
+    .login-right{
+      width: 100%!important;
+    }
+  }
+}
+
+@media (max-width: 980.99px){
+  .login-container{
+    .login{
+      width: 90%!important;
+    }
+  }
+}
+
 /*sidebar.vue*/
 .el-aside{
   height: 100%;

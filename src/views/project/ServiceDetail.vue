@@ -67,11 +67,11 @@
               <div class="flex-wrap">
                 <template v-for="(file,index) in worksheetInfo.school_files">
                   <div class="d-flex align-items-center justify-content-between mb-2" :key="index">
-                    <div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+                    <div class="cursor-pointer view">
                       <i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
                     </div>
                     <div class="opacity-80 ml-5 pl-5">
-                      <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+                      <!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
                       <i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
                     </div>
                   </div>
@@ -82,11 +82,11 @@
             <div class="mb-3 text-truncate">
               <span class="opacity-60 mr-2">企业附件：</span>
               <div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in worksheetInfo.company_files" :key="index">
-                <div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+                <div class="cursor-pointer view">
                   <i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
                 </div>
                 <div class="opacity-80 ml-5 pl-5">
-                  <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+                  <!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
                   <i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
                 </div>
               </div>

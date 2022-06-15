@@ -62,11 +62,11 @@
 							<el-col :span="24" v-if="field.name_type == 5">
 								<el-form-item :label="field.title">
 									<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,j) in field.file_arr" :key="j">
-										<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+										<div class="cursor-pointer view">
 											<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 										</div>
 										<div class="opacity-80 ml-5 pl-5">
-											<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+											<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
 											<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
 										</div>
 									</div>

@@ -45,39 +45,41 @@
 		<el-card class="mt-3" v-if="basic.files && basic.files.length > 0">
 			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">合同附件</h4>
 			<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in basic.files" :key="index">
-				<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+				<div class="cursor-pointer view">
 					<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 				</div>
 				<div class="opacity-80 ml-5 pl-5">
-					<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+					<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
 					<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
 				</div>
 			</div>
 		</el-card>
 
-		<!-- 审核记录 -->
+		<!-- 操作记录（审核） -->
 		<el-card class="mt-3">
 			<div class="d-flex justify-content-between align-items-center">
-				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">审核记录</h4>
+				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">操作记录</h4>
 				<div :class="['toggleMenu cursor-pointer text-primary',showMore ? 'menu_arrow' : '']" @click="changeFoldState"  v-if="checkListAll.length > 5">
 					<span>{{showMore?'展开':'收起'}}</span><i class="el-icon-arrow-up ml-1"></i>
 				</div>
 			</div>
 			<el-table :data="checkList">		
 				<el-table-column prop="pname" label="节点名称"></el-table-column>
-				<el-table-column prop="groupname" label="审核部门"></el-table-column>
-				<el-table-column prop="load_check_name" label="待审核人"></el-table-column>
-				<el-table-column prop="check_state" label="审核状态">
+				<el-table-column prop="groupname" label="操作部门"></el-table-column>
+				<el-table-column prop="load_check_name" label="待操作人"></el-table-column>
+				<el-table-column prop="check_state" label="操作状态">
           <template slot-scope="scope">
             <span v-if="scope.row.check_state == 1"><i class="dot bg-primary mr-1"></i>待审核</span>
             <span v-else-if="scope.row.check_state == 2"><i class="dot bg-success mr-1"></i>审核成功</span>
             <span v-else-if="scope.row.check_state == 3"><i class="dot bg-danger mr-1"></i>审核失败</span>
+						<span v-else-if="scope.row.check_state == 4"><i class="dot bg-blue mr-1"></i>待提交</span>
+						<span v-else-if="scope.row.check_state == 5"><i class="dot bg-cyan mr-1"></i>已提交</span>
           </template>
         </el-table-column>
-				<el-table-column prop="checkname" label="审核人"></el-table-column>
-				<el-table-column prop="remark" label="审核备注"></el-table-column>
+				<el-table-column prop="checkname" label="操作人"></el-table-column>
+				<el-table-column prop="remark" label="操作备注"></el-table-column>
 				<el-table-column prop="createtime" label="创建时间"></el-table-column>
-				<el-table-column prop="checktime" label="审核时间"></el-table-column>
+				<el-table-column prop="checktime" label="操作时间"></el-table-column>
 			</el-table>
 		</el-card>
 
@@ -95,11 +97,11 @@
 								<el-table-column prop="files" label="付款凭证或附件">
 									<template slot-scope="scope">
 										<div class="d-flex align-items-center justify-content-between files_list" v-for="(file,index) in scope.row.files" :key="index">
-											<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+											<div class="cursor-pointer view">
 												<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 											</div>
 											<div class="opacity-80">
-												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+												<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
 												<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
 											</div>
 										</div>
@@ -197,7 +199,7 @@
 				//项目状态
 				statusActive:7,
 				statusSteps:[],
-				// 审核记录
+				// 操作记录（审核）
 				checkList:[],
 				checkListAll:[],
 				showMore: true,
@@ -228,9 +230,9 @@
 						this.money_data = data.data.money_data;
 						this.option.series[0].data = data.data.money_data;
 
-						// 审核记录
+						// 操作记录（审核）
 						this.checkListAll = data.data.check_list;
-						// 默认情况下审核记录
+						// 默认情况下操作记录（审核）
 						if(data.data.check_list.length < 5){
 							this.checkList = this.checkListAll;
 						}else{

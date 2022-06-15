@@ -50,11 +50,11 @@
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
 							<el-form-item :label="formItem.title+'：'" class="file-form-item">
 								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
-									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+									<div class="cursor-pointer view">
 										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 									</div>
 									<div class="opacity-80 ml-5 pl-5">
-										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
 										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
 									</div>
 								</div>
@@ -109,11 +109,11 @@
 								<el-table-column prop="files" label="付款凭证或附件">
 									<template slot-scope="scope">
 										<div class="d-flex align-items-center justify-content-between files_list" v-for="(file,index) in scope.row.files" :key="index">
-											<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+											<div class="cursor-pointer view">
 												<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 											</div>
 											<div class="opacity-80">
-												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+												<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
 												<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
 											</div>
 										</div>

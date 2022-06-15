@@ -142,7 +142,7 @@
       },
       mediaCollapse(){
         let screenW = document.body.clientWidth;
-        console.log(screenW,'screenW');
+        // console.log(screenW,'screenW');
         if(screenW < 1440){
           this.isCollapse = true;
         }else{

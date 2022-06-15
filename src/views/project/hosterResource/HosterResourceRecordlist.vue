@@ -10,11 +10,11 @@
 				<el-table-column type="expand">
 					<template slot-scope="scope">
 						<div class="d-flex align-items-center justify-content-between" v-for="(file,index) in scope.row.files" :key="index">
-							<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+							<div class="cursor-pointer view">
 								<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 							</div>
 							<div class="opacity-80">
-								<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+								<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
 								<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
 							</div>
 						</div>

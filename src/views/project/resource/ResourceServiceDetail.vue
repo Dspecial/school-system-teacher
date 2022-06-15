@@ -19,11 +19,11 @@
                       <template v-if="chat.files && chat.files.length > 0">
                         <p class="mt-2 mb-2">工单附件:</p>
                         <div class="d-flex align-items-center justify-content-between" v-for="(file,index) in chat.files" :key="index">
-                          <div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+                          <div class="cursor-pointer view">
                             <i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
                           </div>
                           <div class="opacity-80 ml-5">
-                            <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+                            <!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
                             <i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
                           </div>
                         </div>
@@ -41,11 +41,11 @@
                       <template v-if="chat.files && chat.files.length > 0">
                         <p class="mt-2 mb-2">工单附件:</p>
                         <div class="d-flex align-items-center justify-content-between" v-for="(file,index) in chat.files" :key="index">
-                          <div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+                          <div class="cursor-pointer view">
                             <i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
                           </div>
                           <div class="opacity-80 ml-5">
-                            <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+                            <!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
                             <i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
                           </div>
                         </div>

@@ -57,21 +57,15 @@
 			this.openEdit();
 		},
 		methods:{
-			// 获取所有项目
+			// 获取项目名称
 			initPro(){
-				this.$api.getPro({
-				}).then(data =>{
+				this.$api.hosterDetail({
+					id:this.$route.query.id
+				}).then(data => {
 					if(data.code == 0){
-            // 回调成功的方法
-						var obj = {};
-						obj = data.data.find((item)=>{
-							return item.id == this.$route.query.id
-						});
-						this.applyForm.p_name = obj.p_name;
-					}else{
-						this.$message.error(data.msg);
+						this.applyForm.p_name = data.data.info.p_name;
 					}
-				});
+				})
 			},
 			// dialog初始化
 			openEdit(){

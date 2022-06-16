@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-06-16 15:28:29
+ * @LastEditTime: 2022-06-16 18:43:39
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -240,13 +240,7 @@ export default {
 	// 承办-申请资源
 	hoster_apply_resource: p => postToken('/api/project.hosterproject/apply_resource', p),
 
-
-
-
-
-
-
-
+	
 	// 承办资源列表
 	hosterResourceList: p => postToken('/api/undertake.resource/index', p),
 	// 承办资源列表-删除

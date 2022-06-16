@@ -692,7 +692,7 @@
       // 付款节点
       paymentNode(index,row){
         this.$router.push({
-          path:"/project/project/paymentNode",
+          path:"/project/hoster/paymentNode",
           query: {
             id: row.id,
           }
@@ -701,7 +701,7 @@
       // 工单列表
       goServiceList(index,row){
         this.$router.push({
-          path:"/project/project/serviceList",
+          path:"/project/hoster/serviceList",
           query: {
             id: row.id,
           }
@@ -711,7 +711,7 @@
       // 申请资源
       handleResourceApply(index,row){
         this.$router.push({
-          path:"/project/project/applyResource",
+          path:"/project/hoster/applyResource",
           query: {
             id: row.id,
           }

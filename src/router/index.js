@@ -378,6 +378,34 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				{
+				  path: '/project/hoster/serviceList',
+				  component: resolve => require(['@/views/project/hoster/ServiceList'], resolve),
+				  name: 'HosterServiceList',
+				  meta: {
+				    title: '承办工单列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/service/edit',
+				  component: resolve => require(['@/views/project/hoster/ServiceEdit'], resolve),
+				  name: 'HosterServiceEdit',
+				  meta: {
+				    title: '承办发起工单',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/service/detail',
+				  component: resolve => require(['@/views/project/hoster/ServiceDetail'], resolve),
+				  name: 'HosterServiceDetail',
+				  meta: {
+				    title: '承办工单详情',
+						isSingleOn: true,
+				  },
+				  children: null
+				},
 				// 承办详情
 				{
 				  path: '/project/hoster/detail',

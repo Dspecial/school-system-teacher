@@ -813,7 +813,7 @@
 			openEdit(){
 				this.initCompany();
 				this.projectId = this.$route.query.id;
-				this.$api.projectRunning({
+				this.$api.hosterRunning({
 					id:this.projectId,
 					function_type:2,
 				}).then(data =>{
@@ -954,7 +954,7 @@
 
 				this.$refs[formName].validate((valid) => {
           if (valid) {
-						this.$api.projectRunning({
+						this.$api.hosterRunning({
 							id:this.projectId,
 							function_type:1,
 							real_amount:this.projectForm.real_amount,

@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-06-10 10:22:10
+ * @LastEditTime: 2022-06-16 15:39:56
  */
  
 @charset "UTF-8";
@@ -598,6 +598,10 @@ html,body,#app,.page-container{
   .el-form-item.file-form-item{
     display: flex;
   }
+}
+
+.el-form-item .el-form-item__content .mb-2:last-child{
+  margin-bottom:0!important;
 }
 .el-form-item.json-form-item{
   .el-form-item__content >div{

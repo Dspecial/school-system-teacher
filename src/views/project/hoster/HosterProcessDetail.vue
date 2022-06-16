@@ -4,28 +4,38 @@
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
 		<el-card class="mt-3 bg-white">
-			<!-- 记录详情 -->
-			<el-form :model="recordInfo" ref="recordInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
-				<h6 class="fs_18 font-weight-normal mb-3">记录详情</h6>
+			<!-- 进度记录详情 -->
+			<el-form :model="processInfo" ref="processInfo" label-width="110px" label-position="left" class="pl-3 pr-3">
+				<h6 class="fs_18 font-weight-normal mb-3">进度记录详情</h6>
 				<el-row :gutter="20">
           <el-col :span="8">
-						<el-form-item label="资源名称">
-							{{recordInfo.name}}
+						<el-form-item label="上传编号">
+							{{processInfo.process_number}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="标题">
-							{{recordInfo.title}}
+							{{processInfo.title}}
+						</el-form-item>
+					</el-col>
+          <el-col :span="8">
+						<el-form-item label="创建人">
+							{{processInfo.job_number}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label="创建时间">
-							{{recordInfo.createtime}}
+							{{processInfo.createtime}}
+						</el-form-item>
+					</el-col>
+          <el-col :span="8">
+						<el-form-item label="审核时间">
+							{{processInfo.checktime}}
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
 						<el-form-item label="内容">
-							{{recordInfo.desc}}
+							{{processInfo.content}}
 						</el-form-item>
 					</el-col>
 
@@ -52,11 +62,11 @@
 	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
 	export default {
-		name: 'MyrecordDetail',
+		name: 'ProjectProcessDetail',
 		data () {
 			return {
 				id:'', // 记录id
-				recordInfo: {},
+				processInfo: {},
 				files:[],
 			}
 		},
@@ -71,11 +81,11 @@
 			// dialog初始化
 			openEdit(){
 				this.id = this.$route.query.id;
-				this.$api.my_recordDetail({
+				this.$api.hosterProcess_detail({
 					id:this.id,
 				}).then(data =>{
 					if(data.code == 0){
-						this.recordInfo = data.data;
+						this.processInfo = data.data;
             this.files = data.data.files
 					}else{
 						this.$message.error(data.msg);

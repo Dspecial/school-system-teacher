@@ -23,9 +23,9 @@
 			</el-col>
 		</el-row>
 
-		<!-- 表单值-详细信息 -->
+		<!-- 表单值-初审信息 -->
 		<el-card class="mt-3">
-			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">详细信息</h4>
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">初审信息</h4>
 			<el-form class="form_json" label-position="left">
 				<el-row :gutter="20">
 					<template v-for="(formItem,j) in dataJson">
@@ -175,7 +175,7 @@
 				// 操作记录（审核）
 				checkList:[],
 				checkListAll:[],
-				showMore: true,
+				showMore: false,
 			}
 		},
 		mounted(){
@@ -198,7 +198,7 @@
 						if(data.data.check_list.length < 5){
 							this.checkList = this.checkListAll;
 						}else{
-							this.checkList = this.checkListAll.slice(0,5);
+							this.checkList = this.checkListAll;
 						}
 					}
 				})

@@ -342,7 +342,7 @@
 				// 操作记录（审核）
 				checkList:[],
 				checkListAll:[],
-				showMore: true,
+				showMore: false,
 				// 承办人
 				need_set_charge:1,
 				uidOptions:[],
@@ -450,7 +450,7 @@
 						if(data.data.check_log_list.length < 5){
 							this.checkList = this.checkListAll;
 						}else{
-							this.checkList = this.checkListAll.slice(0,5);
+							this.checkList = this.checkListAll;
 						}
 						
 						this.need_set_charge = data.data.need_set_charge;

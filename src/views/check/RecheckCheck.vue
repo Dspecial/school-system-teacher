@@ -47,11 +47,11 @@
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
 							<el-form-item :label="formItem.title">
 								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
-									<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+									<div class="cursor-pointer view">
 										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 									</div>
 									<div class="opacity-80 ml-5 pl-5">
-										<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+										<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
 										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
 									</div>
 								</div>
@@ -134,11 +134,11 @@
 					<el-col :span="24" v-if="!commonJs.isEmpty(recheckInfo.planattach)">
 						<el-form-item label="项目方案附件">
 							<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in recheckInfo.planattach" :key="index">
-								<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+								<div class="cursor-pointer view">
 									<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 								</div>
 								<div class="opacity-80 ml-5 pl-5">
-									<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+									<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
 									<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
 								</div>
 							</div>
@@ -148,11 +148,11 @@
 					<el-col :span="24" v-if="!commonJs.isEmpty(recheckInfo.expertattch)">
 						<el-form-item label="专家签字附件">
 							<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in recheckInfo.expertattch" :key="index">
-								<div class="cursor-pointer view" @click="preview(file.path)" title="在线预览">
+								<div class="cursor-pointer view">
 									<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
 								</div>
 								<div class="opacity-80 ml-5 pl-5">
-									<i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i>
+									<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
 									<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
 								</div>
 							</div>
@@ -291,7 +291,7 @@
 				// 操作记录（审核）
 				checkList:[],
 				checkListAll:[],
-				showMore: true,
+				showMore: false,
 
 				checkform:{
 					check_state:"",
@@ -335,7 +335,7 @@
 						if(data.data.check_log_list.length < 5){
 							this.checkList = this.checkListAll;
 						}else{
-							this.checkList = this.checkListAll.slice(0,5);
+							this.checkList = this.checkListAll;
 						}
 					}else{
 						this.$message.error(data.msg);

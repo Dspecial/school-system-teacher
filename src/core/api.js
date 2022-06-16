@@ -3,7 +3,7 @@
  * @Email: dxxtalking@163.com
  * @Date: 2020-12-24 09:09:03
  * @LastEditors: dxx
- * @LastEditTime: 2022-06-02 18:05:28
+ * @LastEditTime: 2022-06-16 15:28:29
  */
 import {postToken,post,postJson,postUpload} from '@/core/axios.js';
 
@@ -191,6 +191,61 @@ export default {
 	hosterEdit: p => postToken('/api/project.hosterproject/edit', p),
 	// 承办列表-详情
 	hosterDetail: p => postToken('/api/project.hosterproject/details', p),
+	// 删除承办列表
+	hosterDel: p => postToken('/api/project.hosterproject/del', p),
+
+	// 承办-付款节点
+	hosterPayNode: p => postToken('/api/project.hosterproject/pay_info', p),
+	// 承办-更新付款节点
+	hoster_setPayNode: p => postToken('/api/project.hosterproject/pay_set_node', p),
+
+	// 承办-提交审核
+	hosterCommit: p => postToken('/api/project.hosterproject/commit', p),
+	// 承办-跳过提交评审
+	hosterRecheck_skip: p => postToken('/api/project.hosterproject/skip_recheck', p),
+
+	// 承办-提交评审
+	hosterRecheck: p => postToken('/api/project.hosterproject/commit_recheck', p),
+
+	// 承办-进入进度上传流程
+	hosterProcess: p => postToken('/api/project.hosterproject/to_process', p),
+	// 承办-进入验收流程
+	hosterAccept: p => postToken('/api/project.hosterproject/to_accept', p),
+	// 承办-提交验收流程
+	hosterAccept_send: p => postToken('/api/project.hosterproject/send_accept', p),
+	
+	// 承办-评审记录-列表
+	hosterRecheck_list: p => postToken('/api/project.hosterproject/recheck_list', p),
+	// 承办-评审列表-详情
+	hosterRecheck_detail: p => postToken('/api/project.hosterproject/recheck_detail', p),
+	// 承办-项目进度记录-列表
+	hosterProcess_list: p => postToken('/api/project.hosterproject/process_list', p),
+	// 承办-进度记录-详情
+	hosterProcess_detail: p => postToken('/api/project.hosterproject/process_detail', p),
+	// 承办-进入实施流程
+	hosterRunning: p => postToken('/api/project.hosterproject/to_running', p),
+
+	// 承办-项目维保
+	hosterMaintenance: p => postToken('/api/project.hosterproject/push_maintenance', p),
+
+	// 承办-项目工单列表
+	hoster_serviceList: p => postToken('/api/service.serviceproject/index', p),
+	// 承办-项目发起工单
+	hoster_serviceAdd: p => postToken('/api/service.serviceproject/add', p),
+	// 承办-项目工单详情
+	hoster_serviceDetail: p => postToken('/api/service.serviceproject/details', p),
+	// 承办-项目工单详情-新增问题
+	hoster_serviceDetail_add: p => postToken('/api/service.serviceproject/details', p),
+
+	// 承办-申请资源
+	hoster_apply_resource: p => postToken('/api/project.hosterproject/apply_resource', p),
+
+
+
+
+
+
+
 
 	// 承办资源列表
 	hosterResourceList: p => postToken('/api/undertake.resource/index', p),

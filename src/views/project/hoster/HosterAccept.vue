@@ -3,147 +3,58 @@
 		<!-- 登录信息 -->
     <global-tips></global-tips>
 		<Breadcrumb></Breadcrumb>
-		<!-- 项目基本信息 -->
+		<!-- 项目验收 -->
 		<el-card class="mt-3 bg-white">
-			<h6 class="fs_18 font-weight-normal mb-3">项目基本信息</h6>
-			<el-form label-width="140px" label-position="left" class="pl-3 pr-3">
-				<el-row :gutter="20">
-					<el-col :span="8">
-						<el-form-item label="项目编号">
-							{{projectInfo.apply_number}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="项目名称">
-							{{projectInfo.p_name}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="申请类别">
-							{{projectInfo.pname}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="申请人">
-							{{projectInfo.name}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="申请人所在部门">
-							{{projectInfo.depart_name}}
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="项目年份">
-							{{projectInfo.projecttime}} 年
-						</el-form-item>
-					</el-col>
-					<el-col :span="8">
-						<el-form-item label="预算金额" v-if="projectInfo.budget_amount != 0">
-							{{projectInfo.budget_amount}} 元
-						</el-form-item>
-					</el-col>
-					<template v-for="(formItem,j) in projectInfo.dataJson">
-						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
-							<el-form-item :label="formItem.title">
-								<div class="d-flex align-items-center justify-content-between mb-2" v-for="(file,index) in formItem.file_arr" :key="index">
-									<div class="cursor-pointer view">
-										<i class="el-icon-document mr-2"></i><span>{{file.name}}</span>
-									</div>
-									<div class="opacity-80 ml-5 pl-5">
-										<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(file.path)"></i> -->
-										<i class="el-icon-download cursor-pointer view" @click="downloadview(file)"></i>
-									</div>
-								</div>
-							</el-form-item>
+			<h6 class="fs_18 font-weight-normal mb-3">{{title}}</h6>
+			<!-- 审核内容的表格 -->
+			<div class="accept_info">
+				<div class="accept_info_header fs_16 text-center font-weight-black">
+					<el-row type="flex" align="middle">
+						<el-col :span="18">
+							<div class="p-2">审核内容</div>
 						</el-col>
-						<el-col :span="24" :key="j" v-else-if="formItem.name_type == 12" >
-							<el-form-item :label="formItem.title" class="json-form-item">
-								<div class="w-100 d-flex align-items-center pb-1 mb-1" v-for="(cell,index) in formItem.value" :key="index">
-									<p class="m-0 w-100 pl-2 pr-2" v-for="(item,k) in cell" :key="k">{{item}}</p>
-								</div>
-							</el-form-item>
+						<el-col :span="3">
+							<div class="p-2">执行情况</div>
 						</el-col>
-						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 9 || formItem.name_type == 10">
-							<el-form-item :label="formItem.title">
-								{{formItem.value.join(",")}}
-							</el-form-item>
+						<el-col :span="3">
+							<div class="p-2">审核人</div>
 						</el-col>
-						<el-col :span="8" :key="j" v-else-if="formItem.name_type == 7">
-							<el-form-item :label="formItem.title">
-								<span v-html="formItem.value"></span>
-							</el-form-item>
-						</el-col>
-						<el-col :span="8" :key="j" v-else>
-							<el-form-item :label="formItem.title">
-								{{formItem.value}}
-							</el-form-item>
-						</el-col>
+					</el-row>
+				</div>
+				<div class="accept_info_content">
+					<template v-for="(item,index) in acceptInfo">
+						<el-row :key="index" type="flex" align="middle">
+							<el-col :span="6">
+								<div class="p-2 text-center">{{ item.group_name }}</div>
+							</el-col>
+							<el-col :span="18">
+								<template v-for="(cell,j) in item.group_list">
+									<el-row type="flex" :key="j">
+										<el-col :span="16">
+											<div class="p-2">{{ j+1 }}、 {{ cell.title }}</div>
+										</el-col>
+										<el-col :span="4">
+											<div class="p-2">
+												<el-input v-model="cell.desc" placeholder="请输入执行情况"></el-input>
+											</div>
+										</el-col>
+										<el-col :span="4">
+											<div class="p-2">
+												<el-input v-model="cell.checkname" placeholder="请输入审核人"></el-input>
+											</div>
+										</el-col>
+									</el-row>
+								</template>
+							</el-col>
+						</el-row>
 					</template>
-				</el-row>
-			</el-form>
-		</el-card>
+				</div>
+			</div>
 
-		<el-card class="mt-3 bg-white">
-			<h6 class="fs_18 font-weight-normal mb-3">{{titile}}</h6>
-			<el-form :model="recheckForm" :rules="rules" ref="recheckForm" label-width="110px" label-position="top" class="pl-3 pr-3">
+			<el-form :model="projectForm" ref="projectForm" label-width="110px" label-position="top" class="pl-3 pr-3">
+				<!-- 验收流程的额外参数 -->
 				<el-row :gutter="20">
-					<el-col :span="24">
-						<el-form-item label="评审状态" class="payment_item" required prop="sendjson">
-							<div slot="label" class="d-flex justify-content-between">
-								<span>评审状态</span>
-								<span class="text-primary cursor-pointer" @click="addPro(recheckForm.sendjson)"><i class="el-icon-plus mr-1"></i>评审状态</span>
-							</div>
-							<template v-for="(cell,INDEX) in recheckForm.sendjson">
-								<el-row type="flex" align="middle" :gutter="20" class="cell_row mb-3" :key="INDEX">
-									<el-col :span="24">
-										<el-select v-model="cell.expert_id" placeholder="请选择专家" class="w-100" clearable @change="changeCheck">
-											<el-option
-												v-for="item in expertOptions"
-												:key="item.id"
-												:label="item.e_name"
-												:value="item.id"
-												:disabled="item.isSelect">
-											</el-option>
-										</el-select>
-									</el-col>
-									<el-col :span="24">
-										<el-select v-model="cell.is_pass" clearable placeholder="请选择是否通过" class="w-100">
-											<el-option label="通过" value="1"></el-option>
-											<el-option label="不通过" value="2"></el-option>
-										</el-select>
-									</el-col>
-									<el-col :span="24">
-										<el-input v-model="cell.content" placeholder="请输入评审意见"></el-input>
-									</el-col>
-									<el-col :span="2" class="text-right">
-										<span class="text-danger cursor-pointer" @click="delField(recheckForm.sendjson,INDEX)">删除</span>
-									</el-col>
-								</el-row>
-							</template>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="评审日期" prop="recheck_date">
-							<el-date-picker 
-								type="date" 
-								placeholder="请选择评审日期"
-								v-model="recheckForm.recheck_date" 
-								value-format="yyyy-MM-dd"
-								clearable
-								style="width: 100%;"></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item label="评审内容" prop="content">
-							<el-input type="textarea" v-model="recheckForm.content" placeholder="请输入评审内容" :rows="3"></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
-
-				<!-- 评审流程的额外参数 -->
-				<el-row :gutter="20">
-					<div v-for="(formItem,j) in recheckForm.recheckExtraForms" :key="j">
+					<div v-for="(formItem,j) in projectForm.acceptExtraForms" :key="j">
 						<!-- 字段类型:1=文本框,2=数字框,3=下拉单选,4=日期选择,5=文件上传(单选),6=文本域,7=富文本,
 						8=时间选择,9=下拉多选,10=复选,11=单选,12=数组,13=图片上传(单选),14=图片上传(多选),15=文件上传(多选) -->
 						<!-- 1=文本框 -->
@@ -446,12 +357,14 @@
 						</el-col>
 					</div>
 				</el-row>
+
 				<div class="d-flex justify-content-end">
-					<el-button type="primary" @click="submitForm('recheckForm')">确 定</el-button>
+					<el-button type="primary" @click="submitForm('projectForm')" v-if="isShow">提 交</el-button>
 					<el-button @click="closedEdit">取 消</el-button>
 				</div>
 			</el-form>
 		</el-card>
+
 	</div>
 </template>
 
@@ -459,41 +372,21 @@
 	import GlobalTips from "@/components/GlobalTips";
 	import Breadcrumb from "@/components/Breadcrumb";
 	export default {
-		name: 'RecheckCheckEdit',
+		name: 'ProjectAccept',
 		data () {
 			return {
-				// 项目基本信息
-				projectInfo: {},
-				// 评审（评审）相关
 				projectId:'',
-				titile:"评审编辑",
-				expertOptions:[],
-				isSelectArr:[],
+				is_commit:"",// 判断有没有确定按钮，当is_commit为8的时候   没有确定按钮
+				title:"项目验收",
 				accept_file: ".pdf,.doc,.docx,.xls,.xlsx,.zip",
 				accept_img:".jpg,.png,.JPEG",
-				recheckForm: {
-					sendjson:[{}],
-					recheck_date:"",
-					content:"",
-					recheckExtraForms:[]
+				projectForm: {
+					accept_number:"",
+					acceptExtraForms:[],
         },
+				acceptInfo:[],
 				removeFilesArr:[],
-				startOption:{
-					disabledDate: time =>{
-						return time.getTime() < Date.now() - 24 * 60 * 60 * 1000
-					}
-				},
-        rules: {
-					sendjson: [
-            { required: true, message: '请选择评审状态', trigger: 'change' }
-          ],
-					recheck_date: [
-            { required: true, message: '请选择评审日期', trigger: 'change' }
-          ],
-					content: [
-            { required: true, message: '请输入评审内容', trigger: 'blur' }
-          ],
-        }
+				isShow:true,
 			}
 		},
 		components: {
@@ -504,57 +397,54 @@
 			this.openEdit();
 		},
 		methods:{
-			// 获取专家列表
-			initExpert(){
-				this.$api.projectExpert({
+			// dialog初始化
+			openEdit(){
+				this.projectId = this.$route.query.id;
+				var randnum = Math.floor(Math.random()*(9999-1000))+1000; // 四位随机数
+				var number = this.$moment(new Date()).format('YYYYMMDDHHss');
+				this.$api.hosterAccept_send({
+					project_id:this.projectId,
+					function_type:1,
 				}).then(data =>{
 					if(data.code == 0){
-						// 回调成功的方法
-						this.expertOptions = data.data;
-						this.expertOptions.map((item)=>{
-							item.isSelect = false;
-						})
+						this.projectForm.accept_number = number + randnum;
+						// 验收表格
+						this.acceptInfo = data.data.accept_info;
+						// 验收额外参数
+						if(!data.data.project_info.acceptextra){
+							this.getNodeExtra();
+						}else{
+							var acceptExtraForms = data.data.project_info.acceptextra;
+							acceptExtraForms.map((item)=>{
+								if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){
+									item.value = [];
+									if(!this.commonJs.isEmpty(item.file_arr)){
+										item.value = item.file_arr
+									}
+								}
+							});
+							this.projectForm.acceptExtraForms = acceptExtraForms;
+
+							if(data.data.project_accept_info.status == '1' || data.data.project_accept_info.status == '2' ){
+								this.isShow = false
+							}else{
+								this.isShow = true;
+							}
+						}
 					}else{
 						this.$message.error(data.msg);
 					}
 				});
 			},
-			// 专家选择
-			changeCheck(val){
-				this.expertOptions.map((arr)=>{
-					if(val == arr.id){
-						arr.isSelect = true;
-					}
-				})
-				this.$set(this.expertOptions);
-			},
-			// 添加审核流程
-			addPro(item){
-				item.push({});
-			},
-			// 删除字段
-			delField(item,index){
-				item.splice(index, 1);
-			},
-			// dialog初始化
-			openEdit(){
-				this.projectId = this.$route.query.id;
-				this.initExpert();
-				this.$api.recheckList_edit({
-					function_type:1,
-					id:this.projectId,
-				}).then(data=>{
-					if(data.code == 0){
-						// 项目基本信息
-						this.projectInfo = data.data.info;
-						this.projectInfo.dataJson = data.data.info.datajson;
-						// 评审（复审）相关
-						this.recheckForm.sendjson = JSON.parse(data.data.project_recheck_info.sendjson);
-						this.recheckForm.recheck_date = data.data.project_recheck_info.recheck_date;
-						this.recheckForm.content = data.data.project_recheck_info.content;
 
-						var recheckjson = data.data.project_recheck_info.extrajson;
-						recheckjson.map((item)=>{
+			// 根据流程节点获取额外参数
+			getNodeExtra(){
+				this.$api.project_getExtraNodeForms({
+					id:10,
+				}).then(data =>{
+					if(data.code == 0){
+						var acceptExtraForms = data.data;
+						acceptExtraForms.map((item)=>{
 							if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){
 								item.value = [];
 								if(!this.commonJs.isEmpty(item.file_arr)){
@@ -562,29 +452,36 @@
 								}
 							}
 						});
-						this.recheckForm.recheckExtraForms = recheckjson;
+						this.projectForm.acceptExtraForms = acceptExtraForms;
+					}else{
+						this.$message.error(data.msg);
 					}
-				})
+				});
 			},
+
 			// 关闭编辑
 			closedEdit(){
-				this.$router.push({
-          path:"/check/checkList",
-        })
-				// this.$router.go(-1);//返回上一层
+				this.$router.go(-1);//返回上一层
+				this.removeFilesArr = [];
 			},
       // form提交
 			submitForm(formName) {
 				var _this = this;
-				var newArr = new Array;
-				var isArr = this.commonJs.isEmpty(this.recheckForm.sendjson[0]);
-				if(!isArr){
-					newArr = this.recheckForm.sendjson
-				}
+				var sendJson = new Array;
+				this.acceptInfo.forEach((item,index)=>{
+					item.group_list.map((list,j)=>{
+						var obj = {
+							id:list.id,
+							desc:list.desc,
+							checkname:list.checkname,
+						};
+						sendJson.push(obj);
+					})
+				});
 				var sendExtra = new Array;
-				var isExtraArr = this.commonJs.isEmpty(this.recheckForm.recheckExtraForms);
+				var isExtraArr = this.commonJs.isEmpty(this.projectForm.acceptExtraForms);
 				if(!isExtraArr){
-					sendExtra = this.recheckForm.recheckExtraForms.map((item)=>{
+					sendExtra = this.projectForm.acceptExtraForms.map((item)=>{
 						if(item.name_type == 5 || item.name_type == 13 || item.name_type == 14 || item.name_type == 15){
 							var nameArray = item.value.map((file)=>{
 								if(this.commonJs.isEmpty(file.response)){
@@ -608,19 +505,15 @@
 
 				this.$refs[formName].validate((valid) => {
           if (valid) {
-						this.$api.recheckList_edit({
+						this.$api.hosterAccept_send({
+							project_id:this.projectId,
+							accept_number:this.projectForm.accept_number,
+							acceptextra:JSON.stringify(sendExtra),
+							sendjson:JSON.stringify(sendJson),
 							function_type:2,
-							id:this.projectId,
-							sendjson:JSON.stringify( newArr ),
-							recheck_date: this.recheckForm.recheck_date,
-							content: this.recheckForm.content,
-							extrajson:JSON.stringify(sendExtra),
 						}).then(data =>{
 							if(data.code == 0){
-								// this.removeFilesPlanArr.map((path)=>{
-								// 	_this.removeFile(path);
-								// })
-								// this.removeFilesExpertArr.map((path)=>{
+								// this.removeFilesArr.map((path)=>{
 								// 	_this.removeFile(path);
 								// })
 								this.$message({
@@ -639,40 +532,12 @@
         });
       },
 
-			// 预览文件
-			preview(path){
-				this.$api.file_preview({
-					path:path,
-				}).then(data=>{
-					if(data.code == 0){
-						let a = document.createElement('a');
-						a.style = 'display: none'; // 创建一个隐藏的a标签
-						a.target = "_blank";
-						a.href = data.data;
-						document.body.appendChild(a);
-						a.click();
-					}else{
-						this.$message.error(data.msg)
-					}
-				})
-			},
-			// 下载文件
-			downloadview(file){
-				let a = document.createElement('a'); 
-				a.style = 'display: none'; // 创建一个隐藏的a标签
-				a.download = file.name;
-				a.href = this.$globalUrl.baseURL + file.path;
-				document.body.appendChild(a);
-				a.click(); // 触发a标签的click事件
-				document.body.removeChild(a);
-			},
-
 			/****  上传  ****/
 			myUpload(params,formItem){
 	      // 通过 FormData 对象上传文件
 	      const formData = new FormData();
-	      formData.append("apply_number", this.projectInfo.apply_number);
-	      formData.append("type", 'pingshen');
+	      formData.append("apply_number", this.projectForm.apply_number);
+				formData.append("type", 'yanshou/'+ this.projectForm.accept_number);
 	      formData.append("file", params.file);
 	      formData.append("user_token", this.VueCookies.get("application_token"));
 
@@ -741,7 +606,33 @@
 			onExceed(file,fileList){
 				this.$message.error("只能上传一个文件哦，可以先删除再重新上传！");
 			},
-
+			// 预览文件
+			preview(path){
+				this.$api.file_preview({
+					path:path,
+				}).then(data=>{
+					if(data.code == 0){
+						let a = document.createElement('a');
+						a.style = 'display: none'; // 创建一个隐藏的a标签
+						a.target = "_blank";
+						a.href = data.data;
+						document.body.appendChild(a);
+						a.click();
+					}else{
+						this.$message.error(data.msg)
+					}
+				})
+			},
+			// 下载文件
+			downloadview(path){
+				let a = document.createElement('a'); 
+				a.style = 'display: none'; // 创建一个隐藏的a标签
+				a.download = '示例下载';
+				a.href = this.$globalUrl.baseURL + path;
+				document.body.appendChild(a);
+				a.click(); // 触发a标签的click事件
+				document.body.removeChild(a);
+			},
 		}
 	}
 </script>

@@ -40,9 +40,17 @@
 			</el-col>
 		</el-row>
 
-		<!-- 表单值-详细信息 -->
+		<!-- 项目状态 -->
 		<el-card class="mt-3">
-			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">详细信息</h4>
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">项目状态</h4>
+			<el-steps :active="statusActive" finish-status="success" align-center>
+				<el-step :title="status.name" v-for="(status,index) in statusSteps" :key="index"></el-step>
+			</el-steps>
+		</el-card>
+
+		<!-- 表单值-初审信息 -->
+		<el-card class="mt-3">
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">初审信息</h4>
 			<el-form class="form_json" label-position="left">
 				<!-- 项目额外参数 -->
 				<el-row :gutter="20">
@@ -85,14 +93,6 @@
 					</template>
 				</el-row>
 			</el-form>
-		</el-card>
-
-		<!-- 项目状态 -->
-		<el-card class="mt-3">
-			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">项目状态</h4>
-			<el-steps :active="statusActive" finish-status="success" align-center>
-				<el-step :title="status.name" v-for="(status,index) in statusSteps" :key="index"></el-step>
-			</el-steps>
 		</el-card>
 
 		<!-- 操作记录（审核） -->
@@ -491,21 +491,21 @@
 				// 操作记录（审核）
 				checkList:[],
 				checkListAll:[],
-				showMore: true,
+				showMore: false,
 
 				// 评审记录
 				recheckList:[],
 				recheckListAll:[],
-				showMoreRecheck: true,
+				showMoreRecheck: false,
 
 				// 进度上传记录
 				processList:[],
 				processListAll:[],
-				showMoreProcess: true,
+				showMoreProcess: false,
 
 				// 验收记录
 				acceptForm:{},
-				showMoreAccept:true,
+				showMoreAccept: false,
 
 				// 合同规定付款计划
 				tableProps: {
@@ -555,7 +555,7 @@
 						if(data.data.check_list.length < 5){
 							this.checkList = this.checkListAll;
 						}else{
-							this.checkList = this.checkListAll.slice(0,5);
+							this.checkList = this.checkListAll;
 						}
 
 						// 评审记录
@@ -564,7 +564,7 @@
 						if(data.data.recheck_list.length < 5){
 							this.recheckList = this.recheckListAll;
 						}else{
-							this.recheckList = this.recheckListAll.slice(0,5);
+							this.recheckList = this.recheckListAll;
 						}
 
 						// 进度上传记录
@@ -573,7 +573,7 @@
 						if(data.data.process_list.length < 5){
 							this.processList = this.processListAll;
 						}else{
-							this.processList = this.processListAll.slice(0,5);
+							this.processList = this.processListAll;
 						}
 
 						// 验收记录

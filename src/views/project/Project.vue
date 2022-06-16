@@ -141,12 +141,23 @@
                 <span v-for="(action,index) in actions6_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
             </template>
-            <template v-else-if="scope.row.is_commit == 13 || scope.row.is_commit == 14">
+            <template v-else-if="scope.row.is_commit == 13">
               <template v-if="scope.row.check_process.next_node_id == 10">
                 <span v-for="(action,index) in actions7_2" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else-if="scope.row.check_process.next_node_id == 11">
+                <span v-for="(action,index) in actions7_4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              </template>
+              <template v-else>
+                <span v-for="(action,index) in actions7_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              </template>
+            </template>
+            <template v-else-if="scope.row.is_commit == 14">
+              <template v-if="scope.row.check_process.next_node_id == 10">
                 <span v-for="(action,index) in actions7_3" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
+              </template>
+              <template v-else-if="scope.row.check_process.next_node_id == 11">
+                <span v-for="(action,index) in actions7_4" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
               </template>
               <template v-else>
                 <span v-for="(action,index) in actions7_1" :key="index" @click="fun(scope.$index,scope.row,action.sign)" class="text-primary cursor-pointer mr-2">{{action.title}}</span>
@@ -273,6 +284,7 @@
         actions7_1:[],
         actions7_2:[],
         actions7_3:[],
+        actions7_4:[],
         actions8_1:[],
         actions9_1:[],
         actions10_1:[],
@@ -376,8 +388,9 @@
               // 63. is_commit为10、11、12 且 next_node_id为11 +项目维保；
 
               71. is_commit为13、14 进度记录；
-              72. is_commit为13、14 且 next_node_id为10 +进入验收流程；
-              73. is_commit为13、14 且 next_node_id为11 +进入验收流程 +项目维保；
+              72. is_commit为13 且 next_node_id为10 +进入进度上传 +进入验收流程；
+              73. is_commit为14 且 next_node_id为10 +进入验收流程；
+              74. is_commit为13、14 且 next_node_id为11 +进入验收流程 +项目维保；
 
               81. is_commit为15 且 next_node_id为11 项目维保
 
@@ -422,8 +435,9 @@
             this.actions6_3 = [...this.actions6_1,...actions_11];
             // is_commit为13、14
             this.actions7_1 = [...actions_9];
-            this.actions7_2 = [...this.actions7_1,...actions_7];
-            this.actions7_3 = [...this.actions7_1,...actions_7,...actions_11];
+            this.actions7_2 = [...this.actions7_1,...actions_6,...actions_7];
+            this.actions7_3 = [...this.actions7_1,...actions_7];
+            this.actions7_4 = [...this.actions7_1,...actions_7,...actions_11];
             // is_commit为15
             this.actions8_1 = [...actions_11];
             // is_commit为16、17、18

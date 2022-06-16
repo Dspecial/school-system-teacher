@@ -205,7 +205,7 @@
 				// 操作记录
 				checkList:[],
 				checkListAll:[],
-				showMore: true,
+				showMore: false,
 				// 承办人
 				need_set_charge:1,
 				uidOptions:[],
@@ -293,13 +293,13 @@
 						// 审核信息
 						this.check_info = data.data.check_info;
 						
-						// 操作记录
+						// 操作记录（审核）
 						this.checkListAll = data.data.check_log_list;
-						// 默认情况下操作记录
+						// 默认情况下操作记录（审核）
 						if(data.data.check_log_list.length < 5){
 							this.checkList = this.checkListAll;
 						}else{
-							this.checkList = this.checkListAll.slice(0,5);
+							this.checkList = this.checkListAll;
 						}
 
 						this.need_set_charge = data.data.need_set_charge;

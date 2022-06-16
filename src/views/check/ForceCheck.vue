@@ -276,7 +276,7 @@
 				// 操作记录（审核）
 				checkList:[],
 				checkListAll:[],
-				showMore: true,
+				showMore: false,
 
 				checkform:{
 					check_state:"",
@@ -327,7 +327,7 @@
 						if(data.data.check_log_list.length < 5){
 							this.checkList = this.checkListAll;
 						}else{
-							this.checkList = this.checkListAll.slice(0,5);
+							this.checkList = this.checkListAll;
 						}
 					}else{
 						this.$message.error(data.msg);

@@ -202,7 +202,7 @@
 				// 操作记录（审核）
 				checkList:[],
 				checkListAll:[],
-				showMore: true,
+				showMore: false,
 				// 合同规定付款计划
 				tableProps: {
           
@@ -236,7 +236,7 @@
 						if(data.data.check_list.length < 5){
 							this.checkList = this.checkListAll;
 						}else{
-							this.checkList = this.checkListAll.slice(0,5);
+							this.checkList = this.checkListAll;
 						}
 						// 合同规定付款计划
 						this.tableData = data.data.pay_info;

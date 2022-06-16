@@ -39,10 +39,19 @@
 			</el-col>
 		</el-row>
 
-		<!-- 表单值-详细信息 -->
+		<!-- 项目状态 -->
+		<!-- <el-card class="mt-3">
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">项目状态</h4>
+			<el-steps :active="statusActive" finish-status="success" align-center>
+				<el-step :title="status" v-for="(status,index) in statusSteps" :key="index"></el-step>
+			</el-steps>
+		</el-card> -->
+
+		<!-- 表单值-初审信息 -->
 		<el-card class="mt-3">
-			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">详细信息</h4>
+			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">初审信息</h4>
 			<el-form class="form_json" label-position="left">
+				<!-- 项目额外参数 -->
 				<el-row :gutter="20">
 					<template v-for="(formItem,j) in dataJson">
 						<el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
@@ -84,14 +93,6 @@
 				</el-row>
 			</el-form>
 		</el-card>
-
-		<!-- 项目状态 -->
-		<!-- <el-card class="mt-3">
-			<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">项目状态</h4>
-			<el-steps :active="statusActive" finish-status="success" align-center>
-				<el-step :title="status" v-for="(status,index) in statusSteps" :key="index"></el-step>
-			</el-steps>
-		</el-card> -->
 
 		<!-- 合同规定付款计划 -->
 		<el-card class="mt-3 bg-white" v-if="tableData.length != 0">

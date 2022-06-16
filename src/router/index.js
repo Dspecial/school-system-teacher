@@ -367,6 +367,45 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				// 付款节点
+				{
+				  path: '/project/hoster/paymentNode',
+				  component: resolve => require(['@/views/project/hoster/HosterPaymentnode'], resolve),
+				  name: 'HosterPaymentnode',
+				  meta: {
+				    title: '承办付款节点',
+						isSingleOn: true,
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/serviceList',
+				  component: resolve => require(['@/views/project/hoster/ServiceList'], resolve),
+				  name: 'HosterServiceList',
+				  meta: {
+				    title: '承办工单列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/service/edit',
+				  component: resolve => require(['@/views/project/hoster/ServiceEdit'], resolve),
+				  name: 'HosterServiceEdit',
+				  meta: {
+				    title: '承办发起工单',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/service/detail',
+				  component: resolve => require(['@/views/project/hoster/ServiceDetail'], resolve),
+				  name: 'HosterServiceDetail',
+				  meta: {
+				    title: '承办工单详情',
+						isSingleOn: true,
+				  },
+				  children: null
+				},
 				// 承办详情
 				{
 				  path: '/project/hoster/detail',
@@ -377,6 +416,90 @@ const router = new Router({
 				  },
 				  children: null
 				},
+				{
+				  path: '/project/hoster/running',
+				  component: resolve => require(['@/views/project/hoster/HosterRunning'], resolve),
+				  name: 'HosterRunning',
+				  meta: {
+				    title: '承办进入项目实施',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/accept',
+				  component: resolve => require(['@/views/project/hoster/HosterAccept'], resolve),
+				  name: 'HosterAccept',
+				  meta: {
+				    title: '承办进入验收流程',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/maintenance',
+				  component: resolve => require(['@/views/project/hoster/HosterMaintenance'], resolve),
+				  name: 'HosterMaintenance',
+				  meta: {
+				    title: '承办进入项目维保',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/recheck',
+				  component: resolve => require(['@/views/project/hoster/HosterRecheck'], resolve),
+				  name: 'HosterRecheck',
+				  meta: {
+				    title: '承办提交评审',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/recheckList',
+				  component: resolve => require(['@/views/project/hoster/HosterRecheckList'], resolve),
+				  name: 'HosterRecheckList',
+				  meta: {
+				    title: '承办评审列表',
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/processList',
+				  component: resolve => require(['@/views/project/hoster/HosterProcessList'], resolve),
+				  name: 'HosterProcessList',
+				  meta: {
+				    title: '承办进度列表',
+						isSingleOn: true,
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/processDetail',
+				  component: resolve => require(['@/views/project/hoster/HosterProcessDetail'], resolve),
+				  name: 'HosterProcessDetail',
+				  meta: {
+				    title: '承办进度详情',
+						isSingleOn: true,
+				  },
+				  children: null
+				},
+				{
+				  path: '/project/hoster/applyResource',
+				  component: resolve => require(['@/views/project/hoster/HosterApplyresource'], resolve),
+				  name: 'HosterApplyresource',
+				  meta: {
+				    title: '承办申请资源',
+				  },
+				  children: null
+				},
+
+
+
+
+
+
+
+
+
+
 
 				// 承办资源列表
 				{

@@ -108,11 +108,11 @@
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
-											<div class="cursor-pointer view" @click="preview(formItem.example)" title="在线预览">
-												<i class="el-icon-document mr-2"></i><span>查看示例</span>
+											<div class="cursor-pointer view">
+												<i class="el-icon-document mr-2"></i><span>示例下载</span>
 											</div>
 											<div class="opacity-80 ml-3">
-												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i>
+												<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i> -->
 												<i class="el-icon-download cursor-pointer view" @click="downloadview(formItem.example)"></i>
 											</div>
 										</div>
@@ -248,11 +248,11 @@
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
-											<div class="cursor-pointer view" @click="preview(formItem.example)" title="在线预览">
-												<i class="el-icon-document mr-2"></i><span>查看示例</span>
+											<div class="cursor-pointer view">
+												<i class="el-icon-document mr-2"></i><span>示例下载</span>
 											</div>
 											<div class="opacity-80 ml-3">
-												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i>
+												<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i> -->
 												<i class="el-icon-download cursor-pointer view" @click="downloadview(formItem.example)"></i>
 											</div>
 										</div>
@@ -283,11 +283,11 @@
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
-											<div class="cursor-pointer view" @click="preview(formItem.example)" title="在线预览">
-												<i class="el-icon-document mr-2"></i><span>查看示例</span>
+											<div class="cursor-pointer view">
+												<i class="el-icon-document mr-2"></i><span>示例下载</span>
 											</div>
 											<div class="opacity-80 ml-3">
-												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i>
+												<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i> -->
 												<i class="el-icon-download cursor-pointer view" @click="downloadview(formItem.example)"></i>
 											</div>
 										</div>
@@ -315,11 +315,11 @@
 										<span>{{ formItem.title }}</span>
 										<span class="ml-1 text-danger" v-if="formItem.remark">({{ formItem.remark }})</span>
 										<div class="d-flex align-items-center justify-content-between ml-5 text-primary">
-											<div class="cursor-pointer view" @click="preview(formItem.example)" title="在线预览">
-												<i class="el-icon-document mr-2"></i><span>查看示例</span>
+											<div class="cursor-pointer view">
+												<i class="el-icon-document mr-2"></i><span>示例下载</span>
 											</div>
 											<div class="opacity-80 ml-3">
-												<i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i>
+												<!-- <i class="el-icon-view cursor-pointer view mr-3" @click="preview(formItem.example)"></i> -->
 												<i class="el-icon-download cursor-pointer view" @click="downloadview(formItem.example)"></i>
 											</div>
 										</div>
@@ -646,7 +646,7 @@
 			downloadview(path){
 				let a = document.createElement('a'); 
 				a.style = 'display: none'; // 创建一个隐藏的a标签
-				a.download = '查看示例';
+				a.download = '示例下载';
 				a.href = this.$globalUrl.baseURL + path;
 				document.body.appendChild(a);
 				a.click(); // 触发a标签的click事件

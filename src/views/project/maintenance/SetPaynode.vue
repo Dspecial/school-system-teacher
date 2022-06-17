@@ -119,7 +119,7 @@
 							files:this.payForm.files.join(","),
 						}).then(data => {
 							if(data.code == 0){
-								_// this.removeFilesArr.map((path)=>{
+								// this.removeFilesArr.map((path)=>{
 								// 	_this.removeFile(path);
 								// })
 								_this.handleClose();

@@ -593,7 +593,7 @@
       },
       // 进入进度上传流程
       handleProcess(index,row){
-       this.$confirm("状态更改成功后，由企业进行进度上传，提交到相应部门审核！", "提示", {
+       this.$confirm("点击确定后，将以邮件形式通知企业进行进度上传！", "提示", {
           type: 'warning',
         }).then(() => {
           this.$api.projectProcess({

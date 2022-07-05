@@ -145,7 +145,13 @@
 			<!-- 审核表单 -->
 			<h6 class="fs_18 font-weight-normal mb-3">审核项目</h6>
 			<el-form ref="checkform" :model="checkform" class="pl-3 pr-3" label-position="top" label-width="110px" :rules="rules">
-				<el-form-item label="承办人" prop="hoster_ids" v-if="need_set_charge == 1">
+				<el-form-item label="审核状态" prop="check_state">
+					<el-radio-group v-model="checkform.check_state">
+						<el-radio :label="2">通过</el-radio>
+						<el-radio :label="3">驳回</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				<el-form-item label="承办人" prop="hoster_ids" v-if="need_set_charge == 1 && checkform.check_state == 2">
 					<el-select class="w-25" popper-class="params_select" 
 						v-model="checkform.hoster_ids" 
 						clearable 
@@ -173,12 +179,6 @@
 							>
 						</el-pagination>
 					</el-select>
-				</el-form-item>
-				<el-form-item label="审核状态" prop="check_state">
-					<el-radio-group v-model="checkform.check_state">
-						<el-radio :label="2">通过</el-radio>
-						<el-radio :label="3">驳回</el-radio>
-					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="审核备注">
 					<el-input type="textarea" v-model="checkform.remark" placeholder="请输入审核备注" :rows="3"></el-input>

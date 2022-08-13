@@ -56,7 +56,7 @@
 		</el-card>
 
 		<!-- 操作记录（审核） -->
-		<!-- <el-card class="mt-3">
+		<el-card class="mt-3">
 			<div class="d-flex justify-content-between align-items-center">
 				<h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">操作记录</h4>
 				<div :class="['toggleMenu cursor-pointer text-primary',showMore ? 'menu_arrow' : '']" @click="changeFoldState"  v-if="checkListAll.length > 5">
@@ -81,7 +81,7 @@
 				<el-table-column prop="createtime" label="创建时间"></el-table-column>
 				<el-table-column prop="checktime" label="操作时间"></el-table-column>
 			</el-table>
-		</el-card> -->
+		</el-card>
 
 		<!-- 合同规定付款计划 -->
 		<el-card class="mt-3 bg-white" v-if="tableData.length != 0">

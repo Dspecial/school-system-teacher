@@ -365,6 +365,7 @@
           </div>
         </el-row>
         <div class="d-flex justify-content-end">
+          <el-button type="primary" @click="toCheck" v-if="check_info.check_state == 1">去审核</el-button>
           <el-button type="primary" @click="submitForm('projectForm')">确 定</el-button>
           <el-button @click="closedEdit">取 消</el-button>
         </div>
@@ -397,6 +398,7 @@ export default {
         budget_amount: '',
         secondFrom: {},
       },
+      check_info:{},
       removeFilesArr: [],
       rules: {
         p_cate_id: [{ required: true, message: '请选择项目类别', trigger: 'change' }],
@@ -491,10 +493,21 @@ export default {
               }
             });
             this.projectForm.secondFrom = datajson;
+
+            this.check_info = data.data.check_info ? data.data.check_info : { check_state: 0 };
           } else {
             this.$message.error(data.msg);
           }
         });
+    },
+    // 去审核
+    toCheck() {
+      this.$router.push({
+        path: '/check/first/check',
+        query: {
+          id: this.$route.query.id,
+        },
+      });
     },
     // 关闭编辑
     closedEdit() {

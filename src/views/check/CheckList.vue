@@ -66,7 +66,7 @@
             </span>
             <span v-else-if="scope.row.check_state == 3">
               <i class="dot bg-danger mr-1"></i>
-              审核失败
+              审核不通过
             </span>
           </template>
         </el-table-column>

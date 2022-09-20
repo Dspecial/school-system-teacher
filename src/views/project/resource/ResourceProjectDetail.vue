@@ -26,7 +26,7 @@
               </span>
               <span v-else-if="basic.status == 4">
                 <i class="dot bg-danger mr-1"></i>
-                审核失败
+                审核不通过
               </span>
               <span v-else-if="basic.status == 5">
                 <i class="dot bg-cyan mr-1"></i>
@@ -63,7 +63,7 @@
             <el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
               <el-form-item :label="formItem.title + '：'" class="file-form-item">
                 <div class="d-flex align-items-center justify-content-between mb-2" v-for="(file, index) in formItem.file_arr" :key="index">
-                  <div class="cursor-pointer view">
+                  <div class="cursor-pointer view" @click="downloadview(file)">
                     <i class="el-icon-document mr-2"></i>
                     <span>{{ file.name }}</span>
                   </div>
@@ -126,7 +126,7 @@
             </span>
             <span v-else-if="scope.row.check_state == 3">
               <i class="dot bg-danger mr-1"></i>
-              审核失败
+              审核不通过
             </span>
             <span v-else-if="scope.row.check_state == 4">
               <i class="dot bg-blue mr-1"></i>

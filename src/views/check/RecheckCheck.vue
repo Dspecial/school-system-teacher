@@ -43,7 +43,7 @@
             <el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
               <el-form-item :label="formItem.title">
                 <div class="d-flex align-items-center justify-content-between mb-2" v-for="(file, index) in formItem.file_arr" :key="index">
-                  <div class="cursor-pointer view">
+                  <div class="cursor-pointer view" @click="downloadview(file)">
                     <i class="el-icon-document mr-2"></i>
                     <span>{{ file.name }}</span>
                   </div>
@@ -127,7 +127,7 @@
           <el-col :span="24" v-if="!commonJs.isEmpty(recheckInfo.planattach)">
             <el-form-item label="项目方案附件">
               <div class="d-flex align-items-center justify-content-between mb-2" v-for="(file, index) in recheckInfo.planattach" :key="index">
-                <div class="cursor-pointer view">
+                <div class="cursor-pointer view" @click="downloadview(file)">
                   <i class="el-icon-document mr-2"></i>
                   <span>{{ file.name }}</span>
                 </div>
@@ -142,7 +142,7 @@
           <el-col :span="24" v-if="!commonJs.isEmpty(recheckInfo.expertattch)">
             <el-form-item label="专家签字附件">
               <div class="d-flex align-items-center justify-content-between mb-2" v-for="(file, index) in recheckInfo.expertattch" :key="index">
-                <div class="cursor-pointer view">
+                <div class="cursor-pointer view" @click="downloadview(file)">
                   <i class="el-icon-document mr-2"></i>
                   <span>{{ file.name }}</span>
                 </div>
@@ -163,7 +163,7 @@
             >
               <el-form-item :label="formItem.title">
                 <div class="d-flex align-items-center justify-content-between mb-2" v-for="(file, index) in formItem.file_arr" :key="index">
-                  <div class="cursor-pointer view">
+                  <div class="cursor-pointer view" @click="downloadview(file)">
                     <i class="el-icon-document mr-2"></i>
                     <span>{{ file.name }}</span>
                   </div>
@@ -250,7 +250,7 @@
             </span>
             <span v-else-if="scope.row.check_state == 3">
               <i class="dot bg-danger mr-1"></i>
-              审核失败
+              审核不通过
             </span>
             <span v-else-if="scope.row.check_state == 4">
               <i class="dot bg-blue mr-1"></i>
@@ -283,6 +283,7 @@
           <el-input type="textarea" v-model="checkform.remark" placeholder="请输入审核备注" :rows="3"></el-input>
         </el-form-item>
         <div class="d-flex justify-content-end">
+          <el-button type="primary" @click="toEdit">去编辑</el-button>
           <el-button type="primary" @click="submitForm('checkform')">确 定</el-button>
           <el-button @click="closedEdit">取 消</el-button>
         </div>
@@ -368,6 +369,15 @@ export default {
         this.checkList = this.checkListAll.slice(0, 5);
         this.showMore = true;
       }
+    },
+    // 去编辑
+    toEdit() {
+      this.$router.push({
+        path: '/check/recheck/edit',
+        query: {
+          id: this.$route.query.id,
+        },
+      });
     },
     // 关闭编辑
     closedEdit() {

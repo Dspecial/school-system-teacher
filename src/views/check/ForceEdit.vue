@@ -742,6 +742,7 @@
           </el-col>
         </el-row>
         <div class="d-flex justify-content-end">
+          <el-button type="primary" @click="toCheck()" v-if="is_commit != 8 && check_info.check_state == 1">去审核</el-button>
           <el-button type="primary" @click="submitForm('projectForm')" v-if="is_commit != 8">确 定</el-button>
           <el-button @click="closedEdit">取 消</el-button>
         </div>
@@ -777,6 +778,7 @@ export default {
         secondFrom: {},
         runningextra: [],
       },
+      check_info:{},
       is_need_company: '1', // 是否开启企业选择
       is_open_money: '1', // 是否开启金额申请
       can_used_funds: '',
@@ -910,10 +912,21 @@ export default {
               }
             });
             this.projectForm.runningextra = runningjson;
+
+            this.check_info = data.data.check_info ? data.data.check_info : { check_state: 0 };
           } else {
             this.$message.error(data.msg);
           }
         });
+    },
+    // 去审核
+    toCheck() {
+      this.$router.push({
+        path: '/check/force/check',
+        query: {
+          id: this.$route.query.id,
+        },
+      });
     },
     // 关闭编辑
     closedEdit() {

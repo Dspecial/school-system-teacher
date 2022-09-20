@@ -90,7 +90,7 @@
     <el-card class="mt-3" v-if="basic.files && basic.files.length > 0">
       <h4 class="fs_18 font-weight-semibold m-0 text-000 mb-3">合同附件</h4>
       <div class="d-flex align-items-center justify-content-between mb-2" v-for="(file, index) in basic.files" :key="index">
-        <div class="cursor-pointer view">
+        <div class="cursor-pointer view" @click="downloadview(file)">
           <i class="el-icon-document mr-2"></i>
           <span>{{ file.name }}</span>
         </div>
@@ -126,7 +126,7 @@
             </span>
             <span v-else-if="scope.row.check_state == 3">
               <i class="dot bg-danger mr-1"></i>
-              审核失败
+              审核不通过
             </span>
             <span v-else-if="scope.row.check_state == 4">
               <i class="dot bg-blue mr-1"></i>
@@ -159,7 +159,7 @@
                 <el-table-column prop="files" label="付款凭证或附件">
                   <template slot-scope="scope">
                     <div class="d-flex align-items-center justify-content-between files_list" v-for="(file, index) in scope.row.files" :key="index">
-                      <div class="cursor-pointer view">
+                      <div class="cursor-pointer view" @click="downloadview(file)">
                         <i class="el-icon-document mr-2"></i>
                         <span>{{ file.name }}</span>
                       </div>

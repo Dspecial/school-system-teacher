@@ -43,7 +43,7 @@
             <el-col :span="24" :key="j" v-if="formItem.name_type == 5 || formItem.name_type == 13 || formItem.name_type == 14 || formItem.name_type == 15">
               <el-form-item :label="formItem.title">
                 <div class="d-flex align-items-center justify-content-between mb-2" v-for="(file, index) in formItem.file_arr" :key="index">
-                  <div class="cursor-pointer view">
+                  <div class="cursor-pointer view" @click="downloadview(file)">
                     <i class="el-icon-document mr-2"></i>
                     <span>{{ file.name }}</span>
                   </div>
@@ -462,6 +462,7 @@
           </div>
         </el-row>
         <div class="d-flex justify-content-end">
+          <el-button type="primary" @click="toCheck()" v-if="check_info.check_state == 1">去审核</el-button>
           <el-button type="primary" @click="submitForm('recheckForm')">确 定</el-button>
           <el-button @click="closedEdit">取 消</el-button>
         </div>
@@ -492,6 +493,7 @@ export default {
         content: '',
         recheckExtraForms: [],
       },
+      check_info: {},
       removeFilesArr: [],
       startOption: {
         disabledDate: time => {
@@ -573,8 +575,19 @@ export default {
               }
             });
             this.recheckForm.recheckExtraForms = recheckjson;
+
+            this.check_info = data.data.check_info ? data.data.check_info : { check_state: 0 };
           }
         });
+    },
+    // 去审核
+    toCheck() {
+      this.$router.push({
+        path: '/check/recheck/check',
+        query: {
+          id: this.$route.query.id,
+        },
+      });
     },
     // 关闭编辑
     closedEdit() {
